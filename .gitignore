@@ -1,1 +1,7 @@
+# Build files
 /Debug/
+/Simulate/
+/sysProps.xml
+
+# Extra project files
+/.settings/language.settings.xml
