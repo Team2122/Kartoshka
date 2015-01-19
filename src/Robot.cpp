@@ -5,6 +5,7 @@
  */
 
 #include <Robot.h>
+#include "Common/Config.h"
 
 namespace tator {
 
@@ -16,6 +17,8 @@ Robot::~Robot() {
 }
 
 void Robot::RobotInit() {
+	Config::Load();
+	Config::Delete();
 }
 
 void Robot::DisabledInit() {
