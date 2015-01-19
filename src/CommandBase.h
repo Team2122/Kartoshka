@@ -12,14 +12,20 @@
 
 namespace tator {
 
+class Claw;
+
 /**
  * The base for all commands.
  */
 class CommandBase: public Command {
 public:
+	// Remeber to implement static std::string GetBaseName()
 	CommandBase();
 	virtual ~CommandBase();
-	// Remeber to implement static std::string GetBaseName()
+	/**
+	* Initializes all static subsystem pointers
+	*/
+	static void InitSubsystems(YAML::Node subsystem);
 
 protected:
 	virtual void Initialize() = 0;
@@ -28,13 +34,7 @@ protected:
 	virtual void End() = 0;
 	virtual void Interrupted() = 0;
 
-	// Place static subsystems pointers here
-
-private:
-	/**
-	 * Initializes all static subsystem pointers
-	 */
-	void InitSubsystems();
+	static Claw* claw;
 };
 
 } /* namespace tator */

@@ -1,0 +1,10 @@
+Claw:
+  Ports:
+    rollers: 1
+    clampOne: 1
+    clampOne: 1
+    clampTwo: 2
+    clampOne: 1
+    finger: 3
+    finger: 1
+    button: 1

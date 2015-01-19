@@ -8,6 +8,7 @@
 #include "Common/Config.h"
 #include "Common/Binder.h"
 #include "Common/Kremlin.h"
+#include "CommandBase.h"
 
 namespace tator {
 
@@ -22,6 +23,7 @@ void Robot::RobotInit() {
 	Config::Load();
 	Kremlin::CreateCommands();
 	Binder::BindAll();
+	CommandBase::InitSubsystems(Config::subsystems);
 	Config::Delete();
 }
 
