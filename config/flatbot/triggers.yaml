@@ -1,0 +1,7 @@
+0: # Joystick
+  1: # Button
+    WhenPressed: # Event
+      - MessageCommandOne # Command
+  2: # Button
+    WhenPressed: # Event
+      - MessageCommandTwo # Command

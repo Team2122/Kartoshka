@@ -8,6 +8,7 @@
 #define COMMANDBASE_H_
 
 #include <Commands/Command.h>
+#include <yaml-cpp/yaml.h>
 
 namespace tator {
 
@@ -18,6 +19,7 @@ class CommandBase: public Command {
 public:
 	CommandBase();
 	virtual ~CommandBase();
+	// Remeber to implement static std::string GetBaseName()
 
 protected:
 	virtual void Initialize() = 0;
