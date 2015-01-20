@@ -8,8 +8,11 @@
 #define SUBSYSTEMBASE_H_
 
 #include <WPILib.h>
+#include "Logger.h"
 
 namespace tator {
+
+class Logger;
 
 /**
  * The base class for all subsystems
@@ -18,6 +21,9 @@ class SubsystemBase: public Subsystem {
 public:
 	SubsystemBase(const std::string& name);
 	virtual ~SubsystemBase();
+
+protected:
+	Logger log;
 };
 
 } /* namespace tator */
