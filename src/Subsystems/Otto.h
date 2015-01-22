@@ -10,6 +10,7 @@
 #include <WPILib.h>
 #include "Common/SubsystemBase.h"
 #include "Common/Config.h"
+#include "Common/ADXRS453.h"
 
 namespace tator {
 
@@ -18,6 +19,9 @@ private:
 	DigitalInput *autoSwitch0; ///< The first switch for auto
 	DigitalInput *autoSwitch1; ///< The second switch for auto
 	DigitalInput *autoSwitch2; ///< The third switch for auto
+
+	ADXRS453* gyro; ///< Wonderful communist gyro
+
 public:
 	/**
 	 * The constructor for Otto
@@ -39,6 +43,27 @@ public:
 	 * Starts the auto command based off of the GetAutoModeNumber()
 	 */
 	void StartAutoCommand();
+
+	/**
+	 * Gets how far from communism you have turned
+	 * @return How far from communism in degrees
+	 */
+	double GetAngle();
+
+	/**
+	 * Resets angle to straight communsim
+	 */
+	void ResetAngle();
+
+	/**
+	 * Makes sure communism sensor is calibrated (zerod)
+	 */
+	void StartGyroCalibration();
+
+	/**
+	 * Forces gyro to be calibrated or else...
+	 */
+	void FinishGyroCalibration();
 
 };
 

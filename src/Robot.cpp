@@ -43,6 +43,7 @@ void Robot::RobotInit() {
 	Kremlin::Get("ClawRotationContinuous")->Start();
 	CameraServer::GetInstance()->StartAutomaticCapture("cam2"); // CHANGE THIS BACK
 	CommandBase::otto->GetAutoModeNumber();
+	CommandBase::otto->StartGyroCalibration();
 }
 
 void Robot::DisabledInit() {
@@ -54,6 +55,7 @@ void Robot::DisabledInit() {
 
 void Robot::AutonomousInit() {
 	log.Info("==== AutonomousInit ====");
+	CommandBase::otto->FinishGyroCalibration();
 	CommandBase::otto->StartAutoCommand();
 }
 

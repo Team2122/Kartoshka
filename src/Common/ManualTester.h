@@ -7,6 +7,7 @@
 namespace tator {
 
 class ManualTest;
+class ADXRS453;
 
 class ManualTester {
 public:
@@ -27,6 +28,7 @@ public:
 			DigitalInput* input);
 	virtual void Add(std::string subsystem, std::string name,
 			AnalogPotentiometer* pot);
+	void Add(std::string subsystem, std::string name, ADXRS453* gyro);
 
 protected:
 	ManualTester();

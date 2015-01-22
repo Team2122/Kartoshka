@@ -1,4 +1,5 @@
 #include "ManualTester.h"
+#include "ADXRS453.h"
 
 namespace tator {
 
@@ -204,6 +205,25 @@ public:
 	AnalogPotentiometer* pot;
 };
 
+class ManualADXRS453Test: public ManualSensorTest {
+public:
+	ManualADXRS453Test(std::string name, Logger* log, ADXRS453* gyro) :
+			ManualSensorTest(name, log) {
+		this->gyro = gyro;
+	}
+
+	void LogInit() override {
+		log->Info("Testing gyro %s", name.c_str());
+		log->Info("Press A (2) to log the value");
+	}
+
+	void LogValue() override {
+		log->Info("Gyro angle is %f degrees", gyro->GetAngle());
+	}
+
+	ADXRS453* gyro;
+};
+
 ManualTester* ManualTester::instance = nullptr;
 
 ManualTester::ManualTester() :
@@ -326,6 +346,11 @@ void ManualTester::Add(std::string subsystem, std::string name,
 		AnalogPotentiometer* pot) {
 	tests[subsystem].push_back(
 			new ManualAnalogPotentiometerTest(name, &log, pot));
+}
+
+void ManualTester::Add(std::string subsystem, std::string name,
+		ADXRS453* gyro) {
+	tests[subsystem].push_back(new ManualADXRS453Test(name, &log, gyro));
 }
 
 }

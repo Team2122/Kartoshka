@@ -16,13 +16,18 @@ Otto::Otto(YAML::Node config) :
 	autoSwitch0 = new DigitalInput(autoSwitch[0].as<int>());
 	autoSwitch1 = new DigitalInput(autoSwitch[1].as<int>());
 	autoSwitch2 = new DigitalInput(autoSwitch[2].as<int>());
+	gyro = new ADXRS453(SPI::kOnboardCS0);
 	ManualTester* manualTester = ManualTester::GetInstance();
 	manualTester->Add(GetName(), "auto switch 0", autoSwitch0);
 	manualTester->Add(GetName(), "auto switch 1", autoSwitch1);
 	manualTester->Add(GetName(), "auto switch 2", autoSwitch2);
+	manualTester->Add(GetName(), "gyro", gyro);
+
+	gyro->Start();
 }
 
 Otto::~Otto() {
+	delete gyro;
 }
 
 int Otto::GetAutoModeNumber() {
@@ -44,4 +49,21 @@ void Otto::StartAutoCommand() {
 	}
 }
 
+double Otto::GetAngle() {
+	return gyro->GetAngle();
+}
+
+void Otto::ResetAngle() {
+	gyro->Reset();
+}
+
+void Otto::StartGyroCalibration() {
+	gyro->StartCalibration();
+}
+
+void Otto::FinishGyroCalibration() {
+	gyro->FinishCalibration();
+}
+
 } /* namespace tator */
+
