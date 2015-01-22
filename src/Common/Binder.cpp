@@ -12,26 +12,38 @@
 
 namespace tator {
 
+#define BindCommandWithVars BindCommand( \
+		Kremlin::Get(bind.substr(bind.find(' ') + 1)), \
+		joyIt->first.as<int>(), \
+		buttonIt->first.as<int>(), \
+		bind.substr(0, bind.find(' ')))
+
 void Binder::BindAll() {
-	YAML::Node::iterator joyIt, buttonIt, eventIt, command;
+	YAML::Node::iterator joyIt, buttonIt;
 	for (joyIt = Config::triggers.begin(); joyIt != Config::triggers.end();
 			joyIt++) {
 		for (buttonIt = joyIt->second.begin(); buttonIt != joyIt->second.end();
 				buttonIt++) {
-			for (eventIt = buttonIt->second.begin();
-					eventIt != buttonIt->second.end(); eventIt++) {
-				for (YAML::Node command : eventIt->second) {
-					BindCommand(Kremlin::Get(command.as<std::string>()),
-							joyIt->first.as<int>(), buttonIt->first.as<int>(),
-							eventIt->first.as<std::string>());
+			if (buttonIt->second.IsSequence()) {
+				for (YAML::Node bindNode : buttonIt->second) {
+					std::string bind = buttonIt->second.as<std::string>()
+							+ bindNode["name"].as<std::string>();
+					BindCommandWithVars;
 				}
+			} else {
+				std::string bind = buttonIt->second.as<std::string>();
+				BindCommandWithVars;
 			}
 		}
 	}
 }
 
+#undef BindCommandWithVars
+// There no macro here
+// There was never macro
+
 void Binder::BindCommand(CommandBase* command, int joystick, int button,
-		std::string event) {
+		const std::string& event) {
 	JoystickButton* buttonObj = new JoystickButton(
 			Joystick::GetStickForPort(joystick), button);
 	if (event == "WhenPressed") {

@@ -39,7 +39,7 @@ protected:
 	 * Binds a command
 	 */
 	static void BindCommand(CommandBase* command, int joystick, int button,
-			std::string event);
+			const std::string& event);
 };
 
 }
