@@ -10,11 +10,12 @@ Claw:
     inward: 1.0
 Drive:
   drive:
-    L: 1
-    R: 2
+    L: 2
+    R: 0
   encoder:
-    L: [1, 2]
-    R: [1, 2]
+    L: [0, 1]
+    R: [2, 3]
   PID:
     L: {P: 1, I: 1, D: 1, F:1}
     R: {P: 1, I: 1, D: 1, F:1}
+  maxRPS: 30

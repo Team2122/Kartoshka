@@ -3,3 +3,8 @@ MessageCommand:
     message: Testing message for variant one
   - name: Two
     message: Testing message for variant two
+DriveContinuous:
+  joystick: 1
+  axes:
+    left: 1
+    right: 2
