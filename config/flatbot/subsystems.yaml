@@ -8,3 +8,13 @@ Claw:
   Speeds: # assuming -1.0 spits things out
     outward: -1.0
     inward: 1.0
+Drive:
+  drive:
+    L: 1
+    R: 2
+  encoder:
+    L: [1, 2]
+    R: [1, 2]
+  PID:
+    L: {P: 1, I: 1, D: 1, F:1}
+    R: {P: 1, I: 1, D: 1, F:1}
