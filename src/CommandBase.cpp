@@ -6,13 +6,14 @@
 
 #include <CommandBase.h>
 #include "Subsystems/Claw.h"
+#include "Common/Logger.h"
 
 namespace tator {
 
 Claw* CommandBase::claw = nullptr;
 
-CommandBase::CommandBase() {
-
+CommandBase::CommandBase(const std::string& name) :
+		Command(name.c_str()), log(name.c_str()) {
 }
 
 CommandBase::~CommandBase() {

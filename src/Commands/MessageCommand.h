@@ -5,7 +5,8 @@ namespace tator {
 
 class MessageCommand: public CommandBase {
 public:
-	MessageCommand(YAML::Node params) {
+	MessageCommand(YAML::Node params) :
+			CommandBase("MessageCommand") {
 		message = params["message"].as<std::string>();
 	}
 
@@ -13,7 +14,7 @@ public:
 	}
 
 	void Execute() {
-		std::cerr << "MessageCommand message: " << message << std::endl;
+		log.Info("%s", message.c_str());
 	}
 
 	bool IsFinished() {

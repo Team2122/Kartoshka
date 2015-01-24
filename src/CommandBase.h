@@ -9,6 +9,7 @@
 
 #include <Commands/Command.h>
 #include <yaml-cpp/yaml.h>
+#include "Common/Logger.h"
 
 namespace tator {
 
@@ -20,7 +21,7 @@ class Claw;
 class CommandBase: public Command {
 public:
 	// Remeber to implement static std::string GetBaseName()
-	CommandBase();
+	CommandBase(const std::string& name);
 	virtual ~CommandBase();
 	/**
 	* Initializes all static subsystem pointers
@@ -28,6 +29,7 @@ public:
 	static void InitSubsystems(YAML::Node subsystem);
 
 protected:
+	Logger log;
 	virtual void Initialize() = 0;
 	virtual void Execute() = 0;
 	virtual bool IsFinished() = 0;
