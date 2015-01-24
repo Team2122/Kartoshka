@@ -16,3 +16,4 @@
   4: WhenPressed ClawClampDeathGrip
   5: WhileHeld ClawRollersIn
   6: WhileHeld ClawRollersOut
+  7: WhileHeld UnloadTote

@@ -55,3 +55,12 @@ Fingers:
     state: 1
   - name: Release
     state: 0
+
+RecieveTote:
+  rollerSpeed: -.5
+
+UnloadTote:
+  - name: Barf
+    rollerSpeed: 1
+  - name:
+    rollerSpeed: .5

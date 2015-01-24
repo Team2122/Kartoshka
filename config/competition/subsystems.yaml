@@ -45,3 +45,8 @@ Shuttle:
     downSpeed: 0.2
     holdSpeed: -0.1
     maxCurrent: 120.0
+ToteFeed:
+  ports:
+    rollers: 2
+    backSensor: 19
+    rollerPiston: 1
