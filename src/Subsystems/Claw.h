@@ -19,11 +19,14 @@ namespace tator {
  */
 class Claw: public SubsystemBase {
 private:
-	Talon* rollers;
 	DoubleSolenoid* clampOne;
 	DoubleSolenoid* clampTwo;
 	DoubleSolenoid* finger;
+	Talon* rollers;
 	DigitalInput* button;
+
+	double rollerInwardSpeed;
+	double rollerOutwardSpeed;
 
 public:
 	Claw(YAML::Node config);

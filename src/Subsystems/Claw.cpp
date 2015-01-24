@@ -10,14 +10,18 @@ namespace tator {
 Claw::Claw(YAML::Node config) :
 		SubsystemBase("Claw") {
 	YAML::Node ports = config["Ports"];
+	YAML::Node speed = config["Speeds"];
+	clampOne = new DoubleSolenoid(ports["clampOne"][0].as<int>(),
+			ports["clampOne"][1].as<int>());
+	clampTwo = new DoubleSolenoid(ports["clampTwo"][0].as<int>(),
+			ports["clampTwo"][1].as<int>());
+	finger = new DoubleSolenoid(ports["finger"][0].as<int>(),
+			ports["finger"][1].as<int>());
 	rollers = new Talon(ports["rollers"].as<int>());
-	finger = new DoubleSolenoid(ports["finger"].as<int>(),
-			ports["finger"].as<int>());
-	clampOne = new DoubleSolenoid(ports["clampOne"].as<int>(),
-			ports["clampOne"].as<int>());
-	clampTwo = new DoubleSolenoid(ports["clampTwo"].as<int>(),
-			ports["clampTwo"].as<int>());
 	button = new DigitalInput(ports["button"].as<int>());
+
+	rollerInwardSpeed = speed["inward"].as<double>();
+	rollerOutwardSpeed = speed["outward"].as<double>();
 }
 Claw::~Claw() {
 	delete rollers;
@@ -30,8 +34,10 @@ Claw::~Claw() {
 void Claw::SetRollerSpeed(ClawRollerStatus operation) {
 	switch (operation) {
 	case kOutward:
+		rollers->Set(rollerOutwardSpeed);
 		break;
 	case kInward:
+		rollers->Set(rollerInwardSpeed);
 		break;
 	default:
 		rollers->Set(0.0);
