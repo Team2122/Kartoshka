@@ -19,3 +19,10 @@ Drive:
     L: {P: 0.02, I: 0, D: 0, F: 0}
     R: {P: 0.02, I: 0, D: 0, F: 0}
   maxRPS: 30
+Shuttle:
+  Ports:
+    toteSensor: 1
+    lowerSensor: 1
+    upperSensor: 1
+    clampPiston: [1, 2]
+    elevator: 1

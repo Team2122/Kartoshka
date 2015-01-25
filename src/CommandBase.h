@@ -15,6 +15,7 @@ namespace tator {
 
 class Claw;
 class Drive;
+class Shuttle;
 
 /**
  * The base for all commands.
@@ -39,6 +40,7 @@ protected:
 
 	static Claw* claw;
 	static Drive* drive;
+	static Shuttle* shuttle;
 };
 
 } /* namespace tator */

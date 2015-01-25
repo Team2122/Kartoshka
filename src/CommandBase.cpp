@@ -8,11 +8,13 @@
 #include "Subsystems/Claw.h"
 #include "Subsystems/Drive.h"
 #include "Common/Logger.h"
+#include "Subsystems/Shuttle.h"
 
 namespace tator {
 
 Claw* CommandBase::claw = nullptr;
 Drive* CommandBase::drive = nullptr;
+Shuttle* CommandBase::shuttle = nullptr;
 
 CommandBase::CommandBase(const std::string& name) :
 		Command(name.c_str()), log(name.c_str()) {
@@ -36,6 +38,7 @@ void CommandBase::Interrupted() {
 void CommandBase::InitSubsystems(YAML::Node subsystem) {
 	claw = new Claw(subsystem["Claw"]);
 	drive = new Drive(subsystem["Drive"]);
+	shuttle = new Shuttle(subsystem["Shuttle"]);
 }
 
 } /* namespace tator */
