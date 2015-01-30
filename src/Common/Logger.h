@@ -44,6 +44,27 @@ public:
 	 */
 	void Error(const char *message, ...);
 
+	/**
+	 * Display logger level info
+	 * @param message for message of many words
+	 * @param vargs A va_list instead of a to be proccessed "..."
+	 */
+	void Info(const char *message, va_list vargs);
+
+	/**
+	 * Display logger level error
+	 * @param message for message of many words
+	 * @param vargs A va_list instead of a to be proccessed "..."
+	 */
+	void Error(const char *message, va_list vargs);
+
+	/**
+	 * Display logger level warn
+	 * @param message for message of many words
+	 * @param vargs A va_list instead of a to be proccessed "..."
+	 */
+	void Warn(const char *message, va_list vargs);
+
 private:
 	std::string name;
 	const int kMaxLength = 255;

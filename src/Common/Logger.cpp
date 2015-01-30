@@ -46,4 +46,22 @@ void Logger::Error(const char *message, ...) {
 	std::cerr << "[ERROR] " << name << " - " << buffer << std::endl;
 }
 
+void Logger::Info(const char *message, va_list vargs) {
+	char buffer[kMaxLength];
+	vsnprintf(buffer, kMaxLength, message, vargs);
+	std::cout << "[INFO] " << name << " - " << buffer << std::endl;
+}
+
+void Logger::Warn(const char *message, va_list vargs) {
+	char buffer[kMaxLength];
+	vsnprintf(buffer, kMaxLength, message, vargs);
+	std::cout << "[WARN] " << name << " - " << buffer << std::endl;
+}
+
+void Logger::Error(const char *message, va_list vargs) {
+	char buffer[kMaxLength];
+	vsnprintf(buffer, kMaxLength, message, vargs);
+	std::cerr << "[ERROR] " << name << " - " << buffer << std::endl;
+}
+
 } /* namespace tator */
