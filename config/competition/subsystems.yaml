@@ -57,3 +57,6 @@ ToteFeed:
     flappers: 3
     rollerPiston: 1
   flapperSpeed: .5
+Otto:
+  Ports:
+    switch: [21, 22, 23]

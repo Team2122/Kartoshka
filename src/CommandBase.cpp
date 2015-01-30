@@ -8,6 +8,7 @@
 #include "Subsystems/Claw.h"
 #include "Subsystems/Drive.h"
 #include "Subsystems/Claw.h"
+#include "Subsystems/Otto.h"
 #include "Common/Logger.h"
 #include "Subsystems/Shuttle.h"
 #include "Subsystems/ToteFeed.h"
@@ -18,6 +19,7 @@ Claw* CommandBase::claw = nullptr;
 Drive* CommandBase::drive = nullptr;
 Shuttle* CommandBase::shuttle = nullptr;
 ToteFeed* CommandBase::toteFeed = nullptr;
+Otto* CommandBase::otto = nullptr;
 
 CommandBase::CommandBase(const std::string& name) :
 		Command(name.c_str()), log(name.c_str()) {
@@ -43,6 +45,7 @@ void CommandBase::InitSubsystems(YAML::Node subsystem) {
 	drive = new Drive(subsystem["Drive"]);
 	shuttle = new Shuttle(subsystem["Shuttle"]);
 	toteFeed = new ToteFeed(subsystem["ToteFeed"]);
+	otto = new Otto(subsystem["Otto"]);
 }
 
 } /* namespace tator */
