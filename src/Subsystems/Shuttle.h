@@ -19,78 +19,21 @@ namespace tator {
 class Shuttle: public SubsystemBase {
 private:
 
-	/**
-	 * Sensor that senses if totes are here
-	 */
-	DigitalInput* toteSensor;
-
-	/**
-	 * Sensor that senses if Shuttle has reached it's lower limit
-	 */
-	DigitalInput* lowerLimit;
-
-	/**
-	 * Sensor that senses if Shuttle has reached it's upper limit
-	 */
-	DigitalInput* upperLimit;
-
-	/**
-	 * Piston that grabs the totes
-	 */
-	Solenoid* clampPiston;
-
-	/**
-	 * Motor that lifts the shuttle with totes
-	 */
-	Talon* liftMotor;
-
-	/**
-	 * Encoder to read hoe far shuttle has moved
-	 */
-	Encoder* liftEncoder;
-
-	/**
-	 * Power distribution board for detecting if motor has stalled
-	 */
-	PowerDistributionPanel* pdp;
-
-	/**
-	 * Pistons that hold uppermost totes in place
-	 */
-	Solenoid* fingersPiston;
-
-	/**
-	 * This is the speed of the shuttle when going up
-	 */
-	double upSpeed;
-
-	/**
-	 * The speed of the shuttle when going down
-	 */
-	double downSpeed;
-
-	/**
-	 * The speed of the shuttle when holding the totes in place
-	 */
-	double holdSpeed;
-
-	/**
-	 * The value that can be multiplied by how many totes we are holding
-	 * to get the speed we need to counteract that force
-	 */
-	double speedScale;
+	DigitalInput* toteSensor; ///< Sensor that senses if totes are here
+	DigitalInput* lowerLimit; ///< Sensor that senses if Shuttle has reached it's lower limit
+	DigitalInput* upperLimit; ///< Sensor that senses if Shuttle has reached it's upper limit
+	Solenoid* clampPiston; ///< Piston that grabs the totes
+	Talon* liftMotor; ///< Motor that lifts the shuttle with totes
+	Encoder* liftEncoder; ///< Encoder to read how far shuttle has moved
+	PowerDistributionPanel* pdp; ///< Power distribution board for detecting if motor has stalled
+	Solenoid* fingersPiston; ///< Pistons that hold uppermost totes in place
+	double upSpeed; ///< This is the speed of the shuttle when going up
+	double downSpeed; ///< The speed of the shuttle when going down
+	double holdSpeed; ///< The speed of the shuttle when holding the totes in place
+	double speedScale; ///< The Value that can be multiplied by how many totes we are holding to get the speed we need to counteract that force
 	uint8_t motorPDPChannel;
-
-	/**
-	 * The maximum current that can be sent to the shuttle motors
-	 * Is used to know if the motor has stalled
-	 */
-	double maxMotorCurrent;
-
-	/**
-	 * How many totes we are rescuing
-	 */
-	int totes;
+	double maxMotorCurrent; ///< The max current that can be sent to the shuttle motors. Used ot know if there is a motor stall
+	int totes; ///< How many totes we are "rescuing"
 
 public:
 	Shuttle(YAML::Node config);
