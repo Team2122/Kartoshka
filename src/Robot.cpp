@@ -9,12 +9,15 @@
 #include "Common/Binder.h"
 #include "Common/Kremlin.h"
 #include "CommandBase.h"
+#include <WPILib.h>
 
 namespace tator {
 
 Robot::Robot() :
 	log("Robot"){
 	scheduler = Scheduler::GetInstance();
+	tester = Tester::GetInstance();
+	isTestingAutomated = false;
 }
 
 Robot::~Robot() {
@@ -35,6 +38,7 @@ void Robot::RobotInit() {
 
 void Robot::DisabledInit() {
 	Kremlin::Get("DriveContinuous")->Cancel();
+	tester->Interrupted();
 }
 
 void Robot::AutonomousInit() {
@@ -45,6 +49,20 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TestInit() {
+	log.Info("Test mode enabled");
+	log.Info("Press A for LiveWindow or B for the automated Tester");
+	Joystick* joy = Joystick::GetStickForPort(0);
+	while (true) {
+		if (joy->GetRawButton(2)) {
+			isTestingAutomated = false;
+			log.Info("Starting LiveWindow");
+			break;
+		} else if (joy->GetRawButton(3)) {
+			isTestingAutomated = true;
+			tester->Initialize();
+			break;
+		}
+	}
 }
 
 void Robot::DisabledPeriodic() {
@@ -59,7 +77,11 @@ void Robot::TeleopPeriodic() {
 }
 
 void Robot::TestPeriodic() {
-	LiveWindow::GetInstance()->Run();
+	if (isTestingAutomated) {
+		tester->Execute();
+	} else {
+		LiveWindow::GetInstance()->Run();
+	}
 }
 
 } /* namespace tator */

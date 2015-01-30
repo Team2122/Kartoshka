@@ -65,9 +65,9 @@ public:
 	 */
 	void Warn(const char *message, va_list vargs);
 
+	const static int kMaxLength = 255;
 private:
 	std::string name;
-	const int kMaxLength = 255;
 
 };
 

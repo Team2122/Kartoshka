@@ -9,6 +9,7 @@
 
 #include <WPILib.h>
 #include "Common/Logger.h"
+#include "Common/Tester.h"
 
 namespace tator {
 
@@ -34,6 +35,8 @@ public:
 
 private:
 	Scheduler *scheduler;
+	Tester *tester;
+	bool isTestingAutomated;
 protected:
 	Logger log;
 };

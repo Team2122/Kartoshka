@@ -20,30 +20,24 @@ Logger::~Logger() {
 }
 
 void Logger::Info(const char *message, ...) {
-	char buffer[kMaxLength];
 	va_list args;
 	va_start(args, message);
-	vsnprintf(buffer, kMaxLength, message, args);
+	Info(message, args);
 	va_end(args);
-	std::cout << "[INFO] " << name << " - " << buffer << std::endl;
 }
 
 void Logger::Warn(const char *message, ...) {
-	char buffer[kMaxLength];
 	va_list args;
 	va_start(args, message);
-	vsnprintf(buffer, kMaxLength, message, args);
+	Warn(message, args);
 	va_end(args);
-	std::cout << "[WARN] " << name << " - " << buffer << std::endl;
 }
 
 void Logger::Error(const char *message, ...) {
-	char buffer[kMaxLength];
 	va_list args;
 	va_start(args, message);
-	vsnprintf(buffer, kMaxLength, message, args);
+	Error(message, args);
 	va_end(args);
-	std::cerr << "[ERROR] " << name << " - " << buffer << std::endl;
 }
 
 void Logger::Info(const char *message, va_list vargs) {
