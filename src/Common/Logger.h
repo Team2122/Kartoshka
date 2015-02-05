@@ -7,6 +7,7 @@
 #ifndef LOGGER_H_
 #define LOGGER_H_
 
+#include <Timer.h>
 #include <string>
 
 namespace tator {
@@ -67,6 +68,10 @@ public:
 
 	const static int kMaxLength = 255;
 private:
+	/**
+	 * Timestamp in seconds to 3 decimal places
+	 */
+	std::string MakeTimestamp();
 	std::string name;
 
 };

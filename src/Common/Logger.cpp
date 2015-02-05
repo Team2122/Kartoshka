@@ -43,19 +43,29 @@ void Logger::Error(const char *message, ...) {
 void Logger::Info(const char *message, va_list vargs) {
 	char buffer[kMaxLength];
 	vsnprintf(buffer, kMaxLength, message, vargs);
-	std::cout << "[INFO] " << name << " - " << buffer << std::endl;
+	std::cout << MakeTimestamp() << " [INFO] " << name << " - " << buffer
+			<< std::endl;
 }
 
 void Logger::Warn(const char *message, va_list vargs) {
 	char buffer[kMaxLength];
 	vsnprintf(buffer, kMaxLength, message, vargs);
-	std::cout << "[WARN] " << name << " - " << buffer << std::endl;
+	std::cout << MakeTimestamp() << " [WARN] " << name << " - " << buffer
+			<< std::endl;
 }
 
 void Logger::Error(const char *message, va_list vargs) {
 	char buffer[kMaxLength];
 	vsnprintf(buffer, kMaxLength, message, vargs);
 	std::cerr << "[ERROR] " << name << " - " << buffer << std::endl;
+	std::cerr << MakeTimestamp() << " [ERROR] " << name << " - " << buffer
+			<< std::endl;
+}
+
+std::string Logger::MakeTimestamp() {
+	char buffer[kMaxLength];
+	snprintf(buffer, kMaxLength, "%8.3f", Timer::GetFPGATimestamp());
+	return std::string(buffer);
 }
 
 } /* namespace tator */
