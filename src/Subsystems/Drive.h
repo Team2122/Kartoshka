@@ -17,13 +17,13 @@ namespace tator {
  */
 class Drive: public SubsystemBase {
 private:
-	SpeedController* driveL;
-	SpeedController* driveR;
+	Jaguar* driveL;
+	Jaguar* driveR;
 	Encoder* encoderL;
 	Encoder* encoderR;
 	PIDController* pidL;
 	PIDController* pidR;
-	int maxRPS;
+	double maxRPS;
 
 public:
 	Drive(YAML::Node config);

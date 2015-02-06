@@ -4,7 +4,7 @@ MessageCommand:
   - name: Two
     message: Testing message for variant two
 DriveContinuous:
-  joystick: 1
+  joystick: 0
   axes:
     left: 1
-    right: 2
+    right: 3
