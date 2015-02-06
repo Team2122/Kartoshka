@@ -10,8 +10,8 @@ namespace tator {
 
 Drive::Drive(YAML::Node config) :
 		SubsystemBase("Drive") {
-	driveL = new Jaguar(config["drive"]["L"].as<uint32_t>());
-	driveR = new Jaguar(config["drive"]["R"].as<uint32_t>());
+	driveL = new Talon(config["drive"]["L"].as<uint32_t>());
+	driveR = new Talon(config["drive"]["R"].as<uint32_t>());
 	YAML::Node conEncL = config["encoder"]["L"];
 	YAML::Node conEncR = config["encoder"]["R"];
 	encoderL = new Encoder(conEncL[0].as<uint32_t>(),

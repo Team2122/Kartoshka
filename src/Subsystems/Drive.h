@@ -17,8 +17,8 @@ namespace tator {
  */
 class Drive: public SubsystemBase {
 private:
-	Jaguar* driveL;
-	Jaguar* driveR;
+	Talon* driveL;
+	Talon* driveR;
 	Encoder* encoderL;
 	Encoder* encoderR;
 	PIDController* pidL;
