@@ -13,7 +13,7 @@
 
 namespace tator {
 
-std::map<std::string, CommandBase*> Kremlin::commands;
+std::map<std::string, Command*> Kremlin::commands;
 
 template<typename T>
 void Kremlin::CreateCommandsForClass() {
@@ -39,7 +39,7 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<MessageCommand>();
 }
 
-CommandBase* Kremlin::Get(std::string fullName) {
+Command* Kremlin::Get(std::string fullName) {
 	return commands.at(fullName);
 }
 

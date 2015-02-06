@@ -42,7 +42,7 @@ void Binder::BindAll() {
 // There no macro here
 // There was never macro
 
-void Binder::BindCommand(CommandBase* command, int joystick, int button,
+void Binder::BindCommand(Command* command, int joystick, int button,
 		const std::string& event) {
 	JoystickButton* buttonObj = new JoystickButton(
 			Joystick::GetStickForPort(joystick), button);

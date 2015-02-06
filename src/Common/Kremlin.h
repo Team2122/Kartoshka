@@ -26,10 +26,10 @@ public:
 	 * @param fullName The full name of the command
 	 * @return The command
 	 */
-	static CommandBase* Get(std::string fullName);
+	static Command* Get(std::string fullName);
 protected:
 	/// Map of strings to commands
-	static std::map<std::string, CommandBase*> commands;
+	static std::map<std::string, Command*> commands;
 	template <typename T>
 	/**
 	 * Creates the commands for a given class
