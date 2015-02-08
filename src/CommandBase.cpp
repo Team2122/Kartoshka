@@ -21,6 +21,18 @@ CommandBase::CommandBase(const std::string& name) :
 CommandBase::~CommandBase() {
 }
 
+void CommandBase::Initialize() {
+	 log.Info("%s has Initialized", GetName().c_str());
+}
+
+void CommandBase::End() {
+	 log.Info("%s has Ended", GetName().c_str());
+}
+
+void CommandBase::Interrupted() {
+	 log.Warn("%s has been Interrupted", GetName().c_str());
+}
+
 void CommandBase::InitSubsystems(YAML::Node subsystem) {
 	claw = new Claw(subsystem["Claw"]);
 	drive = new Drive(subsystem["Drive"]);

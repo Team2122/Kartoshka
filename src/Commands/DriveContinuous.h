@@ -16,6 +16,7 @@ public:
 	}
 
 	void Initialize() {
+		CommandBase::Initialize();
 	}
 
 	void Execute() {
@@ -30,10 +31,12 @@ public:
 
 	void End() {
 		drive->SetSpeeds(0, 0);
+		CommandBase::End();
 	}
 
 	void Interrupted() {
 		drive->SetSpeeds(0, 0);
+		CommandBase::Interrupted();
 	}
 
 	static std::string GetBaseName() {

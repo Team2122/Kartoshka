@@ -12,7 +12,8 @@
 
 namespace tator {
 
-Robot::Robot() {
+Robot::Robot() :
+	log("Robot"){
 	scheduler = Scheduler::GetInstance();
 }
 
@@ -20,10 +21,15 @@ Robot::~Robot() {
 }
 
 void Robot::RobotInit() {
+	log.Info("Loading Configs...");
 	Config::Load();
+	log.Info("Creating Commands...");
 	Kremlin::CreateCommands();
+	log.Info("Binding all things...");
 	Binder::BindAll();
+	log.Info("Initializing Subsystems...");
 	CommandBase::InitSubsystems(Config::subsystems);
+	log.Info("Deleting Configs...");
 	Config::Delete();
 }
 

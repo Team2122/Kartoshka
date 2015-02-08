@@ -31,11 +31,11 @@ public:
 
 protected:
 	Logger log;
-	virtual void Initialize() = 0;
+	virtual void Initialize();
 	virtual void Execute() = 0;
 	virtual bool IsFinished() = 0;
-	virtual void End() = 0;
-	virtual void Interrupted() = 0;
+	virtual void End();
+	virtual void Interrupted();
 
 	static Claw* claw;
 	static Drive* drive;

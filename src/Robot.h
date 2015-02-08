@@ -8,6 +8,7 @@
 #define ROBOT_H_
 
 #include <WPILib.h>
+#include "Common/Logger.h"
 
 namespace tator {
 
@@ -33,6 +34,8 @@ public:
 
 private:
 	Scheduler *scheduler;
+protected:
+	Logger log;
 };
 
 } /* namespace tator */
