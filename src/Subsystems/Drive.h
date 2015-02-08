@@ -23,17 +23,26 @@ private:
 	Encoder* encoderR;
 	PIDController* pidL;
 	PIDController* pidR;
+	double maxRPS;
 
 public:
-	Drive(YAML::Node& config);
+	Drive(YAML::Node config);
 	virtual ~Drive();
 
 	/**
-	 * Sets the speed of the  wheels in
+	 * Sets the speed of the  wheels
 	 * 1st value is left speed, 2nd value is right speed
-	 * @param speed
+	 * @param leftSpeed The speed from -1 to 1 for left wheels
+	 * @param rightSpeed The speed from -1 to 1 for right wheels
 	 */
 	void SetSpeeds(float leftSpeed, float rightSpeed);
+
+	/**
+	 * Sets the speed of the wheels in rps
+	 * @param leftRPS The speed of the left wheel in RPS
+	 * @param rightRPS The speed of the right wheel in RPS
+	 */
+	void SetRPS(float leftRPS, float rightRPS);
 
 };
 

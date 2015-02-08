@@ -8,27 +8,36 @@
 
 namespace tator {
 
-Drive::Drive(YAML::Node& config) :
+Drive::Drive(YAML::Node config) :
 		SubsystemBase("Drive") {
-	driveL = new Talon(config["drive"]["L"].as<int>());
-	driveR = new Talon(config["drive"]["R"].as<int>());
+	driveL = new Talon(config["drive"]["L"].as<uint32_t>());
+	driveR = new Talon(config["drive"]["R"].as<uint32_t>());
 	YAML::Node conEncL = config["encoder"]["L"];
 	YAML::Node conEncR = config["encoder"]["R"];
-	encoderL = new Encoder(conEncL[0].as<int>(), conEncL[1].as<int>());
-	encoderR = new Encoder(conEncR[0].as<int>(), conEncR[1].as<int>());
+	encoderL = new Encoder(conEncL[0].as<uint32_t>(),
+			conEncL[1].as<uint32_t>());
+	encoderR = new Encoder(conEncR[0].as<uint32_t>(),
+			conEncR[1].as<uint32_t>());
 	YAML::Node pidl = config["PID"]["L"];
-	YAML::Node pidr = config["PID]"]["R"];
-	pidL = new PIDController(pidl["P"].as<uint32_t>(), pidl["I"].as<uint32_t>(),
-			pidl["D"].as<uint32_t>(), pidl["F"].as<uint32_t>(), encoderL,
-			driveL);
-	pidR = new PIDController(pidr["P"].as<uint32_t>(), pidr["I"].as<uint32_t>(),
-			pidr["D"].as<uint32_t>(), pidr["F"].as<uint32_t>(), encoderR,
-			driveR);
+	YAML::Node pidr = config["PID"]["R"];
+	pidL = new PIDController(pidl["P"].as<double>(), pidl["I"].as<double>(),
+			pidl["D"].as<double>(), pidl["F"].as<double>(), encoderL, driveL);
+	pidR = new PIDController(pidr["P"].as<double>(), pidr["I"].as<double>(),
+			pidr["D"].as<double>(), pidr["F"].as<double>(), encoderR, driveR);
+	maxRPS = config["maxRPS"].as<double>();
 
-	encoderL->SetDistancePerPulse(1 / 360);
-	encoderR->SetDistancePerPulse(1 / 360);
+	encoderL->SetDistancePerPulse(1.0 / 360.0);
+	encoderR->SetDistancePerPulse(1.0 / 360.0);
 	encoderL->SetPIDSourceParameter(PIDSource::kRate);
 	encoderR->SetPIDSourceParameter(PIDSource::kRate);
+
+	auto liveWindow = LiveWindow::GetInstance();
+	liveWindow->AddActuator(GetName().c_str(), "driveL", driveL);
+	liveWindow->AddActuator(GetName().c_str(), "driveR", driveR);
+	liveWindow->AddSensor(GetName().c_str(), "encoderL", encoderL);
+	liveWindow->AddSensor(GetName().c_str(), "encoderR", encoderR);
+	liveWindow->AddSensor(GetName().c_str(), "pidL", pidL);
+	liveWindow->AddSensor(GetName().c_str(), "pidR", pidR);
 }
 
 Drive::~Drive() {
@@ -41,8 +50,14 @@ Drive::~Drive() {
 }
 
 void Drive::SetSpeeds(float leftSpeed, float rightSpeed) {
-	pidL->SetSetpoint(leftSpeed);
-	pidR->SetSetpoint(rightSpeed);
+	leftSpeed *= maxRPS;
+	rightSpeed *= maxRPS;
+	SetRPS(leftSpeed, rightSpeed);
+}
+
+void Drive::SetRPS(float leftRPS, float rightRPS) {
+	pidL->SetSetpoint(leftRPS);
+	pidR->SetSetpoint(rightRPS);
 }
 
 } /* namespace tator */

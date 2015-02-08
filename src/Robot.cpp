@@ -28,12 +28,14 @@ void Robot::RobotInit() {
 }
 
 void Robot::DisabledInit() {
+	Kremlin::Get("DriveContinuous")->Cancel();
 }
 
 void Robot::AutonomousInit() {
 }
 
 void Robot::TeleopInit() {
+	Kremlin::Get("DriveContinuous")->Start();
 }
 
 void Robot::TestInit() {
@@ -51,6 +53,7 @@ void Robot::TeleopPeriodic() {
 }
 
 void Robot::TestPeriodic() {
+	LiveWindow::GetInstance()->Run();
 }
 
 } /* namespace tator */

@@ -10,6 +10,7 @@
 #include <iostream>
 
 #include "Commands/MessageCommand.h"
+#include "Commands/DriveContinuous.h"
 
 namespace tator {
 
@@ -37,6 +38,7 @@ void Kremlin::CreateCommandsForClass() {
 
 void Kremlin::CreateCommands() {
 	CreateCommandsForClass<MessageCommand>();
+	CreateCommandsForClass<DriveContinuous>();
 }
 
 Command* Kremlin::Get(std::string fullName) {

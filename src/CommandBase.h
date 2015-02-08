@@ -14,6 +14,7 @@
 namespace tator {
 
 class Claw;
+class Drive;
 
 /**
  * The base for all commands.
@@ -37,6 +38,7 @@ protected:
 	virtual void Interrupted() = 0;
 
 	static Claw* claw;
+	static Drive* drive;
 };
 
 } /* namespace tator */
