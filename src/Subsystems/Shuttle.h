@@ -19,10 +19,16 @@ namespace tator {
 class Shuttle: public SubsystemBase {
 private:
 	DigitalInput* toteSensor;
-	DigitalInput* lowerSensor;
-	DigitalInput* upperSensor;
+	DigitalInput* lowerLimit;
+	DigitalInput* upperLimit;
 	DoubleSolenoid* clampPiston;
-	Talon* elevator;
+	Talon* liftMotor;
+	Encoder* liftEncoder;
+
+	double upSpeed;
+	double downSpeed;
+	uint8_t motorPDPChannel;
+	double maxMotorCurrent;
 
 	/**
 	 * How many totes we are rescuing
@@ -35,6 +41,10 @@ public:
 
 	enum Position {
 		kUpper, kLower, kUnknown
+	};
+
+	enum Speed {
+		kUp, kDown, kStop
 	};
 
 	/**
@@ -62,9 +72,15 @@ public:
 
 	/**
 	 * Tells grand shuttle how fast to run from Napoleon
-	 * @param units from -1 (full backwards) to 1 (full forwards)
+	 * @param speed The speed to use.
 	 */
-	void SetShuttleSpeed(float);
+	void SetShuttleSpeed(Speed speed);
+
+	/**
+	 * Gets if stupid usa has stalled motor
+	 * @return Yes if evil
+	 */
+	bool IsStalled();
 
 	/**
 	 * Tells comrade how many totes in safety
@@ -81,6 +97,18 @@ public:
 	 * Set tote to 0
 	 */
 	void ResetToteCount();
+
+	/**
+	 * Get how many ticks are on the encoder
+	 * @return The ticks
+	 */
+	int32_t GetEncoderTicks();
+
+	/**
+	 * Tells sputnik shuttle that home is here
+	 */
+	void ResetEncoder();
+
 };
 
 }
