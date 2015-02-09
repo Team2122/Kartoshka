@@ -22,6 +22,7 @@ Shuttle::Shuttle(YAML::Node config) :
 	auto liftEncoder_ = lift["encoder"];
 	liftEncoder = new Encoder(liftEncoder_[0].as<uint32_t>(),
 			liftEncoder_[1].as<uint32_t>());
+	pdp = new PowerDistributionPanel();
 	motorPDPChannel = lift["pdp"].as<uint8_t>();
 	auto values = config["Values"];
 	upSpeed = values["upSpeed"].as<double>();
@@ -91,7 +92,6 @@ int32_t Shuttle::GetEncoderTicks() {
 }
 
 bool Shuttle::IsStalled() {
-	auto pdp = new PowerDistributionPanel();
 	return pdp->GetCurrent(motorPDPChannel) >= maxMotorCurrent;
 }
 

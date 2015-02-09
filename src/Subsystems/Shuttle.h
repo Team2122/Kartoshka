@@ -24,6 +24,7 @@ private:
 	DoubleSolenoid* clampPiston;
 	Talon* liftMotor;
 	Encoder* liftEncoder;
+	PowerDistributionPanel* pdp;
 
 	double upSpeed;
 	double downSpeed;
