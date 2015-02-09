@@ -19,11 +19,11 @@ Shuttle::Shuttle(YAML::Node config) :
 			clampPiston_[1].as<uint32_t>());
 	auto lift = ports["lift"];
 	liftMotor = new Talon(lift["motor"].as<uint32_t>());
-	YAML::Node encoder = lift["encoder"];
-	liftEncoder = new Encoder(encoder[0].as<uint32_t>(),
-			encoder[1].as<uint32_t>());
+	auto liftEncoder_ = lift["encoder"];
+	liftEncoder = new Encoder(liftEncoder_[0].as<uint32_t>(),
+			liftEncoder_[1].as<uint32_t>());
 	motorPDPChannel = lift["pdp"].as<uint8_t>();
-	YAML::Node values = config["Values"];
+	auto values = config["Values"];
 	upSpeed = values["upSpeed"].as<double>();
 	downSpeed = values["downSpeed"].as<double>();
 	maxMotorCurrent = values["maxCurrent"].as<double>();

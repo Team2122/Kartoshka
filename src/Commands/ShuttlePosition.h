@@ -35,6 +35,11 @@ public:
 	}
 
 	virtual void Execute() {
+		if (shuttle->IsStalled()) {
+			log.Error("The shuttle has stalled while traveling to a position");
+			Cancel();
+			return;
+		}
 		auto limit = shuttle->GetLimit();
 		switch (limit) {
 		case Shuttle::kUpper:

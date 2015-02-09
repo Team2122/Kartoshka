@@ -32,6 +32,11 @@ public:
 	}
 
 	virtual bool IsFinished() {
+		if (shuttle->IsStalled()) {
+			log.Error("The shuttle has stalled while homing");
+			Cancel();
+			return true;
+		}
 		switch (shuttle->GetLimit()) {
 		case Shuttle::kUpper:
 			log.Error("We have big problems. The shuttle went up when we "
