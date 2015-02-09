@@ -11,6 +11,9 @@
 
 #include "Commands/MessageCommand.h"
 #include "Commands/DriveContinuous.h"
+#include "Commands/HomeShuttle.h"
+#include "Commands/ShuttlePosition.h"
+#include "Commands/ShuttleClamp.h"
 
 namespace tator {
 
@@ -39,6 +42,9 @@ void Kremlin::CreateCommandsForClass() {
 void Kremlin::CreateCommands() {
 	CreateCommandsForClass<MessageCommand>();
 	CreateCommandsForClass<DriveContinuous>();
+	CreateCommandsForClass<HomeShuttle>();
+	CreateCommandsForClass<ShuttlePosition>();
+	CreateCommandsForClass<ShuttleClamp>();
 }
 
 Command* Kremlin::Get(std::string fullName) {

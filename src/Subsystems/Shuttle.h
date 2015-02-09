@@ -58,7 +58,7 @@ public:
 	 * Returns enum of kUpper, kLower, or kUnknown
 	 * @return
 	 */
-	Shuttle::Position ShuttlePosition();
+	Shuttle::Position GetLimit();
 
 	/**
 	 * Open gates of grand shuttle

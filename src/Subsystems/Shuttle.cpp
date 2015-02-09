@@ -43,7 +43,7 @@ bool Shuttle::IsTotePresent() {
 	return toteSensor->Get();
 }
 
-Shuttle::Position Shuttle::ShuttlePosition() {
+Shuttle::Position Shuttle::GetLimit() {
 	if (lowerLimit->Get()) {
 		return kLower;
 	} else if (upperLimit->Get()) {
