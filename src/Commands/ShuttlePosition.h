@@ -16,8 +16,7 @@ class ShuttlePosition: public CommandBase {
 public:
 	ShuttlePosition(YAML::Node config) :
 			CommandBase(GetBaseName()) {
-		targetPosition = config["targetPosition"].as<int32_t>();
-		tolerance = config["tolerance"].as<int32_t>();
+		targetTicks = config["ticks"].as<int32_t>();
 	}
 
 	static std::string GetBaseName() {
@@ -26,11 +25,13 @@ public:
 
 	virtual void Initialize() {
 		// CommandBase::Initialize();
-		auto shuttlePosition = shuttle->GetEncoderTicks();
-		if (targetPosition >= shuttlePosition) {
+		auto shuttleTicks = shuttle->GetEncoderTicks();
+		if (targetTicks >= shuttleTicks) {
 			shuttle->SetShuttleSpeed(Shuttle::kUp);
+			direction = kUp;
 		} else {
 			shuttle->SetShuttleSpeed(Shuttle::kDown);
+			direction = kDown;
 		}
 	}
 
@@ -56,8 +57,15 @@ public:
 	}
 
 	virtual bool IsFinished() {
-		auto difference = abs(shuttle->GetEncoderTicks() - targetPosition);
-		return difference < tolerance;
+		auto shuttleTicks = shuttle->GetEncoderTicks();
+		switch (direction) {
+		case kUp:
+			return shuttleTicks >= targetPosition;
+		case kDown:
+			return shuttleTicks <= targetPosition;
+		default:
+			return true;
+		}
 	}
 
 	virtual void End() {
@@ -71,7 +79,11 @@ public:
 	}
 
 protected:
-	int32_t targetPosition, tolerance;
+	int32_t targetTicks;
+	enum Direction {
+		kUp, kDown
+	};
+	Direction direction;
 };
 
 }
