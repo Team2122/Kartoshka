@@ -24,6 +24,7 @@ public:
 	}
 
 	virtual void Initialize() {
+		CommandBase::Initialize();
 	}
 
 	virtual void Execute() {

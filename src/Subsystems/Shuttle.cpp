@@ -23,12 +23,24 @@ Shuttle::Shuttle(YAML::Node config) :
 	liftEncoder = new Encoder(liftEncoder_[0].as<uint32_t>(),
 			liftEncoder_[1].as<uint32_t>());
 	pdp = new PowerDistributionPanel();
-	motorPDPChannel = lift["pdp"].as<uint8_t>();
+	motorPDPChannel = lift["pdp"].as<uint32_t>();
+
 	auto values = config["Values"];
 	upSpeed = values["upSpeed"].as<double>();
 	downSpeed = values["downSpeed"].as<double>();
 	maxMotorCurrent = values["maxCurrent"].as<double>();
+
+	liftEncoder->SetReverseDirection(true);
 	totes = 0;
+
+	auto liveWindow = LiveWindow::GetInstance();
+	auto name = GetName().c_str();
+	liveWindow->AddSensor(name, "toteSensor", toteSensor);
+	liveWindow->AddSensor(name, "lowerLimit", lowerLimit);
+	liveWindow->AddSensor(name, "upperLimit", upperLimit);
+	liveWindow->AddActuator(name, "clampPiston", clampPiston);
+	liveWindow->AddActuator(name, "liftMotor", liftMotor);
+	liveWindow->AddSensor(name, "liftEncoder", liftEncoder);
 }
 
 Shuttle::~Shuttle() {
@@ -41,13 +53,13 @@ Shuttle::~Shuttle() {
 }
 
 bool Shuttle::IsTotePresent() {
-	return toteSensor->Get();
+	return !toteSensor->Get();
 }
 
 Shuttle::Position Shuttle::GetLimit() {
-	if (lowerLimit->Get()) {
+	if (!lowerLimit->Get()) { // the banner fixed-fields are inverted
 		return kLower;
-	} else if (upperLimit->Get()) {
+	} else if (!upperLimit->Get()) {
 		return kUpper;
 	} else {
 		return kUnknown;

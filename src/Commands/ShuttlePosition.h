@@ -24,7 +24,7 @@ public:
 	}
 
 	virtual void Initialize() {
-		// CommandBase::Initialize();
+		CommandBase::Initialize();
 		auto shuttleTicks = shuttle->GetEncoderTicks();
 		if (targetTicks >= shuttleTicks) {
 			shuttle->SetShuttleSpeed(Shuttle::kUp);
@@ -44,13 +44,10 @@ public:
 		auto limit = shuttle->GetLimit();
 		switch (limit) {
 		case Shuttle::kUpper:
-		case Shuttle::kLower: {
-			auto name = (limit == Shuttle::kUpper) ? "upper" : "lower";
-			log.Error("The shuttle has hit the %s limit while traveling to a "
-					"position", name);
+			log.Error("The shuttle has hit the upper limit while traveling to"
+					" a position");
 			Cancel();
 			break;
-		}
 		default:
 			break;
 		}
@@ -70,12 +67,12 @@ public:
 
 	virtual void End() {
 		shuttle->SetShuttleSpeed(Shuttle::kStop);
-		// CommandBase::End();
+		CommandBase::End();
 	}
 
 	virtual void Interrupted() {
 		shuttle->SetShuttleSpeed(Shuttle::kStop);
-		// CommandBase::Interrupted();
+		CommandBase::Interrupted();
 	}
 
 protected:

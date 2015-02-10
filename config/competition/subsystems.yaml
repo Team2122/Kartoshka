@@ -2,9 +2,9 @@ Claw:
   Ports:
     clampOne: [6, 7]
     clampTwo: [2, 3]
-    finger: [0, 1]
-    rollers: 11
-    button: 10
+    finger: [4, 5]
+    rollers: 9
+    button: 21
   Speeds: # assuming -1.0 spits things out
     outward: 1.0
     inward: 1.0
@@ -19,3 +19,17 @@ Drive:
     L: {P: 0.02, I: 0, D: 0, F: 0}
     R: {P: 0.02, I: 0, D: 0, F: 0}
   maxRPS: 30
+Shuttle:
+  Ports:
+    toteSensor: 20
+    lowerLimit: 10
+    upperLimit: 11
+    clampPiston: [0, 1]
+    lift:
+      motor: 4
+      encoder: [4, 5]
+      pdp: 15
+  Values:
+    upSpeed: -0.2
+    downSpeed: 0.2
+    maxCurrent: 5.0

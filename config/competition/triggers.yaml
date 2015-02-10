@@ -1,3 +1,6 @@
 0: # Joystick
-  1: WhenPressed MessageCommandOne
-  2: WhenPressed MessageCommandTwo
+  1: WhenPressed HomeShuttle
+  2: WhenPressed ShuttlePositionUp
+  3: WhenPressed ShuttlePositionDown
+  4: WhenPressed ShuttleClampOpen
+  5: WhenPressed ShuttleClampClose

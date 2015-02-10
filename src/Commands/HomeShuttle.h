@@ -25,7 +25,7 @@ public:
 
 	virtual void Initialize() {
 		shuttle->SetShuttleSpeed(Shuttle::kDown);
-		// CommandBase::Initialize();
+		CommandBase::Initialize();
 	}
 
 	virtual void Execute() {
@@ -53,12 +53,12 @@ public:
 	virtual void End() {
 		shuttle->ResetEncoder();
 		shuttle->SetShuttleSpeed(Shuttle::kStop);
-		// CommandBase::End();
+		CommandBase::End();
 	}
 
 	virtual void Interrupted() {
 		shuttle->SetShuttleSpeed(Shuttle::kStop);
-		// CommandBase::Interrupted();
+		CommandBase::Interrupted();
 	}
 
 protected:

@@ -8,3 +8,15 @@ DriveContinuous:
   axes:
     left: 1
     right: 3
+
+HomeShuttle:
+
+ShuttlePosition:
+  - name: Down
+    ticks: 100
+  - name: Up
+    ticks: 500
+
+ShuttleClamp:
+  - name: Open
+  - name: Close
