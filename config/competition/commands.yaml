@@ -1,0 +1,10 @@
+MessageCommand:
+  - name: One
+    message: Testing message for variant one
+  - name: Two
+    message: Testing message for variant two
+DriveContinuous:
+  joystick: 0
+  axes:
+    left: 1
+    right: 3

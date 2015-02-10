@@ -30,6 +30,8 @@ Drive::Drive(YAML::Node config) :
 	encoderR->SetDistancePerPulse(1.0 / 360.0);
 	encoderL->SetPIDSourceParameter(PIDSource::kRate);
 	encoderR->SetPIDSourceParameter(PIDSource::kRate);
+	pidL->Enable();
+	pidR->Enable();
 
 	auto liveWindow = LiveWindow::GetInstance();
 	liveWindow->AddActuator(GetName().c_str(), "driveL", driveL);
@@ -56,7 +58,7 @@ void Drive::SetSpeeds(float leftSpeed, float rightSpeed) {
 }
 
 void Drive::SetRPS(float leftRPS, float rightRPS) {
-	pidL->SetSetpoint(leftRPS);
+	pidL->SetSetpoint(-leftRPS);
 	pidR->SetSetpoint(rightRPS);
 }
 

@@ -1,0 +1,21 @@
+Claw:
+  Ports:
+    clampOne: [6, 7]
+    clampTwo: [2, 3]
+    finger: [0, 1]
+    rollers: 11
+    button: 10
+  Speeds: # assuming -1.0 spits things out
+    outward: 1.0
+    inward: 1.0
+Drive:
+  drive:
+    L: 1
+    R: 0
+  encoder:
+    L: [2, 3]
+    R: [0, 1]
+  PID:
+    L: {P: 0.02, I: 0, D: 0, F: 0}
+    R: {P: 0.02, I: 0, D: 0, F: 0}
+  maxRPS: 30

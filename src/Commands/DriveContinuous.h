@@ -21,7 +21,7 @@ public:
 	void Execute() {
 		float speedLeft = joystick->GetRawAxis(axisLeft);
 		float speedRight = joystick->GetRawAxis(axisRight);
-		drive->SetSpeeds(speedLeft, speedRight);
+		drive->SetSpeeds(-speedLeft, -speedRight);
 	}
 
 	bool IsFinished() {
