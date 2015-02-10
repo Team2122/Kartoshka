@@ -7,6 +7,7 @@
 #include <CommandBase.h>
 #include "Subsystems/Claw.h"
 #include "Subsystems/Drive.h"
+#include "Subsystems/Claw.h"
 #include "Common/Logger.h"
 #include "Subsystems/Shuttle.h"
 

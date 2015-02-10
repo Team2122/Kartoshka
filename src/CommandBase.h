@@ -9,6 +9,7 @@
 
 #include <Commands/Command.h>
 #include <yaml-cpp/yaml.h>
+#include "Subsystems/Claw.h"
 #include "Common/Logger.h"
 
 namespace tator {
