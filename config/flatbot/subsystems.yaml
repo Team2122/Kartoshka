@@ -22,13 +22,13 @@ Drive:
 Shuttle:
   Ports:
     toteSensor: 1
-    lowerLimit: 1
-    upperLimit: 1
-    clampPiston: [1, 2]
+    lowerLimit: 10
+    upperLimit: 11
+    clampPiston: [0, 1]
     lift:
       motor: 1
       encoder: 1
-      pdp: 1
+      pdp: 15
   Values:
     upSpeed: -0.1
     downSpeed: 0.1

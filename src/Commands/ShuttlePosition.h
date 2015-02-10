@@ -60,9 +60,9 @@ public:
 		auto shuttleTicks = shuttle->GetEncoderTicks();
 		switch (direction) {
 		case kUp:
-			return shuttleTicks >= targetPosition;
+			return shuttleTicks >= targetTicks;
 		case kDown:
-			return shuttleTicks <= targetPosition;
+			return shuttleTicks <= targetTicks;
 		default:
 			return true;
 		}

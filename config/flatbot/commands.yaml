@@ -3,23 +3,21 @@ MessageCommand:
     message: Testing message for variant one
   - name: Two
     message: Testing message for variant two
-<<<<<<< HEAD
+
 DriveContinuous:
   joystick: 0
   axes:
     left: 1
     right: 3
-=======
 
 HomeShuttle:
 
 ShuttlePosition:
   - name: Down
-    ticks: 10
+    ticks: 100
   - name: Up
-    ticks: 20
+    ticks: 500
 
 ShuttleClamp:
   - name: Open
   - name: Close
->>>>>>> Added shuttle commands
