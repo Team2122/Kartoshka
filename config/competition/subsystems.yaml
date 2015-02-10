@@ -24,12 +24,12 @@ Shuttle:
     toteSensor: 20
     lowerLimit: 10
     upperLimit: 11
-    clampPiston: [0, 1]
+    clampPiston: 0
     lift:
       motor: 4
       encoder: [4, 5]
       pdp: 15
   Values:
-    upSpeed: -0.2
+    upSpeed: -0.5
     downSpeed: 0.2
-    maxCurrent: 5.0
+    maxCurrent: 20.0

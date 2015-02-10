@@ -14,9 +14,7 @@ Shuttle::Shuttle(YAML::Node config) :
 	toteSensor = new DigitalInput(ports["toteSensor"].as<uint32_t>());
 	lowerLimit = new DigitalInput(ports["lowerLimit"].as<uint32_t>());
 	upperLimit = new DigitalInput(ports["upperLimit"].as<uint32_t>());
-	auto clampPiston_ = ports["clampPiston"];
-	clampPiston = new DoubleSolenoid(clampPiston_[0].as<uint32_t>(),
-			clampPiston_[1].as<uint32_t>());
+	clampPiston = new Solenoid(ports["clampPiston"].as<uint32_t>());
 	auto lift = ports["lift"];
 	liftMotor = new Talon(lift["motor"].as<uint32_t>());
 	auto liftEncoder_ = lift["encoder"];
@@ -67,11 +65,11 @@ Shuttle::Position Shuttle::GetLimit() {
 }
 
 void Shuttle::OpenProngs() {
-	clampPiston->Set(DoubleSolenoid::kForward);
+	clampPiston->Set(true);
 }
 
 void Shuttle::CloseProngs() {
-	clampPiston->Set(DoubleSolenoid::kReverse);
+	clampPiston->Set(false);
 }
 
 int Shuttle::GetToteCount() {
@@ -86,8 +84,10 @@ void Shuttle::SetShuttleSpeed(Speed speed) {
 	switch (speed) {
 	case kUp:
 		liftMotor->SetSpeed(upSpeed);
+		break;
 	case kDown:
 		liftMotor->SetSpeed(downSpeed);
+		break;
 	case kStop:
 	default:
 		liftMotor->SetSpeed(0);

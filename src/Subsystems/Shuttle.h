@@ -21,7 +21,7 @@ private:
 	DigitalInput* toteSensor;
 	DigitalInput* lowerLimit;
 	DigitalInput* upperLimit;
-	DoubleSolenoid* clampPiston;
+	Solenoid* clampPiston;
 	Talon* liftMotor;
 	Encoder* liftEncoder;
 	PowerDistributionPanel* pdp;

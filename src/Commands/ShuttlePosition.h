@@ -26,13 +26,17 @@ public:
 	virtual void Initialize() {
 		CommandBase::Initialize();
 		auto shuttleTicks = shuttle->GetEncoderTicks();
+		const char* name;
 		if (targetTicks >= shuttleTicks) {
 			shuttle->SetShuttleSpeed(Shuttle::kUp);
 			direction = kUp;
+			name = "up";
 		} else {
 			shuttle->SetShuttleSpeed(Shuttle::kDown);
 			direction = kDown;
+			name = "down";
 		}
+		log.Info("We are moving %s to %d ticks", name, targetTicks);
 	}
 
 	virtual void Execute() {
