@@ -26,6 +26,7 @@ Shuttle::Shuttle(YAML::Node config) :
 	auto values = config["Values"];
 	upSpeed = values["upSpeed"].as<double>();
 	downSpeed = values["downSpeed"].as<double>();
+	holdSpeed = values["holdSpeed"].as<double>();
 	maxMotorCurrent = values["maxCurrent"].as<double>();
 
 	liftEncoder->SetReverseDirection(true);
@@ -87,6 +88,9 @@ void Shuttle::SetShuttleSpeed(Speed speed) {
 		break;
 	case kDown:
 		liftMotor->SetSpeed(downSpeed);
+		break;
+	case kHold:
+		liftMotor->SetSpeed(holdSpeed);
 		break;
 	case kStop:
 	default:

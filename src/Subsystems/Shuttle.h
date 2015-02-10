@@ -28,6 +28,7 @@ private:
 
 	double upSpeed;
 	double downSpeed;
+	double holdSpeed;
 	uint8_t motorPDPChannel;
 	double maxMotorCurrent;
 
@@ -45,7 +46,7 @@ public:
 	};
 
 	enum Speed {
-		kUp, kDown, kStop
+		kUp, kDown, kHold, kStop
 	};
 
 	/**
