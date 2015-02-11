@@ -13,6 +13,7 @@
 #include "Commands/DriveContinuous.h"
 #include "Commands/HomeShuttle.h"
 #include "Commands/ShuttlePosition.h"
+#include "Commands/StackToteCommandGroup.h"
 #include "Commands/ShuttleClamp.h"
 #include "Commands/ClawRotation.h"
 #include "Commands/ClawRollers.h"
@@ -59,6 +60,7 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<RecieveTote>();
 	CreateCommandsForClass<UnloadTote>();
 	CreateCommandsForClass<FlapFlappers>();
+	CreateCommandsForClass<StackToteCommandGroup>();
 }
 
 Command* Kremlin::Get(std::string fullName) {
