@@ -25,7 +25,7 @@ public:
 
 	virtual void Initialize() {
 		CommandBase::Initialize();
-		auto shuttleTicks = shuttle->GetEncoderTicks();
+		int shuttleTicks = shuttle->GetEncoderTicks();
 		const char* name;
 		if (targetTicks >= shuttleTicks) {
 			shuttle->SetShuttleSpeed(Shuttle::kUp);
@@ -45,7 +45,7 @@ public:
 			Cancel();
 			return;
 		}
-		auto limit = shuttle->GetLimit();
+		int limit = shuttle->GetLimit();
 		switch (limit) {
 		case Shuttle::kUpper:
 			log.Error("The shuttle has hit the upper limit while traveling to"
@@ -58,7 +58,7 @@ public:
 	}
 
 	virtual bool IsFinished() {
-		auto shuttleTicks = shuttle->GetEncoderTicks();
+		int shuttleTicks = shuttle->GetEncoderTicks();
 		switch (direction) {
 		case kUp:
 			return shuttleTicks >= targetTicks;

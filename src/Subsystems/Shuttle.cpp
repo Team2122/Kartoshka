@@ -10,20 +10,20 @@ namespace tator {
 
 Shuttle::Shuttle(YAML::Node config) :
 		SubsystemBase("Shuttle") {
-	auto ports = config["Ports"];
+	YAML::Node ports = config["Ports"];
 	toteSensor = new DigitalInput(ports["toteSensor"].as<uint32_t>());
 	lowerLimit = new DigitalInput(ports["lowerLimit"].as<uint32_t>());
 	upperLimit = new DigitalInput(ports["upperLimit"].as<uint32_t>());
 	clampPiston = new Solenoid(ports["clampPiston"].as<uint32_t>());
-	auto lift = ports["lift"];
+	YAML::Node lift = ports["lift"];
 	liftMotor = new Talon(lift["motor"].as<uint32_t>());
-	auto liftEncoder_ = lift["encoder"];
+	YAML::Node liftEncoder_ = lift["encoder"];
 	liftEncoder = new Encoder(liftEncoder_[0].as<uint32_t>(),
 			liftEncoder_[1].as<uint32_t>());
 	pdp = new PowerDistributionPanel();
 	motorPDPChannel = lift["pdp"].as<uint32_t>();
 
-	auto values = config["Values"];
+	YAML::Node values = config["Values"];
 	upSpeed = values["upSpeed"].as<double>();
 	downSpeed = values["downSpeed"].as<double>();
 	holdSpeed = values["holdSpeed"].as<double>();
@@ -32,8 +32,8 @@ Shuttle::Shuttle(YAML::Node config) :
 	liftEncoder->SetReverseDirection(true);
 	totes = 0;
 
-	auto liveWindow = LiveWindow::GetInstance();
-	auto name = GetName().c_str();
+	LiveWindow* liveWindow = LiveWindow::GetInstance();
+	const char* name = GetName().c_str();
 	liveWindow->AddSensor(name, "toteSensor", toteSensor);
 	liveWindow->AddSensor(name, "lowerLimit", lowerLimit);
 	liveWindow->AddSensor(name, "upperLimit", upperLimit);
