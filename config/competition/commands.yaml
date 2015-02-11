@@ -32,10 +32,9 @@ SetClaw:
     status: 3
 
 ClawRotation:
-  - name: inBot
+  - name: InBot
     status: 90.0
-  - name: platform
+  - name: Platform
     status: 0.0
-  - name: pick
+  - name: Pick
     status: 180.0
-  

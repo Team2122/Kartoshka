@@ -15,28 +15,29 @@ namespace tator {
 class ClawRotation: public CommandBase {
 private:
 	float newAngle;
-	float currentAngle;
+
 	enum Direction {
 		kBackward, kForward
 	};
+
 	Direction dir;
 
 public:
 	ClawRotation(YAML::Node config) :
-			CommandBase("ClawRotation") {
-		newAngle = config["newAngle"].as<float>();
-		currentAngle = 0;
+			CommandBase(GetBaseName()) {
+		newAngle = config["status"].as<float>();
 	}
+
 	void Initialize() {
 		CommandBase::Initialize();
-		currentAngle = claw->GetAngle();
+		float currentAngle = claw->GetRotationAngle();
 		const char* name;
 		if (newAngle >= currentAngle) {
-			claw->SetRotationDirection(Claw::kForward);
+			claw->SetRotationSpeed(Claw::RotationSpeed::kForward);
 			dir = kForward;
 			name = "up";
 		} else {
-			claw->SetRotationDirection(Claw::kBackward);
+			claw->SetRotationSpeed(Claw::RotationSpeed::kBackward);
 			dir = kBackward;
 			name = "down";
 		}
@@ -46,7 +47,7 @@ public:
 
 	}
 	bool IsFinished() {
-		currentAngle = claw->GetAngle();
+		float currentAngle = claw->GetRotationAngle();
 		switch (dir) {
 		case kForward:
 			return currentAngle >= newAngle;
@@ -56,19 +57,21 @@ public:
 			return true;
 		}
 	}
+
 	void End() {
-		claw->SetRotationDirection(Claw::kStopped);
-		log.Info("ClawRotation has ended successfully");
+		claw->SetRotationSpeed(Claw::RotationSpeed::kStopped);
+		CommandBase::End();
 	}
+
 	void Interrupted() {
-		claw->SetRotationDirection(Claw::kStopped);
-		log.Info("ClawRotation was interuppted");
+		claw->SetRotationSpeed(Claw::RotationSpeed::kStopped);
+		CommandBase::Interrupted();
 	}
+
 	static std::string GetBaseName() {
 		return "ClawRotation";
 	}
-}
-;
+};
 
 }
 

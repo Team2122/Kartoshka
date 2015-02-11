@@ -18,20 +18,23 @@ private:
 
 public:
 	SetClaw(YAML::Node config) :
-			CommandBase("SetClaw") {
+			CommandBase(GetBaseName()) {
 		clawStatus = config["status"].as<int>();
 	}
 	void Initialize() {
+		CommandBase::Initialize();
 	}
 	void Execute() {
-		claw->SetContainerClampStatus((Claw::ClawClampStatus) clawStatus);
+		claw->SetClampStatus((Claw::ClampStatus) clawStatus);
 	}
 	bool IsFinished() {
 		return true;
 	}
 	void End() {
+		CommandBase::End();
 	}
 	void Interrupted() {
+		CommandBase::Interrupted();
 	}
 	static std::string GetBaseName() {
 		return "SetClaw";

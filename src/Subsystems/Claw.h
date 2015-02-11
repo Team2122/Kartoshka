@@ -22,6 +22,7 @@ private:
 	Talon* clawRotation; ///> Talon for the Rotation, Absolute
 	Encoder* verticalTicks; ///> Encoder for the Vertical
 	AnalogPotentiometer* rotationAngle; ///> Encoder for the Rotation
+	DigitalInput* upperLimit;
 
 	float maxLiftAngle; ///> maximum safety for the rotation
 	float minLiftAngle; ///> minimum safety for the rotation
@@ -32,10 +33,10 @@ private:
 	float backwardRotationSpeed;
 	float forwardRotationSpeed;
 
-	DoubleSolenoid* clampOne;
-	DoubleSolenoid* clampTwo;
+	Solenoid* clampOne;
+	Solenoid* clampTwo;
 	Talon* rollers;
-	DigitalInput* button; // now a sensor, not a button
+	DigitalInput* binSensor;
 
 	double rollerInwardSpeed;
 	double rollerOutwardSpeed;
@@ -45,58 +46,48 @@ public:
 	~Claw();
 
 	/**
-	 * Changes the lift from its current height to a new height
-	 */
-	void SetPosition(float newHeight);
-
-	/**
 	 * Returns the current height of the robot
 	 */
-	double GetPosition();
+	int32_t GetPosition();
 
 	/**
 	 * Resets the encoder to the value of 0
 	 */
 	void ResetTicks();
 
-	/**
-	 * Return the rotation angle of the lift
-	 */
-	double GetAngle();
-
 	///////////////////////////////////////////////////////////////
 
-	enum ClawRollerStatus {
-		kOutward, kInward
-	};
-
-	enum ClawClampStatus {
-		kLong = 3, kMid = 2, kShort = 1, kNone = 0
-	//the longer the piston is, the more closed the claw becomes
+	enum class RollerStatus {
+		kStopped = 0, kOutward, kInward
 	};
 
 	/**
 	 * Da roller speed is become in, out, or oof.
 	 */
-	void SetRollerSpeed(ClawRollerStatus operation);
+	void SetRollerSpeed(RollerStatus operation);
 
-	/**
-	 * Puny container is crushed from Mother Russia's technologicaly superior claw.
-	 */
-	void SetContainerClampStatus(ClawClampStatus extendTo);
-
-	/**
-	 * Puny container is crushed from Mother Russia's technologicaly superior claw.
-	 */
-	ClawClampStatus GetContainerClampStatus();
-
-	enum RotationDirection {
-		kBackward, kForward, kStopped
+	enum class ClampStatus {
+		kLong = 3, kMid = 2, kShort = 1, kNone = 0
+	//the longer the piston is, the more closed the claw becomes
 	};
 
-	void SetRotationDirection(RotationDirection dir);
+	/**
+	 * Puny container is crushed from Mother Russia's technologicaly superior claw.
+	 */
+	void SetClampStatus(ClampStatus extendTo);
 
-	float GetRoatationAngle();
+	/**
+	 * Puny container is crushed from Mother Russia's technologicaly superior claw.
+	 */
+	ClampStatus GetClampStatus();
+
+	enum class RotationSpeed {
+		kStopped = 0, kBackward, kForward
+	};
+
+	void SetRotationSpeed(RotationSpeed dir);
+
+	float GetRotationAngle();
 
 	/**
 	 * The motherland demand robot to say if it has shown mercy to puny

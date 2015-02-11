@@ -1,26 +1,23 @@
 Claw:
   Ports:
-    liftVertical: 3
-    liftRotation: 4
-    verticalTicks: [1, 2]
-    rotationAngle: {Channel: 1, Scale: 5.0, Offset: 0.0}
-    clampOne: [6, 7]
-    clampTwo: [2, 3]
-    rollers: 9
-    button: 21
+    liftVertical: 6
+    liftRotation: 7
+    verticalTicks: [6, 7]
+    rotationAngle: {Channel: 0, Scale: 360, Offset: 0.0}
+    upperLimit: 18
+    clampOne: 2
+    clampTwo: 3
+    rollers: 8
+    binSensor: 14
   Software:
-    LiftAngle: 
-      min: 90
-      max: 270
-    LiftHeight:
-      min: 1
-      max: 1
-    clearClaw:
-      min: 0.0
-      max: 5.0
+    liftAngle: {min: 90, max: 270}
+    liftHeight: {min: 1, max: 1}
+    clearClaw: {min: 0.0, max: 1.0}
   Speeds: # assuming -1.0 spits things out
     outward: 1.0
     inward: 1.0
+    forward: -.1
+    backward: .1
 Drive:
   drive:
     L: 1

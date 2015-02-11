@@ -4,3 +4,7 @@
   3: WhenPressed ShuttlePositionDown
   4: WhenPressed ShuttleClampOpen
   5: WhenPressed ShuttleClampClose
+  6: WhenPressed ClawRotationInBot
+  7: WhenPressed ClawRotationPlatform
+  8: WhenPressed ClawRotationPick
+  9: WhenPressed SetClawClosed
