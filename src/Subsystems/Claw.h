@@ -58,7 +58,7 @@ public:
 	///////////////////////////////////////////////////////////////
 
 	enum class RollerStatus {
-		kStopped = 0, kOutward, kInward
+		kStopped = 0, kOutward = 1, kInward = 2
 	};
 
 	/**

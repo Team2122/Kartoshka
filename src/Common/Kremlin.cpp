@@ -16,6 +16,7 @@
 #include "Commands/ShuttleClamp.h"
 #include "Commands/ClawRotation.h"
 #include "Commands/SetClaw.h"
+#include "Commands/ClawRollers.h"
 
 namespace tator {
 
@@ -49,6 +50,7 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<ShuttleClamp>();
 	CreateCommandsForClass<SetClaw>();
 	CreateCommandsForClass<ClawRotation>();
+	CreateCommandsForClass<ClawRollers>();
 }
 
 Command* Kremlin::Get(std::string fullName) {
