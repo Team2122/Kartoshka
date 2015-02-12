@@ -42,5 +42,5 @@ Shuttle:
   Values:
     upSpeed: -0.5
     downSpeed: 0.2
-    holdSpeed: -0.05
+    holdSpeed: -0.1
     maxCurrent: 20.0

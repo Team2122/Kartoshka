@@ -13,7 +13,7 @@ HomeShuttle:
 
 ShuttlePosition:
   - name: Down
-    ticks: 100
+    ticks: 50
   - name: Up
     ticks: 500
 
