@@ -5,8 +5,8 @@ Claw:
     verticalTicks: [6, 7]
     rotationAngle: {Channel: 0, Scale: 360, Offset: 0.0}
     upperLimit: 18
-    clampOne: 2
-    clampTwo: 3
+    clampLong: 2
+    clampShort: 3
     rollers: 8
     binSensor: 14
   Software:

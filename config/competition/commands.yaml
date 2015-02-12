@@ -21,14 +21,14 @@ ShuttleClamp:
   - name: Open
   - name: Close
 
-SetClaw:
-  - name: Closed
+ClawClamp:
+  - name: Released
     status: 0
-  - name: Short
+  - name: Tote
     status: 1
-  - name: Mid
+  - name: Container
     status: 2
-  - name: Long
+  - name: DeathGrip
     status: 3
 
 ClawRotation:

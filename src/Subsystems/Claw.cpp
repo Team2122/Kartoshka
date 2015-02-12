@@ -34,8 +34,8 @@ Claw::Claw(YAML::Node config) :
 	verticalTicks->SetDistancePerPulse(1.0 / 360);
 	verticalTicks->SetPIDSourceParameter(PIDSource::kDistance);
 
-	clampOne = new Solenoid(ports["clampOne"].as<uint32_t>());
-	clampTwo = new Solenoid(ports["clampTwo"].as<uint32_t>());
+	clampLong = new Solenoid(ports["clampLong"].as<uint32_t>());
+	clampShort = new Solenoid(ports["clampShort"].as<uint32_t>());
 	rollers = new Talon(ports["rollers"].as<uint32_t>());
 	binSensor = new DigitalInput(ports["binSensor"].as<uint32_t>());
 
@@ -51,8 +51,8 @@ Claw::Claw(YAML::Node config) :
 	liveWindow->AddSensor(name, "Rotation Encoder", rotationAngle);
 	liveWindow->AddSensor(name, "Vertical Encoder", verticalTicks);
 	liveWindow->AddSensor(name, "Upper Limit", upperLimit);
-	liveWindow->AddActuator(name, "Clamp One", clampOne);
-	liveWindow->AddActuator(name, "Clamp Two", clampTwo);
+	liveWindow->AddActuator(name, "Clamp Long", clampLong);
+	liveWindow->AddActuator(name, "Clamp Short", clampShort);
 	liveWindow->AddSensor(name, "Button", binSensor);
 	liveWindow->AddActuator(name, "Rollers", rollers);
 }
@@ -63,8 +63,8 @@ Claw::~Claw() {
 	delete rotationAngle;
 
 	delete rollers;
-	delete clampOne;
-	delete clampTwo;
+	delete clampLong;
+	delete clampShort;
 	delete binSensor;
 }
 
@@ -94,28 +94,24 @@ void Claw::SetRollerSpeed(RollerStatus status) {
 
 void Claw::SetClampStatus(ClampStatus status) {
 	switch (status) {
-	case ClampStatus::kLong:
-		clampOne->Set(true);
-		clampTwo->Set(true);
+	case ClampStatus::kDeathGrip:
+		clampLong->Set(true);
+		clampShort->Set(true);
 		break;
-	case ClampStatus::kMid:
-		clampOne->Set(true);
-		clampTwo->Set(false);
+	case ClampStatus::kContainer:
+		clampLong->Set(true);
+		clampShort->Set(false);
 		break;
-	case ClampStatus::kShort:
-		clampOne->Set(false);
-		clampTwo->Set(true);
+	case ClampStatus::kTote:
+		clampLong->Set(false);
+		clampShort->Set(true);
 		break;
-	case ClampStatus::kNone:
+	case ClampStatus::kReleased:
 	default:
-		clampOne->Set(false);
-		clampTwo->Set(false);
+		clampLong->Set(false);
+		clampShort->Set(false);
 		break;
 	}
-}
-
-Claw::ClampStatus Claw::GetClampStatus() {
-	return ClampStatus::kNone;
 }
 
 float Claw::GetRotationAngle() {

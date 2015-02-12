@@ -4,6 +4,7 @@
  * @date Jan 19, 2015
  */
 
+#include <Commands/ClawClamp.h>
 #include "Kremlin.h"
 #include "Config.h"
 #include <yaml-cpp/yaml.h>
@@ -48,7 +49,7 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<HomeShuttle>();
 	CreateCommandsForClass<ShuttlePosition>();
 	CreateCommandsForClass<ShuttleClamp>();
-	CreateCommandsForClass<SetClaw>();
+	CreateCommandsForClass<ClawClamp>();
 	CreateCommandsForClass<ClawRotation>();
 	CreateCommandsForClass<ClawRollers>();
 }

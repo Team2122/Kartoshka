@@ -33,8 +33,8 @@ private:
 	float backwardRotationSpeed;
 	float forwardRotationSpeed;
 
-	Solenoid* clampOne;
-	Solenoid* clampTwo;
+	Solenoid* clampLong;
+	Solenoid* clampShort;
 	Talon* rollers;
 	DigitalInput* binSensor;
 
@@ -67,19 +67,13 @@ public:
 	void SetRollerSpeed(RollerStatus operation);
 
 	enum class ClampStatus {
-		kLong = 3, kMid = 2, kShort = 1, kNone = 0
-	//the longer the piston is, the more closed the claw becomes
+		kReleased = 0, kTote = 1, kContainer = 2, kDeathGrip = 3
 	};
 
 	/**
-	 * Puny container is crushed from Mother Russia's technologicaly superior claw.
+	 * Puny container is crushed from Mother Russia's technologically superior claw.
 	 */
-	void SetClampStatus(ClampStatus extendTo);
-
-	/**
-	 * Puny container is crushed from Mother Russia's technologicaly superior claw.
-	 */
-	ClampStatus GetClampStatus();
+	void SetClampStatus(ClampStatus status);
 
 	enum class RotationSpeed {
 		kStopped = 0, kBackward, kForward
