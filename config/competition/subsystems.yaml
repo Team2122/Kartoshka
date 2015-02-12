@@ -14,10 +14,10 @@ Claw:
     liftHeight: {min: 1, max: 1}
     clearClaw: {min: 0.0, max: 1.0}
   Speeds: # assuming -1.0 spits things out
-    outward: 1.0
-    inward: 1.0
-    forward: -.1
-    backward: .1
+    outward: 0.5
+    inward: -0.5
+    forward: -0.3
+    backward: 0.3
 Drive:
   drive:
     L: 1

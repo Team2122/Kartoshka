@@ -32,16 +32,16 @@ public:
 		CommandBase::Initialize();
 		float currentAngle = claw->GetRotationAngle();
 		const char* name;
-		if (newAngle >= currentAngle) {
+		if (newAngle <= currentAngle) {
 			claw->SetRotationSpeed(Claw::RotationSpeed::kForward);
 			dir = kForward;
-			name = "up";
+			name = "forward";
 		} else {
 			claw->SetRotationSpeed(Claw::RotationSpeed::kBackward);
 			dir = kBackward;
-			name = "down";
+			name = "backward";
 		}
-		log.Info("We are moving %s to %d degrees", name, currentAngle);
+		log.Info("We are moving %s to %f degrees", name, newAngle);
 	}
 	void Execute() {
 
@@ -50,9 +50,9 @@ public:
 		float currentAngle = claw->GetRotationAngle();
 		switch (dir) {
 		case kForward:
-			return currentAngle >= newAngle;
-		case kBackward:
 			return currentAngle <= newAngle;
+		case kBackward:
+			return currentAngle >= newAngle;
 		default:
 			return true;
 		}
