@@ -15,8 +15,8 @@ namespace tator {
 
 class HomeShuttle: public CommandBase {
 public:
-	HomeShuttle(YAML::Node config) :
-			CommandBase(GetBaseName()) {
+	HomeShuttle(std::string name, YAML::Node config) :
+			CommandBase(name) {
 	}
 
 	static std::string GetBaseName() {

@@ -17,8 +17,8 @@ private:
 	float newAngle, tolerance;
 
 public:
-	ClawRotation(YAML::Node config) :
-			CommandBase(GetBaseName()) {
+	ClawRotation(std::string name, YAML::Node config) :
+			CommandBase(name) {
 		newAngle = config["status"].as<float>();
 		tolerance = config["tolerance"].as<float>();
 	}

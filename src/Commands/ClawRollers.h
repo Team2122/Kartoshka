@@ -11,8 +11,8 @@ class ClawRollers: public CommandBase {
 protected:
 	Claw::RollerStatus rollerStatus;
 public:
-	ClawRollers(YAML::Node config) :
-			CommandBase(GetBaseName()) {
+	ClawRollers(std::string name, YAML::Node config) :
+			CommandBase(name) {
 		rollerStatus = (Claw::RollerStatus) config["status"].as<int>();
 	}
 

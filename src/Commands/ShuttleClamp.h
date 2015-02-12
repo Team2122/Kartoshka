@@ -14,9 +14,9 @@ namespace tator {
 
 class ShuttleClamp: public CommandBase {
 public:
-	ShuttleClamp(YAML::Node config) :
-			CommandBase(GetBaseName()) {
-		open = config["name"].as<std::string>() == "Open";
+	ShuttleClamp(std::string name, YAML::Node config) :
+			CommandBase(name) {
+		open = name == "ShuttleClampOpen";
 	}
 
 	static std::string GetBaseName() {

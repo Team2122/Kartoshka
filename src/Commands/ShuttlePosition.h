@@ -14,8 +14,8 @@ namespace tator {
 
 class ShuttlePosition: public CommandBase {
 public:
-	ShuttlePosition(YAML::Node config) :
-			CommandBase(GetBaseName()) {
+	ShuttlePosition(std::string name, YAML::Node config) :
+			CommandBase(name) {
 		targetTicks = config["ticks"].as<int32_t>();
 	}
 

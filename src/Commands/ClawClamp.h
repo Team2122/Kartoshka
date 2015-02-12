@@ -17,8 +17,8 @@ private:
 	Claw::ClampStatus clampStatus;
 
 public:
-	ClawClamp(YAML::Node config) :
-			CommandBase(GetBaseName()) {
+	ClawClamp(std::string name, YAML::Node config) :
+			CommandBase(name) {
 		clampStatus = (Claw::ClampStatus) config["status"].as<int>();
 	}
 

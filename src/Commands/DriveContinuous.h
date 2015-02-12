@@ -7,8 +7,8 @@ namespace tator {
 
 class DriveContinuous: public CommandBase {
 public:
-	DriveContinuous(YAML::Node config) :
-			CommandBase(GetBaseName()) {
+	DriveContinuous(std::string name, YAML::Node config) :
+			CommandBase(name) {
 		int joystickPort = config["joystick"].as<int>();
 		axisLeft = config["axes"]["left"].as<int>();
 		axisRight = config["axes"]["right"].as<int>();

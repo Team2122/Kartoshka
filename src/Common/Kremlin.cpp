@@ -35,10 +35,10 @@ void Kremlin::CreateCommandsForClass() {
 			if (node["name"].IsScalar()) {
 				totalName += node["name"].as<std::string>();
 			}
-			commands[totalName] = new T(node);
+			commands[totalName] = new T(totalName, node);
 		}
 	} else {
-		commands[name] = new T(commandConfig);
+		commands[name] = new T(name, commandConfig);
 	}
 }
 
