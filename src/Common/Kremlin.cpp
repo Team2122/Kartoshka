@@ -4,7 +4,6 @@
  * @date Jan 19, 2015
  */
 
-#include <Commands/ClawClamp.h>
 #include "Kremlin.h"
 #include "Config.h"
 #include <yaml-cpp/yaml.h>
@@ -16,8 +15,8 @@
 #include "Commands/ShuttlePosition.h"
 #include "Commands/ShuttleClamp.h"
 #include "Commands/ClawRotation.h"
-#include "Commands/SetClaw.h"
 #include "Commands/ClawRollers.h"
+#include "Commands/ClawClamp.h"
 
 namespace tator {
 

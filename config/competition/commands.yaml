@@ -33,11 +33,14 @@ ClawClamp:
 
 ClawRotation:
   - name: InBot
-    status: 140
+    status: 145
+    tolerance: 5.0
   - name: Platform
-    status: 200
+    status: 227.5
+    tolerance: 1.5
   - name: Pick
     status: 80
+    tolerance: 5.0
 
 ClawRollers:
   - name: In

@@ -25,15 +25,17 @@ public:
 	}
 
 	bool IsFinished() {
-		return true;
+		return false;
 	}
 
 	void End() {
-
+		claw->SetRollerSpeed(Claw::RollerStatus::kStopped);
+		CommandBase::End();
 	}
 
 	void Interrupted() {
-
+		claw->SetRollerSpeed(Claw::RollerStatus::kStopped);
+		CommandBase::Interrupted();
 	}
 
 	static std::string GetBaseName() {

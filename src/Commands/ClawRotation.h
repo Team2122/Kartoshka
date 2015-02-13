@@ -14,18 +14,13 @@ namespace tator {
 
 class ClawRotation: public CommandBase {
 private:
-	float newAngle;
-
-	enum Direction {
-		kBackward, kForward
-	};
-
-	Direction dir;
+	float newAngle, tolerance;
 
 public:
 	ClawRotation(YAML::Node config) :
 			CommandBase(GetBaseName()) {
 		newAngle = config["status"].as<float>();
+		tolerance = config["tolerance"].as<float>();
 	}
 
 	void Initialize() {
@@ -34,28 +29,24 @@ public:
 		const char* name;
 		if (newAngle <= currentAngle) {
 			claw->SetRotationSpeed(Claw::RotationSpeed::kForward);
-			dir = kForward;
 			name = "forward";
 		} else {
 			claw->SetRotationSpeed(Claw::RotationSpeed::kBackward);
-			dir = kBackward;
 			name = "backward";
 		}
 		log.Info("We are moving %s to %f degrees", name, newAngle);
 	}
 	void Execute() {
-
+		float currentAngle = claw->GetRotationAngle();
+		if (newAngle <= currentAngle) {
+			claw->SetRotationSpeed(Claw::RotationSpeed::kForward);
+		} else {
+			claw->SetRotationSpeed(Claw::RotationSpeed::kBackward);
+		}
 	}
 	bool IsFinished() {
 		float currentAngle = claw->GetRotationAngle();
-		switch (dir) {
-		case kForward:
-			return currentAngle <= newAngle;
-		case kBackward:
-			return currentAngle >= newAngle;
-		default:
-			return true;
-		}
+		return abs(currentAngle - newAngle) <= tolerance;
 	}
 
 	void End() {

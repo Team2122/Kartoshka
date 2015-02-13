@@ -7,4 +7,10 @@
   6: WhenPressed ClawRotationInBot
   7: WhenPressed ClawRotationPlatform
   8: WhenPressed ClawRotationPick
-  9: WhenPressed SetClawClosed
+1:
+  1: WhenPressed ClawClampReleased
+  2: WhenPressed ClawClampTote
+  3: WhenPressed ClawClampContainer
+  4: WhenPressed ClawClampDeathGrip
+  5: WhileHeld ClawRollersIn
+  6: WhileHeld ClawRollersOut
