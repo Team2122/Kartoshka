@@ -40,6 +40,7 @@ Shuttle:
     lowerLimit: 10
     upperLimit: 11
     clampPiston: [0, 1]
+    fingersPiston: [0]
     lift:
       motor: 1
       encoder: 1

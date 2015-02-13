@@ -39,3 +39,9 @@ ClawRotation:
     status: 0.0
   - name: pick
     status: 180.0
+    
+Fingers:
+  - name: Hold
+    state: 1
+  - name: Release
+    state: 0

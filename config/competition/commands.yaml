@@ -13,9 +13,9 @@ HomeShuttle:
 
 ShuttlePosition:
   - name: Down
-    ticks: 50
+    ticks: 0
   - name: Up
-    ticks: 500
+    ticks: 665
 
 ShuttleClamp:
   - name: Open
@@ -49,3 +49,9 @@ ClawRollers:
     status: 1
   - name: Off
     status: 0
+
+Fingers:
+  - name: Hold
+    state: 1
+  - name: Release
+    state: 0

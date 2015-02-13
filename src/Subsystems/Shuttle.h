@@ -25,6 +25,7 @@ private:
 	Talon* liftMotor;
 	Encoder* liftEncoder;
 	PowerDistributionPanel* pdp;
+	Solenoid* fingersPiston;
 
 	double upSpeed;
 	double downSpeed;
@@ -47,6 +48,10 @@ public:
 
 	enum Speed {
 		kUp, kDown, kHold, kStop
+	};
+
+	enum FingersState {
+		kHeld = 1, kReleased = 0
 	};
 
 	/**
@@ -110,6 +115,12 @@ public:
 	 * Tells sputnik shuttle that home is here
 	 */
 	void ResetEncoder();
+
+	/**
+	 * Releases or holds soviet totes of promised rations to starving Russians
+	 * @param state is the enum kHeld (holds totes) or kReleased (releases totes)
+	 */
+	void SetFingersPiston(FingersState state);
 
 };
 

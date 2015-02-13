@@ -35,12 +35,13 @@ Shuttle:
     lowerLimit: 10
     upperLimit: 11
     clampPiston: 0
+    fingersPiston: 4
     lift:
       motor: 4
       encoder: [4, 5]
       pdp: 15
   Values:
-    upSpeed: -0.5
+    upSpeed: -0.8
     downSpeed: 0.2
     holdSpeed: -0.1
-    maxCurrent: 20.0
+    maxCurrent: 120.0

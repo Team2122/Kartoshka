@@ -45,25 +45,16 @@ public:
 			Cancel();
 			return;
 		}
-		int limit = shuttle->GetLimit();
-		switch (limit) {
-		case Shuttle::kUpper:
-			log.Error("The shuttle has hit the upper limit while traveling to"
-					" a position");
-			Cancel();
-			break;
-		default:
-			break;
-		}
 	}
 
 	virtual bool IsFinished() {
 		int shuttleTicks = shuttle->GetEncoderTicks();
+		int limit = shuttle->GetLimit();
 		switch (direction) {
 		case kUp:
-			return shuttleTicks >= targetTicks;
+			return shuttleTicks >= targetTicks || limit == Shuttle::kUpper;
 		case kDown:
-			return shuttleTicks <= targetTicks;
+			return shuttleTicks <= targetTicks || limit == Shuttle::kLower;
 		default:
 			return true;
 		}

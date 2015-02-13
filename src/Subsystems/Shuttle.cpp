@@ -22,6 +22,7 @@ Shuttle::Shuttle(YAML::Node config) :
 			liftEncoder_[1].as<uint32_t>());
 	pdp = new PowerDistributionPanel();
 	motorPDPChannel = lift["pdp"].as<uint32_t>();
+	fingersPiston = new Solenoid(ports["fingersPiston"].as<uint32_t>());
 
 	YAML::Node values = config["Values"];
 	upSpeed = values["upSpeed"].as<double>();
@@ -40,6 +41,7 @@ Shuttle::Shuttle(YAML::Node config) :
 	liveWindow->AddActuator(name, "clampPiston", clampPiston);
 	liveWindow->AddActuator(name, "liftMotor", liftMotor);
 	liveWindow->AddSensor(name, "liftEncoder", liftEncoder);
+	liveWindow->AddSensor(name, "fingersPiston", fingersPiston);
 }
 
 Shuttle::~Shuttle() {
@@ -49,6 +51,7 @@ Shuttle::~Shuttle() {
 	delete clampPiston;
 	delete liftMotor;
 	delete liftEncoder;
+	delete fingersPiston;
 }
 
 bool Shuttle::IsTotePresent() {
@@ -113,6 +116,17 @@ bool Shuttle::IsStalled() {
 
 void Shuttle::ResetEncoder() {
 	liftEncoder->Reset();
+}
+
+void Shuttle::SetFingersPiston(FingersState state) {
+	if (state == kHeld) {
+		fingersPiston->Set(true);
+	} else if (state == kReleased) {
+		fingersPiston->Set(false);
+	} else {
+		log.Error("Invalid fingers piston position");
+	}
+
 }
 
 }
