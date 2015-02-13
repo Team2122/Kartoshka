@@ -54,6 +54,9 @@ public:
 		kHeld = 1, kReleased = 0
 	};
 
+	enum TotesCheckState{
+			kArmed, kDisarmed
+		};
 	/**
 	 * Tells comrade if tote has entered the bot
 	 * @return if tote is present
