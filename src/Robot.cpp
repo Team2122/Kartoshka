@@ -17,7 +17,7 @@ Robot::Robot() :
 	log("Robot"){
 	scheduler = Scheduler::GetInstance();
 	tester = Tester::GetInstance();
-	isTestingAutomated = false;
+	testMode = TestMode::livewindow;
 }
 
 Robot::~Robot() {
@@ -50,19 +50,9 @@ void Robot::TeleopInit() {
 
 void Robot::TestInit() {
 	log.Info("Test mode enabled");
-	log.Info("Press A for LiveWindow or B for the automated Tester");
-	Joystick* joy = Joystick::GetStickForPort(0);
-	while (true) {
-		if (joy->GetRawButton(2)) {
-			isTestingAutomated = false;
-			log.Info("Starting LiveWindow");
-			break;
-		} else if (joy->GetRawButton(3)) {
-			isTestingAutomated = true;
-			tester->Initialize();
-			break;
-		}
-	}
+	log.Info("Defaulted to LiveWindow");
+	log.Info("Press X to switch to the automated Tester");
+	testMode = TestMode::livewindow;
 }
 
 void Robot::DisabledPeriodic() {
@@ -77,10 +67,18 @@ void Robot::TeleopPeriodic() {
 }
 
 void Robot::TestPeriodic() {
-	if (isTestingAutomated) {
-		tester->Execute();
-	} else {
+	Joystick* joy = Joystick::GetStickForPort(0);
+	switch (testMode) {
+	case TestMode::livewindow:
 		LiveWindow::GetInstance()->Run();
+		if (joy->GetRawButton(1)) {
+			log.Info("Switching to automated testing");
+			tester->Initialize();
+		}
+		break;
+	case TestMode::autonomous:
+		tester->Execute();
+		break;
 	}
 }
 

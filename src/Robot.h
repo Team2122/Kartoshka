@@ -36,7 +36,12 @@ public:
 private:
 	Scheduler *scheduler;
 	Tester *tester;
-	bool isTestingAutomated;
+
+	enum class TestMode {
+		autonomous, livewindow
+	};
+
+	TestMode testMode;
 protected:
 	Logger log;
 };
