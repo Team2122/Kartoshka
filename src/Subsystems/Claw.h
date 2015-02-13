@@ -41,6 +41,8 @@ private:
 	double rollerInwardSpeed;
 	double rollerOutwardSpeed;
 
+	int clawClampStatus;
+
 public:
 	Claw(YAML::Node config);
 	~Claw();
@@ -74,6 +76,12 @@ public:
 	 * Puny container is crushed from Mother Russia's technologically superior claw.
 	 */
 	void SetClampStatus(ClampStatus status);
+
+	void ReleaseClaw();
+
+	void ClampClaw();
+
+	ClampStatus GetClampStatus();
 
 	enum class RotationSpeed {
 		kStopped = 0, kBackward, kForward

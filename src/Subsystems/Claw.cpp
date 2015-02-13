@@ -44,6 +44,8 @@ Claw::Claw(YAML::Node config) :
 	forwardRotationSpeed = speed["forward"].as<float>();
 	backwardRotationSpeed = speed["backward"].as<float>();
 
+	clawClampStatus = 0;
+
 	LiveWindow* liveWindow = LiveWindow::GetInstance();
 	auto name = GetName().c_str();
 	liveWindow->AddActuator(name, "Rotation Motor", clawRotation);
@@ -97,19 +99,86 @@ void Claw::SetClampStatus(ClampStatus status) {
 	case ClampStatus::kDeathGrip:
 		clampLong->Set(true);
 		clampShort->Set(true);
+		clawClampStatus = 3;
 		break;
 	case ClampStatus::kContainer:
 		clampLong->Set(true);
 		clampShort->Set(false);
+		clawClampStatus = 2;
 		break;
 	case ClampStatus::kTote:
 		clampLong->Set(false);
 		clampShort->Set(true);
+		clawClampStatus = 1;
 		break;
 	case ClampStatus::kReleased:
 	default:
 		clampLong->Set(false);
 		clampShort->Set(false);
+		clawClampStatus = 0;
+		break;
+	}
+}
+
+Claw::ClampStatus Claw::GetClampStatus() {
+	switch (clawClampStatus) {
+	case 3:
+		return ClampStatus::kDeathGrip;
+		break;
+	case 2:
+		return ClampStatus::kContainer;
+		break;
+	case 1:
+		return ClampStatus::kTote;
+		break;
+	case 0:
+		return ClampStatus::kReleased;
+		break;
+	default:
+		return ClampStatus::kReleased;
+		break;
+
+	}
+}
+
+void Claw::ReleaseClaw() {
+	switch (GetClampStatus()) {
+	case ClampStatus::kDeathGrip:
+		SetClampStatus(ClampStatus::kContainer);
+		SetClampStatus(ClampStatus::kTote);
+		SetClampStatus(ClampStatus::kReleased);
+		break;
+	case ClampStatus::kContainer:
+		SetClampStatus(ClampStatus::kTote);
+		SetClampStatus(ClampStatus::kReleased);
+		break;
+	case ClampStatus::kTote:
+		SetClampStatus(ClampStatus::kReleased);
+		break;
+	case ClampStatus::kReleased:
+		break;
+	default:
+		break;
+	}
+}
+
+void Claw::ClampClaw() {
+	switch (GetClampStatus()) {
+	case ClampStatus::kDeathGrip:
+		break;
+	case ClampStatus::kContainer:
+		SetClampStatus(ClampStatus::kDeathGrip);
+		break;
+	case ClampStatus::kTote:
+		SetClampStatus(ClampStatus::kContainer);
+		SetClampStatus(ClampStatus::kDeathGrip);
+		break;
+	case ClampStatus::kReleased:
+		SetClampStatus(ClampStatus::kTote);
+		SetClampStatus(ClampStatus::kContainer);
+		SetClampStatus(ClampStatus::kDeathGrip);
+		break;
+	default:
 		break;
 	}
 }
