@@ -20,6 +20,7 @@
 #include "Commands/Fingers.h"
 #include "Commands/RecieveTote.h"
 #include "Commands/UnloadTote.h"
+#include "Commands/FlapFlappers.h"
 
 namespace tator {
 
@@ -57,6 +58,7 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<Fingers>();
 	CreateCommandsForClass<RecieveTote>();
 	CreateCommandsForClass<UnloadTote>();
+	CreateCommandsForClass<FlapFlappers>();
 }
 
 Command* Kremlin::Get(std::string fullName) {

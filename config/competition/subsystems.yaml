@@ -49,4 +49,6 @@ ToteFeed:
   ports:
     rollers: 2
     backSensor: 16
+    flappers: 3
     rollerPiston: 1
+  flapperSpeed: 1.0

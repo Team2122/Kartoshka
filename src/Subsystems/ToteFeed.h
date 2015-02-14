@@ -52,14 +52,23 @@ public:
 	 * @return the state of the roller piston
 	 */
 	bool GetRollerPiston();
+	/**
+	 * Sets the flappers
+	 * @param flappers if the flappers should be on or off
+	 */
+	void SetFlappers(bool set);
 
 private:
 	/// Rollers
 	Talon* rollers;
+	/// Flappers
+	Talon* flappers;
 	/// Back beam sensor
 	DigitalInput* backSensor;
 	/// Piston to move rollers up
 	Solenoid* rollerPiston;
+	/// The speed to run the flappers at
+	double flapperSpeed;
 };
 
 }

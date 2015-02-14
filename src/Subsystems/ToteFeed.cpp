@@ -14,10 +14,13 @@ ToteFeed::ToteFeed(YAML::Node config) :
 	rollers = new Talon(ports["rollers"].as<int>());
 	backSensor = new DigitalInput(ports["backSensor"].as<int>());
 	rollerPiston = new Solenoid(ports["rollerPiston"].as<int>());
+	flappers = new Talon(ports["flappers"].as<int>());
+	flapperSpeed = config["flapperSpeed"].as<double>();
 	LiveWindow* liveWindow = LiveWindow::GetInstance();
 	liveWindow->AddActuator("ToteFeed", "Rollers", rollers);
 	liveWindow->AddSensor("ToteFeed", "Back Sensor", backSensor);
 	liveWindow->AddActuator("ToteFeed", "Roller Piston", rollerPiston);
+	liveWindow->AddActuator("ToteFeed", "Flappers", flappers);
 }
 
 ToteFeed::~ToteFeed() {
@@ -40,6 +43,10 @@ void ToteFeed::SetRollerPiston(RollerPistonState state) {
 
 bool ToteFeed::GetRollerPiston() {
 	return rollerPiston->Get();
+}
+
+void ToteFeed::SetFlappers(bool set) {
+	flappers->Set(set ? flapperSpeed : 0);
 }
 
 }
