@@ -6,7 +6,6 @@
 
 #include <Commands/ClawForceHome.h>
 #include <Commands/ClawPosition.h>
-#include <Commands/Restack.h>
 #include "Kremlin.h"
 #include "Config.h"
 #include <yaml-cpp/yaml.h>
@@ -24,7 +23,6 @@
 #include "Commands/RecieveTote.h"
 #include "Commands/UnloadTote.h"
 #include "Commands/FlapFlappers.h"
-#include <Commands/StackTote.h>
 #include "Commands/ArmShuttle.h"
 #include "Commands/Cancel.h"
 #include "Commands/AddTote.h"
@@ -33,18 +31,14 @@
 #include "Commands/HomeClaw.h"
 #include "Commands/TopClaw.h"
 #include "Commands/ClawRegripPosition.h"
-#include "Commands/GroundToPlatform.h"
-#include "Commands/RegripBin.h"
 #include "Commands/ClawSmartRollers.h"
-#include "Commands/PickBin.h"
-#include "Commands/PlatformToPlacement.h"
-#include "Commands/ClawToHome.h"
 #include "Commands/ClawEstablishHome.h"
 #include "Commands/OttoTestCommandGroup.h"
+#include "Commands/GenericCommandGroup.h"
 
 namespace tator {
 
-std::map<std::string, Command*> Kremlin::commands;
+std::map<std::string, Kremlin::CommandDetails> Kremlin::commands;
 Logger Kremlin::log("Kremlin");
 
 template<typename T>
@@ -60,10 +54,16 @@ void Kremlin::CreateCommandsForClass() {
 			if (node["name"].IsScalar()) {
 				totalName += node["name"].as<std::string>();
 			}
-			commands[totalName] = new T(totalName, node);
+			// This is a lambda
+			// See http://www.cprogramming.com/c++11/c++11-lambda-closures.html
+			CommandDetails details = { new T(totalName, node),
+					[totalName, node] () {return new T(totalName, node);} };
+			commands[totalName] = details;
 		}
 	} else {
-		commands[name] = new T(name, commandConfig);
+		CommandDetails details = { new T(name, commandConfig),
+				[name, commandConfig] () {return new T(name, commandConfig);} };
+		commands[name] = details;
 	}
 }
 
@@ -76,36 +76,40 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<ClawClamp>();
 	CreateCommandsForClass<ClawRotation>();
 	CreateCommandsForClass<ClawRollers>();
+	CreateCommandsForClass<ClawSmartRollers>();
 	CreateCommandsForClass<Fingers>();
 	CreateCommandsForClass<RecieveTote>();
 	CreateCommandsForClass<UnloadTote>();
 	CreateCommandsForClass<FlapFlappers>();
-	CreateCommandsForClass<StackTote>();
-	CreateCommandsForClass<ArmShuttle>();
-	CreateCommandsForClass<Cancel>();
 	CreateCommandsForClass<AddTote>();
 	CreateCommandsForClass<ResetTotes>();
-	CreateCommandsForClass<Restack>();
 	CreateCommandsForClass<ShuttleDown>();
 	CreateCommandsForClass<HomeClaw>();
 	CreateCommandsForClass<TopClaw>();
 	CreateCommandsForClass<ClawPosition>();
-	CreateCommandsForClass<PickBin>();
-	CreateCommandsForClass<RegripBin>();
-	CreateCommandsForClass<GroundToPlatform>();
 	CreateCommandsForClass<ClawRegripPosition>();
-	CreateCommandsForClass<PlatformToPlacement>();
 	CreateCommandsForClass<ClawEstablishHome>();
-	CreateCommandsForClass<ClawToHome>();
 	CreateCommandsForClass<ClawForceHome>();
 	CreateCommandsForClass<OttoTestCommandGroup>();
+	CreateCommandsForClass<GenericCommandGroup>();
+	CreateCommandsForClass<ArmShuttle>();
+	CreateCommandsForClass<Cancel>();
 }
 
 Command* Kremlin::Get(std::string fullName) {
 	if (commands.count(fullName) > 0) {
-		return commands.at(fullName);
+		return commands.at(fullName).command;
 	} else {
 		log.Error("Kremlin::Get(): no %s command", fullName.c_str());
+		return nullptr;
+	}
+}
+
+Command* Kremlin::GetCopyOf(std::string fullName) {
+	if (commands.count(fullName) > 0) {
+		return commands.at(fullName).constructor();
+	} else {
+		log.Error("Kremlin::GetCopyOf(): no %s command", fullName.c_str());
 		return nullptr;
 	}
 }

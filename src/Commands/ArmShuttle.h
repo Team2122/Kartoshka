@@ -16,7 +16,7 @@ class ArmShuttle: public CommandBase {
 public:
 	ArmShuttle(std::string name, YAML::Node config) :
 			CommandBase(name) {
-		stackToteCommand = Kremlin::Get("StackTote");
+		stackToteCommand = Kremlin::Get("$StackTote");
 		firstRollerSpeed = config["first"]["rollerSpeed"].as<double>();
 		firstFlapperSpeed = config["first"]["flapperSpeed"].as<double>();
 		restRollerSpeed = config["rest"]["rollerSpeed"].as<double>();

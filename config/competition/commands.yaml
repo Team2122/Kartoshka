@@ -62,18 +62,6 @@ ClawRollers:
 
 ClawSmartRollers:
 
-PickBin:
-  smartWait: .25
-
-RegripBin:
-  releaseWait: .25
-  clampWait: .25
-
-GroundToPlatform:
-  liftWait: .25
-
-PlatformToPlacement:
-
 ClawEstablishHome:
 
 HomeClaw:
@@ -113,9 +101,70 @@ UnloadTote:
 
 FlapFlappers:
 
-StackTote:
-  sensorWait: 0
-  waitTime: .25
+$: # This is GenericCommandGroup
+  - name: StackTote
+    commands:
+      - name: WaitCommand
+        time: .25
+      - FingersHold
+      - ShuttleClampOpen
+      - ShuttlePositionDown
+      - ShuttleClampClose
+      - name: WaitCommand
+        time: .25
+      - ShuttlePositionUp
+      - name: WaitCommand
+        time: .25
+      - ShuttleClampOpen
+      - ShuttlePositionDown
+      - AddTote
+  - name: Restack
+    commands:
+      - ShuttleClampOpen
+      - ShuttlePositionDown
+      - ShuttleClampClose
+      - name: WaitCommand
+        time: 0.25
+      - ShuttlePositionUnload
+      - FingersRelease
+      - name: WaitCommand
+        time: 0
+      - ShuttleDown
+      - ShuttlePositionDown
+      - ShuttleClampOpen
+      - ResetTotes
+  - name: GroundToPlatform
+    commands:
+      - ClawPositionMiddle
+      - ClawRotationPlatform
+      - name: WaitCommand
+        time: 0.25
+      - ClawPositionPlatform
+  - name: RegripBin
+    commands:
+      - ClawClampContainer
+      - name: WaitCommand
+        time: 0.25
+      - ClawPositionRegrip
+      - name: WaitCommand
+        time: 0.25
+      - ClawClampDeathGrip
+  - name: PickBin
+    commands:
+      - ClawClampContainer
+      - ClawSmartRollers
+      - name: WaitCommand
+        time: 0.25
+  - name: PlatformToPlacement
+    commands:
+      - ClawPositionTop
+      - ClawRotationPick
+  - name: ClawToHome
+    commands:
+      - ClawRotationPick
+      - name: WaitCommand
+        time: 0.25
+      - HomeClaw
 
 ArmShuttle:
   first:
@@ -139,6 +188,3 @@ Restack:
 
 ClawForceHome:
   angle: 70.0
-
-ClawToHome:
-  rotateWait: .25

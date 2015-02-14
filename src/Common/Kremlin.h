@@ -6,6 +6,7 @@
 
 #include <CommandBase.h>
 #include <map>
+#include "Logger.h"
 
 #ifndef KREMLIN_H_
 #define KREMLIN_H_
@@ -28,11 +29,14 @@ public:
 	 */
 	static Command* Get(std::string fullName);
 
-	template<typename T>
 	static Command* GetCopyOf(std::string fullName);
 protected:
-	/// Map of strings to commands
-	static std::map<std::string, Command*> commands;
+	struct CommandDetails {
+		Command* command;
+		std::function<Command*()> constructor;
+	};
+	/// Map of strings to CommandDetails
+	static std::map<std::string, CommandDetails> commands;
 	static Logger log;
 	template<typename T>
 	/**
@@ -41,22 +45,6 @@ protected:
 	 */
 	static void CreateCommandsForClass();
 };
-
-template<typename T>
-Command* Kremlin::GetCopyOf(std::string fullName) {
-	std::string name = T::GetBaseName();
-	YAML::Node config = Config::commands;
-	if (config[name].IsSequence()) {
-		std::string extension = fullName.substr(name.length());
-		for (YAML::Node part : config[name]) {
-			if (part["name"].as<std::string>() == extension)
-				return new T(fullName, part);
-		}
-	} else if (config[name].IsDefined()) {
-		return new T(fullName, config[name]);
-	}
-	throw std::runtime_error("No such command: " + fullName);
-}
 
 }
 

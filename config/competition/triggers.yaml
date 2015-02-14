@@ -2,15 +2,15 @@
   1: WhenPressed HomeShuttle
   2: WhenPressed HomeClaw
   3: WhenPressed TopClaw
-  4: WhenPressed PickBin
-  5: WhenPressed GroundToPlatform
-  6: WhenPressed RegripBin
-  7: WhenPressed PlatformToPlacement
+  4: WhenPressed $PickBin
+  5: WhenPressed $GroundToPlatform
+  6: WhenPressed $RegripBin
+  7: WhenPressed $PlatformToPlacement
   8: WhenPressed ClawRotationPick
   9: WhenPressed ClawForceHome
   10: WhenPressed ClawPositionTop
-  11: WhenPressed StackTote
-  12: WhenPressed Restack
+  11: WhenPressed $StackTote
+  12: WhenPressed $Restack
 1:
   1: WhenPressed ClawClampReleased
   2: WhenPressed ClawClampTote
