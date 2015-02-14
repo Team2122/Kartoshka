@@ -60,9 +60,6 @@ RecieveTote:
   rollerSpeed: -.5
 
 UnloadTote:
-  - name: Barf
-    rollerSpeed: 1
-  - name:
-    rollerSpeed: .5
+  - rollerSpeed: -1
 
 FlapFlappers:
