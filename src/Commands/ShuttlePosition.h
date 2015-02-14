@@ -17,6 +17,7 @@ public:
 	ShuttlePosition(std::string name, YAML::Node config) :
 			CommandBase(name) {
 		targetTicks = config["ticks"].as<int32_t>();
+		tolerance = config["tolerance"].as<int32_t>();
 	}
 
 	static std::string GetBaseName() {
@@ -49,12 +50,13 @@ public:
 
 	virtual bool IsFinished() {
 		int shuttleTicks = shuttle->GetEncoderTicks();
+		int difference = abs(shuttleTicks - targetTicks);
 		int limit = shuttle->GetLimit();
 		switch (direction) {
 		case kUp:
-			return shuttleTicks >= targetTicks || limit == Shuttle::kUpper;
+			return difference <= tolerance || limit == Shuttle::kUpper;
 		case kDown:
-			return shuttleTicks <= targetTicks || limit == Shuttle::kLower;
+			return difference <= tolerance || limit == Shuttle::kLower;
 		default:
 			return true;
 		}
@@ -71,7 +73,7 @@ public:
 	}
 
 protected:
-	int32_t targetTicks;
+	int32_t targetTicks, tolerance;
 	enum Direction {
 		kUp, kDown
 	};

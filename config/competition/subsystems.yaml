@@ -44,7 +44,7 @@ Shuttle:
       encoder: [4, 5]
       pdp: 15
   Values:
-    upSpeed: -0.8
+    upSpeed: -0.4
     downSpeed: 0.2
     holdSpeed: -0.1
     maxCurrent: 120.0

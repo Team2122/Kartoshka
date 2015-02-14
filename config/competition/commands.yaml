@@ -14,8 +14,10 @@ HomeShuttle:
 ShuttlePosition:
   - name: Down
     ticks: 0
+    tolerance: 10
   - name: Up
-    ticks: 665
+    ticks: 600
+    tolerance: 10
 
 ShuttleClamp:
   - name: Open
@@ -63,3 +65,6 @@ UnloadTote:
   - rollerSpeed: -1
 
 FlapFlappers:
+
+StackTote:
+  waitTime: 1.0

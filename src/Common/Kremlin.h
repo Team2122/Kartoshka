@@ -27,16 +27,35 @@ public:
 	 * @return The command
 	 */
 	static Command* Get(std::string fullName);
+
+	template<typename T>
+	static Command* GetCopyOf(std::string fullName);
 protected:
 	/// Map of strings to commands
 	static std::map<std::string, Command*> commands;
-	template <typename T>
+	template<typename T>
 	/**
 	 * Creates the commands for a given class
 	 * Loops the config searching for commands with the name of the class
 	 */
 	static void CreateCommandsForClass();
 };
+
+template<typename T>
+Command* Kremlin::GetCopyOf(std::string fullName) {
+	std::string name = T::GetBaseName();
+	YAML::Node config = Config::commands;
+	if (config[name].IsMap()) {
+		return new T(fullName, config[name]);
+	} else if (config[name].IsSequence()) {
+		std::string extension = fullName.substr(name.length());
+		for (YAML::Node part : config[name]) {
+			if (part["name"].as<std::string>() == extension)
+				return new T(fullName, part);
+		}
+	}
+	throw std::runtime_error("No such command: " + fullName);
+}
 
 }
 

@@ -13,7 +13,6 @@
 #include "Commands/DriveContinuous.h"
 #include "Commands/HomeShuttle.h"
 #include "Commands/ShuttlePosition.h"
-#include "Commands/StackToteCommandGroup.h"
 #include "Commands/ShuttleClamp.h"
 #include "Commands/ClawRotation.h"
 #include "Commands/ClawRollers.h"
@@ -22,6 +21,7 @@
 #include "Commands/RecieveTote.h"
 #include "Commands/UnloadTote.h"
 #include "Commands/FlapFlappers.h"
+#include <Commands/StackTote.h>
 
 namespace tator {
 
@@ -60,7 +60,7 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<RecieveTote>();
 	CreateCommandsForClass<UnloadTote>();
 	CreateCommandsForClass<FlapFlappers>();
-	CreateCommandsForClass<StackToteCommandGroup>();
+	CreateCommandsForClass<StackTote>();
 }
 
 Command* Kremlin::Get(std::string fullName) {
