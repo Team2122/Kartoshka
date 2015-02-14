@@ -11,18 +11,18 @@ namespace tator {
 Shuttle::Shuttle(YAML::Node config) :
 		SubsystemBase("Shuttle") {
 	YAML::Node ports = config["Ports"];
-	toteSensor = new DigitalInput(ports["toteSensor"].as<uint32_t>());
-	lowerLimit = new DigitalInput(ports["lowerLimit"].as<uint32_t>());
-	upperLimit = new DigitalInput(ports["upperLimit"].as<uint32_t>());
-	clampPiston = new Solenoid(ports["clampPiston"].as<uint32_t>());
+	toteSensor = new DigitalInput(ports["toteSensor"].as<int>());
+	lowerLimit = new DigitalInput(ports["lowerLimit"].as<int>());
+	upperLimit = new DigitalInput(ports["upperLimit"].as<int>());
+	clampPiston = new Solenoid(ports["clampPiston"].as<int>());
 	YAML::Node lift = ports["lift"];
-	liftMotor = new Talon(lift["motor"].as<uint32_t>());
+	liftMotor = new Talon(lift["motor"].as<int>());
 	YAML::Node liftEncoder_ = lift["encoder"];
-	liftEncoder = new Encoder(liftEncoder_[0].as<uint32_t>(),
-			liftEncoder_[1].as<uint32_t>());
+	liftEncoder = new Encoder(liftEncoder_[0].as<int>(),
+			liftEncoder_[1].as<int>());
 	pdp = new PowerDistributionPanel();
-	motorPDPChannel = lift["pdp"].as<uint32_t>();
-	fingersPiston = new Solenoid(ports["fingersPiston"].as<uint32_t>());
+	motorPDPChannel = lift["pdp"].as<int>();
+	fingersPiston = new Solenoid(ports["fingersPiston"].as<int>());
 
 	YAML::Node values = config["Values"];
 	upSpeed = values["upSpeed"].as<double>();

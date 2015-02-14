@@ -12,14 +12,14 @@ Claw::Claw(YAML::Node config) :
 	YAML::Node ports = config["Ports"];
 	YAML::Node speed = config["Speeds"];
 	YAML::Node soft = config["Software"];
-	liftVertical = new Talon(ports["liftVertical"].as<uint32_t>());
-	clawRotation = new Talon(ports["liftRotation"].as<uint32_t>());
-	auto verticalTicks_ = ports["verticalTicks"];
-	verticalTicks = new Encoder(verticalTicks_[0].as<uint32_t>(),
+	liftVertical = new Talon(ports["liftVertical"].as<int>());
+	clawRotation = new Talon(ports["liftRotation"].as<int>());
+	YAML::Node verticalTicks_ = ports["verticalTicks"];
+	verticalTicks = new Encoder(verticalTicks_[0].as<int>(),
 			verticalTicks_[1].as<int>());
-	auto rotationAngle_ = ports["rotationAngle"];
+	YAML::Node rotationAngle_ = ports["rotationAngle"];
 	rotationAngle = new AnalogPotentiometer(
-			rotationAngle_["Channel"].as<uint32_t>(),
+			rotationAngle_["Channel"].as<int>(),
 			rotationAngle_["Scale"].as<double>(),
 			rotationAngle_["Offset"].as<double>());
 	upperLimit = new DigitalInput(ports["upperLimit"].as<int>());
@@ -34,10 +34,10 @@ Claw::Claw(YAML::Node config) :
 	verticalTicks->SetDistancePerPulse(1.0 / 360);
 	verticalTicks->SetPIDSourceParameter(PIDSource::kDistance);
 
-	clampLong = new Solenoid(ports["clampLong"].as<uint32_t>());
-	clampShort = new Solenoid(ports["clampShort"].as<uint32_t>());
-	rollers = new Talon(ports["rollers"].as<uint32_t>());
-	binSensor = new DigitalInput(ports["binSensor"].as<uint32_t>());
+	clampLong = new Solenoid(ports["clampLong"].as<int>());
+	clampShort = new Solenoid(ports["clampShort"].as<int>());
+	rollers = new Talon(ports["rollers"].as<int>());
+	binSensor = new DigitalInput(ports["binSensor"].as<int>());
 
 	rollerInwardSpeed = speed["inward"].as<double>();
 	rollerOutwardSpeed = speed["outward"].as<double>();
@@ -45,7 +45,7 @@ Claw::Claw(YAML::Node config) :
 	backwardRotationSpeed = speed["backward"].as<float>();
 
 	LiveWindow* liveWindow = LiveWindow::GetInstance();
-	auto name = GetName().c_str();
+	const char* name = GetName().c_str();
 	liveWindow->AddActuator(name, "Rotation Motor", clawRotation);
 	liveWindow->AddActuator(name, "Vertical Motor", liftVertical);
 	liveWindow->AddSensor(name, "Rotation Encoder", rotationAngle);

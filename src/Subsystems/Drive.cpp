@@ -10,14 +10,14 @@ namespace tator {
 
 Drive::Drive(YAML::Node config) :
 		SubsystemBase("Drive") {
-	driveL = new Talon(config["drive"]["L"].as<uint32_t>());
-	driveR = new Talon(config["drive"]["R"].as<uint32_t>());
+	driveL = new Talon(config["drive"]["L"].as<int>());
+	driveR = new Talon(config["drive"]["R"].as<int>());
 	YAML::Node conEncL = config["encoder"]["L"];
 	YAML::Node conEncR = config["encoder"]["R"];
-	encoderL = new Encoder(conEncL[0].as<uint32_t>(),
-			conEncL[1].as<uint32_t>());
-	encoderR = new Encoder(conEncR[0].as<uint32_t>(),
-			conEncR[1].as<uint32_t>());
+	encoderL = new Encoder(conEncL[0].as<int>(),
+			conEncL[1].as<int>());
+	encoderR = new Encoder(conEncR[0].as<int>(),
+			conEncR[1].as<int>());
 	YAML::Node pidl = config["PID"]["L"];
 	YAML::Node pidr = config["PID"]["R"];
 	pidL = new PIDController(pidl["P"].as<double>(), pidl["I"].as<double>(),
@@ -33,7 +33,7 @@ Drive::Drive(YAML::Node config) :
 	pidL->Enable();
 	pidR->Enable();
 
-	auto liveWindow = LiveWindow::GetInstance();
+	LiveWindow* liveWindow = LiveWindow::GetInstance();
 	liveWindow->AddActuator(GetName().c_str(), "driveL", driveL);
 	liveWindow->AddActuator(GetName().c_str(), "driveR", driveR);
 	liveWindow->AddSensor(GetName().c_str(), "encoderL", encoderL);
