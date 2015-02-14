@@ -28,6 +28,7 @@
 #include "Commands/AddTote.h"
 #include "Commands/ResetTotes.h"
 #include "Commands/ShuttleDown.h"
+#include "Commands/DriveDetectPlatform.h"
 
 namespace tator {
 
@@ -73,6 +74,7 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<ResetTotes>();
 	CreateCommandsForClass<Restack>();
 	CreateCommandsForClass<ShuttleDown>();
+	CreateCommandsForClass<DriveDetectPlatform>();
 }
 
 Command* Kremlin::Get(std::string fullName) {

@@ -96,3 +96,7 @@ ResetTotes:
 Restack:
   lowerWait: .25
   fingerWait: 0
+  
+DriveDetectPlatform:
+  sideSpeed: 0.25
+  bothSpeed: 0.25
