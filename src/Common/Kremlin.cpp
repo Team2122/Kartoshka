@@ -4,6 +4,7 @@
  * @date Jan 19, 2015
  */
 
+#include <Commands/ClawPosition.h>
 #include <Commands/Restack.h>
 #include "Kremlin.h"
 #include "Config.h"
@@ -28,6 +29,9 @@
 #include "Commands/AddTote.h"
 #include "Commands/ResetTotes.h"
 #include "Commands/ShuttleDown.h"
+#include "Commands/HomeClaw.h"
+#include "Commands/TopClaw.h"
+#include "Commands/ClawRegripPosition.h"
 
 namespace tator {
 
@@ -73,6 +77,10 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<ResetTotes>();
 	CreateCommandsForClass<Restack>();
 	CreateCommandsForClass<ShuttleDown>();
+	CreateCommandsForClass<HomeClaw>();
+	CreateCommandsForClass<TopClaw>();
+	CreateCommandsForClass<ClawPosition>();;
+	CreateCommandsForClass<ClawRegripPosition>();
 }
 
 Command* Kremlin::Get(std::string fullName) {

@@ -9,6 +9,7 @@ namespace tator {
 
 Claw::Claw(YAML::Node config) :
 		SubsystemBase("Claw") {
+	disabled = false;
 	YAML::Node ports = config["Ports"];
 	YAML::Node speed = config["Speeds"];
 	YAML::Node soft = config["Software"];
@@ -18,11 +19,11 @@ Claw::Claw(YAML::Node config) :
 	verticalTicks = new Encoder(verticalTicks_[0].as<int>(),
 			verticalTicks_[1].as<int>());
 	YAML::Node rotationAngle_ = ports["rotationAngle"];
-	rotationAngle = new AnalogPotentiometer(
-			rotationAngle_["Channel"].as<int>(),
+	rotationAngle = new AnalogPotentiometer(rotationAngle_["Channel"].as<int>(),
 			rotationAngle_["Scale"].as<double>(),
 			rotationAngle_["Offset"].as<double>());
 	upperLimit = new DigitalInput(ports["upperLimit"].as<int>());
+	homeLimit = new DigitalInput(ports["homeLimit"].as<int>());
 
 	maxLiftAngle = soft["liftAngle"]["max"].as<float>();
 	minLiftAngle = soft["liftAngle"]["min"].as<float>();
@@ -43,6 +44,8 @@ Claw::Claw(YAML::Node config) :
 	rollerOutwardSpeed = speed["outward"].as<double>();
 	forwardRotationSpeed = speed["forward"].as<float>();
 	backwardRotationSpeed = speed["backward"].as<float>();
+	upSpeed = speed["up"].as<float>();
+	downSpeed = speed["down"].as<float>();
 
 	LiveWindow* liveWindow = LiveWindow::GetInstance();
 	const char* name = GetName().c_str();
@@ -50,6 +53,7 @@ Claw::Claw(YAML::Node config) :
 	liveWindow->AddActuator(name, "Vertical Motor", liftVertical);
 	liveWindow->AddSensor(name, "Rotation Encoder", rotationAngle);
 	liveWindow->AddSensor(name, "Vertical Encoder", verticalTicks);
+	liveWindow->AddSensor(name, "Home Limit", homeLimit);
 	liveWindow->AddSensor(name, "Upper Limit", upperLimit);
 	liveWindow->AddActuator(name, "Clamp Long", clampLong);
 	liveWindow->AddActuator(name, "Clamp Short", clampShort);
@@ -68,8 +72,47 @@ Claw::~Claw() {
 	delete binSensor;
 }
 
+void Claw::DisableClaw() {
+	disabled = true;
+}
+
+void Claw::SetVerticalLiftMotor(double power) {
+	if (disabled) {
+		return;
+	}
+	liftVertical->Set(power);
+}
+
+void Claw::SetLiftSpeed(LiftSpeed speed) {
+	switch (speed) {
+	case LiftSpeed::kUp:
+		return SetVerticalLiftMotor(upSpeed);
+	case LiftSpeed::kDown:
+		return SetVerticalLiftMotor(downSpeed);
+	default:
+	case LiftSpeed::kStop:
+		return SetVerticalLiftMotor(0);
+	}
+}
+
+double Claw::GetLiftEncoder() {
+	return verticalTicks->GetDistance();
+}
+
+void Claw::ZeroLiftEncoder() {
+	verticalTicks->Reset();
+}
+
 int32_t Claw::GetPosition() {
 	return verticalTicks->Get();
+}
+
+bool Claw::IsHome() {
+	return !homeLimit->Get();
+}
+
+bool Claw::IsTop() {
+	return !upperLimit->Get();
 }
 
 void Claw::ResetTicks() {
@@ -119,10 +162,13 @@ float Claw::GetRotationAngle() {
 }
 
 bool Claw::HasContainer() {
-	return binSensor->Get();
+	return !binSensor->Get();
 }
 
 void Claw::SetRotationSpeed(RotationSpeed speed) {
+	if (disabled) {
+		return;
+	}
 	switch (speed) {
 	case RotationSpeed::kForward:
 		clawRotation->SetSpeed(forwardRotationSpeed);

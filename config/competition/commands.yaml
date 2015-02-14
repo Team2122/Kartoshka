@@ -43,14 +43,14 @@ ClawClamp:
 
 ClawRotation:
   - name: InBot
-    status: 145
+    status: 135
     tolerance: 5.0
   - name: Platform
     status: 227.5
     tolerance: 1.5
   - name: Pick
-    status: 80
-    tolerance: 5.0
+    status: 70.0
+    tolerance: 1.5
 
 ClawRollers:
   - name: In
@@ -59,6 +59,26 @@ ClawRollers:
     status: 1
   - name: Off
     status: 0
+
+HomeClaw:
+  speed: .35
+
+TopClaw:
+  speed: -.5
+
+ClawPosition:
+  - name: Middle
+    target: 195.0
+    tolerance: 1.0
+  - name: Platform
+    target: 180.0
+    tolerance: 1.0
+  - name: Regrip
+    target: 160.0
+    tolerance: 1.0
+
+ClawRegripPosition:
+  speed: .2
 
 Fingers:
   - name: Hold

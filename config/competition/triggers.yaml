@@ -1,13 +1,13 @@
 0: # Joystick
   1: WhenPressed HomeShuttle
-  2: WhenPressed ShuttlePositionUp
-  3: WhenPressed ShuttlePositionDown
-  4: WhenPressed ShuttleClampOpen
-  5: WhenPressed ShuttleClampClose
+  2: WhenPressed HomeClaw
+  3: WhenPressed TopClaw
+  4: WhenPressed ClawPositionMiddle
+  5: WhenPressed ClawPositionPlatform
   6: WhenPressed ClawRotationInBot
   7: WhenPressed ClawRotationPlatform
   8: WhenPressed ClawRotationPick
-  9: WhenPressed FingersHold
+  9: WhenPressed ClawPositionRegrip
   10: WhenPressed FingersRelease
   11: WhenPressed StackTote
   12: WhenPressed Restack
