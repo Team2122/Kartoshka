@@ -48,5 +48,5 @@ Shuttle:
 ToteFeed:
   ports:
     rollers: 2
-    backSensor: 19
+    backSensor: 16
     rollerPiston: 1
