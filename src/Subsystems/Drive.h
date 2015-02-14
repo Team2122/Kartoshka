@@ -23,6 +23,8 @@ private:
 	Encoder* encoderR;
 	PIDController* pidL;
 	PIDController* pidR;
+	DigitalInput* platformL;
+	DigitalInput* platformR;
 	double maxRPS;
 
 public:
@@ -43,6 +45,22 @@ public:
 	 * @param rightRPS The speed of the right wheel in RPS
 	 */
 	void SetRPS(float leftRPS, float rightRPS);
+
+	/**
+	 * The state of the platform sensors
+	 */
+	enum class PlatformState {
+		none, ///< Neither triggered
+		left, ///< Left triggered
+		right, ///< Right triggered
+		both ///< Both triggered
+	};
+
+	/**
+	 * Gets the state of the platform sensors
+	 * @return The PlatformState
+	 */
+	PlatformState GetPlatformState();
 
 };
 

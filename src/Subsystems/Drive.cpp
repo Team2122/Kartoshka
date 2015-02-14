@@ -24,6 +24,9 @@ Drive::Drive(YAML::Node config) :
 			pidl["D"].as<double>(), pidl["F"].as<double>(), encoderL, driveL);
 	pidR = new PIDController(pidr["P"].as<double>(), pidr["I"].as<double>(),
 			pidr["D"].as<double>(), pidr["F"].as<double>(), encoderR, driveR);
+	YAML::Node platform = config["platform"];
+	platformL = new DigitalInput(platform["L"].as<int>());
+	platformR = new DigitalInput(platform["R"].as<int>());
 	maxRPS = config["maxRPS"].as<double>();
 
 	encoderL->SetDistancePerPulse(1.0 / 360.0);
@@ -40,6 +43,8 @@ Drive::Drive(YAML::Node config) :
 	liveWindow->AddSensor(GetName().c_str(), "encoderR", encoderR);
 	liveWindow->AddSensor(GetName().c_str(), "pidL", pidL);
 	liveWindow->AddSensor(GetName().c_str(), "pidR", pidR);
+	liveWindow->AddSensor(GetName().c_str(), "Platform Left", platformL);
+	liveWindow->AddSensor(GetName().c_str(), "Platform Right", platformR);
 }
 
 Drive::~Drive() {
@@ -60,6 +65,20 @@ void Drive::SetSpeeds(float leftSpeed, float rightSpeed) {
 void Drive::SetRPS(float leftRPS, float rightRPS) {
 	pidL->SetSetpoint(-leftRPS);
 	pidR->SetSetpoint(rightRPS);
+}
+
+Drive::PlatformState Drive::GetPlatformState() {
+	bool leftState = platformL->Get();
+	bool rightState = platformR->Get();
+	if (leftState && rightState) {
+		return PlatformState::both;
+	} else if (!leftState && rightState) {
+		return PlatformState::right;
+	} else if (leftState) {
+		return PlatformState::left;
+	} else {
+		return PlatformState::none;
+	}
 }
 
 } /* namespace tator */

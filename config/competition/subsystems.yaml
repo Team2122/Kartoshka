@@ -25,6 +25,9 @@ Drive:
   encoder:
     L: [2, 3]
     R: [0, 1]
+  platform:
+    L: 15
+    R: 14
   PID:
     L: {P: 0.02, I: 0, D: 0, F: 0}
     R: {P: 0.02, I: 0, D: 0, F: 0}
