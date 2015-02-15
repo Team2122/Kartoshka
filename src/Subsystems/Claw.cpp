@@ -138,21 +138,21 @@ void Claw::SetRollerSpeed(RollerStatus status) {
 void Claw::SetClampStatus(ClampStatus status) {
 	switch (status) {
 	case ClampStatus::kDeathGrip:
-		clampLong->Set(true);
-		clampShort->Set(true);
-		break;
-	case ClampStatus::kContainer:
-		clampLong->Set(true);
+		clampLong->Set(false);
 		clampShort->Set(false);
 		break;
-	case ClampStatus::kTote:
+	case ClampStatus::kContainer:
 		clampLong->Set(false);
 		clampShort->Set(true);
+		break;
+	case ClampStatus::kTote:
+		clampLong->Set(true);
+		clampShort->Set(false);
 		break;
 	case ClampStatus::kReleased:
 	default:
-		clampLong->Set(false);
-		clampShort->Set(false);
+		clampLong->Set(true);
+		clampShort->Set(true);
 		break;
 	}
 }

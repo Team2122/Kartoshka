@@ -59,6 +59,20 @@ ClawRollers:
     status: 1
   - name: Off
     status: 0
+    
+ClawSmartRollers:
+    
+PickBin:
+  - smartWait: .25
+
+RegripBin:
+  - releaseWait: .25
+  - clampWait: .25
+
+GroundToPlatform:
+  - liftWait: .25
+  
+PlatfromToPlacement:
 
 HomeClaw:
   speed: .35
