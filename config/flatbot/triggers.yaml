@@ -1,3 +1,0 @@
-0: # Joystick
-  1: WhenPressed MessageCommandOne
-  2: WhenPressed MessageCommandTwo
