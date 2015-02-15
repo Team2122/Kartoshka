@@ -28,6 +28,7 @@ Shuttle::Shuttle(YAML::Node config) :
 	upSpeed = values["upSpeed"].as<double>();
 	downSpeed = values["downSpeed"].as<double>();
 	holdSpeed = values["holdSpeed"].as<double>();
+	speedScale = values["speedScale"].as<double>();
 	maxMotorCurrent = values["maxCurrent"].as<double>();
 
 	liftEncoder->SetReverseDirection(true);
@@ -84,22 +85,25 @@ void Shuttle::IncrementToteCount(int increment) {
 	totes = totes + increment;
 }
 
-void Shuttle::SetShuttleSpeed(Speed speed) {
-	switch (speed) {
+void Shuttle::SetShuttleSpeed(Speed state) {
+	double speed = totes * speedScale;
+	switch (state) {
 	case kUp:
-		liftMotor->SetSpeed(upSpeed);
+		speed += upSpeed;
 		break;
 	case kDown:
-		liftMotor->SetSpeed(downSpeed);
+		speed = downSpeed;
 		break;
 	case kHold:
-		liftMotor->SetSpeed(holdSpeed);
+		speed += holdSpeed;
 		break;
 	case kStop:
 	default:
-		liftMotor->SetSpeed(0);
+		speed = 0;
 		break;
 	}
+	log.Info("Setting speed to %f with %d totes", speed, totes);
+	liftMotor->SetSpeed(speed);
 }
 
 void Shuttle::ResetToteCount() {
@@ -120,9 +124,9 @@ void Shuttle::ResetEncoder() {
 
 void Shuttle::SetFingersPiston(FingersState state) {
 	if (state == kHeld) {
-		fingersPiston->Set(true);
-	} else if (state == kReleased) {
 		fingersPiston->Set(false);
+	} else if (state == kReleased) {
+		fingersPiston->Set(true);
 	} else {
 		log.Error("Invalid fingers piston position");
 	}

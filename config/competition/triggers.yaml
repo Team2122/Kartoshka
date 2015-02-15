@@ -18,3 +18,8 @@
   5: WhileHeld ClawRollersIn
   6: WhileHeld ClawRollersOut
   7: WhileHeld UnloadTote
+  8: WhileHeld FlapFlappers
+  9: WhenPressed ArmShuttle
+  10: WhenPressed CancelArmShuttle
+  11: WhenPressed AddTote
+  12: WhenPressed ResetTotes

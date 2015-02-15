@@ -63,7 +63,7 @@ public:
 	}
 
 	virtual void End() {
-		shuttle->SetShuttleSpeed(Shuttle::kHold);
+		shuttle->SetShuttleSpeed(Shuttle::kStop);
 		CommandBase::End();
 	}
 

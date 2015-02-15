@@ -30,6 +30,7 @@ private:
 	double upSpeed;
 	double downSpeed;
 	double holdSpeed;
+	double speedScale;
 	uint8_t motorPDPChannel;
 	double maxMotorCurrent;
 
@@ -54,9 +55,6 @@ public:
 		kHeld = 1, kReleased = 0
 	};
 
-	enum TotesCheckState{
-			kArmed, kDisarmed
-		};
 	/**
 	 * Tells comrade if tote has entered the bot
 	 * @return if tote is present

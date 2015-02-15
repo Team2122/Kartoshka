@@ -34,7 +34,7 @@ Drive:
   maxRPS: 30
 Shuttle:
   Ports:
-    toteSensor: 20
+    toteSensor: 17
     lowerLimit: 10
     upperLimit: 11
     clampPiston: 0
@@ -44,9 +44,10 @@ Shuttle:
       encoder: [4, 5]
       pdp: 15
   Values:
-    upSpeed: -0.4
+    upSpeed: -0.5
     downSpeed: 0.2
     holdSpeed: -0.1
+    speedScale: -.1
     maxCurrent: 120.0
 ToteFeed:
   ports:
@@ -54,4 +55,4 @@ ToteFeed:
     backSensor: 16
     flappers: 3
     rollerPiston: 1
-  flapperSpeed: 1.0
+  flapperSpeed: .5

@@ -22,6 +22,10 @@
 #include "Commands/UnloadTote.h"
 #include "Commands/FlapFlappers.h"
 #include <Commands/StackTote.h>
+#include "Commands/ArmShuttle.h"
+#include "Commands/Cancel.h"
+#include "Commands/AddTote.h"
+#include "Commands/ResetTotes.h"
 
 namespace tator {
 
@@ -61,6 +65,10 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<UnloadTote>();
 	CreateCommandsForClass<FlapFlappers>();
 	CreateCommandsForClass<StackTote>();
+	CreateCommandsForClass<ArmShuttle>();
+	CreateCommandsForClass<Cancel>();
+	CreateCommandsForClass<AddTote>();
+	CreateCommandsForClass<ResetTotes>();
 }
 
 Command* Kremlin::Get(std::string fullName) {

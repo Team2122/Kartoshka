@@ -5,9 +5,10 @@
 #include "CommandBase.h"
 #include <yaml-cpp/yaml.h>
 
-#include "Commands/Fingers.h"
-#include "Commands/ShuttleClamp.h"
-#include "Commands/ShuttlePosition.h"
+#include "Fingers.h"
+#include "ShuttleClamp.h"
+#include "ShuttlePosition.h"
+#include "AddTote.h"
 
 namespace tator {
 class StackTote: public CommandGroup {
@@ -20,8 +21,10 @@ public:
 		AddSequential(Kremlin::GetCopyOf<ShuttleClamp>("ShuttleClampClose"));
 		AddSequential(new WaitCommand(params["waitTime"].as<double>()));
 		AddSequential(Kremlin::GetCopyOf<ShuttlePosition>("ShuttlePositionUp"));
+		AddSequential(new WaitCommand(params["waitTime"].as<double>()));
 		AddSequential(Kremlin::GetCopyOf<ShuttleClamp>("ShuttleClampOpen"));
 		AddSequential(Kremlin::GetCopyOf<ShuttlePosition>("ShuttlePositionDown"));
+		AddSequential(Kremlin::GetCopyOf<AddTote>("AddTote"));
 	}
 
 	static std::string GetBaseName() {

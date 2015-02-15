@@ -17,7 +17,7 @@ public:
 			CommandBase(name) {
 	}
 	void Initialize() {
-		toteFeed->SetFlappers(true);
+		toteFeed->SetFlapperSpeed(true);
 	}
 	void Execute() {
 	}
@@ -25,10 +25,10 @@ public:
 		return shuttle->IsTotePresent();
 	}
 	void End() {
-		toteFeed->SetFlappers(false);
+		toteFeed->SetFlapperSpeed(false);
 	}
 	void Interrupted() {
-		toteFeed->SetFlappers(false);
+		toteFeed->SetFlapperSpeed(false);
 	}
 	static std::string GetBaseName() {
 		return "FlapFlappers";

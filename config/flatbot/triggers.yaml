@@ -1,5 +1,3 @@
 0: # Joystick
   1: WhenPressed MessageCommandOne
   2: WhenPressed MessageCommandTwo
-  3: WhenPressed TotesCheck
-  4: CancelWhenPressed TotesChack

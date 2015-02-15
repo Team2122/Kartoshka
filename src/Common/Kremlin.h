@@ -45,14 +45,14 @@ template<typename T>
 Command* Kremlin::GetCopyOf(std::string fullName) {
 	std::string name = T::GetBaseName();
 	YAML::Node config = Config::commands;
-	if (config[name].IsMap()) {
-		return new T(fullName, config[name]);
-	} else if (config[name].IsSequence()) {
+	if (config[name].IsSequence()) {
 		std::string extension = fullName.substr(name.length());
 		for (YAML::Node part : config[name]) {
 			if (part["name"].as<std::string>() == extension)
 				return new T(fullName, part);
 		}
+	} else if (config[name].IsDefined()) {
+		return new T(fullName, config[name]);
 	}
 	throw std::runtime_error("No such command: " + fullName);
 }

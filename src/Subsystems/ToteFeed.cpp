@@ -30,11 +30,11 @@ ToteFeed::~ToteFeed() {
 }
 
 bool ToteFeed::GetBackSensor() {
-	return backSensor->Get();
+	return !backSensor->Get();
 }
 
 void ToteFeed::SetRollers(double speed) {
-	rollers->Set(speed);
+	rollers->SetSpeed(speed);
 }
 
 void ToteFeed::SetRollerPiston(RollerPistonState state) {
@@ -45,8 +45,8 @@ bool ToteFeed::GetRollerPiston() {
 	return rollerPiston->Get();
 }
 
-void ToteFeed::SetFlappers(bool set) {
-	flappers->Set(set ? flapperSpeed : 0);
+void ToteFeed::SetFlapperSpeed(float speed) {
+	flappers->SetSpeed(speed);
 }
 
 }

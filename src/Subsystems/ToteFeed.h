@@ -54,9 +54,9 @@ public:
 	bool GetRollerPiston();
 	/**
 	 * Sets the flappers
-	 * @param flappers if the flappers should be on or off
+	 * @param flappers the speed of the flappers
 	 */
-	void SetFlappers(bool set);
+	void SetFlapperSpeed(float speed);
 
 private:
 	/// Rollers

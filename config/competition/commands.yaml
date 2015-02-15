@@ -16,7 +16,7 @@ ShuttlePosition:
     ticks: 0
     tolerance: 10
   - name: Up
-    ticks: 600
+    ticks: 687
     tolerance: 10
 
 ShuttleClamp:
@@ -67,4 +67,19 @@ UnloadTote:
 FlapFlappers:
 
 StackTote:
-  waitTime: 1.0
+  waitTime: .25
+
+ArmShuttle:
+  first:
+    rollerSpeed: 0.8
+    flapperSpeed: 0.35
+  rest:
+    rollerSpeed: 0.1
+    flapperSpeed: 0.5
+
+Cancel:
+  - name: ArmShuttle
+
+AddTote:
+
+ResetTotes:
