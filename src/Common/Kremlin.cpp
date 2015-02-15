@@ -4,6 +4,7 @@
  * @date Jan 19, 2015
  */
 
+#include <Commands/Restack.h>
 #include "Kremlin.h"
 #include "Config.h"
 #include <yaml-cpp/yaml.h>
@@ -26,6 +27,7 @@
 #include "Commands/Cancel.h"
 #include "Commands/AddTote.h"
 #include "Commands/ResetTotes.h"
+#include "Commands/ShuttleDown.h"
 
 namespace tator {
 
@@ -69,6 +71,8 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<Cancel>();
 	CreateCommandsForClass<AddTote>();
 	CreateCommandsForClass<ResetTotes>();
+	CreateCommandsForClass<Restack>();
+	CreateCommandsForClass<ShuttleDown>();
 }
 
 Command* Kremlin::Get(std::string fullName) {

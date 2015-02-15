@@ -10,6 +10,7 @@
   9: WhenPressed FingersHold
   10: WhenPressed FingersRelease
   11: WhenPressed StackTote
+  12: WhenPressed Restack
 1:
   1: WhenPressed ClawClampReleased
   2: WhenPressed ClawClampTote

@@ -18,6 +18,14 @@ ShuttlePosition:
   - name: Up
     ticks: 687
     tolerance: 10
+  - name: Unload
+    ticks: 400
+    tolerance: 10
+
+ShuttleDown:
+  ticks: 50
+  tolerance: 10
+  speed: -.2
 
 ShuttleClamp:
   - name: Open
@@ -67,12 +75,13 @@ UnloadTote:
 FlapFlappers:
 
 StackTote:
+  sensorWait: .25
   waitTime: .25
 
 ArmShuttle:
   first:
     rollerSpeed: 0.8
-    flapperSpeed: 0.35
+    flapperSpeed: 0.2
   rest:
     rollerSpeed: 0.1
     flapperSpeed: 0.5
@@ -83,3 +92,7 @@ Cancel:
 AddTote:
 
 ResetTotes:
+
+Restack:
+  lowerWait: .25
+  fingerWait: 0

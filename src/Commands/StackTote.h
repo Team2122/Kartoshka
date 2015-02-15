@@ -15,6 +15,7 @@ class StackTote: public CommandGroup {
 public:
 	StackTote(std::string name, YAML::Node params) :
 			CommandGroup(GetBaseName().c_str()) {
+		AddSequential(new WaitCommand(params["sensorWait"].as<double>()));
 		AddSequential(Kremlin::GetCopyOf<Fingers>("FingersHold"));
 		AddSequential(Kremlin::GetCopyOf<ShuttleClamp>("ShuttleClampOpen"));
 		AddSequential(Kremlin::GetCopyOf<ShuttlePosition>("ShuttlePositionDown"));
