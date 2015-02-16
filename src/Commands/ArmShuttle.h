@@ -21,6 +21,7 @@ public:
 		firstFlapperSpeed = config["first"]["flapperSpeed"].as<double>();
 		restRollerSpeed = config["rest"]["rollerSpeed"].as<double>();
 		restFlapperSpeed = config["rest"]["flapperSpeed"].as<double>();
+		toteTicksRequired = config["toteTicks"].as<int>();
 	}
 
 	static std::string GetBaseName() {
@@ -30,13 +31,20 @@ public:
 	virtual void Initialize() {
 		CommandBase::Initialize();
 		shuttle->OpenProngs();
+		toteTickCount = 1;
 	}
 
 	virtual void Execute() {
 		if (shuttle->IsTotePresent() && !stackToteCommand->IsRunning()
 				&& shuttle->GetToteCount() < 4) {
-			log.Info("Sensor triggered. Stacking totes...");
-			stackToteCommand->Start();
+			if (toteTickCount >= toteTicksRequired) {
+				log.Info("Sensor triggered. Stacking totes...");
+				stackToteCommand->Start();
+			} else {
+				toteTickCount++;
+			}
+		} else {
+			toteTickCount = 0;
 		}
 		if (toteFeed->GetBackSensor()) {
 			toteFeed->SetRollers(restRollerSpeed);
@@ -71,6 +79,7 @@ protected:
 	Command* stackToteCommand;
 	double firstRollerSpeed, firstFlapperSpeed;
 	double restRollerSpeed, restFlapperSpeed;
+	int toteTicksRequired, toteTickCount;
 };
 
 }

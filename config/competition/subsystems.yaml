@@ -48,7 +48,7 @@ Shuttle:
     upSpeed: -0.5
     downSpeed: 0.2
     holdSpeed: -0.1
-    speedScale: -.08
+    speedScale: -.1
     maxCurrent: 120.0
 ToteFeed:
   ports:
