@@ -42,9 +42,11 @@ void Robot::DisabledInit() {
 }
 
 void Robot::AutonomousInit() {
+	Kremlin::Get("ClawEstablishHome")->Start();
 }
 
 void Robot::TeleopInit() {
+	Kremlin::Get("ClawEstablishHome")->Start();
 	Kremlin::Get("DriveContinuous")->Start();
 }
 

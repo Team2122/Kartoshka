@@ -16,7 +16,7 @@ ShuttlePosition:
     ticks: 0
     tolerance: 10
   - name: Up
-    ticks: 687
+    ticks: 697
     tolerance: 10
   - name: Unload
     ticks: 400
@@ -59,26 +59,28 @@ ClawRollers:
     status: 1
   - name: Off
     status: 0
-    
+
 ClawSmartRollers:
-    
+
 PickBin:
-  - smartWait: .25
+  smartWait: .25
 
 RegripBin:
-  - releaseWait: .25
-  - clampWait: .25
+  releaseWait: .25
+  clampWait: .25
 
 GroundToPlatform:
-  - liftWait: .25
-  
-PlatfromToPlacement:
+  liftWait: .25
+
+PlatformToPlacement:
+
+ClawEstablishHome:
 
 HomeClaw:
   speed: .35
 
 TopClaw:
-  speed: -.5
+  speed: -.7
 
 ClawPosition:
   - name: Middle
@@ -115,7 +117,7 @@ StackTote:
 ArmShuttle:
   first:
     rollerSpeed: 0.8
-    flapperSpeed: 0.2
+    flapperSpeed: 0.35
   rest:
     rollerSpeed: 0.1
     flapperSpeed: 0.5

@@ -2,10 +2,10 @@
   1: WhenPressed HomeShuttle
   2: WhenPressed HomeClaw
   3: WhenPressed TopClaw
-  4: WhenPressed ClawPositionMiddle
-  5: WhenPressed ClawPositionPlatform
-  6: WhenPressed ClawRotationInBot
-  7: WhenPressed ClawRotationPlatform
+  4: WhenPressed PickBin
+  5: WhenPressed GroundToPlatform
+  6: WhenPressed RegripBin
+  7: WhenPressed PlatformToPlacement
   8: WhenPressed ClawRotationPick
   9: WhenPressed ClawPositionRegrip
   10: WhenPressed FingersRelease

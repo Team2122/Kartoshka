@@ -17,9 +17,10 @@ namespace tator {
 class GroundToPlatform: public CommandGroup {
 public:
 	GroundToPlatform(std::string name, YAML::Node config) {
-		AddSequential(Kremlin::GetCopyOf<ClawPosition>("ClawPositionPlatform"));
-		AddSequential(new WaitCommand(config["liftWait"].as<double>()));
+		AddSequential(Kremlin::GetCopyOf<ClawPosition>("ClawPositionMiddle"));
 		AddSequential(Kremlin::GetCopyOf<ClawRotation>("ClawRotationPlatform"));
+		AddSequential(new WaitCommand(config["liftWait"].as<double>()));
+		AddSequential(Kremlin::GetCopyOf<ClawPosition>("ClawPositionPlatform"));
 	}
 
 	static std::string GetBaseName() {

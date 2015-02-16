@@ -37,10 +37,12 @@
 #include "Commands/ClawSmartRollers.h"
 #include "Commands/PickBin.h"
 #include "Commands/PlatformToPlacement.h"
+#include "Commands/ClawEstablishHome.h"
 
 namespace tator {
 
 std::map<std::string, Command*> Kremlin::commands;
+Logger Kremlin::log("Kremlin");
 
 template<typename T>
 void Kremlin::CreateCommandsForClass() {
@@ -86,12 +88,20 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<TopClaw>();
 	CreateCommandsForClass<ClawPosition>();
 	CreateCommandsForClass<PickBin>();
+	CreateCommandsForClass<RegripBin>();
+	CreateCommandsForClass<GroundToPlatform>();
 	CreateCommandsForClass<ClawRegripPosition>();
 	CreateCommandsForClass<PlatformToPlacement>();
+	CreateCommandsForClass<ClawEstablishHome>();
 }
 
 Command* Kremlin::Get(std::string fullName) {
-	return commands.at(fullName);
+	if (commands.count(fullName) > 0) {
+		return commands.at(fullName);
+	} else {
+		log.Error("Kremlin::Get(): no %s command", fullName.c_str());
+		return nullptr;
+	}
 }
 
 }

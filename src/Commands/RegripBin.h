@@ -17,11 +17,11 @@ namespace tator {
 class RegripBin: public CommandGroup {
 public:
 	RegripBin(std::string name, YAML::Node config) {
-		AddSequential(Kremlin::GetCopyOf<ClawClamp>("ClawClampReleased"));
+		AddSequential(Kremlin::GetCopyOf<ClawClamp>("ClawClampContainer"));
 		AddSequential(new WaitCommand(config["releaseWait"].as<double>()));
 		AddSequential(Kremlin::GetCopyOf<ClawPosition>("ClawPositionRegrip"));
 		AddSequential(new WaitCommand(config["clampWait"].as<double>()));
-		AddSequential(Kremlin::GetCopyOf<ClawClamp>("ClawClampContainer"));
+		AddSequential(Kremlin::GetCopyOf<ClawClamp>("ClawClampDeathGrip"));
 	}
 
 	static std::string GetBaseName() {

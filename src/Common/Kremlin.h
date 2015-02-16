@@ -33,6 +33,7 @@ public:
 protected:
 	/// Map of strings to commands
 	static std::map<std::string, Command*> commands;
+	static Logger log;
 	template<typename T>
 	/**
 	 * Creates the commands for a given class
