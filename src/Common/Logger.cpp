@@ -57,7 +57,6 @@ void Logger::Warn(const char *message, va_list vargs) {
 void Logger::Error(const char *message, va_list vargs) {
 	char buffer[kMaxLength];
 	vsnprintf(buffer, kMaxLength, message, vargs);
-	std::cerr << "[ERROR] " << name << " - " << buffer << std::endl;
 	std::cerr << MakeTimestamp() << " [ERROR] " << name << " - " << buffer
 			<< std::endl;
 }
