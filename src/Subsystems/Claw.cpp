@@ -85,7 +85,8 @@ void Claw::SetVerticalLiftMotor(double power) {
 
 void Claw::SetLiftSpeed(LiftSpeed speed) {
 	double clawAngle = rotationAngle->Get();
-	if (clawAngle > clearClawDescend && false) {
+	double clawHeight = liftEncoder->GetDistance();
+	if (clawAngle > clearClawDescend && clawHeight < clearClawRotate) {
 		log.Error("Claw angle was %f > %f", clawAngle, clearClawDescend);
 		return SetVerticalLiftMotor(0);
 	}

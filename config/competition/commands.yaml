@@ -83,6 +83,9 @@ TopClaw:
   speed: -.7
 
 ClawPosition:
+  - name: Top
+    target: 242.0
+    tolerance: 1.0
   - name: Middle
     target: 195.0
     tolerance: 1.0
@@ -120,7 +123,7 @@ ArmShuttle:
     flapperSpeed: 0.35
   rest:
     rollerSpeed: 0.1
-    flapperSpeed: 0.5
+    flapperSpeed: 1.0
 
 Cancel:
   - name: ArmShuttle

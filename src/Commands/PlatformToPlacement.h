@@ -18,7 +18,7 @@ namespace tator {
 class PlatformToPlacement: public CommandGroup {
 public:
 	PlatformToPlacement(std::string name, YAML::Node config) {
-		AddSequential(Kremlin::GetCopyOf<TopClaw>("TopClaw"));
+		AddSequential(Kremlin::GetCopyOf<TopClaw>("ClawPositionTop"));
 		AddSequential(Kremlin::GetCopyOf<ClawRotation>("ClawRotationPick"));
 	}
 
