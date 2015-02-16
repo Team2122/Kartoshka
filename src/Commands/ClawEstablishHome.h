@@ -31,6 +31,7 @@ protected:
 		return true;
 	}
 	virtual void End() {
+		claw->ZeroLiftEncoder();
 	}
 	virtual void Interrupted() {
 	}

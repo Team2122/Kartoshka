@@ -53,6 +53,8 @@ public:
 	 */
 	void DisableClaw();
 
+	void ReenableClaw();
+
 	/**
 	 * Sets the power of the lift
 	 * @param power The amount of power to power
@@ -122,7 +124,7 @@ public:
 		kStopped = 0, kBackward, kForward
 	};
 
-	void SetRotationSpeed(RotationSpeed dir);
+	void SetRotationSpeed(RotationSpeed dir, bool override = false);
 
 	float GetRotationAngle();
 

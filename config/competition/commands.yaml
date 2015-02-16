@@ -132,6 +132,9 @@ ResetTotes:
 Restack:
   lowerWait: .25
   fingerWait: 0
-  
+
+ClawForceHome:
+  angle: 70.0
+
 ClawToHome:
-	rotateWait: .25
+  rotateWait: .25

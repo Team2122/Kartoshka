@@ -7,7 +7,7 @@
   6: WhenPressed RegripBin
   7: WhenPressed PlatformToPlacement
   8: WhenPressed ClawRotationPick
-  9: WhenPressed ClawPositionRegrip
+  9: WhenPressed ClawForceHome
   10: WhenPressed FingersRelease
   11: WhenPressed StackTote
   12: WhenPressed Restack

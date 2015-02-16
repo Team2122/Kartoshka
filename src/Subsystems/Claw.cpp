@@ -72,17 +72,22 @@ void Claw::DisableClaw() {
 	disabled = true;
 }
 
+void Claw::ReenableClaw() {
+	disabled = false;
+}
+
 void Claw::SetVerticalLiftMotor(double power) {
 	if (disabled) {
-		return;
+		return liftVertical->Set(0);
 	}
 	liftVertical->Set(power);
 }
 
 void Claw::SetLiftSpeed(LiftSpeed speed) {
-	if (rotationAngle->Get() > clearClawDescend) {
-		log.Error("Claw angle was less than %d", clearClawDescend);
-		return;
+	double clawAngle = rotationAngle->Get();
+	if (clawAngle > clearClawDescend && false) {
+		log.Error("Claw angle was %f > %f", clawAngle, clearClawDescend);
+		return SetVerticalLiftMotor(0);
 	}
 	switch (speed) {
 	case LiftSpeed::kUp:
@@ -165,12 +170,13 @@ bool Claw::HasContainer() {
 	return !binSensor->Get();
 }
 
-void Claw::SetRotationSpeed(RotationSpeed speed) {
-	if (disabled) {
-		return;
-	} else if (verticalTicks->GetDistance() < clearClawRotate) {
-		log.Error("Claw height was less than %d", clearClawRotate);
-		return;
+void Claw::SetRotationSpeed(RotationSpeed speed, bool override) {
+	double clawHeight = verticalTicks->GetDistance();
+	if (disabled && !override) {
+		return clawRotation->SetSpeed(0);
+	} else if (clawHeight < clearClawRotate && !override) {
+		log.Error("Claw height was %f < %f", clawHeight, clearClawRotate);
+		return clawRotation->SetSpeed(0);
 	}
 	switch (speed) {
 	case RotationSpeed::kForward:
