@@ -26,12 +26,8 @@ private:
 	DigitalInput* upperLimit;
 	DigitalInput* homeLimit;
 
-	float maxLiftAngle; ///> maximum safety for the rotation
-	float minLiftAngle; ///> minimum safety for the rotation
-	float maxLiftHeight; ///> maximum safety for the vertical
-	float minLiftHeight; ///> minimum safety for the vertical
-	float clearClawMax; ///> maximum value for claw being able to move
-	float clearClawMin; ///> minimum value for claw being able to move
+	double clearClawRotate; ///> Minimum safety for claw to fully rotate
+	double clearClawDescend; ///> Minimum safety for claw to fully rotate
 	float backwardRotationSpeed;
 	float forwardRotationSpeed;
 

@@ -38,6 +38,7 @@
 #include "Commands/PickBin.h"
 #include "Commands/PlatformToPlacement.h"
 #include "Commands/ClawEstablishHome.h"
+#include "Commands/ClawToHome.h"
 
 namespace tator {
 
@@ -93,6 +94,7 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<ClawRegripPosition>();
 	CreateCommandsForClass<PlatformToPlacement>();
 	CreateCommandsForClass<ClawEstablishHome>();
+	CreateCommandsForClass<ClawToHome>();
 }
 
 Command* Kremlin::Get(std::string fullName) {

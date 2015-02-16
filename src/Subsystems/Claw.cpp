@@ -25,12 +25,8 @@ Claw::Claw(YAML::Node config) :
 	upperLimit = new DigitalInput(ports["upperLimit"].as<int>());
 	homeLimit = new DigitalInput(ports["homeLimit"].as<int>());
 
-	maxLiftAngle = soft["liftAngle"]["max"].as<float>();
-	minLiftAngle = soft["liftAngle"]["min"].as<float>();
-	maxLiftHeight = soft["liftHeight"]["max"].as<float>();
-	minLiftHeight = soft["liftHeight"]["min"].as<float>();
-	clearClawMax = soft["clearClaw"]["max"].as<float>();
-	clearClawMin = soft["clearClaw"]["min"].as<float>();
+	clearClawRotate = soft["clearClaw"]["rotate"].as<double>();
+	clearClawDescend = soft["clearClaw"]["descend"].as<double>();
 
 	verticalTicks->SetDistancePerPulse(1.0 / 360);
 	verticalTicks->SetPIDSourceParameter(PIDSource::kDistance);
@@ -84,6 +80,10 @@ void Claw::SetVerticalLiftMotor(double power) {
 }
 
 void Claw::SetLiftSpeed(LiftSpeed speed) {
+	if (rotationAngle->Get() > clearClawDescend) {
+		log.Error("Claw angle was less than %d", clearClawDescend);
+		return;
+	}
 	switch (speed) {
 	case LiftSpeed::kUp:
 		return SetVerticalLiftMotor(upSpeed);
@@ -167,6 +167,9 @@ bool Claw::HasContainer() {
 
 void Claw::SetRotationSpeed(RotationSpeed speed) {
 	if (disabled) {
+		return;
+	} else if (verticalTicks->GetDistance() < clearClawRotate) {
+		log.Error("Claw height was less than %d", clearClawRotate);
 		return;
 	}
 	switch (speed) {
