@@ -12,6 +12,7 @@ Claw:
     homeLimit: 12
   Software:
     clearClaw: {rotate: 175.0, descend: 75.0}
+    targetAngle: 70.0 #should be same as ClawRotation: pick
   Speeds:
     outward: 0.5
     inward: -0.5

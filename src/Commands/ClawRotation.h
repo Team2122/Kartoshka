@@ -14,48 +14,30 @@ namespace tator {
 
 class ClawRotation: public CommandBase {
 private:
-	float newAngle, tolerance;
+	double targetAngle;
 
 public:
 	ClawRotation(std::string name, YAML::Node config) :
 			CommandBase(name) {
-		newAngle = config["status"].as<float>();
-		tolerance = config["tolerance"].as<float>();
+		targetAngle = config["targetAngle"].as<double>();
 	}
 
 	void Initialize() {
 		CommandBase::Initialize();
-		float currentAngle = claw->GetRotationAngle();
-		const char* name;
-		if (newAngle <= currentAngle) {
-			claw->SetRotationSpeed(Claw::RotationSpeed::kForward);
-			name = "forward";
-		} else {
-			claw->SetRotationSpeed(Claw::RotationSpeed::kBackward);
-			name = "backward";
-		}
-		log.Info("We are moving %s to %f degrees", name, newAngle);
+		claw->SetTargetAngle(targetAngle);
 	}
 	void Execute() {
-		float currentAngle = claw->GetRotationAngle();
-		if (newAngle <= currentAngle) {
-			claw->SetRotationSpeed(Claw::RotationSpeed::kForward);
-		} else {
-			claw->SetRotationSpeed(Claw::RotationSpeed::kBackward);
-		}
 	}
+
 	bool IsFinished() {
-		float currentAngle = claw->GetRotationAngle();
-		return abs(currentAngle - newAngle) <= tolerance;
+		return claw->GetRotationSpeed() == Claw::RotationSpeed::kStopped;
 	}
 
 	void End() {
-		claw->SetRotationSpeed(Claw::RotationSpeed::kStopped);
 		CommandBase::End();
 	}
 
 	void Interrupted() {
-		claw->SetRotationSpeed(Claw::RotationSpeed::kStopped);
 		CommandBase::Interrupted();
 	}
 

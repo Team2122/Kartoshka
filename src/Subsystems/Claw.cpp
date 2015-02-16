@@ -56,6 +56,7 @@ Claw::Claw(YAML::Node config) :
 	manualTester->Add(name, "short clamp", clampShort);
 	manualTester->Add(name, "bin sensor", binSensor);
 	manualTester->Add(name, "claw rollers", rollers);
+	targetAngle = soft["targetAngle"].as<double>();
 }
 Claw::~Claw() {
 	delete liftVertical;
@@ -180,6 +181,7 @@ void Claw::SetRotationSpeed(RotationSpeed speed, bool override) {
 		log.Error("Claw height was %f < %f", clawHeight, clearClawRotate);
 		return clawRotation->SetSpeed(0);
 	}
+	currentSpeed = speed;
 	switch (speed) {
 	case RotationSpeed::kForward:
 		clawRotation->SetSpeed(forwardRotationSpeed);
@@ -192,6 +194,19 @@ void Claw::SetRotationSpeed(RotationSpeed speed, bool override) {
 		clawRotation->SetSpeed(0);
 		break;
 	}
+}
+
+Claw::RotationSpeed Claw::GetRotationSpeed() {
+	return currentSpeed;
+
+}
+
+double Claw::GetTargetAngle() {
+	return targetAngle;
+}
+
+void Claw::SetTargetAngle(double newTargetAngle) {
+	targetAngle = newTargetAngle;
 }
 
 }

@@ -17,6 +17,10 @@ namespace tator {
  * De lift inspire claw to move both up end not up
  */
 class Claw: public SubsystemBase {
+public:
+	enum class RotationSpeed {
+		kStopped = 0, kBackward, kForward
+	};
 private:
 	Talon* liftVertical; ///> Talon for the Vertical, Incremental
 	Encoder* liftEncoder; ///> Encoder for the vertical lift, relative
@@ -43,6 +47,9 @@ private:
 	double rollerOutwardSpeed;
 
 	bool disabled;
+
+	double targetAngle;
+	RotationSpeed currentSpeed;
 
 public:
 	Claw(YAML::Node config);
@@ -120,11 +127,9 @@ public:
 	 */
 	void SetClampStatus(ClampStatus status);
 
-	enum class RotationSpeed {
-		kStopped = 0, kBackward, kForward
-	};
-
 	void SetRotationSpeed(RotationSpeed dir, bool override = false);
+
+	RotationSpeed GetRotationSpeed();
 
 	float GetRotationAngle();
 
@@ -132,6 +137,16 @@ public:
 	 * The motherland demand robot to say if it has shown mercy to puny
 	 */
 	bool HasContainer();
+
+	/**
+	 * Mother Russia shows gentle side end politely esk for TargetAngle
+	 */
+	double GetTargetAngle();
+
+	/**
+	 * KGB invade and persuade target angle to change ideas
+	 */
+	void SetTargetAngle(double newTargetAngle);
 };
 
 }

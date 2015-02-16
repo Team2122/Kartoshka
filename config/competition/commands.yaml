@@ -188,3 +188,9 @@ Restack:
 
 ClawForceHome:
   angle: 70.0
+
+ClawToHome:
+  rotateWait: .25
+
+ClawRotationContinuous:
+  tolerance: 1.0
