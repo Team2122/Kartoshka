@@ -19,7 +19,7 @@ private:
 public:
 	ClawRotation(std::string name, YAML::Node config) :
 			CommandBase(name) {
-		targetAngle = config["targetAngle"].as<double>();
+		targetAngle = config["angle"].as<double>();
 	}
 
 	void Initialize() {

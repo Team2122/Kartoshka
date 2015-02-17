@@ -19,19 +19,19 @@ namespace tator {
 class Claw: public SubsystemBase {
 public:
 	enum class RotationSpeed {
-		kStopped = 0, kBackward, kForward
+		kStopped = 0, kBackward, kForward, kUnknown
 	};
 private:
-	Talon* liftVertical; ///> Talon for the Vertical, Incremental
-	Encoder* liftEncoder; ///> Encoder for the vertical lift, relative
+	Talon* liftMotor; ///> Talon for the Vertical, Incremental
 	Talon* clawRotation; ///> Talon for the Rotation, Absolute
-	Encoder* verticalTicks; ///> Encoder for the Vertical
+	Encoder* liftEncoder; ///> Encoder for the Vertical
 	AnalogPotentiometer* rotationAngle; ///> Encoder for the Rotation
 	DigitalInput* upperLimit;
 	DigitalInput* homeLimit;
 
 	double clearClawRotate; ///> Minimum safety for claw to fully rotate
-	double clearClawDescend; ///> Minimum safety for claw to fully rotate
+	double clearClawMinAngle; ///> Minimum safety for claw to fully rotate
+	double clearClawMinHeight;
 	float backwardRotationSpeed;
 	float forwardRotationSpeed;
 

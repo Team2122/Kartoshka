@@ -14,10 +14,10 @@ Claw::Claw(YAML::Node config) :
 	YAML::Node ports = config["Ports"];
 	YAML::Node speed = config["Speeds"];
 	YAML::Node soft = config["Software"];
-	liftVertical = new Talon(ports["liftVertical"].as<int>());
+	liftMotor = new Talon(ports["liftVertical"].as<int>());
 	clawRotation = new Talon(ports["liftRotation"].as<int>());
 	YAML::Node verticalTicks_ = ports["verticalTicks"];
-	verticalTicks = new Encoder(verticalTicks_[0].as<int>(),
+	liftEncoder = new Encoder(verticalTicks_[0].as<int>(),
 			verticalTicks_[1].as<int>());
 	YAML::Node rotationAngle_ = ports["rotationAngle"];
 	rotationAngle = new AnalogPotentiometer(rotationAngle_["Channel"].as<int>(),
@@ -27,10 +27,11 @@ Claw::Claw(YAML::Node config) :
 	homeLimit = new DigitalInput(ports["homeLimit"].as<int>());
 
 	clearClawRotate = soft["clearClaw"]["rotate"].as<double>();
-	clearClawDescend = soft["clearClaw"]["descend"].as<double>();
+	clearClawMinAngle = soft["clearClaw"]["minAngle"].as<double>();
+	clearClawMinHeight = soft["clearClaw"]["minHeight"].as<double>();
 
-	verticalTicks->SetDistancePerPulse(1.0 / 360);
-	verticalTicks->SetPIDSourceParameter(PIDSource::kDistance);
+	liftEncoder->SetDistancePerPulse(1.0 / 360);
+	liftEncoder->SetPIDSourceParameter(PIDSource::kDistance);
 
 	clampLong = new Solenoid(ports["clampLong"].as<int>());
 	clampShort = new Solenoid(ports["clampShort"].as<int>());
@@ -47,21 +48,22 @@ Claw::Claw(YAML::Node config) :
 	ManualTester* manualTester = ManualTester::GetInstance();
 	std::string name = GetName();
 	manualTester->Add(name, "claw rotation", clawRotation, 0.3);
-	manualTester->Add(name, "claw lift", liftVertical);
+	manualTester->Add(name, "claw lift", liftMotor);
 	manualTester->Add(name, "claw rotation", rotationAngle);
-	manualTester->Add(name, "claw lift", verticalTicks);
+	manualTester->Add(name, "claw lift", liftEncoder);
 	manualTester->Add(name, "home limit", homeLimit);
 	manualTester->Add(name, "upper limit", upperLimit);
 	manualTester->Add(name, "long clamp", clampLong);
 	manualTester->Add(name, "short clamp", clampShort);
 	manualTester->Add(name, "bin sensor", binSensor);
 	manualTester->Add(name, "claw rollers", rollers);
-	targetAngle = soft["targetAngle"].as<double>();
+	currentSpeed = RotationSpeed::kUnknown;
+	targetAngle = 0;
 }
 Claw::~Claw() {
-	delete liftVertical;
+	delete liftMotor;
 	delete clawRotation;
-	delete verticalTicks;
+	delete liftEncoder;
 	delete rotationAngle;
 
 	delete rollers;
@@ -80,16 +82,16 @@ void Claw::ReenableClaw() {
 
 void Claw::SetVerticalLiftMotor(double power) {
 	if (disabled) {
-		return liftVertical->Set(0);
+		return liftMotor->Set(0);
 	}
-	liftVertical->Set(power);
+	liftMotor->Set(power);
 }
 
 void Claw::SetLiftSpeed(LiftSpeed speed) {
 	double clawAngle = rotationAngle->Get();
 	double clawHeight = liftEncoder->GetDistance();
-	if (clawAngle > clearClawDescend && clawHeight < clearClawRotate) {
-		log.Error("Claw angle was %f > %f", clawAngle, clearClawDescend);
+	if (clawAngle > clearClawMinAngle && clawHeight < clearClawMinHeight) {
+		log.Error("Claw angle was %f > %f", clawAngle, clearClawMinAngle);
 		return SetVerticalLiftMotor(0);
 	}
 	switch (speed) {
@@ -104,15 +106,15 @@ void Claw::SetLiftSpeed(LiftSpeed speed) {
 }
 
 double Claw::GetLiftEncoder() {
-	return verticalTicks->GetDistance();
+	return liftEncoder->GetDistance();
 }
 
 void Claw::ZeroLiftEncoder() {
-	verticalTicks->Reset();
+	liftEncoder->Reset();
 }
 
 int32_t Claw::GetPosition() {
-	return verticalTicks->Get();
+	return liftEncoder->Get();
 }
 
 bool Claw::IsHome() {
@@ -124,7 +126,7 @@ bool Claw::IsTop() {
 }
 
 void Claw::ResetTicks() {
-	verticalTicks->Reset();
+	liftEncoder->Reset();
 }
 
 void Claw::SetRollerSpeed(RollerStatus status) {
@@ -174,10 +176,11 @@ bool Claw::HasContainer() {
 }
 
 void Claw::SetRotationSpeed(RotationSpeed speed, bool override) {
-	double clawHeight = verticalTicks->GetDistance();
+	double clawHeight = liftEncoder->GetDistance();
 	if (disabled && !override) {
 		return clawRotation->SetSpeed(0);
-	} else if (clawHeight < clearClawRotate && !override) {
+	} else if (clawHeight < clearClawRotate && speed != RotationSpeed::kStopped
+			&& speed != RotationSpeed::kUnknown && !override) {
 		log.Error("Claw height was %f < %f", clawHeight, clearClawRotate);
 		return clawRotation->SetSpeed(0);
 	}
@@ -207,6 +210,8 @@ double Claw::GetTargetAngle() {
 
 void Claw::SetTargetAngle(double newTargetAngle) {
 	targetAngle = newTargetAngle;
+	if (GetRotationSpeed() == RotationSpeed::kStopped)
+		SetRotationSpeed(RotationSpeed::kUnknown);
 }
 
 }

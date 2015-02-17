@@ -3,7 +3,7 @@ Claw:
     liftVertical: 6
     liftRotation: 7
     verticalTicks: [6, 7]
-    rotationAngle: {Channel: 0, Scale: 360, Offset: 0.0}
+    rotationAngle: {Channel: 0, Scale: 360, Offset: -33.0} # offset 4 on comp bot
     upperLimit: 13
     clampLong: 2
     clampShort: 3
@@ -11,8 +11,7 @@ Claw:
     binSensor: 18
     homeLimit: 12
   Software:
-    clearClaw: {rotate: 175.0, descend: 75.0}
-    targetAngle: 70.0 #should be same as ClawRotation: pick
+    clearClaw: {rotate: 175.0, minAngle: 75.0, minHeight: 155}
   Speeds:
     outward: 0.5
     inward: -0.5

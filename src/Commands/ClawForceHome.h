@@ -27,6 +27,7 @@ protected:
 	double stopAngle;
 	virtual void Initialize() {
 		CommandBase::Initialize();
+		Kremlin::Get("ClawRotationContinuous")->Cancel();
 		claw->ReenableClaw();
 	}
 	virtual void Execute() {
@@ -37,11 +38,13 @@ protected:
 	}
 	virtual void End() {
 		claw->SetRotationSpeed(Claw::RotationSpeed::kStopped, true);
+		Kremlin::Get("ClawRotationContinuous")->Start();
 		Kremlin::Get("HomeClaw")->Start();
 		CommandBase::End();
 	}
 	virtual void Interrupted() {
 		claw->SetRotationSpeed(Claw::RotationSpeed::kStopped, true);
+		Kremlin::Get("ClawRotationContinuous")->Start();
 		CommandBase::Interrupted();
 	}
 };

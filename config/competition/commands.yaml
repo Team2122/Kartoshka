@@ -43,14 +43,11 @@ ClawClamp:
 
 ClawRotation:
   - name: InBot
-    status: 135
-    tolerance: 5.0
+    angle: 135
   - name: Platform
-    status: 227.5
-    tolerance: 1.5
+    angle: 216
   - name: Pick
-    status: 70.0
-    tolerance: 1.5
+    angle: 68.0
 
 ClawRollers:
   - name: In
@@ -71,6 +68,9 @@ TopClaw:
   speed: -.7
 
 ClawPosition:
+  - name: Pick
+    target: 0.0
+    tolerance: 1.0
   - name: Top
     target: 242.0
     tolerance: 1.0
@@ -164,7 +164,7 @@ $: # This is GenericCommandGroup
       - ClawRotationPick
       - name: WaitCommand
         time: 0.25
-      - HomeClaw
+      - ClawPositionPick
 
 ArmShuttle:
   first:
@@ -172,8 +172,8 @@ ArmShuttle:
     flapperSpeed: 0.35
   rest:
     rollerSpeed: 0.1
-    flapperSpeed: .5
-  toteTicks: 100
+    flapperSpeed: .7
+  toteTicks: 13
 
 Cancel:
   - name: ArmShuttle
@@ -187,10 +187,10 @@ Restack:
   fingerWait: 0
 
 ClawForceHome:
-  angle: 70.0
+  angle: 68.0
 
 ClawToHome:
   rotateWait: .25
 
 ClawRotationContinuous:
-  tolerance: 1.0
+  tolerance: 2.0

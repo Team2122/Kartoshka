@@ -39,6 +39,7 @@ void Robot::RobotInit() {
 
 void Robot::DisabledInit() {
 	Kremlin::Get("DriveContinuous")->Cancel();
+	Kremlin::Get("ClawRotationContinuous")->Cancel();
 	tester->Interrupted();
 }
 
@@ -49,6 +50,7 @@ void Robot::AutonomousInit() {
 void Robot::TeleopInit() {
 	Kremlin::Get("ClawEstablishHome")->Start();
 	Kremlin::Get("DriveContinuous")->Start();
+	Kremlin::Get("ClawRotationContinuous")->Start();
 }
 
 void Robot::TestInit() {

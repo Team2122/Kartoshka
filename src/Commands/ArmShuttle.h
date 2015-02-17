@@ -17,6 +17,7 @@ public:
 	ArmShuttle(std::string name, YAML::Node config) :
 			CommandBase(name) {
 		stackToteCommand = Kremlin::Get("$StackTote");
+		toteTickCount = 0;
 		firstRollerSpeed = config["first"]["rollerSpeed"].as<double>();
 		firstFlapperSpeed = config["first"]["flapperSpeed"].as<double>();
 		restRollerSpeed = config["rest"]["rollerSpeed"].as<double>();
@@ -35,16 +36,15 @@ public:
 	}
 
 	virtual void Execute() {
-		if (shuttle->IsTotePresent() && !stackToteCommand->IsRunning()
-				&& shuttle->GetToteCount() < 4) {
-			if (toteTickCount >= toteTicksRequired) {
-				log.Info("Sensor triggered. Stacking totes...");
-				stackToteCommand->Start();
-			} else {
-				toteTickCount++;
-			}
+		if (shuttle->IsTotePresent()) {
+			toteTickCount++;
 		} else {
 			toteTickCount = 0;
+		}
+		if (toteTickCount >= toteTicksRequired && !stackToteCommand->IsRunning()
+				&& shuttle->GetToteCount() < 4) {
+			log.Info("Sensor triggered. Stacking totes...");
+			stackToteCommand->Start();
 		}
 		if (toteFeed->GetBackSensor()) {
 			toteFeed->SetRollers(restRollerSpeed);
@@ -56,7 +56,8 @@ public:
 	}
 
 	virtual bool IsFinished() {
-		return shuttle->GetToteCount() >= 4 && shuttle->IsTotePresent(); // 0 is 1, 4 is 5
+		return shuttle->GetToteCount() >= 4
+				&& toteTickCount >= toteTicksRequired; // 0 is 1, 4 is 5
 	}
 
 	virtual void End() {
