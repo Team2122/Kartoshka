@@ -7,7 +7,10 @@
   6: WhenPressed $RegripBin
   7: WhenPressed $PlatformToPlacement
   8: WhenPressed ClawRotationPick
-  9: WhenPressed ClawForceHome
+  9:
+    - WhenPressed ClawForceHome
+    - WhenReleased CancelClawForceHome
+    - WhenReleased CancelHomeClaw
   10: WhenPressed ClawPositionTop
   11: WhenPressed ClawRotationPlatform
   12: WhenPressed $Restack

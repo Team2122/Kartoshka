@@ -177,6 +177,8 @@ ArmShuttle:
 
 Cancel:
   - name: ArmShuttle
+  - name: ClawForceHome
+  - name: HomeClaw
 
 AddTote:
 
