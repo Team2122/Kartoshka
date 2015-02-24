@@ -4,6 +4,7 @@
  * @author Paul Vaughan
  */
 #include "Claw.h"
+#include "Common/ManualTester.h"
 
 namespace tator {
 
@@ -43,18 +44,18 @@ Claw::Claw(YAML::Node config) :
 	upSpeed = speed["up"].as<float>();
 	downSpeed = speed["down"].as<float>();
 
-	LiveWindow* liveWindow = LiveWindow::GetInstance();
-	const char* name = GetName().c_str();
-	liveWindow->AddActuator(name, "Rotation Motor", clawRotation);
-	liveWindow->AddActuator(name, "Vertical Motor", liftVertical);
-	liveWindow->AddSensor(name, "Rotation Encoder", rotationAngle);
-	liveWindow->AddSensor(name, "Vertical Encoder", verticalTicks);
-	liveWindow->AddSensor(name, "Home Limit", homeLimit);
-	liveWindow->AddSensor(name, "Upper Limit", upperLimit);
-	liveWindow->AddActuator(name, "Clamp Long", clampLong);
-	liveWindow->AddActuator(name, "Clamp Short", clampShort);
-	liveWindow->AddSensor(name, "Button", binSensor);
-	liveWindow->AddActuator(name, "Rollers", rollers);
+	ManualTester* manualTester = ManualTester::GetInstance();
+	std::string name = GetName();
+	manualTester->Add(name, "claw rotation", clawRotation, 0.3);
+	manualTester->Add(name, "claw lift", liftVertical);
+	manualTester->Add(name, "claw rotation", rotationAngle);
+	manualTester->Add(name, "claw lift", verticalTicks);
+	manualTester->Add(name, "home limit", homeLimit);
+	manualTester->Add(name, "upper limit", upperLimit);
+	manualTester->Add(name, "long clamp", clampLong);
+	manualTester->Add(name, "short clamp", clampShort);
+	manualTester->Add(name, "bin sensor", binSensor);
+	manualTester->Add(name, "claw rollers", rollers);
 }
 Claw::~Claw() {
 	delete liftVertical;

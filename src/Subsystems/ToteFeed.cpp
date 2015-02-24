@@ -5,6 +5,7 @@
  */
 
 #include "ToteFeed.h"
+#include "Common/ManualTester.h"
 
 namespace tator {
 
@@ -16,11 +17,12 @@ ToteFeed::ToteFeed(YAML::Node config) :
 	rollerPiston = new Solenoid(ports["rollerPiston"].as<int>());
 	flappers = new Talon(ports["flappers"].as<int>());
 	flapperSpeed = config["flapperSpeed"].as<double>();
-	LiveWindow* liveWindow = LiveWindow::GetInstance();
-	liveWindow->AddActuator("ToteFeed", "Rollers", rollers);
-	liveWindow->AddSensor("ToteFeed", "Back Sensor", backSensor);
-	liveWindow->AddActuator("ToteFeed", "Roller Piston", rollerPiston);
-	liveWindow->AddActuator("ToteFeed", "Flappers", flappers);
+	ManualTester* manualTester = ManualTester::GetInstance();
+	std::string name = GetName();
+	manualTester->Add(name, "rollerbed", rollers);
+	manualTester->Add(name, "bottom tote sensor", backSensor);
+	manualTester->Add(name, "rollerbed piston", rollerPiston);
+	manualTester->Add(name, "intake rollers (flappers)", flappers);
 }
 
 ToteFeed::~ToteFeed() {

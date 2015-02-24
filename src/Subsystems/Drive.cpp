@@ -5,6 +5,7 @@
  */
 
 #include "Drive.h"
+#include "Common/ManualTester.h"
 
 namespace tator {
 
@@ -36,15 +37,15 @@ Drive::Drive(YAML::Node config) :
 	pidL->Enable();
 	pidR->Enable();
 
-	LiveWindow* liveWindow = LiveWindow::GetInstance();
-	liveWindow->AddActuator(GetName().c_str(), "driveL", driveL);
-	liveWindow->AddActuator(GetName().c_str(), "driveR", driveR);
-	liveWindow->AddSensor(GetName().c_str(), "encoderL", encoderL);
-	liveWindow->AddSensor(GetName().c_str(), "encoderR", encoderR);
-	liveWindow->AddSensor(GetName().c_str(), "pidL", pidL);
-	liveWindow->AddSensor(GetName().c_str(), "pidR", pidR);
-	liveWindow->AddSensor(GetName().c_str(), "Platform Left", platformL);
-	liveWindow->AddSensor(GetName().c_str(), "Platform Right", platformR);
+	ManualTester* manualTester = ManualTester::GetInstance();
+	manualTester->Add(GetName(), "left drive", driveL);
+	manualTester->Add(GetName(), "right drive", driveR);
+	manualTester->Add(GetName(), "left drive", encoderL);
+	manualTester->Add(GetName(), "right drive", encoderR);
+	manualTester->Add(GetName(), "left drive", pidL, maxRPS);
+	manualTester->Add(GetName(), "right drive", pidR, maxRPS);
+	manualTester->Add(GetName(), "left platform sensor", platformL);
+	manualTester->Add(GetName(), "right platform sensor", platformR);
 }
 
 Drive::~Drive() {

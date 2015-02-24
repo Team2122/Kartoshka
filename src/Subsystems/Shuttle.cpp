@@ -5,6 +5,7 @@
  *      Author: Daniele
  */
 #include "Shuttle.h"
+#include "Common/ManualTester.h"
 
 namespace tator {
 
@@ -34,15 +35,15 @@ Shuttle::Shuttle(YAML::Node config) :
 	liftEncoder->SetReverseDirection(true);
 	totes = 0;
 
-	LiveWindow* liveWindow = LiveWindow::GetInstance();
-	const char* name = GetName().c_str();
-	liveWindow->AddSensor(name, "toteSensor", toteSensor);
-	liveWindow->AddSensor(name, "lowerLimit", lowerLimit);
-	liveWindow->AddSensor(name, "upperLimit", upperLimit);
-	liveWindow->AddActuator(name, "clampPiston", clampPiston);
-	liveWindow->AddActuator(name, "liftMotor", liftMotor);
-	liveWindow->AddSensor(name, "liftEncoder", liftEncoder);
-	liveWindow->AddSensor(name, "fingersPiston", fingersPiston);
+	ManualTester* manualTester = ManualTester::GetInstance();
+	std::string name = GetName();
+	manualTester->Add(name, "tote sensor", toteSensor);
+	manualTester->Add(name, "lower limit", lowerLimit);
+	manualTester->Add(name, "upper limit", upperLimit);
+	manualTester->Add(name, "shuttle clamp", clampPiston);
+	manualTester->Add(name, "shuttle lift", liftMotor, 0.4);
+	manualTester->Add(name, "shuttle lift", liftEncoder);
+	manualTester->Add(name, "shuttle fingers", fingersPiston);
 }
 
 Shuttle::~Shuttle() {

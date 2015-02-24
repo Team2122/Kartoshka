@@ -10,6 +10,7 @@
 #include <WPILib.h>
 #include "Common/Logger.h"
 #include "Common/Tester.h"
+#include "Common/ManualTester.h"
 
 namespace tator {
 
@@ -36,9 +37,10 @@ public:
 private:
 	Scheduler *scheduler;
 	Tester *tester;
+	ManualTester* manualTester;
 
 	enum class TestMode {
-		autonomous, livewindow
+		autonomous, manual
 	};
 
 	TestMode testMode;
