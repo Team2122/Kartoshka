@@ -25,7 +25,12 @@ Otto::~Otto() {
 }
 
 int Otto::GetAutoModeNumber(){
-
+	bool one = autoSwitch1->Get();
+	bool two = autoSwitch2->Get();
+	bool three = autoSwitch3->Get();
+	int autoNumber = (one >> 0) + (two >> 1) + (three >> 2) + 1;
+	log.Info("Auto Mode is #%d", autoNumber);
+	return autoNumber;
 }
 
 } /* namespace tator */
