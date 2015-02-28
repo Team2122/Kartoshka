@@ -18,6 +18,7 @@ public:
 			CommandBase(name) {
 		targetTicks = config["ticks"].as<int32_t>();
 		tolerance = config["tolerance"].as<int32_t>();
+		Requires(shuttle);
 	}
 
 	static std::string GetBaseName() {

@@ -16,6 +16,7 @@ public:
 	ClawLift(std::string name, YAML::Node config) :
 			CommandBase(name) {
 		speed = config["speed"].as<double>();
+		Requires(claw);
 	}
 
 	void Initialize() {

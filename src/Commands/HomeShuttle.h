@@ -17,6 +17,7 @@ class HomeShuttle: public CommandBase {
 public:
 	HomeShuttle(std::string name, YAML::Node config) :
 			CommandBase(name) {
+		Requires(shuttle);
 	}
 
 	static std::string GetBaseName() {

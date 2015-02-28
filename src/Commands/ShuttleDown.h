@@ -19,6 +19,7 @@ public:
 		targetTicks = config["ticks"].as<int>();
 		tolerance = config["tolerance"].as<int>();
 		speed = config["speed"].as<double>();
+		Requires(shuttle);
 	}
 
 	static std::string GetBaseName() {

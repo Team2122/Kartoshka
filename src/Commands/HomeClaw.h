@@ -14,6 +14,7 @@ class HomeClaw : public ClawLift {
 public:
 	HomeClaw(std::string name, YAML::Node node):
 			ClawLift(name, node) {
+		Requires(claw);
 	}
 
 	static std::string GetBaseName() {
