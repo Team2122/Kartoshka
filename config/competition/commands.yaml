@@ -189,7 +189,7 @@ Restack:
   fingerWait: 0
 
 ClawForceHome:
-  angle: 68.0
+  angle: 69.0
 
 ClawToHome:
   rotateWait: .25

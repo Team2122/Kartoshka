@@ -26,8 +26,7 @@ void Binder::BindAll() {
 				buttonIt++) {
 			if (buttonIt->second.IsSequence()) {
 				for (YAML::Node bindNode : buttonIt->second) {
-					std::string bind = buttonIt->second.as<std::string>()
-							+ bindNode["name"].as<std::string>();
+					std::string bind = bindNode.as<std::string>();
 					BindCommandWithVars;
 				}
 			} else {
