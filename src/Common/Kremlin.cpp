@@ -35,6 +35,8 @@
 #include "Commands/RecieveTote.h"
 #include "Commands/ResetMaxTotes.h"
 #include "Commands/ResetTotes.h"
+#include "Commands/RollerbedPiston.h"
+#include "Commands/RollerbedPistonToggle.h"
 #include "Commands/ShuttleClamp.h"
 #include "Commands/ShuttleDown.h"
 #include "Commands/ShuttlePosition.h"
@@ -77,6 +79,8 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<ClawClampToggle>();
 	CreateCommandsForClass<DecrementMaxTotes>();
 	CreateCommandsForClass<ResetMaxTotes>();
+	CreateCommandsForClass<RollerbedPiston>();
+	CreateCommandsForClass<RollerbedPistonToggle>();
 	CreateCommandsForClass<GenericCommandGroup>();
 	CreateCommandsForClass<ArmShuttle>();
 	CreateCommandsForClass<Cancel>();

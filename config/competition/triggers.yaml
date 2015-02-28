@@ -32,6 +32,7 @@
     - WhenPressed ClawForceHome
     - WhenReleased CancelClawForceHome
     - WhenReleased CancelHomeClaw
+  9: WhenPressed RollerbedPistonToggle
   10: WhileHeld ManualClawLiftUp
   11: WhileHeld ManualClawLiftDown
   12: WhileHeld UnloadTote

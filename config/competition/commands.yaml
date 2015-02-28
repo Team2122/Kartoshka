@@ -127,6 +127,14 @@ UnloadTote:
 
 FlapFlappers:
 
+RollerbedPiston:
+  - name: Up
+    direction: 0
+  - name: Down
+    direction: 1
+
+RollerbedPistonToggle:
+
 $: # This is GenericCommandGroup
   - name: StackTote
     commands:
@@ -258,6 +266,11 @@ $: # This is GenericCommandGroup
         execution: Parallel
       - $GroundToPlatform
       - $RegripBin
+  - name: CoopStack
+    commands:
+      - RollerbedPistonUp
+      - UnloadTote # Will be canceled on release
+      - RollerbedPistonDown
 
 ArmShuttle:
   first:

@@ -20,7 +20,7 @@ namespace tator {
 class ToteFeed: public SubsystemBase {
 public:
 	enum class RollerPistonState {
-		up, down
+		up = 1, down = 0
 	};
 
 	/**
