@@ -86,6 +86,9 @@ ClawPosition:
   - name: Regrip
     target: 160
     tolerance: 1.0
+  - name: Hover
+    target: 10.0
+    tolerance: 1.0
 
 ClawRegripPosition:
   speed: .2
@@ -189,6 +192,12 @@ $: # This is GenericCommandGroup
     commands:
       - $ClawToPick
       - $PickBin
+  - name: HoverBin
+    commands:
+      - ClawRotationPick
+      - name: WaitCommand
+        time: 0.25
+      - ClawPositionHover
 
 ArmShuttle:
   first:
