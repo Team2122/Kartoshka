@@ -1,19 +1,13 @@
 0: # Joystick
-  1: WhenPressed HomeShuttle
-  2: WhenPressed HomeClaw
-  3: WhenPressed TopClaw
-  4: WhileHeld $PickBin
+  1: WhenPressed ArmShuttle
+  2: WhenPressed $PickUpMoveToPlatform
+  3: WhileHeld UnloadTote
+  4: WhenPressed CancelArmShuttle
   5: WhenPressed $GroundToPlatform
   6: WhenPressed $RegripBin
-  7: WhenPressed $PlatformToPlacement
-  8: WhenPressed ClawRotationPick
-  9:
-    - WhenPressed ClawForceHome
-    - WhenReleased CancelClawForceHome
-    - WhenReleased CancelHomeClaw
-  10: WhenPressed ClawPositionTop
-  11: WhenPressed ClawRotationPlatform
-  12: WhenPressed $Restack
+  8: WhenPressed ClawPositionTop
+  9: WhenPressed ClawClampRelease
+  10: WhenPressed ClawClampDeathgrip
 1:
   1: WhenPressed ClawClampReleased
   2: WhenPressed ClawClampTote
