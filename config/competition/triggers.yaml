@@ -2,7 +2,7 @@
   1: WhenPressed HomeShuttle
   2: WhenPressed HomeClaw
   3: WhenPressed TopClaw
-  4: WhenPressed $PickBin
+  4: WhileHeld $PickBin
   5: WhenPressed $GroundToPlatform
   6: WhenPressed $RegripBin
   7: WhenPressed $PlatformToPlacement

@@ -45,7 +45,7 @@ ClawRotation:
   - name: InBot
     angle: 135
   - name: Platform
-    angle: 216
+    angle: 228
   - name: Pick
     angle: 68.0
 
@@ -72,16 +72,16 @@ ClawPosition:
     target: 0.0
     tolerance: 1.0
   - name: Top
-    target: 242.0
+    target: 247.0
     tolerance: 1.0
   - name: Middle
-    target: 195.0
+    target: 200.0
     tolerance: 1.0
   - name: Platform
-    target: 180.0
+    target: 185.0
     tolerance: 1.0
   - name: Regrip
-    target: 160.0
+    target: 165.0
     tolerance: 1.0
 
 ClawRegripPosition:
@@ -142,7 +142,7 @@ $: # This is GenericCommandGroup
       - ClawPositionPlatform
   - name: RegripBin
     commands:
-      - ClawClampContainer
+      - ClawClampReleased
       - name: WaitCommand
         time: 0.25
       - ClawPositionRegrip

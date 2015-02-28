@@ -14,7 +14,7 @@ Claw:
     clearClaw: {rotate: 175.0, minAngle: 75.0, minHeight: 155}
   Speeds:
     outward: 0.5
-    inward: -0.5
+    inward: -0.8
     forward: -0.3
     backward: 0.26
     up: -.8
