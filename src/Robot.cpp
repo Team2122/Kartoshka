@@ -51,6 +51,7 @@ void Robot::TeleopInit() {
 	Kremlin::Get("ClawEstablishHome")->Start();
 	Kremlin::Get("DriveContinuous")->Start();
 	Kremlin::Get("ClawRotationContinuous")->Start();
+	Kremlin::Get("$ShuttleInit")->Start();
 }
 
 void Robot::TestInit() {

@@ -92,7 +92,8 @@ void Claw::SetLiftSpeed(LiftSpeed speed) {
 	double clawHeight = liftEncoder->GetDistance();
 	if (disabled) {
 		return liftMotor->Set(0);
-	} else if (clawAngle > clearClawMinAngle && clawHeight < clearClawMinHeight) {
+	} else if (clawAngle > clearClawMinAngle
+			&& clawHeight < clearClawMinHeight) {
 		log.Error("Claw angle was %f > %f", clawAngle, clearClawMinAngle);
 		return SetVerticalLiftMotor(0);
 	}
@@ -179,9 +180,11 @@ bool Claw::HasContainer() {
 
 void Claw::SetRotationSpeed(RotationSpeed speed, bool override) {
 	double clawHeight = liftEncoder->GetDistance();
+	double clawAngle = rotationAngle->Get();
 	if (disabled && !override) {
 		return clawRotation->SetSpeed(0);
-	} else if (clawHeight < clearClawRotate && speed != RotationSpeed::kStopped
+	} else if (clawHeight < clearClawRotate && clawAngle < clearClawMinAngle
+			&& speed != RotationSpeed::kStopped
 			&& speed != RotationSpeed::kUnknown && !override) {
 		log.Error("Claw height was %f < %f", clawHeight, clearClawRotate);
 		return clawRotation->SetSpeed(0);

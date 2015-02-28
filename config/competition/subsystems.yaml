@@ -16,7 +16,7 @@ Claw:
     outward: 0.5
     inward: -0.8
     forward: -0.3
-    backward: 0.26
+    backward: 0.3
     up: -.8
     down: .3
 Drive:

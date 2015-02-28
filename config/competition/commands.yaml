@@ -25,7 +25,7 @@ ShuttlePosition:
 ShuttleDown:
   ticks: 50
   tolerance: 10
-  speed: -.2
+  speed: 0.0
 
 ShuttleClamp:
   - name: Open
@@ -72,16 +72,16 @@ ClawPosition:
     target: 0.0
     tolerance: 1.0
   - name: Top
-    target: 247.0
+    target: 242.0
     tolerance: 1.0
   - name: Middle
-    target: 200.0
+    target: 195.0
     tolerance: 1.0
   - name: Platform
-    target: 185.0
+    target: 180.0
     tolerance: 1.0
   - name: Regrip
-    target: 165.0
+    target: 160.0
     tolerance: 1.0
 
 ClawRegripPosition:
@@ -171,13 +171,18 @@ $: # This is GenericCommandGroup
       - name: WaitCommand
         time: 0.25
       - $GroundToPlatform
+  - name: ShuttleInit
+    commands:
+      - FingersRelease
+      - ShuttleClampOpen
+      - HomeShuttle
 
 ArmShuttle:
   first:
     rollerSpeed: 0.8
     flapperSpeed: 0.35
   rest:
-    rollerSpeed: 0.1
+    rollerSpeed: 0.05
     flapperSpeed: .7
   toteTicks: 13
 

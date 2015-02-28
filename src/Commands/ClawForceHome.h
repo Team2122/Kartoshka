@@ -27,8 +27,14 @@ protected:
 	double stopAngle;
 	virtual void Initialize() {
 		CommandBase::Initialize();
+		if (claw->HasContainer()) {
+			log.Warn("You tried to force home the claw while you have a container. "
+					"This is bad new. Please take it out");
+			this->Cancel();
+		}
 		Kremlin::Get("ClawRotationContinuous")->Cancel();
 		claw->ReenableClaw();
+		claw->SetClampStatus(Claw::ClampStatus::kDeathGrip);
 	}
 	virtual void Execute() {
 		claw->SetRotationSpeed(Claw::RotationSpeed::kForward, true);

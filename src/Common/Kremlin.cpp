@@ -103,6 +103,7 @@ Command* Kremlin::Get(std::string fullName) {
 		return commands.at(fullName).command;
 	} else {
 		log.Error("Kremlin::Get(): no %s command", fullName.c_str());
+		throw std::runtime_error("Kremlin::Get(): No such command: " + fullName);
 		return nullptr;
 	}
 }
@@ -112,6 +113,7 @@ Command* Kremlin::GetCopyOf(std::string fullName) {
 		return commands.at(fullName).constructor();
 	} else {
 		log.Error("Kremlin::GetCopyOf(): no %s command", fullName.c_str());
+		throw std::runtime_error("Kremlin::GetCopyOf(): No such command: " + fullName);
 		return nullptr;
 	}
 }
