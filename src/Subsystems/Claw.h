@@ -23,7 +23,7 @@ public:
 	};
 
 	enum class LiftSpeed {
-		kStop, kUp, kDown
+		kStop = 0, kUp = 1, kDown = 2
 	};
 
 	enum class ClawAngle {

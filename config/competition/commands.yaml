@@ -219,3 +219,9 @@ ClawForceHome:
 
 ClawToHome:
   rotateWait: .25
+
+ManualClawLift:
+  - name: "Up"
+    speed: 1
+  - name: "Down"
+    speed: 2

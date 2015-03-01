@@ -36,6 +36,7 @@
 #include "Commands/OttoTestCommandGroup.h"
 #include "Commands/GenericCommandGroup.h"
 #include "Commands/ClawRotationContinuous.h"
+#include "Commands/ManualClawLift.h"
 
 namespace tator {
 
@@ -96,6 +97,7 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<ArmShuttle>();
 	CreateCommandsForClass<Cancel>();
 	CreateCommandsForClass<ClawRotationContinuous>();
+	CreateCommandsForClass<ManualClawLift>();
 }
 
 Command* Kremlin::Get(std::string fullName) {
