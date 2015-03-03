@@ -16,6 +16,7 @@ class ClawForceHome: public CommandBase {
 public:
 	ClawForceHome(std::string name, YAML::Node config) :
 			CommandBase(name) {
+		speed = config["speed"].as<double>();
 		stopAngle = config["angle"].as<double>();
 	}
 
@@ -24,7 +25,7 @@ public:
 	}
 
 protected:
-	double stopAngle;
+	double stopAngle, speed;
 	virtual void Initialize() {
 		CommandBase::Initialize();
 		if (claw->HasContainer()) {
@@ -37,20 +38,20 @@ protected:
 		claw->SetClampStatus(Claw::ClampStatus::kDeathGrip);
 	}
 	virtual void Execute() {
-		claw->SetRotationSpeed(Claw::RotationSpeed::kForward, true);
+		claw->SetRotationSpeed(speed, true);
 	}
 	virtual bool IsFinished() {
 		return claw->GetRotationAngle() <= stopAngle;
 	}
 	virtual void End() {
-		claw->SetRotationSpeed(Claw::RotationSpeed::kStopped, true);
+		claw->SetRotationSpeed(0, true);
 		Kremlin::Get("ClawRotationContinuous")->Start();
 		Kremlin::Get("ClawRotationPick")->Start();
 		Kremlin::Get("HomeClaw")->Start();
 		CommandBase::End();
 	}
 	virtual void Interrupted() {
-		claw->SetRotationSpeed(Claw::RotationSpeed::kStopped, true);
+		claw->SetRotationSpeed(0, true);
 		Kremlin::Get("ClawRotationContinuous")->Start();
 		CommandBase::Interrupted();
 	}

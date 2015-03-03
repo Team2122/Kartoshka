@@ -22,3 +22,7 @@
     - WhenPressed ClawForceHome
     - WhenReleased CancelClawForceHome
     - WhenReleased CancelHomeClaw
+2:
+  2: WhenPressed ClawRotationPick
+  3: WhenPressed ClawRotationPlatform
+  4: WhenPressed $ClawToPick

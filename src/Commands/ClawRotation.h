@@ -14,12 +14,12 @@ namespace tator {
 
 class ClawRotation: public CommandBase {
 private:
-	std::string targetAngle;
+	Claw::ClawAngle targetAngle;
 
 public:
 	ClawRotation(std::string name, YAML::Node config) :
 			CommandBase(name) {
-		targetAngle = config["name"].as<std::string>();
+		targetAngle = (Claw::ClawAngle) config["targetAngle"].as<int>();
 		Requires(claw);
 	}
 

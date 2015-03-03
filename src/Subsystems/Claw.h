@@ -25,6 +25,10 @@ public:
 	enum class LiftSpeed {
 		kStop, kUp, kDown
 	};
+
+	enum class ClawAngle {
+		kPick = 0, kPlatform = 1
+	};
 private:
 	Talon* liftMotor; ///> Talon for the Vertical, Incremental
 	Talon* clawRotation; ///> Talon for the Rotation, Absolute
@@ -36,9 +40,6 @@ private:
 	double clearClawRotate; ///> Minimum safety for claw to fully rotate
 	double clearClawMinAngle; ///> Minimum safety for claw to fully rotate
 	double clearClawMinHeight;
-	float backwardRotationSpeed;
-	float forwardRotationSpeed;
-	float holdPickRotationSpeed;
 
 	float upSpeed;
 	float downSpeed;
@@ -53,7 +54,7 @@ private:
 
 	bool disabled;
 
-	std::string targetAngle;
+	ClawAngle clawAngle;
 	bool rotationFinished;
 	LiftSpeed liftSpeed;
 
@@ -131,7 +132,7 @@ public:
 	 */
 	void SetClampStatus(ClampStatus status);
 
-	void SetRotationSpeed(RotationSpeed dir, bool override = false);
+	void SetRotationSpeed(double speed, bool override = false);
 
 	void SetRotationFinished(bool rotationFinished);
 
@@ -147,12 +148,12 @@ public:
 	/**
 	 * Mother Russia shows gentle side end politely esk for TargetAngle
 	 */
-	std::string GetTargetAngle();
+	ClawAngle GetTargetAngle();
 
 	/**
 	 * KGB invade and persuade target angle to change ideas
 	 */
-	void SetTargetAngle(const std::string& newTargetAngle);
+	void SetTargetAngle(ClawAngle newClawAngle);
 };
 
 }

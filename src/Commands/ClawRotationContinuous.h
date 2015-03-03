@@ -15,57 +15,54 @@ namespace tator {
 
 class ClawRotationContinuous: public CommandBase {
 protected:
-	double tolerance, holdAngle;
-	std::map<std::string, double> angles;
+	double tolerance, moveSpeed, holdSpeed;
+	std::vector<double> angles;
 
 public:
 	ClawRotationContinuous(std::string name, YAML::Node config) :
 			CommandBase(name) {
 		tolerance = config["tolerance"].as<double>();
-		angles = config["angles"].as<std::map<std::string, double>>();
+		moveSpeed = config["speeds"]["move"].as<double>();
+		holdSpeed = config["speeds"]["hold"].as<double>();
+		angles = config["angles"].as<std::vector<double>>();
 	}
 
 	void Initialize() {
 		CommandBase::Initialize();
-		claw->SetTargetAngle("Hold");
-		holdAngle = claw->GetRotationAngle();
 	}
 
 	void Execute() {
 		double currentAngle = claw->GetRotationAngle();
-		double targetAngle;
-		if (claw->GetTargetAngle() == "Hold") {
-			targetAngle = holdAngle;
-		} else {
-			targetAngle = angles[claw->GetTargetAngle()];
+		Claw::ClawAngle clawAngle = claw->GetTargetAngle();
+		double targetAngle = angles[(int) clawAngle];
+		double difference = abs(targetAngle - currentAngle);
+		bool hold = difference <= tolerance;
+		double speed;
+		if (clawAngle == Claw::ClawAngle::kPick) {
+			speed = -1;
+		} else if (clawAngle == Claw::ClawAngle::kPlatform) {
+			speed = 1;
 		}
-		if (abs(currentAngle - targetAngle) <= tolerance) {
-			if (claw->GetTargetAngle() == "Pick") {
-				claw->SetRotationSpeed(Claw::RotationSpeed::kHoldPick);
-			} else {
-				claw->SetRotationSpeed(Claw::RotationSpeed::kStopped);
-			}
+		if (hold) {
+			speed *= holdSpeed;
 			claw->SetRotationFinished(true);
-		} else if (targetAngle <= currentAngle) {
-			claw->SetRotationSpeed(Claw::RotationSpeed::kForward);
-			claw->SetRotationFinished(false);
 		} else {
-			claw->SetRotationSpeed(Claw::RotationSpeed::kBackward);
+			speed *= moveSpeed;
 			claw->SetRotationFinished(false);
 		}
-
+		claw->SetRotationSpeed(speed);
 	}
 	bool IsFinished() {
 		return false;
 	}
 
 	void End() {
-		claw->SetRotationSpeed(Claw::RotationSpeed::kStopped);
+		claw->SetRotationSpeed(0);
 		CommandBase::End();
 	}
 
 	void Interrupted() {
-		claw->SetRotationSpeed(Claw::RotationSpeed::kStopped);
+		claw->SetRotationSpeed(0);
 		CommandBase::Interrupted();
 	}
 
