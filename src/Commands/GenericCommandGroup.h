@@ -10,15 +10,17 @@
 #include "CommandBase.h"
 
 namespace tator {
-class GenericCommandGroup : public CommandGroup {
+class GenericCommandGroup: public CommandGroup {
 public:
 	GenericCommandGroup(std::string name, YAML::Node config) {
 		for (YAML::Node command : config["commands"]) {
 			if (command.IsMap()) {
 				std::string name = command["name"].as<std::string>();
 				if (name == "WaitCommand") {
-					AddSequential(new WaitCommand(command["time"].as<double>()));
-				} else if (command["execution"].as<std::string>() == "Parallel") {
+					AddSequential(
+							new WaitCommand(command["time"].as<double>()));
+				} else if (command["execution"].as<std::string>()
+						== "Parallel") {
 					AddParallel(Kremlin::GetCopyOf(name));
 				} else {
 					AddSequential(Kremlin::GetCopyOf(name));

@@ -29,8 +29,9 @@ protected:
 	virtual void Initialize() {
 		CommandBase::Initialize();
 		if (claw->HasContainer()) {
-			log.Warn("You tried to force home the claw while you have a container. "
-					"This is bad new. Please take it out");
+			log.Warn(
+					"You tried to force home the claw while you have a container. "
+							"This is bad news. Please take it out");
 			this->Cancel();
 		}
 		Kremlin::Get("ClawRotationContinuous")->Cancel();

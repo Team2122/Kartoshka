@@ -9,8 +9,8 @@
 #ifndef TESTER_H_
 #define TESTER_H_
 
-namespace tator{
-class Tester : public TestGroup {
+namespace tator {
+class Tester: public TestGroup {
 public:
 	/**
 	 * Gets the instance of the Tester

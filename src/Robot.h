@@ -17,7 +17,7 @@ namespace tator {
 /**
  * The main robot class.
  */
-class Robot : public IterativeRobot {
+class Robot: public IterativeRobot {
 public:
 	Robot();
 	virtual ~Robot();

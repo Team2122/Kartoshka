@@ -16,7 +16,7 @@ namespace tator {
 class TestGroup;
 
 class Test {
-friend TestGroup;
+	friend TestGroup;
 public:
 	/**
 	 * Constructor for Test

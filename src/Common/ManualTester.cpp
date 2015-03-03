@@ -18,9 +18,10 @@ public:
 	Logger* log;
 };
 
-class ManualSpeedControllerTest : public ManualTest {
+class ManualSpeedControllerTest: public ManualTest {
 public:
-	ManualSpeedControllerTest(std::string name, Logger* log, SpeedController* controller, double cap):
+	ManualSpeedControllerTest(std::string name, Logger* log,
+			SpeedController* controller, double cap) :
 			ManualTest(name, log) {
 		this->controller = controller;
 		this->cap = cap;
@@ -45,9 +46,10 @@ public:
 	double cap;
 };
 
-class ManualPIDControllerTest : public ManualTest {
+class ManualPIDControllerTest: public ManualTest {
 public:
-	ManualPIDControllerTest(std::string name, Logger* log, PIDController* controller, double maxSetpoint):
+	ManualPIDControllerTest(std::string name, Logger* log,
+			PIDController* controller, double maxSetpoint) :
 			ManualTest(name, log) {
 		this->controller = controller;
 		this->maxSetpoint = maxSetpoint;
@@ -72,9 +74,9 @@ public:
 	double maxSetpoint;
 };
 
-class ManualSolenoidTest : public ManualTest {
+class ManualSolenoidTest: public ManualTest {
 public:
-	ManualSolenoidTest(std::string name, Logger* log, Solenoid* solenoid):
+	ManualSolenoidTest(std::string name, Logger* log, Solenoid* solenoid) :
 			ManualTest(name, log) {
 		this->solenoid = solenoid;
 		this->lastPressed = -1;
@@ -108,9 +110,9 @@ public:
 	int lastPressed;
 };
 
-class ManualSensorTest : public ManualTest {
+class ManualSensorTest: public ManualTest {
 public:
-	ManualSensorTest(std::string name, Logger* log):
+	ManualSensorTest(std::string name, Logger* log) :
 			ManualTest(name, log) {
 		this->wasPressed = false;
 	}
@@ -130,9 +132,9 @@ public:
 	bool wasPressed;
 };
 
-class ManualEncoderTest : public ManualSensorTest {
+class ManualEncoderTest: public ManualSensorTest {
 public:
-	ManualEncoderTest(std::string name, Logger* log, Encoder* encoder):
+	ManualEncoderTest(std::string name, Logger* log, Encoder* encoder) :
 			ManualSensorTest(name, log) {
 		this->encoder = encoder;
 		this->wasBPressed = false;
@@ -156,15 +158,16 @@ public:
 
 	}
 	virtual void LogValue() {
-		log->Info("Encoder is at %.2f and going at %.2f", encoder->GetDistance(), encoder->GetRate());
+		log->Info("Encoder is at %.2f and going at %.2f",
+				encoder->GetDistance(), encoder->GetRate());
 	}
 	Encoder* encoder;
 	bool wasBPressed;
 };
 
-class ManualDigitalInputTest : public ManualSensorTest {
+class ManualDigitalInputTest: public ManualSensorTest {
 public:
-	ManualDigitalInputTest(std::string name, Logger* log, DigitalInput* input):
+	ManualDigitalInputTest(std::string name, Logger* log, DigitalInput* input) :
 			ManualSensorTest(name, log) {
 		this->input = input;
 	}
@@ -182,9 +185,10 @@ public:
 	DigitalInput* input;
 };
 
-class ManualAnalogPotentiometerTest : public ManualSensorTest {
+class ManualAnalogPotentiometerTest: public ManualSensorTest {
 public:
-	ManualAnalogPotentiometerTest(std::string name, Logger* log, AnalogPotentiometer* pot):
+	ManualAnalogPotentiometerTest(std::string name, Logger* log,
+			AnalogPotentiometer* pot) :
 			ManualSensorTest(name, log) {
 		this->pot = pot;
 	}
@@ -202,7 +206,7 @@ public:
 
 ManualTester* ManualTester::instance = nullptr;
 
-ManualTester::ManualTester():
+ManualTester::ManualTester() :
 		log("ManualTester") {
 	joystick = new Joystick(0);
 	lastPressed = -1;
@@ -225,7 +229,8 @@ void ManualTester::Execute() {
 		testIt = subsystemIt->second.begin();
 		log.Info("Switch subsystems with the left and right triggers");
 		log.Info("Switch components with the left and right bumpers");
-		log.Info("Starting off with testing subsytem %s", subsystemIt->first.c_str());
+		log.Info("Starting off with testing subsytem %s",
+				subsystemIt->first.c_str());
 		(*testIt)->LogInit();
 	}
 	if (joystick->GetRawButton(7)) { // Left trigger
@@ -236,7 +241,8 @@ void ManualTester::Execute() {
 				(*testIt)->End();
 				subsystemIt--;
 				testIt = subsystemIt->second.begin();
-				log.Info("Switching to subsystem %s", subsystemIt->first.c_str());
+				log.Info("Switching to subsystem %s",
+						subsystemIt->first.c_str());
 				(*testIt)->LogInit();
 			}
 		}
@@ -250,7 +256,8 @@ void ManualTester::Execute() {
 			} else {
 				(*testIt)->End();
 				testIt = subsystemIt->second.begin();
-				log.Info("Switching to subsystem %s", subsystemIt->first.c_str());
+				log.Info("Switching to subsystem %s",
+						subsystemIt->first.c_str());
 				(*testIt)->LogInit();
 			}
 		}
@@ -288,28 +295,37 @@ void ManualTester::StopTesting() {
 	(*testIt)->End();
 }
 
-void ManualTester::Add(std::string subsystem, std::string name, SpeedController* controller, double maxSpeed) {
-	tests[subsystem].push_back(new ManualSpeedControllerTest(name, &log, controller, maxSpeed));
+void ManualTester::Add(std::string subsystem, std::string name,
+		SpeedController* controller, double maxSpeed) {
+	tests[subsystem].push_back(
+			new ManualSpeedControllerTest(name, &log, controller, maxSpeed));
 }
 
-void ManualTester::Add(std::string subsystem, std::string name, PIDController* controller, double maxSetpoint) {
-	tests[subsystem].push_back(new ManualPIDControllerTest(name, &log, controller, maxSetpoint));
+void ManualTester::Add(std::string subsystem, std::string name,
+		PIDController* controller, double maxSetpoint) {
+	tests[subsystem].push_back(
+			new ManualPIDControllerTest(name, &log, controller, maxSetpoint));
 }
 
-void ManualTester::Add(std::string subsystem, std::string name, Solenoid* solenoid) {
+void ManualTester::Add(std::string subsystem, std::string name,
+		Solenoid* solenoid) {
 	tests[subsystem].push_back(new ManualSolenoidTest(name, &log, solenoid));
 }
 
-void ManualTester::Add(std::string subsystem, std::string name, Encoder* encoder) {
+void ManualTester::Add(std::string subsystem, std::string name,
+		Encoder* encoder) {
 	tests[subsystem].push_back(new ManualEncoderTest(name, &log, encoder));
 }
 
-void ManualTester::Add(std::string subsystem, std::string name, DigitalInput* input) {
+void ManualTester::Add(std::string subsystem, std::string name,
+		DigitalInput* input) {
 	tests[subsystem].push_back(new ManualDigitalInputTest(name, &log, input));
 }
 
-void ManualTester::Add(std::string subsystem, std::string name, AnalogPotentiometer* pot) {
-	tests[subsystem].push_back(new ManualAnalogPotentiometerTest(name, &log, pot));
+void ManualTester::Add(std::string subsystem, std::string name,
+		AnalogPotentiometer* pot) {
+	tests[subsystem].push_back(
+			new ManualAnalogPotentiometerTest(name, &log, pot));
 }
 
 }

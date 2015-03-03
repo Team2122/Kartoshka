@@ -10,9 +10,9 @@
 #define CLAWREGRIPPOSITION_H_
 
 namespace tator {
-class ClawRegripPosition : public ClawLift {
+class ClawRegripPosition: public ClawLift {
 public:
-	ClawRegripPosition(std::string name, YAML::Node node):
+	ClawRegripPosition(std::string name, YAML::Node node) :
 			ClawLift(name, node) {
 	}
 

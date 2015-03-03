@@ -5,10 +5,10 @@
 
 namespace tator {
 
-class ClawEstablishHome : public CommandBase {
+class ClawEstablishHome: public CommandBase {
 public:
-	ClawEstablishHome(std::string name, YAML::Node config)
-		: CommandBase(name) {
+	ClawEstablishHome(std::string name, YAML::Node config) :
+			CommandBase(name) {
 		hasEstablished = false;
 	}
 
@@ -22,9 +22,10 @@ protected:
 	}
 	virtual void Execute() {
 		if (!claw->IsHome() && !hasEstablished) {
-			log.Error("You tried to start the claw when it is not in the home position."
-					" This has been decided as unsafe. Please fix this and restart the"
-					" robot code if you would like claw functionality to be enabled");
+			log.Error(
+					"You tried to start the claw when it is not in the home position."
+							" This has been decided as unsafe. Please fix this and restart the"
+							" robot code if you would like claw functionality to be enabled");
 			claw->DisableClaw();
 		}
 	}

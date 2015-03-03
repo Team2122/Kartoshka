@@ -16,12 +16,17 @@ public:
 	void Execute();
 	void StopTesting();
 
-	virtual void Add(std::string subsystem, std::string name, SpeedController* controller, double maxSpeed = 1);
-	virtual void Add(std::string subsystem, std::string name, PIDController* controller, double maxSetpoint);
-	virtual void Add(std::string subsystem, std::string name, Solenoid* solenoid);
+	virtual void Add(std::string subsystem, std::string name,
+			SpeedController* controller, double maxSpeed = 1);
+	virtual void Add(std::string subsystem, std::string name,
+			PIDController* controller, double maxSetpoint);
+	virtual void Add(std::string subsystem, std::string name,
+			Solenoid* solenoid);
 	virtual void Add(std::string subsystem, std::string name, Encoder* encoder);
-	virtual void Add(std::string subsystem, std::string name, DigitalInput* input);
-	virtual void Add(std::string subsystem, std::string name, AnalogPotentiometer* pot);
+	virtual void Add(std::string subsystem, std::string name,
+			DigitalInput* input);
+	virtual void Add(std::string subsystem, std::string name,
+			AnalogPotentiometer* pot);
 
 protected:
 	ManualTester();

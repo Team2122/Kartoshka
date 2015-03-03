@@ -13,7 +13,7 @@ namespace tator {
 
 class FlapFlappers: public CommandBase {
 public:
-	FlapFlappers(std::string name, YAML::Node config):
+	FlapFlappers(std::string name, YAML::Node config) :
 			CommandBase(name) {
 	}
 	void Initialize() {

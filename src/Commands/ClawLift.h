@@ -11,7 +11,7 @@
 #include <cmath> // For abs()
 
 namespace tator {
-class ClawLift : public CommandBase {
+class ClawLift: public CommandBase {
 public:
 	ClawLift(std::string name, YAML::Node config) :
 			CommandBase(name) {

@@ -24,7 +24,7 @@ Otto::Otto(YAML::Node config) :
 Otto::~Otto() {
 }
 
-int Otto::GetAutoModeNumber(){
+int Otto::GetAutoModeNumber() {
 	bool one = autoSwitch1->Get();
 	bool two = autoSwitch2->Get();
 	bool three = autoSwitch3->Get();

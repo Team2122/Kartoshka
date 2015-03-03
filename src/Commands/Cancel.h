@@ -29,7 +29,7 @@ public:
 	}
 
 	virtual void Execute() {
-		if (command->IsRunning()){
+		if (command->IsRunning()) {
 			command->Cancel();
 		}
 	}

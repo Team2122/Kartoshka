@@ -12,10 +12,10 @@
 
 namespace tator {
 
-class ShuttleDown : public CommandBase {
+class ShuttleDown: public CommandBase {
 public:
 	ShuttleDown(std::string name, YAML::Node config) :
-		CommandBase(name) {
+			CommandBase(name) {
 		targetTicks = config["ticks"].as<int>();
 		tolerance = config["tolerance"].as<int>();
 		speed = config["speed"].as<double>();

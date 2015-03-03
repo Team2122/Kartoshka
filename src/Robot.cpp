@@ -14,7 +14,7 @@
 namespace tator {
 
 Robot::Robot() :
-	log("Robot"){
+		log("Robot") {
 	scheduler = Scheduler::GetInstance();
 	tester = Tester::GetInstance();
 	manualTester = ManualTester::GetInstance();

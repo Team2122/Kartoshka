@@ -10,9 +10,9 @@
 #define HOMECLAW_H_
 
 namespace tator {
-class HomeClaw : public ClawLift {
+class HomeClaw: public ClawLift {
 public:
-	HomeClaw(std::string name, YAML::Node node):
+	HomeClaw(std::string name, YAML::Node node) :
 			ClawLift(name, node) {
 		Requires(claw);
 	}

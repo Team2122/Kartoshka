@@ -9,14 +9,13 @@
 #include "Tester.h"
 #include "Test.h"
 
-
 namespace tator {
 TestGroup::TestGroup(const char* name, std::vector<Test*> tests,
-		bool simultaneous, bool stopOnError):
-			Test(name){
+		bool simultaneous, bool stopOnError) :
+		Test(name) {
 	this->name = name;
 	for (Test* test : tests) {
-		this->tests.push_back(new TestData{test, false, false});
+		this->tests.push_back(new TestData { test, false, false });
 	}
 	this->simultaneous = simultaneous;
 	this->stopOnError = stopOnError;
@@ -30,7 +29,8 @@ void TestGroup::Initialize() {
 	if (simultaneous) {
 		for (TestData* testPair : tests) {
 			if (!testPair->hasStarted) {
-				logger.Info("Initializing %s asynchronously", testPair->test->GetName().c_str());
+				logger.Info("Initializing %s asynchronously",
+						testPair->test->GetName().c_str());
 				testPair->hasStarted = true;
 				testPair->test->Initialize();
 			}

@@ -15,10 +15,8 @@ Drive::Drive(YAML::Node config) :
 	driveR = new Talon(config["drive"]["R"].as<int>());
 	YAML::Node conEncL = config["encoder"]["L"];
 	YAML::Node conEncR = config["encoder"]["R"];
-	encoderL = new Encoder(conEncL[0].as<int>(),
-			conEncL[1].as<int>());
-	encoderR = new Encoder(conEncR[0].as<int>(),
-			conEncR[1].as<int>());
+	encoderL = new Encoder(conEncL[0].as<int>(), conEncL[1].as<int>());
+	encoderR = new Encoder(conEncR[0].as<int>(), conEncR[1].as<int>());
 	YAML::Node pidl = config["PID"]["L"];
 	YAML::Node pidr = config["PID"]["R"];
 	pidL = new PIDController(pidl["P"].as<double>(), pidl["I"].as<double>(),

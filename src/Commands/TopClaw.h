@@ -10,9 +10,9 @@
 #define TOPCLAW_H_
 
 namespace tator {
-class TopClaw : public ClawLift {
+class TopClaw: public ClawLift {
 public:
-	TopClaw(std::string name, YAML::Node node):
+	TopClaw(std::string name, YAML::Node node) :
 			ClawLift(name, node) {
 	}
 

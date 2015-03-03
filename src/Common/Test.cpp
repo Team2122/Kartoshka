@@ -28,7 +28,7 @@ std::vector<TestResult> Test::GetResults() {
 
 void Test::AddTestResult(TestResult::Type resultType, const char* message,
 		va_list vargs) {
-    char* buffer = new char[Logger::kMaxLength];
+	char* buffer = new char[Logger::kMaxLength];
 	vsnprintf(buffer, Logger::kMaxLength, message, vargs);
 	results.push_back(TestResult(&logger, resultType, buffer));
 }

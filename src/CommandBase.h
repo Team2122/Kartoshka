@@ -29,8 +29,8 @@ public:
 	CommandBase(const std::string& name);
 	virtual ~CommandBase();
 	/**
-	* Initializes all static subsystem pointers
-	*/
+	 * Initializes all static subsystem pointers
+	 */
 	static void InitSubsystems(YAML::Node subsystem);
 
 protected:
