@@ -15,27 +15,43 @@ namespace tator {
 
 class ClawRotationContinuous: public CommandBase {
 protected:
-	double tolerance;
+	double tolerance, holdAngle;
+	std::map<std::string, double> angles;
 
 public:
 	ClawRotationContinuous(std::string name, YAML::Node config) :
 			CommandBase(name) {
 		tolerance = config["tolerance"].as<double>();
+		angles = config["angles"].as<std::map<std::string, double>>();
 	}
 
 	void Initialize() {
 		CommandBase::Initialize();
-		claw->SetTargetAngle(claw->GetRotationAngle());
+		claw->SetTargetAngle("Hold");
+		holdAngle = claw->GetRotationAngle();
 	}
 
 	void Execute() {
 		double currentAngle = claw->GetRotationAngle();
-		if (abs(currentAngle - claw->GetTargetAngle()) <= tolerance) {
-			claw->SetRotationSpeed(Claw::RotationSpeed::kStopped);
-		} else if (claw->GetTargetAngle() <= currentAngle) {
+		double targetAngle;
+		if (claw->GetTargetAngle() == "Hold") {
+			targetAngle = holdAngle;
+		} else {
+			targetAngle = angles[claw->GetTargetAngle()];
+		}
+		if (abs(currentAngle - targetAngle) <= tolerance) {
+			if (claw->GetTargetAngle() == "Pick") {
+				claw->SetRotationSpeed(Claw::RotationSpeed::kHoldPick);
+			} else {
+				claw->SetRotationSpeed(Claw::RotationSpeed::kStopped);
+			}
+			claw->SetRotationFinished(true);
+		} else if (targetAngle <= currentAngle) {
 			claw->SetRotationSpeed(Claw::RotationSpeed::kForward);
+			claw->SetRotationFinished(false);
 		} else {
 			claw->SetRotationSpeed(Claw::RotationSpeed::kBackward);
+			claw->SetRotationFinished(false);
 		}
 
 	}

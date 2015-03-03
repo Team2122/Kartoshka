@@ -23,7 +23,6 @@ public:
 		restRollerSpeed = config["rest"]["rollerSpeed"].as<double>();
 		restFlapperSpeed = config["rest"]["flapperSpeed"].as<double>();
 		toteTicksRequired = config["toteTicks"].as<int>();
-		Requires(shuttle);
 	}
 
 	static std::string GetBaseName() {

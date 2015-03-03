@@ -30,15 +30,25 @@ public:
 		int clawTicks = claw->GetLiftEncoder();
 		if (clawTicks < target) {
 			claw->SetLiftSpeed(Claw::LiftSpeed::kUp);
+			goingUp = true;
 		} else {
 			claw->SetLiftSpeed(Claw::LiftSpeed::kDown);
+			goingUp = false;
 		}
 	}
 
 	virtual bool IsFinished() {
 		double clawTicks = claw->GetLiftEncoder();
 		double difference = abs(clawTicks - target);
-		return difference <= tolerance;
+		bool limitTripped = true;
+		if (goingUp) {
+			limitTripped = claw->IsTop();
+		} else {
+			limitTripped = claw->IsHome();
+		}
+		if (limitTripped)
+			log.Info("Limit was tripped");
+		return difference <= tolerance || limitTripped;
 	}
 
 	virtual void End() {
@@ -53,6 +63,7 @@ public:
 private:
 	double target;
 	double tolerance;
+	bool goingUp;
 };
 }
 

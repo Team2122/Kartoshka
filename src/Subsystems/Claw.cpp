@@ -42,8 +42,10 @@ Claw::Claw(YAML::Node config) :
 	rollerOutwardSpeed = speed["outward"].as<double>();
 	forwardRotationSpeed = speed["forward"].as<float>();
 	backwardRotationSpeed = speed["backward"].as<float>();
+	holdPickRotationSpeed = speed["holdPick"].as<float>();
 	upSpeed = speed["up"].as<float>();
 	downSpeed = speed["down"].as<float>();
+	rotationFinished = false;
 
 	ManualTester* manualTester = ManualTester::GetInstance();
 	std::string name = GetName();
@@ -57,8 +59,6 @@ Claw::Claw(YAML::Node config) :
 	manualTester->Add(name, "short clamp", clampShort);
 	manualTester->Add(name, "bin sensor", binSensor);
 	manualTester->Add(name, "claw rollers", rollers);
-	currentSpeed = RotationSpeed::kUnknown;
-	targetAngle = 0;
 }
 Claw::~Claw() {
 	delete liftMotor;
@@ -93,7 +93,7 @@ void Claw::SetLiftSpeed(LiftSpeed speed) {
 	if (disabled) {
 		return liftMotor->Set(0);
 	} else if (clawAngle > clearClawMinAngle
-			&& clawHeight < clearClawMinHeight) {
+			&& clawHeight < clearClawMinHeight && false) {
 		log.Error("Claw angle was %f > %f", clawAngle, clearClawMinAngle);
 		return SetVerticalLiftMotor(0);
 	}
@@ -106,6 +106,11 @@ void Claw::SetLiftSpeed(LiftSpeed speed) {
 	case LiftSpeed::kStop:
 		return SetVerticalLiftMotor(0);
 	}
+	liftSpeed = speed;
+}
+
+Claw::LiftSpeed Claw::GetLiftSpeed() {
+	return liftSpeed;
 }
 
 double Claw::GetLiftEncoder() {
@@ -183,19 +188,21 @@ void Claw::SetRotationSpeed(RotationSpeed speed, bool override) {
 	double clawAngle = rotationAngle->Get();
 	if (disabled && !override) {
 		return clawRotation->SetSpeed(0);
-	} else if (clawHeight < clearClawRotate && clawAngle < clearClawMinAngle
+	} else if (clawHeight < clearClawRotate && clawAngle > clearClawMinAngle
 			&& speed != RotationSpeed::kStopped
-			&& speed != RotationSpeed::kUnknown && !override) {
-		log.Error("Claw height was %f < %f", clawHeight, clearClawRotate);
+			&& speed != RotationSpeed::kUnknown && !override && false) {
+		log.Error("Claw height was %f < %f, angle %f < %f", clawHeight, clearClawRotate, clawAngle, clearClawMinAngle);
 		return clawRotation->SetSpeed(0);
 	}
-	currentSpeed = speed;
 	switch (speed) {
 	case RotationSpeed::kForward:
 		clawRotation->SetSpeed(forwardRotationSpeed);
 		break;
 	case RotationSpeed::kBackward:
 		clawRotation->SetSpeed(backwardRotationSpeed);
+		break;
+	case RotationSpeed::kHoldPick:
+		clawRotation->SetSpeed(holdPickRotationSpeed);
 		break;
 	case RotationSpeed::kStopped:
 	default:
@@ -204,19 +211,22 @@ void Claw::SetRotationSpeed(RotationSpeed speed, bool override) {
 	}
 }
 
-Claw::RotationSpeed Claw::GetRotationSpeed() {
-	return currentSpeed;
 
-}
-
-double Claw::GetTargetAngle() {
+std::string Claw::GetTargetAngle() {
 	return targetAngle;
 }
 
-void Claw::SetTargetAngle(double newTargetAngle) {
+void Claw::SetRotationFinished(bool rotationFinished) {
+	this->rotationFinished = rotationFinished;
+}
+
+bool Claw::IsRotationFinished() {
+	return rotationFinished;
+}
+
+void Claw::SetTargetAngle(const std::string& newTargetAngle) {
 	targetAngle = newTargetAngle;
-	if (GetRotationSpeed() == RotationSpeed::kStopped)
-		SetRotationSpeed(RotationSpeed::kUnknown);
+	SetRotationFinished(false);
 }
 
 }

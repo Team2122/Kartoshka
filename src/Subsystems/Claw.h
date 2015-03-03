@@ -19,7 +19,11 @@ namespace tator {
 class Claw: public SubsystemBase {
 public:
 	enum class RotationSpeed {
-		kStopped = 0, kBackward, kForward, kUnknown
+		kStopped = 0, kBackward, kForward, kHoldPick, kUnknown
+	};
+
+	enum class LiftSpeed {
+		kStop, kUp, kDown
 	};
 private:
 	Talon* liftMotor; ///> Talon for the Vertical, Incremental
@@ -34,6 +38,7 @@ private:
 	double clearClawMinHeight;
 	float backwardRotationSpeed;
 	float forwardRotationSpeed;
+	float holdPickRotationSpeed;
 
 	float upSpeed;
 	float downSpeed;
@@ -48,8 +53,9 @@ private:
 
 	bool disabled;
 
-	double targetAngle;
-	RotationSpeed currentSpeed;
+	std::string targetAngle;
+	bool rotationFinished;
+	LiftSpeed liftSpeed;
 
 public:
 	Claw(YAML::Node config);
@@ -68,11 +74,9 @@ public:
 	 */
 	void SetVerticalLiftMotor(double power);
 
-	enum class LiftSpeed {
-		kStop, kUp, kDown
-	};
-
 	void SetLiftSpeed(LiftSpeed speed);
+
+	LiftSpeed GetLiftSpeed();
 
 	/**
 	 * Gets the position of the lift encoder
@@ -129,7 +133,9 @@ public:
 
 	void SetRotationSpeed(RotationSpeed dir, bool override = false);
 
-	RotationSpeed GetRotationSpeed();
+	void SetRotationFinished(bool rotationFinished);
+
+	bool IsRotationFinished();
 
 	float GetRotationAngle();
 
@@ -141,12 +147,12 @@ public:
 	/**
 	 * Mother Russia shows gentle side end politely esk for TargetAngle
 	 */
-	double GetTargetAngle();
+	std::string GetTargetAngle();
 
 	/**
 	 * KGB invade and persuade target angle to change ideas
 	 */
-	void SetTargetAngle(double newTargetAngle);
+	void SetTargetAngle(const std::string& newTargetAngle);
 };
 
 }

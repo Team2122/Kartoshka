@@ -45,6 +45,7 @@ protected:
 	virtual void End() {
 		claw->SetRotationSpeed(Claw::RotationSpeed::kStopped, true);
 		Kremlin::Get("ClawRotationContinuous")->Start();
+		Kremlin::Get("ClawRotationPick")->Start();
 		Kremlin::Get("HomeClaw")->Start();
 		CommandBase::End();
 	}

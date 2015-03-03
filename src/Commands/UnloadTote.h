@@ -17,6 +17,7 @@ public:
 	UnloadTote(std::string name, YAML::Node config) :
 			CommandBase(name) {
 		rollerSpeed = config["rollerSpeed"].as<double>();
+		flapperSpeed = config["flapperSpeed"].as<double>();
 	}
 
 	static std::string GetBaseName() {
@@ -26,6 +27,7 @@ public:
 	void Initialize() {
 		CommandBase::Initialize();
 		toteFeed->SetRollers(rollerSpeed);
+		toteFeed->SetFlapperSpeed(flapperSpeed);
 	}
 
 	void Execute() {
@@ -38,14 +40,16 @@ public:
 	void End() {
 		CommandBase::End();
 		toteFeed->SetRollers(0);
+		toteFeed->SetFlapperSpeed(0);
 	}
 
 	void Interrupted() {
 		CommandBase::Interrupted();
 		toteFeed->SetRollers(0);
+		toteFeed->SetFlapperSpeed(0);
 	}
 private:
-	double rollerSpeed;
+	double rollerSpeed, flapperSpeed;
 };
 
 }

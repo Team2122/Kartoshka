@@ -16,7 +16,7 @@ ShuttlePosition:
     ticks: 0
     tolerance: 10
   - name: Up
-    ticks: 697
+    ticks: 700
     tolerance: 10
   - name: Unload
     ticks: 400
@@ -43,11 +43,15 @@ ClawClamp:
 
 ClawRotation:
   - name: InBot
-    angle: 135
   - name: Platform
-    angle: 228
   - name: Pick
-    angle: 68.0
+
+ClawRotationContinuous:
+  tolerance: 2.0
+  angles:
+    InBot: 135
+    Platform: 240
+    Pick: 68
 
 ClawRollers:
   - name: In
@@ -62,26 +66,26 @@ ClawSmartRollers:
 ClawEstablishHome:
 
 HomeClaw:
-  speed: .35
+  speed: .4
 
 TopClaw:
-  speed: -.7
+  speed: -1
 
 ClawPosition:
   - name: Pick
     target: 0.0
     tolerance: 1.0
   - name: Top
-    target: 242.0
+    target: 260.0
     tolerance: 1.0
   - name: Middle
     target: 195.0
     tolerance: 1.0
   - name: Platform
-    target: 180.0
+    target: 178.0
     tolerance: 1.0
   - name: Regrip
-    target: 160.0
+    target: 155.0
     tolerance: 1.0
 
 ClawRegripPosition:
@@ -97,7 +101,8 @@ RecieveTote:
   rollerSpeed: -.5
 
 UnloadTote:
-  - rollerSpeed: -1
+  rollerSpeed: -.5
+  flapperSpeed: -1
 
 FlapFlappers:
 
@@ -138,7 +143,7 @@ $: # This is GenericCommandGroup
       - ClawPositionMiddle
       - ClawRotationPlatform
       - name: WaitCommand
-        time: 0.25
+        time: 0.5
       - ClawPositionPlatform
   - name: RegripBin
     commands:
@@ -155,6 +160,7 @@ $: # This is GenericCommandGroup
       - ClawSmartRollers
       - name: WaitCommand
         time: 0.25
+      - ClawClampDeathGrip
   - name: PlatformToPlacement
     commands:
       - ClawPositionTop
@@ -176,6 +182,11 @@ $: # This is GenericCommandGroup
       - FingersRelease
       - ShuttleClampOpen
       - HomeShuttle
+  - name: ClawPick
+    commands:
+      - ClawRotationPick
+      - ClawPositionPick
+      - $PickBin
 
 ArmShuttle:
   first:
@@ -183,7 +194,7 @@ ArmShuttle:
     flapperSpeed: 0.35
   rest:
     rollerSpeed: 0.05
-    flapperSpeed: .7
+    flapperSpeed: 1
   toteTicks: 13
 
 Cancel:
@@ -204,6 +215,3 @@ ClawForceHome:
 
 ClawToHome:
   rotateWait: .25
-
-ClawRotationContinuous:
-  tolerance: 2.0

@@ -14,12 +14,12 @@ namespace tator {
 
 class ClawRotation: public CommandBase {
 private:
-	double targetAngle;
+	std::string targetAngle;
 
 public:
 	ClawRotation(std::string name, YAML::Node config) :
 			CommandBase(name) {
-		targetAngle = config["angle"].as<double>();
+		targetAngle = config["name"].as<std::string>();
 		Requires(claw);
 	}
 
@@ -31,7 +31,7 @@ public:
 	}
 
 	bool IsFinished() {
-		return claw->GetRotationSpeed() == Claw::RotationSpeed::kStopped;
+		return claw->IsRotationFinished();
 	}
 
 	void End() {

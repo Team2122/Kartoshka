@@ -9,18 +9,19 @@ class ClawEstablishHome : public CommandBase {
 public:
 	ClawEstablishHome(std::string name, YAML::Node config)
 		: CommandBase(name) {
-
+		hasEstablished = false;
 	}
 
 	static std::string GetBaseName() {
 		return "ClawEstablishHome";
 	}
 protected:
+	bool hasEstablished;
 	virtual void Initialize() {
 		CommandBase::Initialize();
 	}
 	virtual void Execute() {
-		if (!claw->IsHome()) {
+		if (!claw->IsHome() && !hasEstablished) {
 			log.Error("You tried to start the claw when it is not in the home position."
 					" This has been decided as unsafe. Please fix this and restart the"
 					" robot code if you would like claw functionality to be enabled");
@@ -31,7 +32,11 @@ protected:
 		return true;
 	}
 	virtual void End() {
-		claw->ZeroLiftEncoder();
+		if (!hasEstablished) {
+			claw->ZeroLiftEncoder();
+		}
+		Kremlin::Get("ClawRotationPick")->Start();
+		hasEstablished = true;
 	}
 	virtual void Interrupted() {
 	}

@@ -103,7 +103,6 @@ public:
 		}
 	}
 	virtual void End() {
-		solenoid->Set(false);
 	}
 	Solenoid* solenoid;
 	int lastPressed;
