@@ -37,8 +37,10 @@ protected:
 			Kremlin::Get("ClawRotationPick")->Start();
 		}
 		hasEstablished = true;
+		CommandBase::End();
 	}
 	virtual void Interrupted() {
+		CommandBase::Interrupted();
 	}
 };
 

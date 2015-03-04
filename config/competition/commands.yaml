@@ -144,6 +144,13 @@ $: # This is GenericCommandGroup
       - name: WaitCommand
         time: 0.5
       - ClawPositionPlatform
+  - name: PickBin
+    commands:
+      - ClawClampContainer
+      - ClawSmartRollers
+      - name: WaitCommand
+        time: 0.25
+      - ClawClampDeathGrip
   - name: RegripBin
     commands:
       - ClawClampReleased
@@ -152,14 +159,8 @@ $: # This is GenericCommandGroup
       - ClawPositionRegrip
       - name: WaitCommand
         time: 0.25
-      - ClawClampDeathGrip
-  - name: PickBin
-    commands:
-      - ClawClampContainer
-      - ClawSmartRollers
-      - name: WaitCommand
-        time: 0.25
-      - ClawClampDeathGrip
+      # - ClawClampDeathGrip
+      - $PickBin
   - name: PlatformToPlacement
     commands:
       - ClawPositionTop

@@ -35,20 +35,21 @@ void Robot::RobotInit() {
 	Binder::BindAll();
 	log.Info("Deleting Configs...");
 	Config::Delete();
+	Kremlin::Get("ClawEstablishHome")->Start();
 }
 
 void Robot::DisabledInit() {
-	Kremlin::Get("DriveContinuous")->Cancel();
 	Kremlin::Get("ClawRotationContinuous")->Cancel();
+	Kremlin::Get("DriveContinuous")->Cancel();
 	tester->Interrupted();
 }
 
 void Robot::AutonomousInit() {
-	Kremlin::Get("ClawEstablishHome")->Start();
+	Kremlin::Get("ClawRotationContinuous")->Start();
+	Kremlin::Get("$ShuttleInit")->Start();
 }
 
 void Robot::TeleopInit() {
-	Kremlin::Get("ClawEstablishHome")->Start();
 	Kremlin::Get("DriveContinuous")->Start();
 	Kremlin::Get("ClawRotationContinuous")->Start();
 	Kremlin::Get("$ShuttleInit")->Start();
