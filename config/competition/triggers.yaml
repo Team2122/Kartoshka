@@ -18,14 +18,16 @@
 2:
   1: WhenPressed ClawClampReleased
   2: WhenPressed ResetTotes
-  3: WhenPressed $ShuttleInit
-  4: WhileHeld TopClaw
-  5: WhileHeld ClawRollersIn
-  6: WhileHeld ClawRollersOut
-  7: WhenPressed AddTote
-  8: WhileHeld FlapFlappers
-  9:
+  3: WhenPressed AddTote
+  4: WhileHeld ClawRollersIn
+  5: WhileHeld ClawRollersOut
+  6: WhileHeld FlapFlappers
+  7:
     - WhenPressed ClawForceHome
     - WhenReleased CancelClawForceHome
     - WhenReleased CancelHomeClaw
+  8: WhenPressed ArmShuttle
+  9: WhenPressed CancelArmShuttle
+  10: WhileHeld ManualClawLiftUp
+  11: WhileHeld ManualClawLiftDown
   12: WhileHeld UnloadTote
