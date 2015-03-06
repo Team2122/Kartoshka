@@ -74,6 +74,9 @@ ClawPosition:
   - name: Pick
     target: 0.0
     tolerance: 1.0
+  - name: Transport
+    target: 30.0
+    tolerance: 1.0
   - name: Top
     target: 260.0
     tolerance: 1.0
@@ -100,7 +103,7 @@ RecieveTote:
   rollerSpeed: -.5
 
 UnloadTote:
-  rollerSpeed: -.5
+  rollerSpeed: -1
   flapperSpeed: -1
 
 FlapFlappers:
@@ -190,6 +193,14 @@ $: # This is GenericCommandGroup
     commands:
       - $ClawToPick
       - $PickBin
+      - ClawPositionTransport
+  - name: AutoOne
+    commands:
+      - name: DriveDistanceAutoPick
+        execution: Parallel
+      - $PickBin
+      - $GroundToPlatform
+      - $RegripBin
 
 ArmShuttle:
   first:
@@ -225,3 +236,8 @@ ManualClawLift:
     speed: 1
   - name: "Down"
     speed: 2
+
+DriveDistance:
+  - name: AutoPick
+    speed: 0.45
+    distance: 1.0

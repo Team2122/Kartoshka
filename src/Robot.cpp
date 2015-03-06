@@ -36,27 +36,28 @@ void Robot::RobotInit() {
 	log.Info("Deleting Configs...");
 	Config::Delete();
 	Kremlin::Get("ClawEstablishHome")->Start();
+	Kremlin::Get("$ShuttleInit")->Start();
+	Kremlin::Get("ClawRotationContinuous")->Start();
 }
 
 void Robot::DisabledInit() {
-	Kremlin::Get("ClawRotationContinuous")->Cancel();
+	log.Info("==== DisabledInit ====");
 	Kremlin::Get("DriveContinuous")->Cancel();
 	tester->Interrupted();
 }
 
 void Robot::AutonomousInit() {
-	Kremlin::Get("ClawRotationContinuous")->Start();
-	Kremlin::Get("$ShuttleInit")->Start();
+	log.Info("==== AutonomousInit ====");
+	Kremlin::Get("$AutoOne")->Start();
 }
 
 void Robot::TeleopInit() {
+	log.Info("==== TeleopInit ====");
 	Kremlin::Get("DriveContinuous")->Start();
-	Kremlin::Get("ClawRotationContinuous")->Start();
-	Kremlin::Get("$ShuttleInit")->Start();
 }
 
 void Robot::TestInit() {
-	log.Info("Test mode enabled");
+	log.Info("==== TestInit ====");
 	log.Info("Defaulted to the ManualTester");
 	log.Info("Press START (10) to switch to the automated Tester");
 	testMode = TestMode::manual;

@@ -61,6 +61,10 @@ void Drive::SetSpeeds(float leftSpeed, float rightSpeed) {
 	SetRPS(leftSpeed, rightSpeed);
 }
 
+double Drive::GetDistance(){
+	return (12.5663 * ((encoderL->GetDistance()) / 12)); // 12 inches per feet
+}
+
 void Drive::SetRPS(float leftRPS, float rightRPS) {
 	pidL->SetSetpoint(-leftRPS);
 	pidR->SetSetpoint(rightRPS);

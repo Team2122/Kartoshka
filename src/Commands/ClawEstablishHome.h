@@ -35,7 +35,6 @@ protected:
 	virtual void End() {
 		if (!hasEstablished) {
 			claw->ZeroLiftEncoder();
-			Kremlin::Get("ClawRotationPick")->Start();
 		}
 		hasEstablished = true;
 		CommandBase::End();

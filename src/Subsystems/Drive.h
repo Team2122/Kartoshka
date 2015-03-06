@@ -39,6 +39,8 @@ public:
 	 */
 	void SetSpeeds(float leftSpeed, float rightSpeed);
 
+	double GetDistance();
+
 	/**
 	 * Sets the speed of the wheels in rps
 	 * @param leftRPS The speed of the left wheel in RPS
