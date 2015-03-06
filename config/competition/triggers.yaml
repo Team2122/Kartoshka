@@ -15,7 +15,7 @@
   3: WhenPressed $GroundToPlatform
   4: WhenPressed $RegripBin
   5: WhenPressed $PlatformToPlacement
-  6: WhenPressed DriveDistanceAutoPick
+  6: WhenPressed $Restack
 2:
   1: WhenPressed ClawClampReleased
   2: WhenPressed ResetTotes
