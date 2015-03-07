@@ -17,6 +17,7 @@ public:
 	ArmShuttle(std::string name, YAML::Node config) :
 			CommandBase(name) {
 		stackToteCommand = Kremlin::Get("$StackTote");
+		restackCommand = Kremlin::Get("$Restack");
 		toteTickCount = 0;
 		firstRollerSpeed = config["first"]["rollerSpeed"].as<double>();
 		firstFlapperSpeed = config["first"]["flapperSpeed"].as<double>();
@@ -65,6 +66,7 @@ public:
 		if (stackToteCommand->IsRunning())
 			stackToteCommand->Cancel();
 		toteFeed->SetRollers(0);
+		restackCommand->Start();
 		CommandBase::End();
 	}
 
@@ -77,7 +79,7 @@ public:
 	}
 
 protected:
-	Command* stackToteCommand;
+	Command* stackToteCommand, *restackCommand;
 	double firstRollerSpeed, firstFlapperSpeed;
 	double restRollerSpeed, restFlapperSpeed;
 	int toteTicksRequired, toteTickCount;

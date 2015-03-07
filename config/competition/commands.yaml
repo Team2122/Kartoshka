@@ -50,7 +50,7 @@ ClawRotation:
 ClawRotationContinuous:
   tolerance: 15.0
   angles: [68, 240] # Pick, Platform
-  speeds: {move: .5, hold: .2}
+  speeds: {move: .35, hold: .2}
 
 ClawRollers:
   - name: In
@@ -78,7 +78,7 @@ ClawPosition:
     target: 30.0
     tolerance: 1.0
   - name: Top
-    target: 260.0
+    target: 243.0
     tolerance: 1.0
   - name: Middle
     target: 200
@@ -87,7 +87,7 @@ ClawPosition:
     target: 183
     tolerance: 1.0
   - name: Regrip
-    target: 160
+    target: 157.5
     tolerance: 1.0
 
 ClawRegripPosition:
@@ -193,7 +193,7 @@ $: # This is GenericCommandGroup
     commands:
       - $ClawToPick
       - $PickBin
-      - ClawPositionTransport
+      # - ClawPositionTransport
   - name: AutoOne
     commands:
       - name: DriveDistanceAutoPick
@@ -208,7 +208,7 @@ ArmShuttle:
     flapperSpeed: 0.35
   rest:
     rollerSpeed: 0.05
-    flapperSpeed: 1
+    flapperSpeed: 1.0
   toteTicks: 13
 
 Cancel:
@@ -240,4 +240,4 @@ ManualClawLift:
 DriveDistance:
   - name: AutoPick
     speed: 0.45
-    distance: 1.0
+    distance: 4.0

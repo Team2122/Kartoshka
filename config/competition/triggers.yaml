@@ -2,13 +2,13 @@
   1: WhenPressed ArmShuttle
   2: WhenPressed $ClawPick
   3: WhileHeld UnloadTote
-  4: WhenPressed CancelArmShuttle
-  5: WhenPressed $GroundToPlatform
+  4: WhenPressed $GroundToPlatform
+  5: WhileHeld ManualClawLiftUp
   6: WhenPressed $RegripBin
-  7: WhenPressed $Restack
+  7: WhileHeld ManualClawLiftDown
   8: WhenPressed $PlatformToPlacement
   9: WhenPressed ClawClampReleased
-  10: WhenPressed ClawClampDeathGrip
+  10: WhenPressed CancelArmShuttle
 1:
   1: WhenPressed $ClawToPick
   2: WhenPressed $ClawPick

@@ -3,7 +3,7 @@ Claw:
     liftVertical: 6
     liftRotation: 7
     verticalTicks: [6, 7]
-    rotationAngle: {Channel: 0, Scale: 360, Offset: 16.0} # offset 4 on comp bot
+    rotationAngle: {Channel: 0, Scale: 360, Offset: 64.0} # offset 4 on comp bot
     upperLimit: 13
     clampLong: 2
     clampShort: 3
