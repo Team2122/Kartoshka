@@ -38,6 +38,7 @@ void Robot::RobotInit() {
 	Kremlin::Get("ClawEstablishHome")->Start();
 	Kremlin::Get("$ShuttleInit")->Start();
 	Kremlin::Get("ClawRotationContinuous")->Start();
+	CameraServer::GetInstance()->StartAutomaticCapture("cam2");
 }
 
 void Robot::DisabledInit() {
