@@ -45,6 +45,8 @@ Claw::Claw(YAML::Node config) :
 	rotationFinished = false;
 	clawAngle = ClawAngle::kPick;
 
+	PDP = new PowerDistributionPanel();
+
 	ManualTester* manualTester = ManualTester::GetInstance();
 	std::string name = GetName();
 	manualTester->Add(name, "claw rotation", clawRotation, 0.3);
@@ -63,6 +65,7 @@ Claw::~Claw() {
 	delete clawRotation;
 	delete liftEncoder;
 	delete rotationAngle;
+	delete PDP;
 
 	delete rollers;
 	delete clampLong;
@@ -210,6 +213,10 @@ Claw::ClawAngle Claw::GetTargetAngle() {
 void Claw::SetTargetAngle(ClawAngle newClawAngle) {
 	clawAngle = newClawAngle;
 	SetRotationFinished(false);
+}
+
+double Claw::GetCurrent(int channel) {
+	return PDP->GetCurrent(channel);
 }
 
 }

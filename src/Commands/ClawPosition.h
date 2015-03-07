@@ -38,6 +38,7 @@ public:
 	}
 
 	virtual bool IsFinished() {
+		log.Info("Current One: %d Current Two: %d", claw->GetCurrent(4), claw->GetCurrent(10));
 		double clawTicks = claw->GetLiftEncoder();
 		double difference = abs(clawTicks - target);
 		bool limitTripped = true;

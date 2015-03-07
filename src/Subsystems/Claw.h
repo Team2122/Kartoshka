@@ -36,6 +36,7 @@ private:
 	AnalogPotentiometer* rotationAngle; ///> Encoder for the Rotation
 	DigitalInput* upperLimit;
 	DigitalInput* homeLimit;
+	PowerDistributionPanel* PDP;
 
 	double clearClawRotate; ///> Minimum safety for claw to fully rotate
 	double clearClawMinAngle; ///> Minimum safety for claw to fully rotate
@@ -154,6 +155,8 @@ public:
 	 * KGB invade and persuade target angle to change ideas
 	 */
 	void SetTargetAngle(ClawAngle newClawAngle);
+
+	double GetCurrent(int channel);
 };
 
 }
