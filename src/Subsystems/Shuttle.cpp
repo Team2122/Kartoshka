@@ -34,6 +34,7 @@ Shuttle::Shuttle(YAML::Node config) :
 
 	liftEncoder->SetReverseDirection(true);
 	totes = 0;
+	ResetMaxToteCount();
 
 	ManualTester* manualTester = ManualTester::GetInstance();
 	std::string name = GetName();
@@ -140,6 +141,18 @@ void Shuttle::SetFingersPiston(FingersState state) {
 		log.Error("Invalid fingers piston position");
 	}
 
+}
+
+int Shuttle::GetMaxToteCount() {
+	return maxToteCount;
+}
+
+void Shuttle::ResetMaxToteCount() {
+	maxToteCount = 4;
+}
+
+void Shuttle::DecrementMaxToteCount() {
+	maxToteCount--;
 }
 
 }

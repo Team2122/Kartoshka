@@ -24,13 +24,13 @@ ShuttlePosition:
 
 ShuttleRamp:
   - name: Up
-    ticks: 700
-    tolerance: 10
-    rampFactor: .5
+    ticks: 697
+    tolerance: 5
+    rampFactor: .75
     rampDistance: 300
   - name: Down
     ticks: 0
-    tolerance: 10
+    tolerance: 5
     rampFactor: .2
     rampDistance: 300
 
@@ -207,11 +207,22 @@ $: # This is GenericCommandGroup
       - $ClawToPick
       - $PickBin
       # - ClawPositionTransport
-  - name: AutoOne
+  - name: Auto0
+    commands:
+  - name: Auto1
     commands:
       - name: DriveDistanceAutoPick
         execution: Parallel
       - $PickBin
+      - $GroundToPlatform
+      - $RegripBin
+  - name: Auto2
+    commands:
+      - name: DriveDistanceAutoPickShort
+        execution: Parallel
+      - $PickBin
+      - name: DriveDistanceAutoBack
+        execution: Parallel
       - $GroundToPlatform
       - $RegripBin
 
@@ -235,6 +246,12 @@ AddTote:
 
 ResetTotes:
 
+DecrementMaxTotes:
+
+ResetMaxTotes:
+
+ClawClampToggle:
+
 Restack:
   lowerWait: .25
   fingerWait: 0
@@ -256,3 +273,9 @@ DriveDistance:
   - name: AutoPick
     speed: 0.45
     distance: 4.0
+  - name: AutoPickShort
+    speed: 0.45
+    distance: .1
+  - name: AutoBack
+    speed: -0.45
+    distance: 6.0

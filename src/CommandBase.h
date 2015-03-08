@@ -45,6 +45,8 @@ protected:
 	static Drive* drive;
 	static Shuttle* shuttle;
 	static ToteFeed* toteFeed;
+
+public:
 	static Otto* otto;
 };
 

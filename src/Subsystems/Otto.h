@@ -15,9 +15,9 @@ namespace tator {
 
 class Otto: public SubsystemBase {
 private:
+	DigitalInput *autoSwitch0;
 	DigitalInput *autoSwitch1;
 	DigitalInput *autoSwitch2;
-	DigitalInput *autoSwitch3;
 public:
 	/**
 	 * The constructor for Otto
@@ -30,6 +30,8 @@ public:
 	~Otto();
 
 	int GetAutoModeNumber();
+
+	void StartAutoCommand();
 
 };
 

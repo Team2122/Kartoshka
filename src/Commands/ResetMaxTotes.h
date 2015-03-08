@@ -1,25 +1,25 @@
 /**
- * @file LackOfStack.h
- * @author Paul Vaughan
- * @date 3/7/2015
+ * @file ResetMaxTotes.h
+ * @author Alex Mikhalev
+ * @date 3/8/2015
  */
 
-#ifndef LACKOFSTACK_H
-#define LACKOFSTACK_H
+#ifndef RESETMAXTOTES_H_
+#define RESETMAXTOTES_H_
 
 #include "CommandBase.h"
 #include "Subsystems/Shuttle.h"
 
 namespace tator {
 
-class LackOfStack: public CommandBase {
+class ResetMaxTotes: public CommandBase {
 public:
-	LackOfStack(std::string name, YAML::Node config) :
+	ResetMaxTotes(std::string name, YAML::Node config) :
 			CommandBase(name) {
 	}
 
 	static std::string GetBaseName() {
-		return "LackOfStack";
+		return "ResetMaxTotes";
 	}
 
 	virtual void Initialize() {
@@ -27,10 +27,12 @@ public:
 	}
 
 	virtual void Execute() {
+		shuttle->ResetMaxToteCount();
+		log.Info("Will now make a %d high stack", shuttle->GetMaxToteCount() + 2);
 	}
 
 	virtual bool IsFinished() {
-		return !toteFeed->GetBackSensor();
+		return true;
 	}
 
 	virtual void End() {

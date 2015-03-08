@@ -53,6 +53,8 @@ public:
 		int shuttleTicks = shuttle->GetEncoderTicks();
 		int difference = abs(shuttleTicks - targetTicks);
 		int limit = shuttle->GetLimit();
+		if (limit != Shuttle::kUnknown)
+			log.Info("Limit hit");
 		switch (direction) {
 		case kUp:
 			return difference <= tolerance || limit == Shuttle::kUpper;

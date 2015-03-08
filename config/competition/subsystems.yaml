@@ -3,7 +3,8 @@ Claw:
     liftVertical: 6
     liftRotation: 7
     verticalTicks: [6, 7]
-    rotationAngle: {Channel: 0, Scale: 360, Offset: 62.0} # offset 4 on comp bot
+    rotationAngle: {Channel: 0, Scale: 360, Offset: -120.0} # offset 4 on comp bot
+    # rotationAngle: {Channel: 0, Scale: 1, Offset: 0.0} # offset 4 on comp bot
     upperLimit: 13
     clampLong: 2
     clampShort: 3
@@ -30,7 +31,7 @@ Drive:
   PID:
     L: {P: 0.02, I: 0, D: 0, F: 0}
     R: {P: 0.02, I: 0, D: 0, F: 0}
-  maxRPS: 30
+  maxRPS: 40
 Shuttle:
   Ports:
     toteSensor: 17
@@ -57,4 +58,4 @@ ToteFeed:
   flapperSpeed: .5
 Otto:
   Ports:
-    switch: [21, 22, 23]
+    switch: [23, 22, 21]

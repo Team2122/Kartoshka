@@ -9,6 +9,7 @@
 #include "Common/Binder.h"
 #include "Common/Kremlin.h"
 #include "CommandBase.h"
+#include "Subsystems/Otto.h"
 #include <WPILib.h>
 
 namespace tator {
@@ -49,7 +50,7 @@ void Robot::DisabledInit() {
 
 void Robot::AutonomousInit() {
 	log.Info("==== AutonomousInit ====");
-	Kremlin::Get("$AutoOne")->Start();
+	CommandBase::otto->StartAutoCommand();
 }
 
 void Robot::TeleopInit() {

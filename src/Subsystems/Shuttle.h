@@ -34,6 +34,7 @@ private:
 	uint8_t motorPDPChannel;
 	double maxMotorCurrent; ///< The max current that can be sent to the shuttle motors. Used ot know if there is a motor stall
 	int totes; ///< How many totes we are "rescuing"
+	int maxToteCount;
 
 public:
 	Shuttle(YAML::Node config);
@@ -139,6 +140,10 @@ public:
 	 * @param state is the enum kHeld (holds totes) or kReleased (releases totes)
 	 */
 	void SetFingersPiston(FingersState state);
+
+	int GetMaxToteCount();
+	void ResetMaxToteCount();
+	void DecrementMaxToteCount();
 
 };
 

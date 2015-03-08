@@ -40,6 +40,9 @@
 #include "Commands/ManualClawLift.h"
 #include "Commands/DriveDistance.h"
 #include "Commands/LackOfStack.h"
+#include "Commands/ClawClampToggle.h"
+#include "Commands/DecrementMaxTotes.h"
+#include "Commands/ResetMaxTotes.h"
 
 namespace tator {
 
@@ -101,6 +104,9 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<ManualClawLift>();
 	CreateCommandsForClass<DriveDistance>();
 	CreateCommandsForClass<LackOfStack>();
+	CreateCommandsForClass<ClawClampToggle>();
+	CreateCommandsForClass<DecrementMaxTotes>();
+	CreateCommandsForClass<ResetMaxTotes>();
 	CreateCommandsForClass<GenericCommandGroup>();
 	CreateCommandsForClass<ArmShuttle>();
 	CreateCommandsForClass<Cancel>();

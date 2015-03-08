@@ -33,6 +33,7 @@ public:
 	virtual void Initialize() {
 		CommandBase::Initialize();
 		shuttle->OpenProngs();
+		shuttle->ResetMaxToteCount();
 		toteTickCount = 1;
 	}
 
@@ -43,7 +44,7 @@ public:
 			toteTickCount = 0;
 		}
 		if (toteTickCount >= toteTicksRequired && !stackToteCommand->IsRunning()
-				&& shuttle->GetToteCount() < 4) {
+				&& shuttle->GetToteCount() < shuttle->GetMaxToteCount()) {
 			log.Info("Sensor triggered. Stacking totes...");
 			stackToteCommand->Start();
 		}
@@ -57,7 +58,7 @@ public:
 	}
 
 	virtual bool IsFinished() {
-		return shuttle->GetToteCount() >= 4
+		return shuttle->GetToteCount() >= shuttle->GetMaxToteCount()
 				&& toteTickCount >= toteTicksRequired; // 0 is 1, 4 is 5
 	}
 
