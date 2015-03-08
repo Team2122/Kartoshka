@@ -18,6 +18,10 @@
   6: WhenPressed $Restack
   7: WhenPressed ShuttleRampUp
   8: WhenPressed ShuttleRampDown
+  9:
+    - WhenPressed ClawForceHome
+    - WhenReleased CancelClawForceHome
+    - WhenReleased CancelHomeClaw
 2:
   1: WhenPressed ClawClampReleased
   2: WhenPressed ResetTotes

@@ -39,6 +39,7 @@
 #include "Commands/ClawRotationContinuous.h"
 #include "Commands/ManualClawLift.h"
 #include "Commands/DriveDistance.h"
+#include "Commands/LackOfStack.h"
 
 namespace tator {
 
@@ -99,6 +100,7 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<ClawRotationContinuous>();
 	CreateCommandsForClass<ManualClawLift>();
 	CreateCommandsForClass<DriveDistance>();
+	CreateCommandsForClass<LackOfStack>();
 	CreateCommandsForClass<GenericCommandGroup>();
 	CreateCommandsForClass<ArmShuttle>();
 	CreateCommandsForClass<Cancel>();

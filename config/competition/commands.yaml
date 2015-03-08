@@ -179,6 +179,7 @@ $: # This is GenericCommandGroup
   - name: PlatformToPlacement
     commands:
       - ClawPositionTop
+      - LackOfStack
       - ClawRotationPick
   - name: ClawToHome
     commands:
@@ -227,6 +228,8 @@ Cancel:
   - name: ArmShuttle
   - name: ClawForceHome
   - name: HomeClaw
+
+LackOfStack:
 
 AddTote:
 
