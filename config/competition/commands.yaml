@@ -22,6 +22,18 @@ ShuttlePosition:
     ticks: 400
     tolerance: 10
 
+ShuttleRamp:
+  - name: Up
+    ticks: 700
+    tolerance: 10
+    rampFactor: .5
+    rampDistance: 300
+  - name: Down
+    ticks: 0
+    tolerance: 10
+    rampFactor: .2
+    rampDistance: 300
+
 ShuttleDown:
   ticks: 50
   tolerance: 10
@@ -115,20 +127,20 @@ $: # This is GenericCommandGroup
         time: .25
       - FingersHold
       - ShuttleClampOpen
-      - ShuttlePositionDown
+      - ShuttleRampDown
       - ShuttleClampClose
       - name: WaitCommand
         time: .25
-      - ShuttlePositionUp
+      - ShuttleRampUp
       - name: WaitCommand
         time: .25
       - ShuttleClampOpen
-      - ShuttlePositionDown
+      - ShuttleRampDown
       - AddTote
   - name: Restack
     commands:
       - ShuttleClampOpen
-      - ShuttlePositionDown
+      - ShuttleRampDown
       - ShuttleClampClose
       - name: WaitCommand
         time: 0.25
@@ -137,7 +149,7 @@ $: # This is GenericCommandGroup
       - name: WaitCommand
         time: 0
       - ShuttleDown
-      - ShuttlePositionDown
+      - ShuttleRampDown
       - ShuttleClampOpen
       - ResetTotes
   - name: GroundToPlatform
@@ -209,7 +221,7 @@ ArmShuttle:
   rest:
     rollerSpeed: 0.05
     flapperSpeed: 1.0
-  toteTicks: 13
+  toteTicks: 6
 
 Cancel:
   - name: ArmShuttle

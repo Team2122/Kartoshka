@@ -6,6 +6,7 @@
 
 #include <Commands/ClawForceHome.h>
 #include <Commands/ClawPosition.h>
+#include <Commands/ShuttleRamp.h>
 #include "Kremlin.h"
 #include "Config.h"
 #include <yaml-cpp/yaml.h>
@@ -75,6 +76,7 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<DriveContinuous>();
 	CreateCommandsForClass<HomeShuttle>();
 	CreateCommandsForClass<ShuttlePosition>();
+	CreateCommandsForClass<ShuttleRamp>();
 	CreateCommandsForClass<ShuttleClamp>();
 	CreateCommandsForClass<ClawClamp>();
 	CreateCommandsForClass<ClawRotation>();

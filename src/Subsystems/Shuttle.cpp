@@ -87,6 +87,10 @@ void Shuttle::IncrementToteCount(int increment) {
 }
 
 void Shuttle::SetShuttleSpeed(Speed state) {
+	SetShuttleSpeed(GetShuttleSpeed(state));
+}
+
+double Shuttle::GetShuttleSpeed(Speed state) {
 	double speed = totes * speedScale;
 	switch (state) {
 	case kUp:
@@ -103,7 +107,7 @@ void Shuttle::SetShuttleSpeed(Speed state) {
 		speed = 0;
 		break;
 	}
-	SetShuttleSpeed(speed);
+	return speed;
 }
 
 void Shuttle::SetShuttleSpeed(double speed) {

@@ -99,6 +99,8 @@ public:
 	 */
 	void SetShuttleSpeed(double speed);
 
+	double GetShuttleSpeed(Speed speed);
+
 	/**
 	 * Gets if stupid usa has stalled motor
 	 * @return Yes if evil
