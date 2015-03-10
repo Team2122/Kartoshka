@@ -23,11 +23,8 @@ public:
 		return "ShuttleClamp";
 	}
 
-	virtual void Initialize() {
-		CommandBase::Initialize();
-	}
-
-	virtual void Execute() {
+private:
+	void Execute() override {
 		if (open) {
 			shuttle->OpenProngs();
 		} else {
@@ -35,17 +32,11 @@ public:
 		}
 	}
 
-	virtual bool IsFinished() {
+	bool IsFinished() override {
 		return true;
 	}
 
-	virtual void End() {
-	}
-
-	virtual void Interrupted() {
-	}
-
-protected:
+private:
 	bool open;
 };
 

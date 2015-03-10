@@ -3,45 +3,43 @@
 
 #include "CommandBase.h"
 #include "Subsystems/Claw.h"
-#include <yaml-cpp/yaml.h>
 
 namespace tator {
 
 class ClawRollers: public CommandBase {
-protected:
-	Claw::RollerStatus rollerStatus;
 public:
 	ClawRollers(std::string name, YAML::Node config) :
 			CommandBase(name) {
 		rollerStatus = (Claw::RollerStatus) config["status"].as<int>();
 	}
 
-	void Initialize() {
-		CommandBase::Initialize();
+	static std::string GetBaseName() {
+		return "ClawRollers";
 	}
 
-	void Execute() {
+protected:
+	void Execute() override {
 		claw->SetRollerSpeed(rollerStatus);
 	}
 
-	bool IsFinished() {
+	bool IsFinished() override {
 		return false;
 	}
 
-	void End() {
+	void End() override {
 		claw->SetRollerSpeed(Claw::RollerStatus::kStopped);
 		CommandBase::End();
 	}
 
-	void Interrupted() {
+	void Interrupted() override {
 		claw->SetRollerSpeed(Claw::RollerStatus::kStopped);
 		CommandBase::Interrupted();
 	}
 
-	static std::string GetBaseName() {
-		return "ClawRollers";
-	}
+private:
+	Claw::RollerStatus rollerStatus;
 };
+
 }
 
 #endif /* CLAWROLLERS_H */

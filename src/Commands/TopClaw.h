@@ -4,6 +4,7 @@
  * @author Lee Bousfield
  */
 
+#include "CommandBase.h"
 #include "ClawLift.h"
 
 #ifndef TOPCLAW_H_
@@ -20,11 +21,11 @@ public:
 		return "TopClaw";
 	}
 
-	bool IsFinished() {
+protected:
+	bool IsFinished() override {
 		return claw->IsTop();
 	}
 };
 }
 
 #endif /* TOPCLAW_H_ */
-

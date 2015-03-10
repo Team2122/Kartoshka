@@ -14,7 +14,6 @@ namespace tator {
 
 class RecieveTote: public CommandBase {
 public:
-
 	enum class State {
 		rolling, done
 	};
@@ -29,13 +28,14 @@ public:
 		return "RecieveTote";
 	}
 
-	void Initialize() {
+protected:
+	void Initialize() override {
 		CommandBase::Initialize();
 		toteFeed->SetRollers(rollerSpeed);
 		currState = State::rolling;
 	}
 
-	void Execute() {
+	void Execute() override {
 		switch (currState) {
 		case State::rolling:
 			if (toteFeed->GetBackSensor()) {
@@ -50,19 +50,20 @@ public:
 		}
 	}
 
-	bool IsFinished() {
+	bool IsFinished() override {
 		return currState == State::done;
 	}
 
-	void End() {
+	void End() override {
 		CommandBase::End();
 		toteFeed->SetRollers(0);
 	}
 
-	void Interrupted() {
+	void Interrupted() override {
 		CommandBase::Interrupted();
 		toteFeed->SetRollers(0);
 	}
+
 private:
 	State currState;
 	double rollerSpeed;

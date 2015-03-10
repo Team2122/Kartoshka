@@ -10,23 +10,28 @@
 
 namespace tator {
 class ManualClawLift: public CommandBase {
-private:
-	Claw::LiftSpeed liftSpeed;
 public:
 	ManualClawLift(std::string name, YAML::Node config) :
 			CommandBase(name) {
 		liftSpeed = (Claw::LiftSpeed) config["speed"].as<int>();
 	}
 
-	void Initialize() {
+	static std::string GetBaseName() {
+		return "ManualClawLift";
+	}
+
+protected:
+	Claw::LiftSpeed liftSpeed;
+
+	void Initialize() override {
 		CommandBase::Initialize();
 		claw->SetLiftSpeed(liftSpeed);
 	}
-	void Execute() {
 
+	void Execute() override {
 	}
 
-	bool IsFinished() {
+	bool IsFinished() override {
 		if (liftSpeed == Claw::LiftSpeed::kUp) {
 			return claw->IsTop();
 		} else if (liftSpeed == Claw::LiftSpeed::kDown) {
@@ -36,20 +41,17 @@ public:
 		}
 	}
 
-	void End() {
+	void End() override {
 		CommandBase::End();
 		claw->SetLiftSpeed(Claw::LiftSpeed::kStop);
 	}
 
-	void Interrupted() {
+	void Interrupted() override {
 		CommandBase::Interrupted();
 		claw->SetLiftSpeed(Claw::LiftSpeed::kStop);
 	}
-
-	static std::string GetBaseName() {
-		return "ManualClawLift";
-	}
 };
+
 } /* namespace tator */
 
 #endif /* MANUALCLAWLIFT_H */

@@ -9,29 +9,26 @@
 
 #include "CommandBase.h"
 #include "Subsystems/Claw.h"
-#include <yaml-cpp/yaml.h>
 
 namespace tator {
 
 class ClawRotationContinuous: public CommandBase {
-protected:
-	double tolerance, moveSpeed, holdSpeed;
-	std::vector<double> angles;
-
 public:
 	ClawRotationContinuous(std::string name, YAML::Node config) :
 			CommandBase(name) {
 		tolerance = config["tolerance"].as<double>();
-		moveSpeed = config["speeds"]["move"].as<double>();
-		holdSpeed = config["speeds"]["hold"].as<double>();
+		YAML::Node speeds = config["speeds"];
+		moveSpeed = speeds["move"].as<double>();
+		holdSpeed = speeds["hold"].as<double>();
 		angles = config["angles"].as<std::vector<double>>();
 	}
 
-	void Initialize() {
-		CommandBase::Initialize();
+	static std::string GetBaseName() {
+		return "ClawRotationContinuous";
 	}
 
-	void Execute() {
+protected:
+	void Execute() override {
 		double currentAngle = claw->GetRotationAngle();
 		Claw::ClawAngle clawAngle = claw->GetTargetAngle();
 		double targetAngle = angles[(int) clawAngle];
@@ -52,23 +49,24 @@ public:
 		}
 		claw->SetRotationSpeed(speed);
 	}
-	bool IsFinished() {
+
+	bool IsFinished() override {
 		return false;
 	}
 
-	void End() {
+	void End() override {
 		claw->SetRotationSpeed(0);
 		CommandBase::End();
 	}
 
-	void Interrupted() {
+	void Interrupted() override {
 		claw->SetRotationSpeed(0);
 		CommandBase::Interrupted();
 	}
 
-	static std::string GetBaseName() {
-		return "ClawRotationContinuous";
-	}
+private:
+	double tolerance, moveSpeed, holdSpeed;
+	std::vector<double> angles;
 };
 
 }

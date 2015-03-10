@@ -8,6 +8,7 @@
 #define GENERICCOMMANDGROUP_H_
 
 #include "CommandBase.h"
+#include "Common/Kremlin.h"
 
 namespace tator {
 class GenericCommandGroup: public CommandGroup {
@@ -35,6 +36,7 @@ public:
 		return "$";
 	}
 };
+
 }
 
 #endif /* GENERICCOMMANDGROUP_H_ */

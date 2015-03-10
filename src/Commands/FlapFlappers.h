@@ -4,10 +4,12 @@
  * @author Lee Bousfield
  */
 
-#include "CommandBase.h"
-
 #ifndef FLAPFLAPPERS_H_
 #define FLAPFLAPPERS_H_
+
+#include "CommandBase.h"
+#include "Subsystems/Shuttle.h"
+#include "Subsystems/ToteFeed.h"
 
 namespace tator {
 
@@ -16,22 +18,32 @@ public:
 	FlapFlappers(std::string name, YAML::Node config) :
 			CommandBase(name) {
 	}
-	void Initialize() {
-		toteFeed->SetFlapperSpeed(true);
-	}
-	void Execute() {
-	}
-	bool IsFinished() {
-		return shuttle->IsTotePresent();
-	}
-	void End() {
-		toteFeed->SetFlapperSpeed(false);
-	}
-	void Interrupted() {
-		toteFeed->SetFlapperSpeed(false);
-	}
+
 	static std::string GetBaseName() {
 		return "FlapFlappers";
+	}
+
+protected:
+	void Initialize() override {
+		CommandBase::Initialize();
+		toteFeed->SetFlapperSpeed(true);
+	}
+
+	void Execute() override {
+	}
+
+	bool IsFinished() override {
+		return shuttle->IsTotePresent();
+	}
+
+	void End() override {
+		CommandBase::End();
+		toteFeed->SetFlapperSpeed(false);
+	}
+
+	void Interrupted() override {
+		CommandBase::Interrupted();
+		toteFeed->SetFlapperSpeed(false);
 	}
 };
 

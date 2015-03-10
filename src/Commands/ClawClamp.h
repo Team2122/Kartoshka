@@ -8,41 +8,31 @@
 
 #include "CommandBase.h"
 #include "Subsystems/Claw.h"
-#include <yaml-cpp/yaml.h>
 
 namespace tator {
 
 class ClawClamp: public CommandBase {
-private:
-	Claw::ClampStatus clampStatus;
-
 public:
 	ClawClamp(std::string name, YAML::Node config) :
 			CommandBase(name) {
 		clampStatus = (Claw::ClampStatus) config["status"].as<int>();
 	}
 
-	void Initialize() {
-		CommandBase::Initialize();
-	}
-
-	void Execute() {
-		claw->SetClampStatus(clampStatus);
-	}
-
-	bool IsFinished() {
-		return true;
-	}
-
-	void End() {
-	}
-
-	void Interrupted() {
-	}
-
 	static std::string GetBaseName() {
 		return "ClawClamp";
 	}
+
+protected:
+	void Execute() override {
+		claw->SetClampStatus(clampStatus);
+	}
+
+	bool IsFinished() override {
+		return true;
+	}
+
+private:
+	Claw::ClampStatus clampStatus;
 };
 
 }

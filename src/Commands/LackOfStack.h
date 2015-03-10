@@ -8,7 +8,7 @@
 #define LACKOFSTACK_H
 
 #include "CommandBase.h"
-#include "Subsystems/Shuttle.h"
+#include "Subsystems/ToteFeed.h"
 
 namespace tator {
 
@@ -22,24 +22,13 @@ public:
 		return "LackOfStack";
 	}
 
-	virtual void Initialize() {
-		CommandBase::Initialize();
+protected:
+	void Execute() override {
 	}
 
-	virtual void Execute() {
-	}
-
-	virtual bool IsFinished() {
+	bool IsFinished() override {
 		return !toteFeed->GetBackSensor();
 	}
-
-	virtual void End() {
-	}
-
-	virtual void Interrupted() {
-	}
-
-protected:
 };
 
 }

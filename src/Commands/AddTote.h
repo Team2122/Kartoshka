@@ -22,25 +22,14 @@ public:
 		return "AddTote";
 	}
 
-	virtual void Initialize() {
-		CommandBase::Initialize();
-	}
-
-	virtual void Execute() {
+protected:
+	void Execute() override {
 		shuttle->IncrementToteCount(1);
 	}
 
-	virtual bool IsFinished() {
+	bool IsFinished() override {
 		return true;
 	}
-
-	virtual void End() {
-	}
-
-	virtual void Interrupted() {
-	}
-
-protected:
 };
 
 }

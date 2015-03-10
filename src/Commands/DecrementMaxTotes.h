@@ -22,26 +22,16 @@ public:
 		return "DecrementMaxTotes";
 	}
 
-	virtual void Initialize() {
-		CommandBase::Initialize();
-	}
-
-	virtual void Execute() {
+protected:
+	void Execute() override {
 		shuttle->DecrementMaxToteCount();
-		log.Info("Will now make a %d high stack", shuttle->GetMaxToteCount() + 2);
+		log.Info("Will now make a %d high stack",
+				shuttle->GetMaxToteCount() + 2);
 	}
 
-	virtual bool IsFinished() {
+	bool IsFinished() override {
 		return true;
 	}
-
-	virtual void End() {
-	}
-
-	virtual void Interrupted() {
-	}
-
-protected:
 };
 
 }

@@ -9,6 +9,7 @@
 
 #include "CommandBase.h"
 #include "Common/Kremlin.h"
+#include "Subsystems/Claw.h"
 
 namespace tator {
 
@@ -18,6 +19,9 @@ public:
 			CommandBase(name) {
 		speed = config["speed"].as<double>();
 		stopAngle = config["angle"].as<double>();
+		clawRotationContinuousCommand = Kremlin::Get("ClawRotationContinuous");
+		clawRotationPickCommand = Kremlin::Get("ClawRotationPick");
+		homeClawCommand = Kremlin::Get("HomeClaw");
 	}
 
 	static std::string GetBaseName() {
@@ -25,8 +29,7 @@ public:
 	}
 
 protected:
-	double stopAngle, speed;
-	virtual void Initialize() {
+	void Initialize() override {
 		CommandBase::Initialize();
 		if (claw->HasContainer()) {
 			log.Warn(
@@ -34,28 +37,38 @@ protected:
 							"This is bad news. Please take it out");
 			this->Cancel();
 		}
-		Kremlin::Get("ClawRotationContinuous")->Cancel();
+		clawRotationContinuousCommand->Cancel();
 		claw->ReenableClaw();
 		claw->SetClampStatus(Claw::ClampStatus::kDeathGrip);
 	}
-	virtual void Execute() {
+
+	void Execute() override {
 		claw->SetRotationSpeed(speed, true);
 	}
-	virtual bool IsFinished() {
+
+	bool IsFinished() override {
 		return claw->GetRotationAngle() <= stopAngle;
 	}
-	virtual void End() {
+
+	void End() override {
 		claw->SetRotationSpeed(0, true);
-		Kremlin::Get("ClawRotationContinuous")->Start();
-		Kremlin::Get("ClawRotationPick")->Start();
-		Kremlin::Get("HomeClaw")->Start();
+		clawRotationContinuousCommand->Start();
+		clawRotationPickCommand->Start();
+		homeClawCommand->Start();
 		CommandBase::End();
 	}
-	virtual void Interrupted() {
+
+	void Interrupted() override {
 		claw->SetRotationSpeed(0, true);
-		Kremlin::Get("ClawRotationContinuous")->Start();
+		clawRotationContinuousCommand->Start();
 		CommandBase::Interrupted();
 	}
+
+private:
+	Command* clawRotationContinuousCommand;
+	Command* clawRotationPickCommand;
+	Command* homeClawCommand;
+	double stopAngle, speed;
 };
 
 }

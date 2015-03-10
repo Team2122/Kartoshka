@@ -4,12 +4,14 @@
  * @author Lee Bousfield
  */
 
-#include "ClawLift.h"
-
 #ifndef HOMECLAW_H_
 #define HOMECLAW_H_
 
+#include "CommandBase.h"
+#include "ClawLift.h"
+
 namespace tator {
+
 class HomeClaw: public ClawLift {
 public:
 	HomeClaw(std::string name, YAML::Node node) :
@@ -21,15 +23,17 @@ public:
 		return "HomeClaw";
 	}
 
-	bool IsFinished() {
+protected:
+	bool IsFinished() override {
 		return claw->IsHome();
 	}
 
-	void End() {
+	void End() override {
 		ClawLift::End();
 		claw->ZeroLiftEncoder();
 	}
 };
+
 }
 
 #endif /* HOMECLAW_H_ */

@@ -8,14 +8,10 @@
 
 #include "CommandBase.h"
 #include "Subsystems/Claw.h"
-#include <yaml-cpp/yaml.h>
 
 namespace tator {
 
 class ClawRotation: public CommandBase {
-private:
-	Claw::ClawAngle targetAngle;
-
 public:
 	ClawRotation(std::string name, YAML::Node config) :
 			CommandBase(name) {
@@ -23,28 +19,25 @@ public:
 		Requires(claw);
 	}
 
-	void Initialize() {
-		CommandBase::Initialize();
-		claw->SetTargetAngle(targetAngle);
-	}
-	void Execute() {
-	}
-
-	bool IsFinished() {
-		return claw->IsRotationFinished();
-	}
-
-	void End() {
-		CommandBase::End();
-	}
-
-	void Interrupted() {
-		CommandBase::Interrupted();
-	}
-
 	static std::string GetBaseName() {
 		return "ClawRotation";
 	}
+
+protected:
+	void Initialize() override {
+		CommandBase::Initialize();
+		claw->SetTargetAngle(targetAngle);
+	}
+
+	void Execute() override {
+	}
+
+	bool IsFinished() override {
+		return claw->IsRotationFinished();
+	}
+
+private:
+	Claw::ClawAngle targetAngle;
 };
 
 }

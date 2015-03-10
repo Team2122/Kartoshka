@@ -2,6 +2,7 @@
 #define CLAWESTABLISHHOME_H_
 
 #include "CommandBase.h"
+#include "Subsystems/Claw.h"
 
 namespace tator {
 
@@ -15,12 +16,9 @@ public:
 	static std::string GetBaseName() {
 		return "ClawEstablishHome";
 	}
+
 protected:
-	bool hasEstablished;
-	virtual void Initialize() {
-		CommandBase::Initialize();
-	}
-	virtual void Execute() {
+	void Execute() override {
 		if (!claw->IsHome() && !hasEstablished) {
 			log.Error(
 					"You tried to start the claw when it is not in the home position."
@@ -29,19 +27,21 @@ protected:
 			claw->DisableClaw();
 		}
 	}
-	virtual bool IsFinished() {
+
+	bool IsFinished() override {
 		return true;
 	}
-	virtual void End() {
+
+	void End() override {
 		if (!hasEstablished) {
 			claw->ZeroLiftEncoder();
 		}
 		hasEstablished = true;
 		CommandBase::End();
 	}
-	virtual void Interrupted() {
-		CommandBase::Interrupted();
-	}
+
+private:
+	bool hasEstablished;
 };
 
 }

@@ -8,7 +8,7 @@
 #define CANCEL_H_
 
 #include "CommandBase.h"
-#include "Subsystems/Shuttle.h"
+#include "Common/Kremlin.h"
 
 namespace tator {
 
@@ -24,27 +24,18 @@ public:
 		return "Cancel";
 	}
 
-	virtual void Initialize() {
-		CommandBase::Initialize();
-	}
-
-	virtual void Execute() {
+protected:
+	void Execute() override {
 		if (command->IsRunning()) {
 			command->Cancel();
 		}
 	}
 
-	virtual bool IsFinished() {
+	bool IsFinished() override {
 		return true;
 	}
 
-	virtual void End() {
-	}
-
-	virtual void Interrupted() {
-	}
-
-protected:
+private:
 	Command* command;
 };
 

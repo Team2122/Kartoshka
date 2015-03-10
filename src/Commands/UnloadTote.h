@@ -24,30 +24,32 @@ public:
 		return "UnloadTote";
 	}
 
-	void Initialize() {
+protected:
+	void Initialize() override {
 		CommandBase::Initialize();
 		toteFeed->SetRollers(rollerSpeed);
 		toteFeed->SetFlapperSpeed(flapperSpeed);
 	}
 
-	void Execute() {
+	void Execute() override {
 	}
 
-	bool IsFinished() {
+	bool IsFinished() override {
 		return false;
 	}
 
-	void End() {
+	void End() override {
 		CommandBase::End();
 		toteFeed->SetRollers(0);
 		toteFeed->SetFlapperSpeed(0);
 	}
 
-	void Interrupted() {
+	void Interrupted() override {
 		CommandBase::Interrupted();
 		toteFeed->SetRollers(0);
 		toteFeed->SetFlapperSpeed(0);
 	}
+
 private:
 	double rollerSpeed, flapperSpeed;
 };

@@ -3,7 +3,6 @@
 
 #include "CommandBase.h"
 #include "Subsystems/Claw.h"
-#include <yaml-cpp/yaml.h>
 
 namespace tator {
 
@@ -13,32 +12,34 @@ public:
 			CommandBase(name) {
 	}
 
-	void Initialize() {
+	static std::string GetBaseName() {
+		return "ClawSmartRollers";
+	}
+
+protected:
+	void Initialize() override {
 		CommandBase::Initialize();
 		claw->SetRollerSpeed(Claw::RollerStatus::kInward);
 	}
 
-	void Execute() {
+	void Execute() override {
 	}
 
-	bool IsFinished() {
+	bool IsFinished() override {
 		return claw->HasContainer();
 	}
 
-	void End() {
+	void End() override {
 		claw->SetRollerSpeed(Claw::RollerStatus::kStopped);
 		CommandBase::End();
 	}
 
-	void Interrupted() {
+	void Interrupted() override {
 		claw->SetRollerSpeed(Claw::RollerStatus::kStopped);
 		CommandBase::Interrupted();
 	}
-
-	static std::string GetBaseName() {
-		return "ClawSmartRollers";
-	}
 };
+
 }
 
-#endif /* CLAWROLLERS_H */
+#endif /* CLAWSMARTROLLERS_H */

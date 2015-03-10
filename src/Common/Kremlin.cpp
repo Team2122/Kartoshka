@@ -4,50 +4,83 @@
  * @date Jan 19, 2015
  */
 
-#include <Commands/ClawForceHome.h>
-#include <Commands/ClawPosition.h>
-#include <Commands/ShuttleRamp.h>
 #include "Kremlin.h"
 #include "Config.h"
 #include <yaml-cpp/yaml.h>
 #include <iostream>
 
-#include "Commands/MessageCommand.h"
-#include "Commands/DriveContinuous.h"
-#include "Commands/HomeShuttle.h"
-#include "Commands/ShuttlePosition.h"
-#include "Commands/ShuttleClamp.h"
-#include "Commands/ClawRotation.h"
-#include "Commands/ClawRollers.h"
-#include "Commands/ClawClamp.h"
-#include "Commands/Fingers.h"
-#include "Commands/RecieveTote.h"
-#include "Commands/UnloadTote.h"
-#include "Commands/FlapFlappers.h"
+#include "Commands/AddTote.h"
 #include "Commands/ArmShuttle.h"
 #include "Commands/Cancel.h"
-#include "Commands/AddTote.h"
-#include "Commands/ResetTotes.h"
-#include "Commands/ShuttleDown.h"
-#include "Commands/HomeClaw.h"
-#include "Commands/TopClaw.h"
-#include "Commands/ClawRegripPosition.h"
-#include "Commands/ClawSmartRollers.h"
-#include "Commands/ClawEstablishHome.h"
-#include "Commands/OttoTestCommandGroup.h"
-#include "Commands/GenericCommandGroup.h"
-#include "Commands/ClawRotationContinuous.h"
-#include "Commands/ManualClawLift.h"
-#include "Commands/DriveDistance.h"
-#include "Commands/LackOfStack.h"
+#include "Commands/ClawClamp.h"
 #include "Commands/ClawClampToggle.h"
+#include "Commands/ClawEstablishHome.h"
+#include "Commands/ClawForceHome.h"
+#include "Commands/ClawPosition.h"
+#include "Commands/ClawRollers.h"
+#include "Commands/ClawRotation.h"
+#include "Commands/ClawRotationContinuous.h"
+#include "Commands/ClawSmartRollers.h"
 #include "Commands/DecrementMaxTotes.h"
+#include "Commands/DriveContinuous.h"
+#include "Commands/DriveDistance.h"
+#include "Commands/Fingers.h"
+#include "Commands/FlapFlappers.h"
+#include "Commands/GenericCommandGroup.h"
+#include "Commands/HomeClaw.h"
+#include "Commands/HomeShuttle.h"
+#include "Commands/LackOfStack.h"
+#include "Commands/ManualClawLift.h"
+#include "Commands/MessageCommand.h"
+#include "Commands/RecieveTote.h"
 #include "Commands/ResetMaxTotes.h"
+#include "Commands/ResetTotes.h"
+#include "Commands/ShuttleClamp.h"
+#include "Commands/ShuttleDown.h"
+#include "Commands/ShuttlePosition.h"
+#include "Commands/ShuttleRamp.h"
+#include "Commands/TopClaw.h"
+#include "Commands/UnloadTote.h"
 
 namespace tator {
 
 std::map<std::string, Kremlin::CommandDetails> Kremlin::commands;
 Logger Kremlin::log("Kremlin");
+
+void Kremlin::CreateCommands() {
+	CreateCommandsForClass<MessageCommand>();
+	CreateCommandsForClass<DriveContinuous>();
+	CreateCommandsForClass<HomeShuttle>();
+	CreateCommandsForClass<ShuttlePosition>();
+	CreateCommandsForClass<ShuttleRamp>();
+	CreateCommandsForClass<ShuttleClamp>();
+	CreateCommandsForClass<ClawClamp>();
+	CreateCommandsForClass<ClawRotation>();
+	CreateCommandsForClass<ClawRollers>();
+	CreateCommandsForClass<ClawSmartRollers>();
+	CreateCommandsForClass<Fingers>();
+	CreateCommandsForClass<RecieveTote>();
+	CreateCommandsForClass<UnloadTote>();
+	CreateCommandsForClass<FlapFlappers>();
+	CreateCommandsForClass<AddTote>();
+	CreateCommandsForClass<ResetTotes>();
+	CreateCommandsForClass<ShuttleDown>();
+	CreateCommandsForClass<HomeClaw>();
+	CreateCommandsForClass<TopClaw>();
+	CreateCommandsForClass<ClawPosition>();
+	CreateCommandsForClass<ClawEstablishHome>();
+	CreateCommandsForClass<ClawRotationContinuous>();
+	CreateCommandsForClass<ClawForceHome>();
+	CreateCommandsForClass<ManualClawLift>();
+	CreateCommandsForClass<DriveDistance>();
+	CreateCommandsForClass<LackOfStack>();
+	CreateCommandsForClass<ClawClampToggle>();
+	CreateCommandsForClass<DecrementMaxTotes>();
+	CreateCommandsForClass<ResetMaxTotes>();
+	CreateCommandsForClass<GenericCommandGroup>();
+	CreateCommandsForClass<ArmShuttle>();
+	CreateCommandsForClass<Cancel>();
+}
 
 template<typename T>
 void Kremlin::CreateCommandsForClass() {
@@ -73,43 +106,6 @@ void Kremlin::CreateCommandsForClass() {
 				[name, commandConfig] () {return new T(name, commandConfig);} };
 		commands[name] = details;
 	}
-}
-
-void Kremlin::CreateCommands() {
-	CreateCommandsForClass<MessageCommand>();
-	CreateCommandsForClass<DriveContinuous>();
-	CreateCommandsForClass<HomeShuttle>();
-	CreateCommandsForClass<ShuttlePosition>();
-	CreateCommandsForClass<ShuttleRamp>();
-	CreateCommandsForClass<ShuttleClamp>();
-	CreateCommandsForClass<ClawClamp>();
-	CreateCommandsForClass<ClawRotation>();
-	CreateCommandsForClass<ClawRollers>();
-	CreateCommandsForClass<ClawSmartRollers>();
-	CreateCommandsForClass<Fingers>();
-	CreateCommandsForClass<RecieveTote>();
-	CreateCommandsForClass<UnloadTote>();
-	CreateCommandsForClass<FlapFlappers>();
-	CreateCommandsForClass<AddTote>();
-	CreateCommandsForClass<ResetTotes>();
-	CreateCommandsForClass<ShuttleDown>();
-	CreateCommandsForClass<HomeClaw>();
-	CreateCommandsForClass<TopClaw>();
-	CreateCommandsForClass<ClawPosition>();
-	CreateCommandsForClass<ClawRegripPosition>();
-	CreateCommandsForClass<ClawEstablishHome>();
-	CreateCommandsForClass<ClawForceHome>();
-	CreateCommandsForClass<OttoTestCommandGroup>();
-	CreateCommandsForClass<ClawRotationContinuous>();
-	CreateCommandsForClass<ManualClawLift>();
-	CreateCommandsForClass<DriveDistance>();
-	CreateCommandsForClass<LackOfStack>();
-	CreateCommandsForClass<ClawClampToggle>();
-	CreateCommandsForClass<DecrementMaxTotes>();
-	CreateCommandsForClass<ResetMaxTotes>();
-	CreateCommandsForClass<GenericCommandGroup>();
-	CreateCommandsForClass<ArmShuttle>();
-	CreateCommandsForClass<Cancel>();
 }
 
 Command* Kremlin::Get(std::string fullName) {

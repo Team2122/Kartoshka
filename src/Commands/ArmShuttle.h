@@ -8,7 +8,9 @@
 #define ARMSHUTTLE_H_
 
 #include "CommandBase.h"
+#include "Common/Kremlin.h"
 #include "Subsystems/Shuttle.h"
+#include "Subsystems/ToteFeed.h"
 
 namespace tator {
 
@@ -19,10 +21,12 @@ public:
 		stackToteCommand = Kremlin::Get("$StackTote");
 		restackCommand = Kremlin::Get("$Restack");
 		toteTickCount = 0;
-		firstRollerSpeed = config["first"]["rollerSpeed"].as<double>();
-		firstFlapperSpeed = config["first"]["flapperSpeed"].as<double>();
-		restRollerSpeed = config["rest"]["rollerSpeed"].as<double>();
-		restFlapperSpeed = config["rest"]["flapperSpeed"].as<double>();
+		YAML::Node first = config["first"];
+		firstRollerSpeed = first["rollerSpeed"].as<double>();
+		firstFlapperSpeed = first["flapperSpeed"].as<double>();
+		YAML::Node rest = config["rest"];
+		restRollerSpeed = rest["rollerSpeed"].as<double>();
+		restFlapperSpeed = rest["flapperSpeed"].as<double>();
 		toteTicksRequired = config["toteTicks"].as<int>();
 	}
 
@@ -30,14 +34,15 @@ public:
 		return "ArmShuttle";
 	}
 
-	virtual void Initialize() {
+protected:
+	void Initialize() override {
 		CommandBase::Initialize();
 		shuttle->OpenProngs();
 		shuttle->ResetMaxToteCount();
 		toteTickCount = 1;
 	}
 
-	virtual void Execute() {
+	void Execute() override {
 		if (shuttle->IsTotePresent()) {
 			toteTickCount++;
 		} else {
@@ -57,12 +62,12 @@ public:
 		}
 	}
 
-	virtual bool IsFinished() {
+	bool IsFinished() override {
 		return shuttle->GetToteCount() >= shuttle->GetMaxToteCount()
 				&& toteTickCount >= toteTicksRequired; // 0 is 1, 4 is 5
 	}
 
-	virtual void End() {
+	void End() override {
 		toteFeed->SetFlapperSpeed(0);
 		if (stackToteCommand->IsRunning())
 			stackToteCommand->Cancel();
@@ -71,7 +76,7 @@ public:
 		CommandBase::End();
 	}
 
-	virtual void Interrupted() {
+	void Interrupted() override {
 		toteFeed->SetFlapperSpeed(0);
 		if (stackToteCommand->IsRunning())
 			stackToteCommand->Cancel();
@@ -79,7 +84,7 @@ public:
 		CommandBase::Interrupted();
 	}
 
-protected:
+private:
 	Command* stackToteCommand, *restackCommand;
 	double firstRollerSpeed, firstFlapperSpeed;
 	double restRollerSpeed, restFlapperSpeed;

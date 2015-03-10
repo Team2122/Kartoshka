@@ -11,6 +11,7 @@
 #include <cmath> // For abs()
 
 namespace tator {
+
 class ClawLift: public CommandBase {
 public:
 	ClawLift(std::string name, YAML::Node config) :
@@ -19,26 +20,29 @@ public:
 		Requires(claw);
 	}
 
-	void Initialize() {
+protected:
+	void Initialize() override {
 		CommandBase::Initialize();
 		claw->SetVerticalLiftMotor(speed);
 	}
 
-	void Execute() {
+	void Execute() override {
 	}
 
-	void End() {
+	virtual void End() override {
 		CommandBase::End();
 		claw->SetVerticalLiftMotor(0);
 	}
 
-	void Interrupted() {
+	void Interrupted() override {
 		CommandBase::Interrupted();
 		claw->SetVerticalLiftMotor(0);
 	}
-protected:
+
+private:
 	double speed;
 };
+
 }
 
 #endif /* CLAWLIFT_H_ */

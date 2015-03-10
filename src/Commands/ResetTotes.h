@@ -22,25 +22,14 @@ public:
 		return "ResetTotes";
 	}
 
-	virtual void Initialize() {
-		CommandBase::Initialize();
-	}
-
-	virtual void Execute() {
+private:
+	void Execute() override {
 		shuttle->ResetToteCount();
 	}
 
-	virtual bool IsFinished() {
+	bool IsFinished() override {
 		return true;
 	}
-
-	virtual void End() {
-	}
-
-	virtual void Interrupted() {
-	}
-
-protected:
 };
 
 }

@@ -25,32 +25,34 @@ public:
 	static std::string GetBaseName() {
 		return "ShuttleDown";
 	}
-protected:
-	int targetTicks, tolerance;
-	double speed;
 
-	virtual void Initialize() {
+protected:
+	void Initialize() override {
 		CommandBase::Initialize();
 		shuttle->SetShuttleSpeed(speed);
 	}
 
-	virtual void Execute() {
+	void Execute() override {
 	}
 
-	virtual bool IsFinished() {
+	bool IsFinished() override {
 		return abs(shuttle->GetEncoderTicks() - targetTicks) <= tolerance
 				|| shuttle->GetLimit() != Shuttle::kUnknown;
 	}
 
-	virtual void End() {
+	void End() override {
 		shuttle->SetShuttleSpeed(0);
 		CommandBase::End();
 	}
 
-	virtual void Interrupted() {
+	void Interrupted() override {
 		shuttle->SetShuttleSpeed(0);
 		CommandBase::Interrupted();
 	}
+
+private:
+	int targetTicks, tolerance;
+	double speed;
 };
 
 }

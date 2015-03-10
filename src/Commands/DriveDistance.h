@@ -12,12 +12,6 @@
 namespace tator {
 
 class DriveDistance: public CommandBase {
-private:
-	double currentDistance;
-	double startDistance;
-	double speed;
-	double distance;
-	Timer time;
 public:
 	DriveDistance(std::string name, YAML::Node config) :
 			CommandBase(name) {
@@ -32,33 +26,32 @@ public:
 		return "DriveDistance";
 	}
 
-	virtual void Initialize() {
+protected:
+	double currentDistance, startDistance, distance, speed;
+
+	void Initialize() override {
 		CommandBase::Initialize();
-		time.Reset();
-		time.Start();
 		startDistance = drive->GetDistance();
 	}
 
-	virtual void Execute() {
+	void Execute() override {
 		drive->SetSpeeds(speed, speed);
 		currentDistance = drive->GetDistance();
 	}
 
-	virtual bool IsFinished() {
+	bool IsFinished() override {
 		return fabs(currentDistance - startDistance) >= distance;
 	}
 
-	virtual void End() {
+	void End() override {
 		CommandBase::End();
 		drive->SetSpeeds(0, 0);
 	}
 
-	virtual void Interrupted() {
+	void Interrupted() override {
 		CommandBase::Interrupted();
 		drive->SetSpeeds(0, 0);
 	}
-
-protected:
 };
 
 }

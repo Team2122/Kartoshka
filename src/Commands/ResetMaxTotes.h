@@ -22,28 +22,18 @@ public:
 		return "ResetMaxTotes";
 	}
 
-	virtual void Initialize() {
-		CommandBase::Initialize();
-	}
-
-	virtual void Execute() {
+protected:
+	void Execute() override {
 		shuttle->ResetMaxToteCount();
-		log.Info("Will now make a %d high stack", shuttle->GetMaxToteCount() + 2);
+		log.Info("Will now make a %d high stack",
+				shuttle->GetMaxToteCount() + 2);
 	}
 
-	virtual bool IsFinished() {
+	bool IsFinished() override {
 		return true;
 	}
-
-	virtual void End() {
-	}
-
-	virtual void Interrupted() {
-	}
-
-protected:
 };
 
 }
 
-#endif
+#endif /* RESETMAXTOTES_H_ */

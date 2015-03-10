@@ -8,7 +8,6 @@
 #define HOMESHUTTLE_H_
 
 #include "CommandBase.h"
-
 #include "Subsystems/Shuttle.h"
 
 namespace tator {
@@ -24,15 +23,16 @@ public:
 		return "HomeShuttle";
 	}
 
-	virtual void Initialize() {
+protected:
+	void Initialize() override {
 		shuttle->SetShuttleSpeed(Shuttle::kDown);
 		CommandBase::Initialize();
 	}
 
-	virtual void Execute() {
+	void Execute() override {
 	}
 
-	virtual bool IsFinished() {
+	bool IsFinished() override {
 		if (shuttle->IsStalled()) {
 			log.Error("The shuttle has stalled while homing");
 			Cancel();
@@ -51,18 +51,16 @@ public:
 		}
 	}
 
-	virtual void End() {
+	void End() override {
 		shuttle->ResetEncoder();
 		shuttle->SetShuttleSpeed(Shuttle::kStop);
 		CommandBase::End();
 	}
 
-	virtual void Interrupted() {
+	void Interrupted() override {
 		shuttle->SetShuttleSpeed(Shuttle::kStop);
 		CommandBase::Interrupted();
 	}
-
-protected:
 };
 
 }

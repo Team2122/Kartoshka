@@ -23,25 +23,16 @@ public:
 		return "Fingers";
 	}
 
-	virtual void Initialize() {
-		CommandBase::Initialize();
-	}
-
-	virtual void Execute() {
+protected:
+	void Execute() override {
 		shuttle->SetFingersPiston(state);
 	}
 
-	virtual bool IsFinished() {
+	bool IsFinished() override {
 		return true;
 	}
 
-	virtual void End() {
-	}
-
-	virtual void Interrupted() {
-	}
-
-protected:
+private:
 	Shuttle::FingersState state;
 };
 

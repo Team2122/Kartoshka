@@ -8,6 +8,7 @@
 #define CLAWCLAMPTOGGLE_H_
 
 #include "CommandBase.h"
+#include "Subsystems/Claw.h"
 
 namespace tator {
 
@@ -27,16 +28,19 @@ protected:
 		CommandBase::Initialize();
 		claw->SetClampStatus(Claw::ClampStatus::kReleased);
 	}
-	void Execute() override {
 
+	void Execute() override {
 	}
+
 	bool IsFinished() override {
 		return false;
 	}
+
 	void End() override {
 		CommandBase::End();
 		claw->SetClampStatus(Claw::ClampStatus::kDeathGrip);
 	}
+
 	void Interrupted() override {
 		CommandBase::Interrupted();
 		claw->SetClampStatus(Claw::ClampStatus::kDeathGrip);
@@ -44,6 +48,5 @@ protected:
 };
 
 }
-;
 
 #endif /* CLAWCLAMPTOGGLE_H_ */

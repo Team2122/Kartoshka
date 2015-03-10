@@ -20,6 +20,7 @@ public:
 		targetTicks = config["ticks"].as<int32_t>();
 		tolerance = config["tolerance"].as<int32_t>();
 		rampFactor = config["rampFactor"].as<double>();
+		speed = Shuttle::kStop;
 		Requires(shuttle);
 	}
 
@@ -27,7 +28,8 @@ public:
 		return "ShuttleRamp";
 	}
 
-	virtual void Initialize() {
+protected:
+	void Initialize() override {
 		CommandBase::Initialize();
 		int shuttleTicks = shuttle->GetEncoderTicks();
 		const char* name;
@@ -41,7 +43,7 @@ public:
 		log.Info("We are moving %s to %d ticks", name, targetTicks);
 	}
 
-	virtual void Execute() {
+	void Execute() override {
 		int shuttleTicks = shuttle->GetEncoderTicks();
 		int difference = abs(shuttleTicks - targetTicks);
 		if (difference <= rampDistance) {
@@ -54,7 +56,7 @@ public:
 		}
 	}
 
-	virtual bool IsFinished() {
+	bool IsFinished() override {
 		int shuttleTicks = shuttle->GetEncoderTicks();
 		int difference = abs(shuttleTicks - targetTicks);
 		int limit = shuttle->GetLimit();
@@ -70,17 +72,17 @@ public:
 		}
 	}
 
-	virtual void End() {
+	void End() override {
 		shuttle->SetShuttleSpeed(Shuttle::kStop);
 		CommandBase::End();
 	}
 
-	virtual void Interrupted() {
+	void Interrupted() override {
 		shuttle->SetShuttleSpeed(Shuttle::kStop);
 		CommandBase::Interrupted();
 	}
 
-protected:
+private:
 	double rampFactor;
 	int32_t targetTicks, tolerance, rampDistance;
 	Shuttle::Speed speed;

@@ -1,5 +1,7 @@
+#ifndef MESSAGECOMMAND_H_
+#define MESSAGECOMMAND_H_
+
 #include "CommandBase.h"
-#include <yaml-cpp/yaml.h>
 
 namespace tator {
 
@@ -10,28 +12,23 @@ public:
 		message = params["message"].as<std::string>();
 	}
 
-	void Initialize() {
-	}
-
-	void Execute() {
-		log.Info("%s", message.c_str());
-	}
-
-	bool IsFinished() {
-		return true;
-	}
-
-	void End() {
-	}
-
-	void Interrupted() {
-	}
-
 	static std::string GetBaseName() {
 		return "MessageCommand";
 	}
+
 protected:
+	void Execute() override {
+		log.Info("%s", message.c_str());
+	}
+
+	bool IsFinished() override {
+		return true;
+	}
+
+private:
 	std::string message;
 };
 
 }
+
+#endif /* MESSAGECOMMAND_H_ */
