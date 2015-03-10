@@ -85,22 +85,22 @@ TopClaw:
 ClawPosition:
   - name: Pick
     target: 0.0
-    tolerance: 1.0
+    tolerance: 3.0
   - name: Transport
     target: 30.0
-    tolerance: 1.0
+    tolerance: 3.0
   - name: Top
     target: 243.0
-    tolerance: 1.0
+    tolerance: 3.0
   - name: Middle
     target: 200
-    tolerance: 1.0
+    tolerance: 3.0
   - name: Platform
-    target: 183
-    tolerance: 1.0
+    target: 181
+    tolerance: 3.0
   - name: Regrip
     target: 157.5
-    tolerance: 1.0
+    tolerance: 3.0
 
 ClawRegripPosition:
   speed: .2
