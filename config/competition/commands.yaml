@@ -174,8 +174,8 @@ $: # This is GenericCommandGroup
       - ClawPositionRegrip
       - name: WaitCommand
         time: 0.25
-      # - ClawClampDeathGrip
-      - $PickBin
+      - ClawClampDeathGrip
+      - ClawSmartRollers
   - name: PlatformToPlacement
     commands:
       - ClawPositionTop
