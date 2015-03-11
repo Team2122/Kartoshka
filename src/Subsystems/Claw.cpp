@@ -78,7 +78,7 @@ void Claw::ReenableClaw() {
 	disabled = false;
 }
 
-void Claw::SetVerticalLiftMotor(double power) {
+void Claw::SetLiftSpeed(double power) {
 	if (disabled) {
 		return liftMotor->Set(0);
 	}
@@ -93,23 +93,28 @@ void Claw::SetLiftSpeed(LiftSpeed speed) {
 	} else if (clawAngle > clearClawMinAngle && clawHeight < clearClawMinHeight
 			&& false) {
 		log.Error("Claw angle was %f > %f", clawAngle, clearClawMinAngle);
-		return SetVerticalLiftMotor(0);
+		return SetLiftSpeed(0);
 	}
-	switch (speed) {
-	case LiftSpeed::kUp:
-		return SetVerticalLiftMotor(upSpeed);
-	case LiftSpeed::kDown:
-		return SetVerticalLiftMotor(downSpeed);
-	default:
-	case LiftSpeed::kStop:
-		return SetVerticalLiftMotor(0);
-	}
+	SetLiftSpeed(GetLiftSpeed(speed));
 	liftSpeed = speed;
 }
 
 Claw::LiftSpeed Claw::GetLiftSpeed() {
 	return liftSpeed;
 }
+
+double Claw::GetLiftSpeed(LiftSpeed state) {
+	switch (state) {
+	case LiftSpeed::kUp:
+		return (upSpeed);
+	case LiftSpeed::kDown:
+		return (downSpeed);
+	default:
+	case LiftSpeed::kStop:
+		return (0);
+	}
+}
+
 
 double Claw::GetLiftEncoder() {
 	return liftEncoder->GetDistance();

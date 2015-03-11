@@ -69,15 +69,13 @@ public:
 
 	void ReenableClaw();
 
-	/**
-	 * Sets the power of the lift
-	 * @param power The amount of power to power
-	 */
-	void SetVerticalLiftMotor(double power);
+	void SetLiftSpeed(double power);
 
 	void SetLiftSpeed(LiftSpeed speed);
 
 	LiftSpeed GetLiftSpeed();
+
+	double GetLiftSpeed(LiftSpeed speed);
 
 	/**
 	 * Gets the position of the lift encoder

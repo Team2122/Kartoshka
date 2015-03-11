@@ -17,6 +17,7 @@ public:
 			CommandBase(name) {
 		target = node["target"].as<double>();
 		tolerance = node["tolerance"].as<double>();
+		speedMul = node["speedMul"].as<double>();
 	}
 
 	static std::string GetBaseName() {
@@ -26,11 +27,13 @@ public:
 protected:
 	void Execute() override {
 		int clawTicks = claw->GetLiftEncoder();
+		double speed;
 		if (clawTicks < target) {
-			claw->SetLiftSpeed(Claw::LiftSpeed::kUp);
+			speed = claw->GetLiftSpeed(Claw::LiftSpeed::kUp);
 		} else {
-			claw->SetLiftSpeed(Claw::LiftSpeed::kDown);
+			speed = claw->GetLiftSpeed(Claw::LiftSpeed::kDown);
 		}
+		claw->SetLiftSpeed(speed * speedMul);
 	}
 
 	bool IsFinished() override {
@@ -68,6 +71,7 @@ protected:
 private:
 	double target;
 	double tolerance;
+	double speedMul;
 };
 
 }

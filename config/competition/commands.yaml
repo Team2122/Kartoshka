@@ -19,7 +19,7 @@ ShuttlePosition:
     ticks: 700
     tolerance: 10
   - name: Unload
-    ticks: 400
+    ticks: 350
     tolerance: 10
 
 ShuttleRamp:
@@ -86,21 +86,27 @@ ClawPosition:
   - name: Pick
     target: 0.0
     tolerance: 3.0
+    speedMul: 1.0
   - name: Transport
     target: 30.0
     tolerance: 3.0
+    speedMul: 1.0
   - name: Top
     target: 243.0
     tolerance: 3.0
+    speedMul: 1.0
   - name: Middle
     target: 200
     tolerance: 3.0
+    speedMul: 1.0
   - name: Platform
-    target: 181
+    target: 175
     tolerance: 3.0
+    speedMul: .5
   - name: Regrip
-    target: 157.5
+    target: 154
     tolerance: 3.0
+    speedMul: .5
 
 ClawRegripPosition:
   speed: .2
@@ -168,14 +174,17 @@ $: # This is GenericCommandGroup
       - ClawClampDeathGrip
   - name: RegripBin
     commands:
+      - name: WaitCommand
+        time: 0.50
       - ClawClampReleased
       - name: WaitCommand
         time: 0.25
       - ClawPositionRegrip
       - name: WaitCommand
         time: 0.25
-      - ClawClampDeathGrip
+      - ClawClampContainer
       - ClawSmartRollers
+      - ClawClampDeathGrip
   - name: PlatformToPlacement
     commands:
       - ClawPositionTop

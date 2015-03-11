@@ -23,7 +23,7 @@ public:
 protected:
 	void Initialize() override {
 		CommandBase::Initialize();
-		claw->SetVerticalLiftMotor(speed);
+		claw->SetLiftSpeed(speed);
 	}
 
 	void Execute() override {
@@ -31,12 +31,12 @@ protected:
 
 	virtual void End() override {
 		CommandBase::End();
-		claw->SetVerticalLiftMotor(0);
+		claw->SetLiftSpeed(0);
 	}
 
 	void Interrupted() override {
 		CommandBase::Interrupted();
-		claw->SetVerticalLiftMotor(0);
+		claw->SetLiftSpeed(0);
 	}
 
 private:
