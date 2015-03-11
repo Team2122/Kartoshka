@@ -225,6 +225,20 @@ $: # This is GenericCommandGroup
         execution: Parallel
       - $GroundToPlatform
       - $RegripBin
+  - name: Auto3
+    commands:
+      - name: DriveDistanceAutoThreeDistance
+        execution: Parallel
+      - $PickBin
+      - $GroundToPlatform
+      - $RegripBin
+  - name: Auto4
+    commands:
+      - name: DriveDistanceAutoFourDistance
+        execution: Parallel
+      - $PickBin
+      - $GroundToPlatform
+      - $RegripBin
 
 ArmShuttle:
   first:
@@ -279,3 +293,9 @@ DriveDistance:
   - name: AutoBack
     speed: -0.45
     distance: 6.0
+  - name: AutoThreeDistance
+    speed: 0.45
+    distance: 8.0
+  - name: AutoFourDistance
+    speed: 0.45
+    distance: 1.0

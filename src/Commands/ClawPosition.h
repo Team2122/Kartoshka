@@ -54,11 +54,13 @@ public:
 	virtual void End() {
 		claw->SetLiftSpeed(Claw::LiftSpeed::kStop);
 		CommandBase::End();
+		log.Info("Current ticks: %f", claw->GetLiftEncoder());
 	}
 
 	virtual void Interrupted() {
 		claw->SetLiftSpeed(Claw::LiftSpeed::kStop);
 		CommandBase::Interrupted();
+		log.Info("Current ticks: %f", claw->GetLiftEncoder());
 	}
 private:
 	double target;
