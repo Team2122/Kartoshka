@@ -15,25 +15,23 @@
   3: WhenPressed $GroundToPlatform
   4: WhenPressed $RegripBin
   5: WhenPressed $PlatformToPlacement
-  6: WhenPressed $Restack
-  7: WhenPressed ShuttleRampUp
-  8: WhenPressed ShuttleRampDown
-  9:
-    - WhenPressed ClawForceHome
-    - WhenReleased CancelClawForceHome
-    - WhenReleased CancelHomeClaw
+  6: ToggleWhenPressed ArmShuttle
+  7: WhenPressed $Restack
+  8: WhenPressed ClawClampDeathGrip
+  9: WhenPressed ClawClampTote
+  10: WhenPressed ClawClampContainer
 2:
   1: WhenPressed ClawClampReleased
-  3: WhenPressed AddTote
+  2: WhenPressed AddTote
+  3: WhenPressed ResetTotes
   4: WhenPressed ResetMaxTotes
   5: WhenPressed DecrementMaxTotes
-  6: WhenPressed ClawRollersOut
-  7: WhileHeld FlapFlappers
+  6: WhenPressed ClawRotationPick
+  7: WhenPressed ClawRotationPlatform
   8:
     - WhenPressed ClawForceHome
     - WhenReleased CancelClawForceHome
     - WhenReleased CancelHomeClaw
-  9: ToggleWhenPressed ArmShuttle
   10: WhileHeld ManualClawLiftUp
   11: WhileHeld ManualClawLiftDown
   12: WhileHeld UnloadTote
