@@ -11,7 +11,7 @@
   10: WhenPressed $Restack
 1:
   1: WhenPressed $ClawToPick
-  2: WhenPressed $ClawPick
+  2: ToggleWhenPressed $ClawPick
   3: WhenPressed $GroundToPlatform
   4: WhenPressed $RegripBin
   5: WhenPressed $PlatformToPlacement

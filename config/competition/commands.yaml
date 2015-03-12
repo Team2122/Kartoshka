@@ -61,8 +61,8 @@ ClawRotation:
 
 ClawRotationContinuous:
   tolerance: 15.0
-  angles: [68, 240] # Pick, Platform
-  speeds: {move: .35, hold: .2}
+  angles: [70, 235] # Pick, Platform
+  speeds: {move: .30, hold: .15}
 
 ClawRollers:
   - name: In
@@ -100,11 +100,11 @@ ClawPosition:
     tolerance: 3.0
     speedMul: 1.0
   - name: Platform
-    target: 175
+    target: 177
     tolerance: 3.0
     speedMul: .5
   - name: Regrip
-    target: 154
+    target: 156
     tolerance: 3.0
     speedMul: .5
 
@@ -281,7 +281,7 @@ Restack:
 
 ClawForceHome:
   angle: 69.0
-  speed: -.35
+  speed: -.30
 
 ClawToHome:
   rotateWait: .25
