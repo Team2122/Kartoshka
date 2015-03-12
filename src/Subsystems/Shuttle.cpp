@@ -112,7 +112,6 @@ double Shuttle::GetShuttleSpeed(Speed state) {
 }
 
 void Shuttle::SetShuttleSpeed(double speed) {
-	log.Info("Setting speed to %f with %d totes", speed, totes);
 	liftMotor->SetSpeed(speed);
 }
 
