@@ -37,7 +37,11 @@ int Otto::GetAutoModeNumber() {
 void Otto::StartAutoCommand() {
 	int autoNumber = GetAutoModeNumber();
 	log.Info("Running $Auto%d", autoNumber);
-	Kremlin::Get("$Auto" + std::to_string(autoNumber))->Start();
+	try {
+		Kremlin::Get("$Auto" + std::to_string(autoNumber))->Start();
+	} catch (std::runtime_error& e) {
+		log.Error("That auto doesn't exist, dingus!");
+	}
 }
 
 } /* namespace tator */

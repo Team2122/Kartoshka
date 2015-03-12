@@ -40,6 +40,7 @@ void Robot::RobotInit() {
 	Kremlin::Get("$ShuttleInit")->Start();
 	Kremlin::Get("ClawRotationContinuous")->Start();
 	CameraServer::GetInstance()->StartAutomaticCapture("cam1");
+	CommandBase::otto->GetAutoModeNumber();
 }
 
 void Robot::DisabledInit() {
