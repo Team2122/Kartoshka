@@ -167,7 +167,7 @@ $: # This is GenericCommandGroup
       - ClawPositionPlatform
   - name: PickBin
     commands:
-      - ClawClampContainer
+      - ClawClampTote
       - ClawSmartRollers
       - name: WaitCommand
         time: 0.25
