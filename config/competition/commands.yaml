@@ -62,7 +62,7 @@ ClawRotation:
 ClawRotationContinuous:
   tolerance: 15.0
   angles: [70, 235] # Pick, Platform
-  speeds: {move: .30, hold: .15}
+  speeds: {move: .40, hold: .20}
 
 ClawRollers:
   - name: In
