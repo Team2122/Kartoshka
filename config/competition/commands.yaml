@@ -73,6 +73,7 @@ ClawRollers:
     status: 0
 
 ClawSmartRollers:
+  waitTime: .25
 
 ClawEstablishHome:
 
