@@ -93,7 +93,7 @@ ClawPosition:
     tolerance: 3.0
     speedMul: 1.0
   - name: Top
-    target: 245.0
+    target: 243.0
     tolerance: 3.0
     speedMul: 1.0
   - name: Middle
