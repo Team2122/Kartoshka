@@ -21,12 +21,21 @@ public:
 		stackToteCommand = Kremlin::Get("$StackTote");
 		restackCommand = Kremlin::Get("$Restack");
 		toteTickCount = 0;
+		isBumping = false;
+
 		YAML::Node first = config["first"];
 		firstRollerSpeed = first["rollerSpeed"].as<double>();
 		firstFlapperSpeed = first["flapperSpeed"].as<double>();
+
 		YAML::Node rest = config["rest"];
 		restRollerSpeed = rest["rollerSpeed"].as<double>();
 		restFlapperSpeed = rest["flapperSpeed"].as<double>();
+
+		YAML::Node bump = config["bump"];
+		bumpRollerSpeed = bump["rollerSpeed"].as<double>();
+		bumpFlapperSpeed = bump["flapperSpeed"].as<double>();
+
+		bumpTime = config["bumpTime"].as<double>();
 		toteTicksRequired = config["toteTicks"].as<int>();
 	}
 
@@ -40,6 +49,8 @@ protected:
 		shuttle->OpenProngs();
 		shuttle->ResetMaxToteCount();
 		toteTickCount = 1;
+		isBumping = false;
+		timer.Reset();
 	}
 
 	void Execute() override {
@@ -53,7 +64,15 @@ protected:
 			log.Info("Sensor triggered. Stacking totes...");
 			stackToteCommand->Start();
 		}
-		if (toteFeed->GetBackSensor()) {
+		bool doneBumping = timer.Get() >= bumpTime;
+		bool hasFirstTote = toteFeed->GetBackSensor();
+		if (isBumping && !doneBumping) {
+			toteFeed->SetRollers(bumpRollerSpeed);
+			toteFeed->SetFlapperSpeed(bumpFlapperSpeed);
+		} else if (hasFirstTote && !isBumping) {
+			isBumping = true;
+			timer.Start();
+		} else if (hasFirstTote && doneBumping) {
 			toteFeed->SetRollers(restRollerSpeed);
 			toteFeed->SetFlapperSpeed(restFlapperSpeed);
 		} else {
@@ -73,6 +92,7 @@ protected:
 			stackToteCommand->Cancel();
 		toteFeed->SetRollers(0);
 		restackCommand->Start();
+		timer.Stop();
 		CommandBase::End();
 	}
 
@@ -81,6 +101,7 @@ protected:
 		if (stackToteCommand->IsRunning())
 			stackToteCommand->Cancel();
 		toteFeed->SetRollers(0);
+		timer.Stop();
 		CommandBase::Interrupted();
 	}
 
@@ -88,7 +109,11 @@ private:
 	Command* stackToteCommand, *restackCommand;
 	double firstRollerSpeed, firstFlapperSpeed;
 	double restRollerSpeed, restFlapperSpeed;
+	double bumpRollerSpeed, bumpFlapperSpeed;
 	int toteTicksRequired, toteTickCount;
+	double bumpTime;
+	bool isBumping;
+	Timer timer;
 };
 
 }
