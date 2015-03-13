@@ -220,17 +220,17 @@ $: # This is GenericCommandGroup
     commands:
   - name: Auto1
     commands:
-      - name: DriveDistanceAutoPick
+      - name: DriveDistanceAutoPickLong
         execution: Parallel
       - $PickBin
       - $GroundToPlatform
       - $RegripBin
   - name: Auto2
     commands:
-      - name: DriveDistanceAutoPickShort
+      - name: DriveDistanceAutoPick
         execution: Parallel
       - $PickBin
-      - name: DriveDistanceAutoBack
+      - name: DriveDistanceAutoBackLong
         execution: Parallel
       - $GroundToPlatform
       - $RegripBin
@@ -246,6 +246,15 @@ $: # This is GenericCommandGroup
       - name: DriveDistanceAutoFourDistance
         execution: Parallel
       - $PickBin
+      - $GroundToPlatform
+      - $RegripBin
+  - name: Auto5
+    commands:
+      - name: DriveDistanceAutoPickShort
+        execution: Parallel
+      - $PickBin
+      - name: DriveDistanceAutoBack
+        execution: Parallel
       - $GroundToPlatform
       - $RegripBin
 
@@ -295,13 +304,19 @@ ManualClawLift:
 DriveDistance:
   - name: AutoPick
     speed: 0.45
+    distance: 1.0
+  - name: AutoPickLong
+    speed: 0.45
     distance: 4.0
   - name: AutoPickShort
     speed: 0.45
     distance: .1
   - name: AutoBack
     speed: -0.45
-    distance: 6.0
+    distance: 7.0
+  - name: AutoBackLong
+    speed: -0.45
+    distance: 8.0
   - name: AutoThreeDistance
     speed: 0.45
     distance: 8.0
