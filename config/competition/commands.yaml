@@ -92,7 +92,7 @@ ClawPosition:
     tolerance: 3.0
     speedMul: 1.0
   - name: Top
-    target: 243.0
+    target: 245.0
     tolerance: 3.0
     speedMul: 1.0
   - name: Middle
@@ -100,7 +100,7 @@ ClawPosition:
     tolerance: 3.0
     speedMul: 1.0
   - name: Platform
-    target: 177
+    target: 178
     tolerance: 3.0
     speedMul: .5
   - name: Regrip
