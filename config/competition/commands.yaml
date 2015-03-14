@@ -109,6 +109,14 @@ ClawPosition:
     tolerance: 3.0
     speedMul: .5
 
+ClawRamp:
+  - name: Pick
+    target: 0.0
+    tolerance: 3.0
+    speed: 1.0
+    rampDistance: 50.0
+    rampFactor: .25
+
 ClawRegripPosition:
   speed: .2
 
@@ -219,7 +227,7 @@ $: # This is GenericCommandGroup
   - name: ClawToPick
     commands:
       - ClawRotationPick
-      - ClawPositionPick
+      - ClawRampPick
   - name: ClawPick
     commands:
       - $ClawToPick

@@ -17,6 +17,7 @@
 #include "Commands/ClawEstablishHome.h"
 #include "Commands/ClawForceHome.h"
 #include "Commands/ClawPosition.h"
+#include "Commands/ClawRamp.h"
 #include "Commands/ClawRollers.h"
 #include "Commands/ClawRotation.h"
 #include "Commands/ClawRotationContinuous.h"
@@ -81,6 +82,7 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<ResetMaxTotes>();
 	CreateCommandsForClass<RollerbedPiston>();
 	CreateCommandsForClass<RollerbedPistonToggle>();
+	CreateCommandsForClass<ClawRamp>();
 	CreateCommandsForClass<GenericCommandGroup>();
 	CreateCommandsForClass<ArmShuttle>();
 	CreateCommandsForClass<Cancel>();
