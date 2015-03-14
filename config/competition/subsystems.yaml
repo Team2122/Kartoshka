@@ -3,7 +3,7 @@ Claw:
     liftVertical: 6
     liftRotation: 7
     verticalTicks: [6, 7]
-    rotationAngle: {Channel: 0, Scale: 360, Offset: -46.0}
+    rotationAngle: {Channel: 0, Scale: 360, Offset: -41.0}
     upperLimit: 13
     clampLong: 2
     clampShort: 3
@@ -14,7 +14,7 @@ Claw:
     clearClaw: {rotate: 149.0, minAngle: 75.0, minHeight: 149}
   Speeds:
     outward: 0.5
-    inward: -1
+    inward: -.8
     up: -1
     down: .5
 Drive:
