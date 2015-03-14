@@ -328,7 +328,7 @@ DriveDistance:
     distance: 4.0
   - name: AutoPickShort
     speed: 0.45
-    distance: .1
+    distance: 1.0
   - name: AutoBack
     speed: -0.45
     distance: 7.0
