@@ -8,6 +8,7 @@
 #include "Common/Config.h"
 #include "Common/Binder.h"
 #include "Common/Kremlin.h"
+#include "Common/USBManager.h"
 #include "CommandBase.h"
 #include "Subsystems/Otto.h"
 #include <WPILib.h>
@@ -36,10 +37,11 @@ void Robot::RobotInit() {
 	Binder::BindAll();
 	log.Info("Deleting Configs...");
 	Config::Delete();
+	USBManager::GetInstance()->Initialize();
 	Kremlin::Get("ClawEstablishHome")->Start();
 	Kremlin::Get("$ShuttleInit")->Start();
 	Kremlin::Get("ClawRotationContinuous")->Start();
-	CameraServer::GetInstance()->StartAutomaticCapture("cam1");
+	CameraServer::GetInstance()->StartAutomaticCapture("cam2"); // CHANGE THIS BACK
 	CommandBase::otto->GetAutoModeNumber();
 }
 
@@ -47,6 +49,7 @@ void Robot::DisabledInit() {
 	log.Info("==== DisabledInit ====");
 	Kremlin::Get("DriveContinuous")->Cancel();
 	tester->Interrupted();
+	USBManager::GetInstance()->Flush();
 }
 
 void Robot::AutonomousInit() {

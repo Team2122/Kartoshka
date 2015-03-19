@@ -12,6 +12,8 @@
 
 namespace tator {
 
+class USBManager;
+
 /**
  * Is class for Logger. Give Logger name and will output message
  */
@@ -73,6 +75,7 @@ private:
 	 */
 	std::string MakeTimestamp();
 	std::string name;
+	USBManager* usb;
 
 };
 
