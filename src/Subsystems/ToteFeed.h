@@ -59,16 +59,11 @@ public:
 	void SetFlapperSpeed(float speed);
 
 private:
-	/// Rollers
-	Talon* rollers;
-	/// Flappers
-	Talon* flappers;
-	/// Back beam sensor
-	DigitalInput* backSensor;
-	/// Piston to move rollers up
-	Solenoid* rollerPiston;
-	/// The speed to run the flappers at
-	double flapperSpeed;
+	Talon* rollers; ///< The roller motors
+	Talon* flappers; ///< The flapper motors
+	DigitalInput* backSensor; ///< The back sensor
+	Solenoid* rollerPiston; ///< The solenoid for the tote feed rollers
+	double flapperSpeed; ///< Sets the flapper speed
 };
 
 }

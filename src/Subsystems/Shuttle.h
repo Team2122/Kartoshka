@@ -31,10 +31,10 @@ private:
 	double downSpeed; ///< The speed of the shuttle when going down
 	double holdSpeed; ///< The speed of the shuttle when holding the totes in place
 	double speedScale; ///< The Value that can be multiplied by how many totes we are holding to get the speed we need to counteract that force
-	uint8_t motorPDPChannel;
+	uint8_t motorPDPChannel; ///< The motor PDP channel
 	double maxMotorCurrent; ///< The max current that can be sent to the shuttle motors. Used ot know if there is a motor stall
 	int totes; ///< How many totes we are "rescuing"
-	int maxToteCount;
+	int maxToteCount; ///< The maximum amount of totes we have rescued
 
 public:
 	Shuttle(YAML::Node config);

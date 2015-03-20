@@ -17,15 +17,15 @@ namespace tator {
  */
 class Drive: public SubsystemBase {
 private:
-	Talon* driveL;
-	Talon* driveR;
-	Encoder* encoderL;
-	Encoder* encoderR;
-	PIDController* pidL;
-	PIDController* pidR;
-	DigitalInput* platformL;
-	DigitalInput* platformR;
-	double maxRPS;
+	Talon* driveL; ///< The left drive talon
+	Talon* driveR; ///< The right drive talon
+	Encoder* encoderL; ///< The encoder for the left drive
+	Encoder* encoderR; ///< The encoder for the right drive
+	PIDController* pidL; ///< The PID for the left drive
+	PIDController* pidR; ///< The PID for the right drive
+	DigitalInput* platformL; ///< Sensor for the left drive
+	DigitalInput* platformR; ///< Sensor for the right drive
+	double maxRPS; ///< The maximum Rotations Per Second for the drive
 
 public:
 	Drive(YAML::Node config);
