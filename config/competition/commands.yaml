@@ -41,6 +41,14 @@ DriveDistance:
     speed: 0.45
     distance: 1.0
 
+DriveRotate:
+  - name: Test
+    speed: .35
+    angle: -90.0
+    tolerance: .5
+    rampAngle: 45.0
+    rampFactor: .25
+
 ###########
 # SHUTTLE #
 ###########
@@ -400,6 +408,9 @@ $Auto5:
     execution: Parallel
   - $GroundToPlatform
   - $RegripBin
+
+$Auto6:
+  - DriveRotateTest
 
 ###########
 # UTILITY #

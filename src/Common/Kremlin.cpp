@@ -23,6 +23,7 @@
 #include "Commands/ClawSmartRollers.h"
 #include "Commands/DriveContinuous.h"
 #include "Commands/DriveDistance.h"
+#include "Commands/DriveRotate.h"
 #include "Commands/Fingers.h"
 #include "Commands/FlapFlappers.h"
 #include "Commands/GenericCommandGroup.h"
@@ -89,6 +90,7 @@ void Kremlin::CreateCommandsOnce() {
 	CreateCommandsForClass<SetDesiredTotes>();
 	CreateCommandsForClass<IntakeTotes>();
 	CreateCommandsForClass<ShuttleHold>();
+	CreateCommandsForClass<DriveRotate>();
 	CreateCommandsForClass<GenericCommandGroup>();
 	CreateCommandsForClass<ToteDirector>();
 	CreateCommandsForClass<Cancel>();
