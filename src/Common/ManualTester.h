@@ -1,4 +1,5 @@
 #include <WPILib.h>
+#include "FixedField.h"
 #include "Common/Logger.h"
 
 #ifndef MANUALTESTER_H_
@@ -26,6 +27,8 @@ public:
 	virtual void Add(std::string subsystem, std::string name, Encoder* encoder);
 	virtual void Add(std::string subsystem, std::string name,
 			DigitalInput* input);
+	virtual void Add(std::string subsystem, std::string name,
+			FixedField* input);
 	virtual void Add(std::string subsystem, std::string name,
 			AnalogPotentiometer* pot);
 	void Add(std::string subsystem, std::string name, ADXRS453* gyro);

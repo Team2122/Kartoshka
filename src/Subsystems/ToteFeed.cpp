@@ -13,7 +13,8 @@ ToteFeed::ToteFeed(YAML::Node config) :
 		SubsystemBase("ToteFeed") {
 	YAML::Node ports = config["ports"];
 	rollers = new Talon(ports["rollers"].as<int>());
-	backSensor = new DigitalInput(ports["backSensor"].as<int>());
+	backSensor = new FixedField(ports["backSensor"]["channel"].as<int>(),
+			ports["backSensor"]["isNPN"].as<bool>());
 	rollerPiston = new Solenoid(ports["rollerPiston"].as<int>());
 	flappers = new Talon(ports["flappers"].as<int>());
 	flapperSpeed = config["flapperSpeed"].as<double>();
@@ -32,7 +33,7 @@ ToteFeed::~ToteFeed() {
 }
 
 bool ToteFeed::GetBackSensor() {
-	return !backSensor->Get();
+	return backSensor->Get();
 }
 
 void ToteFeed::SetRollers(double speed) {

@@ -10,6 +10,7 @@
 #include <WPILib.h>
 #include "Common/SubsystemBase.h"
 #include <yaml-cpp/yaml.h>
+#include "Common/FixedField.h"
 
 namespace tator {
 
@@ -61,7 +62,7 @@ public:
 private:
 	Talon* rollers; ///< The roller motors
 	Talon* flappers; ///< The flapper motors
-	DigitalInput* backSensor; ///< The back sensor
+	FixedField* backSensor; ///< The back sensor
 	Solenoid* rollerPiston; ///< The solenoid for the tote feed rollers
 	double flapperSpeed; ///< Sets the flapper speed
 };

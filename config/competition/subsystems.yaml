@@ -4,12 +4,12 @@ Claw:
     liftRotation: 7
     verticalTicks: [6, 7]
     rotationAngle: {Channel: 0, Scale: 360, Offset: -44.0}
-    upperLimit: 13
+    upperLimit: {channel: 13, isNPN: true}
     clampLong: 2
     clampShort: 3
     rollers: 8
-    binSensor: 18
-    homeLimit: 12
+    binSensor: {channel: 18, isNPN: true}
+    homeLimit: {channel: 12, isNPN: false}
   Software:
     clearClaw: {rotate: 149.0, minAngle: 75.0, minHeight: 149}
   Speeds:
@@ -25,17 +25,17 @@ Drive:
     L: [2, 3]
     R: [0, 1]
   platform:
-    L: 15
-    R: 14
+    L: {channel: 15, isNPN: true}
+    R: {channel: 14, isNPN: true}
   PID:
     L: {P: 0.02, I: 0, D: 0, F: 0}
     R: {P: 0.02, I: 0, D: 0, F: 0}
   maxRPS: 40
 Shuttle:
   Ports:
-    toteSensor: 17
-    lowerLimit: 10
-    upperLimit: 11
+    toteSensor: {channel: 17, isNPN: true}
+    lowerLimit: {channel: 10, isNPN: true}
+    upperLimit: {channel: 11, isNPN: true}
     clampPiston: 0
     fingersPiston: 4
     lift:
@@ -51,7 +51,7 @@ Shuttle:
 ToteFeed:
   ports:
     rollers: 2
-    backSensor: 16
+    backSensor: {channel: 16, isNPN: true}
     flappers: 3
     rollerPiston: 1
   flapperSpeed: .5

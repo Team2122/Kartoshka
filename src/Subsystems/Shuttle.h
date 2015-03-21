@@ -10,6 +10,7 @@
 #include <WPILib.h>
 #include "Common/SubsystemBase.h"
 #include "Common/Config.h"
+#include "Common/FixedField.h"
 
 namespace tator {
 
@@ -19,9 +20,9 @@ namespace tator {
 class Shuttle: public SubsystemBase {
 private:
 
-	DigitalInput* toteSensor; ///< Sensor that senses if totes are here (at the lift base)
-	DigitalInput* lowerLimit; ///< Sensor that senses if Shuttle has reached it's lower limit
-	DigitalInput* upperLimit; ///< Sensor that senses if Shuttle has reached it's upper limit
+	FixedField* toteSensor; ///< Sensor that senses if totes are here (at the lift base)
+	FixedField* lowerLimit; ///< Sensor that senses if Shuttle has reached it's lower limit
+	FixedField* upperLimit; ///< Sensor that senses if Shuttle has reached it's upper limit
 	Solenoid* clampPiston; ///< Piston that grabs the totes
 	Talon* liftMotor; ///< Motor that lifts the shuttle with totes
 	Encoder* liftEncoder; ///< Encoder to read how far shuttle has moved

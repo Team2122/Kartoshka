@@ -14,9 +14,12 @@ namespace tator {
 Shuttle::Shuttle(YAML::Node config) :
 		SubsystemBase("Shuttle") {
 	YAML::Node ports = config["Ports"];
-	toteSensor = new DigitalInput(ports["toteSensor"].as<int>());
-	lowerLimit = new DigitalInput(ports["lowerLimit"].as<int>());
-	upperLimit = new DigitalInput(ports["upperLimit"].as<int>());
+	toteSensor = new FixedField(ports["toteSensor"]["channel"].as<int>(),
+			ports["toteSensor"]["isNPN"].as<bool>());
+	lowerLimit = new FixedField(ports["lowerLimit"]["channel"].as<int>(),
+			ports["lowerLimit"]["isNPN"].as<bool>());
+	upperLimit = new FixedField(ports["upperLimit"]["channel"].as<int>(),
+			ports["upperLimit"]["isNPN"].as<bool>());
 	clampPiston = new Solenoid(ports["clampPiston"].as<int>());
 	YAML::Node lift = ports["lift"];
 	liftMotor = new Talon(lift["motor"].as<int>());
@@ -62,13 +65,13 @@ Shuttle::~Shuttle() {
 }
 
 bool Shuttle::HasToteAtShuttleBase() {
-	return !toteSensor->Get();
+	return toteSensor->Get();
 }
 
 Shuttle::Position Shuttle::GetLimit() {
-	if (!lowerLimit->Get()) { // the banner fixed-fields are inverted
+	if (lowerLimit->Get()) {
 		return kLower;
-	} else if (!upperLimit->Get()) {
+	} else if (upperLimit->Get()) {
 		return kUpper;
 	} else {
 		return kUnknown;

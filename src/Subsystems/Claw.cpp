@@ -23,8 +23,10 @@ Claw::Claw(YAML::Node config) :
 	rotationAngle = new AnalogPotentiometer(rotationAngle_["Channel"].as<int>(),
 			rotationAngle_["Scale"].as<double>(),
 			rotationAngle_["Offset"].as<double>());
-	upperLimit = new DigitalInput(ports["upperLimit"].as<int>());
-	homeLimit = new DigitalInput(ports["homeLimit"].as<int>());
+	upperLimit = new FixedField(ports["upperLimit"]["channel"].as<int>(),
+			ports["upperLimit"]["isNPN"].as<bool>());
+	homeLimit = new FixedField(ports["homeLimit"]["channel"].as<int>(),
+			ports["homeLimit"]["isNPN"].as<bool>());
 
 	clearClawRotate = soft["clearClaw"]["rotate"].as<double>();
 	clearClawMinAngle = soft["clearClaw"]["minAngle"].as<double>();
@@ -36,7 +38,8 @@ Claw::Claw(YAML::Node config) :
 	clampLong = new Solenoid(ports["clampLong"].as<int>());
 	clampShort = new Solenoid(ports["clampShort"].as<int>());
 	rollers = new Talon(ports["rollers"].as<int>());
-	binSensor = new DigitalInput(ports["binSensor"].as<int>());
+	binSensor = new FixedField(ports["binSensor"]["channel"].as<int>(),
+			ports["binSensor"]["isNPN"].as<bool>());
 
 	rollerInwardSpeed = speed["inward"].as<double>();
 	rollerOutwardSpeed = speed["outward"].as<double>();
@@ -128,11 +131,11 @@ int32_t Claw::GetPosition() {
 }
 
 bool Claw::IsHome() {
-	return !homeLimit->Get();
+	return homeLimit->Get();
 }
 
 bool Claw::IsTop() {
-	return !upperLimit->Get();
+	return upperLimit->Get();
 }
 
 void Claw::ResetTicks() {
@@ -182,7 +185,7 @@ float Claw::GetRotationAngle() {
 }
 
 bool Claw::HasContainer() {
-	return !binSensor->Get();
+	return binSensor->Get();
 }
 
 void Claw::SetRotationSpeed(double speed, bool override) {

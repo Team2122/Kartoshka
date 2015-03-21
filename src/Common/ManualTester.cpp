@@ -186,6 +186,25 @@ public:
 	DigitalInput* input;
 };
 
+class ManualFixedFieldTest: public ManualSensorTest {
+public:
+	ManualFixedFieldTest(std::string name, Logger* log, FixedField* input) :
+			ManualSensorTest(name, log) {
+		this->input = input;
+	}
+	virtual ~ManualFixedFieldTest() {
+	}
+	virtual void LogInit() {
+		const char* type = input->IsNPN() ? "NPN" : "PNP";
+		log->Info("Now testing fixed field sensor %s, which is %s", name.c_str(), type);
+	}
+	virtual void LogValue() {
+		const char* strState = input->Get() ? "true" : "false";
+		log->Info("Input is %s", strState);
+	}
+	FixedField* input;
+};
+
 class ManualAnalogPotentiometerTest: public ManualSensorTest {
 public:
 	ManualAnalogPotentiometerTest(std::string name, Logger* log,
@@ -340,6 +359,11 @@ void ManualTester::Add(std::string subsystem, std::string name,
 void ManualTester::Add(std::string subsystem, std::string name,
 		DigitalInput* input) {
 	tests[subsystem].push_back(new ManualDigitalInputTest(name, &log, input));
+}
+
+void ManualTester::Add(std::string subsystem, std::string name,
+		FixedField* input) {
+	tests[subsystem].push_back(new ManualFixedFieldTest(name, &log, input));
 }
 
 void ManualTester::Add(std::string subsystem, std::string name,

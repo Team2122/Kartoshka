@@ -10,6 +10,7 @@
 #include <WPILib.h>
 #include "Common/SubsystemBase.h"
 #include "Common/Config.h"
+#include "Common/FixedField.h"
 
 namespace tator {
 
@@ -34,8 +35,8 @@ private:
 	Talon* clawRotation; ///< Talon for the Rotation, Absolute
 	Encoder* liftEncoder; ///< Encoder for the Vertical
 	AnalogPotentiometer* rotationAngle; ///< Encoder for the Rotation
-	DigitalInput* upperLimit; ///< The upper limit sensor of the claw
-	DigitalInput* homeLimit; ///< The lower/home limit sensor of the claw
+	FixedField* upperLimit; ///< The upper limit sensor of the claw
+	FixedField* homeLimit; ///< The lower/home limit sensor of the claw
 
 	double clearClawRotate; ///< Minimum safety for claw to fully rotate
 	double clearClawMinAngle; ///< Minimum safety for claw to fully rotate
@@ -47,7 +48,7 @@ private:
 	Solenoid* clampLong; ///< The solenoid for the long clamp
 	Solenoid* clampShort; ///< The solenoid for the short clamp
 	Talon* rollers; ///< The roller motor
-	DigitalInput* binSensor; ///< The sensor that senses all the bins
+	FixedField* binSensor; ///< The sensor that senses all the bins
 
 	double rollerInwardSpeed; ///< The inward speed of the rollers
 	double rollerOutwardSpeed; ///< The outward speed of the rollers
