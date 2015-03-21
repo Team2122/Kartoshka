@@ -70,6 +70,20 @@ HomeShuttle:
 LackOfStack:
   # No config
 
+$Restack:
+  - ShuttleClampOpen
+  - ShuttleRampDown
+  - ShuttleClampClose
+  - name: WaitCommand
+    time: 0.25
+  - ShuttlePositionUnload
+  - FingersRelease
+  - name: WaitCommand
+    time: 0
+  - ShuttleDown
+  - ShuttleRampDown
+  - ShuttleClampOpen
+
 SetDesiredTotes:
   - name: Two
     number: 2
@@ -95,6 +109,11 @@ ShuttleHold:
   speed: -.4
   time: .5
 
+$ShuttleInit:
+  - FingersRelease
+  - ShuttleClampOpen
+  - HomeShuttle
+
 ShuttlePosition:
   - name: Down
     ticks: 0
@@ -117,8 +136,37 @@ ShuttleRamp:
     rampFactor: .2
     rampDistance: 300
 
+$StackTote:
+  - name: WaitCommand
+    time: .25
+  - FingersHold
+  - ShuttleClampOpen
+  - ShuttleRampDown
+  - ShuttleClampClose
+  - name: WaitCommand
+    time: .25
+  - ShuttleRampUp
+  - name: WaitCommand
+    time: .25
+  - ShuttleClampOpen
+  - ShuttleRampDown
+  - UpdateTotesRatcheted
+
 ToteDirector:
   samples: 6
+
+$Unstack:
+  - ShuttleClampOpen
+  - ShuttlePositionUnstack
+  - ShuttleClampClose
+  - name: WaitCommand
+    time: 0.25
+  - ShuttleRampUp
+  - FingersRelease
+  - ShuttleHold
+  - ShuttleDown
+  - ShuttleRampDown
+  - ShuttleClampOpen
 
 UpdateTotesRatcheted:
   # No config
@@ -215,11 +263,63 @@ ClawSmartRollers:
 ClawToHome:
   rotateWait: .25
 
+$ClawToHome:
+  - ClawRotationPick
+  - name: WaitCommand
+    time: 0.25
+  - ClawPositionPick
+
+$ClawToPick:
+  - ClawRotationPick
+  - ClawRampPick
+
+$GroundToPlatform:
+  - ClawPositionMiddle
+  - ClawRotationPlatform
+  - name: WaitCommand
+    time: 0.5
+  - ClawPositionPlatform
+
 ManualClawLift:
   - name: "Up"
     speed: 1
   - name: "Down"
     speed: 2
+
+$PickBin:
+  - ClawClampTote
+  - ClawSmartRollers
+  - name: WaitCommand
+    time: 0.25
+  - ClawClampDeathGrip
+
+$ClawPick:
+  - $ClawToPick
+  - $PickBin
+
+$PickUpMoveToPlatform:
+  - $PickBin
+  - name: WaitCommand
+    time: 0.25
+  - $GroundToPlatform
+
+$PlatformToPlacement:
+  - ClawPositionTop
+  - LackOfStack
+  - ClawRotationPick
+
+$RegripBin:
+  - name: WaitCommand
+    time: 0.50
+  - ClawClampReleased
+  - name: WaitCommand
+    time: 0.25
+  - ClawPositionRegrip
+  - name: WaitCommand
+    time: 0.25
+  - ClawClampContainer
+  - ClawSmartRollers
+  - ClawClampDeathGrip
 
 #############
 # TOTE FEED #
@@ -255,158 +355,55 @@ UnloadTote:
   rollerSpeed: -1
   flapperSpeed: -1
 
+########
+# AUTO #
+########
+
+$Auto0:
+  # No commands
+
+$Auto1:
+  - name: DriveDistanceAutoPickLong
+    execution: Parallel
+  - $PickBin
+  - $GroundToPlatform
+  - $RegripBin
+
+$Auto2:
+  - name: DriveDistanceAutoPick
+    execution: Parallel
+  - $PickBin
+  - name: DriveDistanceAutoBackLong
+    execution: Parallel
+  - $GroundToPlatform
+  - $RegripBin
+
+$Auto3:
+  - name: DriveDistanceAutoThreeDistance
+    execution: Parallel
+  - $PickBin
+  - $GroundToPlatform
+  - $RegripBin
+
+$Auto4:
+  - name: DriveDistanceAutoFourDistance
+    execution: Parallel
+  - $PickBin
+  - $GroundToPlatform
+  - $RegripBin
+
+$Auto5:
+  - name: DriveDistanceAutoPickShort
+    execution: Parallel
+  - $PickBin
+  - name: DriveDistanceAutoBack
+    execution: Parallel
+  - $GroundToPlatform
+  - $RegripBin
+
 ###########
 # UTILITY #
 ###########
-
-$: # This is GenericCommandGroup
-  - name: StackTote
-    commands:
-      - name: WaitCommand
-        time: .25
-      - FingersHold
-      - ShuttleClampOpen
-      - ShuttleRampDown
-      - ShuttleClampClose
-      - name: WaitCommand
-        time: .25
-      - ShuttleRampUp
-      - name: WaitCommand
-        time: .25
-      - ShuttleClampOpen
-      - ShuttleRampDown
-      - UpdateTotesRatcheted
-  - name: Restack
-    commands:
-      - ShuttleClampOpen
-      - ShuttleRampDown
-      - ShuttleClampClose
-      - name: WaitCommand
-        time: 0.25
-      - ShuttlePositionUnload
-      - FingersRelease
-      - name: WaitCommand
-        time: 0
-      - ShuttleDown
-      - ShuttleRampDown
-      - ShuttleClampOpen
-  - name: Unstack
-    commands:
-      - ShuttleClampOpen
-      - ShuttlePositionUnstack
-      - ShuttleClampClose
-      - name: WaitCommand
-        time: 0.25
-      - ShuttleRampUp
-      - FingersRelease
-      - ShuttleHold
-      - ShuttleDown
-      - ShuttleRampDown
-      - ShuttleClampOpen
-  - name: GroundToPlatform
-    commands:
-      - ClawPositionMiddle
-      - ClawRotationPlatform
-      - name: WaitCommand
-        time: 0.5
-      - ClawPositionPlatform
-  - name: PickBin
-    commands:
-      - ClawClampTote
-      - ClawSmartRollers
-      - name: WaitCommand
-        time: 0.25
-      - ClawClampDeathGrip
-  - name: RegripBin
-    commands:
-      - name: WaitCommand
-        time: 0.50
-      - ClawClampReleased
-      - name: WaitCommand
-        time: 0.25
-      - ClawPositionRegrip
-      - name: WaitCommand
-        time: 0.25
-      - ClawClampContainer
-      - ClawSmartRollers
-      - ClawClampDeathGrip
-  - name: PlatformToPlacement
-    commands:
-      - ClawPositionTop
-      - LackOfStack
-      - ClawRotationPick
-  - name: ClawToHome
-    commands:
-      - ClawRotationPick
-      - name: WaitCommand
-        time: 0.25
-      - ClawPositionPick
-  - name: PickUpMoveToPlatform
-    commands:
-      - $PickBin
-      - name: WaitCommand
-        time: 0.25
-      - $GroundToPlatform
-  - name: ShuttleInit
-    commands:
-      - FingersRelease
-      - ShuttleClampOpen
-      - HomeShuttle
-  - name: ClawToPick
-    commands:
-      - ClawRotationPick
-      - ClawRampPick
-  - name: ClawPick
-    commands:
-      - $ClawToPick
-      - $PickBin
-      # - ClawPositionTransport
-  - name: Auto0
-    commands:
-  - name: Auto1
-    commands:
-      - name: DriveDistanceAutoPickLong
-        execution: Parallel
-      - $PickBin
-      - $GroundToPlatform
-      - $RegripBin
-  - name: Auto2
-    commands:
-      - name: DriveDistanceAutoPick
-        execution: Parallel
-      - $PickBin
-      - name: DriveDistanceAutoBackLong
-        execution: Parallel
-      - $GroundToPlatform
-      - $RegripBin
-  - name: Auto3
-    commands:
-      - name: DriveDistanceAutoThreeDistance
-        execution: Parallel
-      - $PickBin
-      - $GroundToPlatform
-      - $RegripBin
-  - name: Auto4
-    commands:
-      - name: DriveDistanceAutoFourDistance
-        execution: Parallel
-      - $PickBin
-      - $GroundToPlatform
-      - $RegripBin
-  - name: Auto5
-    commands:
-      - name: DriveDistanceAutoPickShort
-        execution: Parallel
-      - $PickBin
-      - name: DriveDistanceAutoBack
-        execution: Parallel
-      - $GroundToPlatform
-      - $RegripBin
-  - name: CoopStack
-    commands:
-      - RollerbedPistonUp
-      - UnloadTote # Will be canceled on release
-      - RollerbedPistonDown
 
 Cancel:
   - name: ToteDirector

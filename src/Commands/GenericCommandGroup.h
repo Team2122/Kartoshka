@@ -14,7 +14,7 @@ namespace tator {
 class GenericCommandGroup: public CommandGroup {
 public:
 	GenericCommandGroup(std::string name, YAML::Node config) {
-		for (YAML::Node command : config["commands"]) {
+		for (YAML::Node command : config) {
 			if (command.IsMap()) {
 				std::string name = command["name"].as<std::string>();
 				if (name == "WaitCommand") {
@@ -33,7 +33,7 @@ public:
 	}
 
 	static std::string GetBaseName() {
-		return "$";
+		return "GenericCommandGroup";
 	}
 };
 

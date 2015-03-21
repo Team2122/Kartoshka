@@ -31,6 +31,10 @@ public:
 
 	static Command* GetCopyOf(std::string fullName);
 protected:
+	/**
+	 * Creates all the commands once
+	 */
+	static void CreateCommandsOnce();
 	struct CommandDetails {
 		Command* command;
 		std::function<Command*()> constructor;
@@ -38,6 +42,8 @@ protected:
 	/// Map of strings to CommandDetails
 	static std::map<std::string, CommandDetails> commands;
 	static Logger log;
+	static bool createdCommand; ///< If this iteration of command creation created a command
+	static bool lastTry; ///< If this iteration of command creation is just to check for problems
 	template<typename T>
 	/**
 	 * Creates the commands for a given class
