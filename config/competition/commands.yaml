@@ -1,15 +1,95 @@
+###########
+# TESTING #
+###########
+
 MessageCommand:
   - name: One
     message: Testing message for variant one
   - name: Two
     message: Testing message for variant two
+
+#########
+# DRIVE #
+#########
+
 DriveContinuous:
   joystick: 0
   axes:
     left: 1
     right: 3
 
+DriveDistance:
+  - name: AutoPick
+    speed: 0.45
+    distance: 1.0
+  - name: AutoPickLong
+    speed: 0.45
+    distance: 4.0
+  - name: AutoPickShort
+    speed: 0.45
+    distance: 1.0
+  - name: AutoBack
+    speed: -0.45
+    distance: 7.0
+  - name: AutoBackLong
+    speed: -0.45
+    distance: 8.0
+  - name: AutoThreeDistance
+    speed: 0.45
+    distance: 8.0
+  - name: AutoFourDistance
+    speed: 0.45
+    distance: 1.0
+
+###########
+# SHUTTLE #
+###########
+
+ArmShuttle:
+  first:
+    rollerSpeed: 0.8
+    flapperSpeed: 0.35
+  rest:
+    rollerSpeed: 0.05
+    flapperSpeed: 1.0
+  bump:
+    rollerSpeed: -.5
+    flapperSpeed: 0
+  toteTicks: 6
+  bumpTime: .25
+
+Fingers:
+  - name: Hold
+    state: 1
+  - name: Release
+    state: 0
+
 HomeShuttle:
+  # No config
+
+LackOfStack:
+  # No config
+
+SetDesiredTotes:
+  - name: Two
+    number: 2
+  - name: Three
+    number: 3
+  - name: Four
+    number: 4
+  - name: Five
+    number: 5
+  - name: Six
+    number: 6
+
+ShuttleClamp:
+  - name: Open
+  - name: Close
+
+ShuttleDown:
+  ticks: 50
+  tolerance: 10
+  speed: 0.0
 
 ShuttlePosition:
   - name: Down
@@ -34,14 +114,21 @@ ShuttleRamp:
     rampFactor: .2
     rampDistance: 300
 
-ShuttleDown:
-  ticks: 50
-  tolerance: 10
-  speed: 0.0
+ToteDirector:
+  samples: 6
 
-ShuttleClamp:
-  - name: Open
-  - name: Close
+UpdateTotesRatcheted:
+  # No config
+
+########
+# CLAW #
+########
+
+HomeClaw:
+  speed: .4
+
+TopClaw:
+  speed: -1
 
 ClawClamp:
   - name: Released
@@ -53,35 +140,15 @@ ClawClamp:
   - name: DeathGrip
     status: 3
 
-ClawRotation:
-  - name: Pick
-    targetAngle: 0
-  - name: Platform
-    targetAngle: 1
-
-ClawRotationContinuous:
-  tolerance: 15.0
-  angles: [70, 235] # Pick, Platform
-  speeds: {move: .40, hold: .20}
-
-ClawRollers:
-  - name: In
-    status: 2
-  - name: Out
-    status: 1
-  - name: Off
-    status: 0
-
-ClawSmartRollers:
-  waitTime: .25
+ClawClampToggle:
+  # No config
 
 ClawEstablishHome:
+  # No config
 
-HomeClaw:
-  speed: .4
-
-TopClaw:
-  speed: -1
+ClawForceHome:
+  angle: 69.0
+  speed: -.30
 
 ClawPosition:
   - name: Pick
@@ -120,19 +187,47 @@ ClawRamp:
 ClawRegripPosition:
   speed: .2
 
-Fingers:
-  - name: Hold
-    state: 1
-  - name: Release
-    state: 0
+ClawRollers:
+  - name: In
+      status: 2
+  - name: Out
+      status: 1
+  - name: Off
+      status: 0
 
-RecieveBottomTote:
-  flapperSpeed: 0.35
-  rollerSpeed: 0.8
+ClawRotation:
+  - name: Pick
+    targetAngle: 0
+  - name: Platform
+    targetAngle: 1
+
+ClawRotationContinuous:
+  tolerance: 15.0
+  angles: [70, 235] # Pick, Platform
+  speeds: {move: .40, hold: .20}
+
+ClawSmartRollers:
+  waitTime: .25
+
+ClawToHome:
+  rotateWait: .25
+
+ManualClawLift:
+  - name: "Up"
+    speed: 1
+  - name: "Down"
+    speed: 2
+
+#############
+# TOTE FEED #
+#############
 
 BumpBottomTote:
   rollerSpeed: -0.5
   time: 0.25
+
+FlapFlappers:
+  # No config
 
 HoldBottomTote:
   rollerSpeed: 0.05
@@ -140,11 +235,9 @@ HoldBottomTote:
 IntakeTotes:
   flapperSpeed: 1.0
 
-UnloadTote:
-  rollerSpeed: -1
-  flapperSpeed: -1
-
-FlapFlappers:
+RecieveBottomTote:
+  flapperSpeed: 0.35
+  rollerSpeed: 0.8
 
 RollerbedPiston:
   - name: Up
@@ -153,6 +246,15 @@ RollerbedPiston:
     direction: 1
 
 RollerbedPistonToggle:
+  # No config
+
+UnloadTote:
+  rollerSpeed: -1
+  flapperSpeed: -1
+
+###########
+# UTILITY #
+###########
 
 $: # This is GenericCommandGroup
   - name: StackTote
@@ -294,65 +396,7 @@ $: # This is GenericCommandGroup
       - UnloadTote # Will be canceled on release
       - RollerbedPistonDown
 
-UpdateTotesRatcheted:
-  # No config
-
-SetDesiredTotes:
-  - name: Two
-    number: 2
-  - name: Three
-    number: 3
-  - name: Four
-    number: 4
-  - name: Five
-    number: 5
-  - name: Six
-    number: 6
-
-ToteDirector:
-  samples: 6
-
 Cancel:
   - name: ToteDirector
   - name: ClawForceHome
   - name: HomeClaw
-
-LackOfStack:
-
-ClawClampToggle:
-
-ClawForceHome:
-  angle: 69.0
-  speed: -.30
-
-ClawToHome:
-  rotateWait: .25
-
-ManualClawLift:
-  - name: "Up"
-    speed: 1
-  - name: "Down"
-    speed: 2
-
-DriveDistance:
-  - name: AutoPick
-    speed: 0.45
-    distance: 1.0
-  - name: AutoPickLong
-    speed: 0.45
-    distance: 4.0
-  - name: AutoPickShort
-    speed: 0.45
-    distance: 1.0
-  - name: AutoBack
-    speed: -0.45
-    distance: 7.0
-  - name: AutoBackLong
-    speed: -0.45
-    distance: 8.0
-  - name: AutoThreeDistance
-    speed: 0.45
-    distance: 8.0
-  - name: AutoFourDistance
-    speed: 0.45
-    distance: 1.0
