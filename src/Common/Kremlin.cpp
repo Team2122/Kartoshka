@@ -9,8 +9,7 @@
 #include <yaml-cpp/yaml.h>
 #include <iostream>
 
-#include "Commands/AddTote.h"
-#include "Commands/ArmShuttle.h"
+#include "Commands/BumpBottomTote.h"
 #include "Commands/Cancel.h"
 #include "Commands/ClawClamp.h"
 #include "Commands/ClawClampToggle.h"
@@ -22,28 +21,30 @@
 #include "Commands/ClawRotation.h"
 #include "Commands/ClawRotationContinuous.h"
 #include "Commands/ClawSmartRollers.h"
-#include "Commands/DecrementMaxTotes.h"
 #include "Commands/DriveContinuous.h"
 #include "Commands/DriveDistance.h"
 #include "Commands/Fingers.h"
 #include "Commands/FlapFlappers.h"
 #include "Commands/GenericCommandGroup.h"
+#include "Commands/HoldBottomTote.h"
 #include "Commands/HomeClaw.h"
 #include "Commands/HomeShuttle.h"
+#include "Commands/IntakeTotes.h"
 #include "Commands/LackOfStack.h"
 #include "Commands/ManualClawLift.h"
 #include "Commands/MessageCommand.h"
-#include "Commands/RecieveTote.h"
-#include "Commands/ResetMaxTotes.h"
-#include "Commands/ResetTotes.h"
+#include "Commands/RecieveBottomTote.h"
 #include "Commands/RollerbedPiston.h"
 #include "Commands/RollerbedPistonToggle.h"
+#include "Commands/SetDesiredTotes.h"
 #include "Commands/ShuttleClamp.h"
 #include "Commands/ShuttleDown.h"
 #include "Commands/ShuttlePosition.h"
 #include "Commands/ShuttleRamp.h"
 #include "Commands/TopClaw.h"
+#include "Commands/ToteDirector.h"
 #include "Commands/UnloadTote.h"
+#include "Commands/UpdateTotesRatcheted.h"
 
 namespace tator {
 
@@ -62,11 +63,9 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<ClawRollers>();
 	CreateCommandsForClass<ClawSmartRollers>();
 	CreateCommandsForClass<Fingers>();
-	CreateCommandsForClass<RecieveTote>();
+	CreateCommandsForClass<RecieveBottomTote>();
 	CreateCommandsForClass<UnloadTote>();
 	CreateCommandsForClass<FlapFlappers>();
-	CreateCommandsForClass<AddTote>();
-	CreateCommandsForClass<ResetTotes>();
 	CreateCommandsForClass<ShuttleDown>();
 	CreateCommandsForClass<HomeClaw>();
 	CreateCommandsForClass<TopClaw>();
@@ -78,13 +77,16 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<DriveDistance>();
 	CreateCommandsForClass<LackOfStack>();
 	CreateCommandsForClass<ClawClampToggle>();
-	CreateCommandsForClass<DecrementMaxTotes>();
-	CreateCommandsForClass<ResetMaxTotes>();
 	CreateCommandsForClass<RollerbedPiston>();
 	CreateCommandsForClass<RollerbedPistonToggle>();
 	CreateCommandsForClass<ClawRamp>();
+	CreateCommandsForClass<BumpBottomTote>();
+	CreateCommandsForClass<HoldBottomTote>();
+	CreateCommandsForClass<UpdateTotesRatcheted>();
+	CreateCommandsForClass<SetDesiredTotes>();
+	CreateCommandsForClass<IntakeTotes>();
 	CreateCommandsForClass<GenericCommandGroup>();
-	CreateCommandsForClass<ArmShuttle>();
+	CreateCommandsForClass<ToteDirector>();
 	CreateCommandsForClass<Cancel>();
 }
 

@@ -1,5 +1,5 @@
 /**
- * @file RecieveTote.h
+ * @file RecieveBottomTote.h
  * @date Jan 24, 2015
  * @author Lee Bousfield
  */
@@ -12,60 +12,48 @@
 
 namespace tator {
 
-class RecieveTote: public CommandBase {
+class RecieveBottomTote: public CommandBase {
 public:
-	enum class State {
-		rolling, done
-	};
-
-	RecieveTote(std::string name, YAML::Node config) :
+	RecieveBottomTote(std::string name, YAML::Node config) :
 			CommandBase(name) {
+		Requires(toteFeed);
+		flapperSpeed = config["flapperSpeed"].as<double>();
 		rollerSpeed = config["rollerSpeed"].as<double>();
-		currState = State::rolling;
 	}
 
 	static std::string GetBaseName() {
-		return "RecieveTote";
+		return "RecieveBottomTote";
 	}
 
 protected:
 	void Initialize() override {
 		CommandBase::Initialize();
+		toteFeed->SetFlapperSpeed(flapperSpeed);
 		toteFeed->SetRollers(rollerSpeed);
-		currState = State::rolling;
 	}
 
 	void Execute() override {
-		switch (currState) {
-		case State::rolling:
-			if (toteFeed->GetBackSensor()) {
-				log.Info("Back beam triggered, stopping rollers");
-				currState = State::done;
-			} else {
-				break;
-			}
-			// no break
-		default:
-			break;
-		}
 	}
 
 	bool IsFinished() override {
-		return currState == State::done;
+		return toteFeed->GetBackSensor();
 	}
 
 	void End() override {
+		log.Info("Back beam triggered, stopping rollers");
 		CommandBase::End();
+		toteFeed->SetFlapperSpeed(0);
 		toteFeed->SetRollers(0);
 	}
 
 	void Interrupted() override {
 		CommandBase::Interrupted();
+		toteFeed->SetFlapperSpeed(0);
 		toteFeed->SetRollers(0);
 	}
 
 private:
-	State currState;
+	double flapperSpeed;
 	double rollerSpeed;
 };
 

@@ -33,7 +33,7 @@ protected:
 	}
 
 	bool IsFinished() override {
-		return shuttle->IsTotePresent();
+		return shuttle->HasToteAtShuttleBase();
 	}
 
 	void End() override {

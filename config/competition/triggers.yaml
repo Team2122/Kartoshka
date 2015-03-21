@@ -1,5 +1,5 @@
 0: # Joystick
-  1: ToggleWhenPressed ArmShuttle
+  1: ToggleWhenPressed ToteDirector
   2: ToggleWhenPressed $ClawPick
   3: WhileHeld UnloadTote
   4: WhenPressed $GroundToPlatform
@@ -15,17 +15,17 @@
   3: WhenPressed $GroundToPlatform
   4: WhenPressed $RegripBin
   5: WhenPressed $PlatformToPlacement
-  6: ToggleWhenPressed ArmShuttle
+  6: ToggleWhenPressed ToteDirector
   7: WhenPressed $Restack
   8: WhenPressed ClawClampDeathGrip
   9: WhenPressed ClawClampTote
   10: WhenPressed ClawClampContainer
 2:
   1: WhenPressed ClawClampReleased
-  2: WhenPressed AddTote
-  3: WhenPressed ResetTotes
-  4: WhenPressed ResetMaxTotes
-  5: WhenPressed DecrementMaxTotes
+  2: WhenPressed SetDesiredTotesTwo
+  3: WhenPressed SetDesiredTotesThree
+  4: WhenPressed SetDesiredTotesFour
+  5: WhenPressed SetDesiredTotesFive
   6: WhenPressed ClawRotationPick
   7: WhenPressed ClawRotationPlatform
   8:

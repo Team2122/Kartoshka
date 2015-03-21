@@ -1,9 +1,10 @@
 /**
- * @file RecieveTote.h
+ * @file RecieveBottomTote.h
  * @date Jan 24, 2015
  * @author Lee Bousfield
  */
 
+#include "Subsystems/Shuttle.h"
 #include "Subsystems/ToteFeed.h"
 #include "CommandBase.h"
 
@@ -16,6 +17,7 @@ class UnloadTote: public CommandBase {
 public:
 	UnloadTote(std::string name, YAML::Node config) :
 			CommandBase(name) {
+		Requires(toteFeed);
 		rollerSpeed = config["rollerSpeed"].as<double>();
 		flapperSpeed = config["flapperSpeed"].as<double>();
 	}
@@ -40,12 +42,17 @@ protected:
 
 	void End() override {
 		CommandBase::End();
-		toteFeed->SetRollers(0);
-		toteFeed->SetFlapperSpeed(0);
+		this->Reset();
 	}
 
 	void Interrupted() override {
 		CommandBase::Interrupted();
+		this->Reset();
+	}
+
+	void Reset() {
+		shuttle->SetDesiredTotes(6);
+		shuttle->SetTotesHeld(0);
 		toteFeed->SetRollers(0);
 		toteFeed->SetFlapperSpeed(0);
 	}

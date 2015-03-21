@@ -126,8 +126,19 @@ Fingers:
   - name: Release
     state: 0
 
-RecieveTote:
-  rollerSpeed: -.5
+RecieveBottomTote:
+  flapperSpeed: 0.35
+  rollerSpeed: 0.8
+
+BumpBottomTote:
+  rollerSpeed: -0.5
+  time: 0.25
+
+HoldBottomTote:
+  rollerSpeed: 0.05
+
+IntakeTotes:
+  flapperSpeed: 1.0
 
 UnloadTote:
   rollerSpeed: -1
@@ -159,7 +170,7 @@ $: # This is GenericCommandGroup
         time: .25
       - ShuttleClampOpen
       - ShuttleRampDown
-      - AddTote
+      - UpdateTotesRatcheted
   - name: Restack
     commands:
       - ShuttleClampOpen
@@ -174,7 +185,10 @@ $: # This is GenericCommandGroup
       - ShuttleDown
       - ShuttleRampDown
       - ShuttleClampOpen
-      - ResetTotes
+  - name: Unstack
+    commands:
+      - name: WaitCommand
+        time: 0.5
   - name: GroundToPlatform
     commands:
       - ClawPositionMiddle
@@ -280,39 +294,32 @@ $: # This is GenericCommandGroup
       - UnloadTote # Will be canceled on release
       - RollerbedPistonDown
 
-ArmShuttle:
-  first:
-    rollerSpeed: 0.8
-    flapperSpeed: 0.35
-  rest:
-    rollerSpeed: 0.05
-    flapperSpeed: 1.0
-  bump:
-    rollerSpeed: -.5
-    flapperSpeed: 0
-  toteTicks: 6
-  bumpTime: .25
+UpdateTotesRatcheted:
+  # No config
+
+SetDesiredTotes:
+  - name: Two
+    number: 2
+  - name: Three
+    number: 3
+  - name: Four
+    number: 4
+  - name: Five
+    number: 5
+  - name: Six
+    number: 6
+
+ToteDirector:
+  samples: 6
 
 Cancel:
-  - name: ArmShuttle
+  - name: ToteDirector
   - name: ClawForceHome
   - name: HomeClaw
 
 LackOfStack:
 
-AddTote:
-
-ResetTotes:
-
-DecrementMaxTotes:
-
-ResetMaxTotes:
-
 ClawClampToggle:
-
-Restack:
-  lowerWait: .25
-  fingerWait: 0
 
 ClawForceHome:
   angle: 69.0
