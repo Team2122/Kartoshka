@@ -133,7 +133,8 @@ void Kremlin::CreateCommandsForClass() {
 					if (commands.count(dependency) == 0) {
 						if (lastTry) {
 							log.Error(
-									"CommandGroup %s could not be created as %s is missing.", fullName.c_str(), dependency.c_str());
+									"CommandGroup %s could not be created as %s is missing.",
+									fullName.c_str(), dependency.c_str());
 						}
 						missingCommand = true;
 						break;
@@ -142,8 +143,7 @@ void Kremlin::CreateCommandsForClass() {
 				if (missingCommand) {
 					continue;
 				}
-				CommandDetails details =
-						{ new T(fullName, commandConfig),
+				CommandDetails details = { new T(fullName, commandConfig),
 						[fullName, commandConfig] () {
 							return new T(fullName, commandConfig);
 						} };
@@ -165,12 +165,15 @@ void Kremlin::CreateCommandsForClass() {
 				// This is a lambda
 				// See http://www.cprogramming.com/c++11/c++11-lambda-closures.html
 				CommandDetails details = { new T(totalName, node),
-						[totalName, node] () {return new T(totalName, node);} };
+						[totalName, node] () {
+							return new T(totalName, node);
+						} };
 				commands[totalName] = details;
 			}
 		} else {
-			CommandDetails details = { new T(name, commandConfig),
-					[name, commandConfig] () {return new T(name, commandConfig);} };
+			CommandDetails details =
+					{ new T(name, commandConfig),
+							[name, commandConfig] () {return new T(name, commandConfig);} };
 			commands[name] = details;
 		}
 	}

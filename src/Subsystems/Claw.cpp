@@ -115,7 +115,6 @@ double Claw::GetLiftSpeed(LiftSpeed state) {
 	}
 }
 
-
 double Claw::GetLiftEncoder() {
 	return liftEncoder->GetDistance();
 }

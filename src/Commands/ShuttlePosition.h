@@ -74,13 +74,15 @@ protected:
 
 	void End() override {
 		shuttle->SetShuttleSpeed(Shuttle::kStop);
-		log.Info("targetTicks: %d, actual ticks: %d", targetTicks, shuttle->GetEncoderTicks());
+		log.Info("targetTicks: %d, actual ticks: %d", targetTicks,
+				shuttle->GetEncoderTicks());
 		CommandBase::End();
 	}
 
 	void Interrupted() override {
 		shuttle->SetShuttleSpeed(Shuttle::kStop);
-		log.Info("targetTicks: %d, actual ticks: %d", targetTicks, shuttle->GetEncoderTicks());
+		log.Info("targetTicks: %d, actual ticks: %d", targetTicks,
+				shuttle->GetEncoderTicks());
 		CommandBase::Interrupted();
 	}
 

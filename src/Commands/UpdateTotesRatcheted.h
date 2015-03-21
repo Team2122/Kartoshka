@@ -14,7 +14,7 @@ namespace tator {
 
 class UpdateTotesRatcheted: public CommandBase {
 public:
-  UpdateTotesRatcheted(std::string name, YAML::Node config) :
+	UpdateTotesRatcheted(std::string name, YAML::Node config) :
 			CommandBase(name) {
 	}
 

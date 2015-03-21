@@ -12,10 +12,10 @@
 
 namespace tator {
 
-class ShuttleHold : public CommandBase {
+class ShuttleHold: public CommandBase {
 public:
-	ShuttleHold(std::string name, YAML::Node config)
-		: CommandBase(name) {
+	ShuttleHold(std::string name, YAML::Node config) :
+			CommandBase(name) {
 		speed = config["speed"].as<double>();
 		time = config["time"].as<double>();
 		Requires(shuttle);

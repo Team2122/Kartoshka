@@ -29,7 +29,8 @@ public:
 protected:
 	void Initialize() override {
 		CommandBase::Initialize();
-		shuttle->SetShuttleSpeed(shuttle->GetShuttleSpeed(Shuttle::kUp) * speedMul);
+		shuttle->SetShuttleSpeed(
+				shuttle->GetShuttleSpeed(Shuttle::kUp) * speedMul);
 	}
 
 	void Execute() override {

@@ -14,9 +14,9 @@ namespace tator {
 
 class SetDesiredTotes: public CommandBase {
 public:
-  SetDesiredTotes(std::string name, YAML::Node config) :
+	SetDesiredTotes(std::string name, YAML::Node config) :
 			CommandBase(name) {
-    number = config["number"].as<int>();
+		number = config["number"].as<int>();
 	}
 
 	static std::string GetBaseName() {
@@ -33,7 +33,7 @@ protected:
 	}
 
 private:
-  int number;
+	int number;
 };
 
 }
