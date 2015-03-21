@@ -4,11 +4,11 @@
  * @author Zachary Snow
  */
 
-#include "Subsystems/ToteFeed.h"
-#include "CommandBase.h"
-
 #ifndef BUMPBOTTOMTOTE_H_
 #define BUMPBOTTOMTOTE_H_
+
+#include "Subsystems/ToteFeed.h"
+#include "CommandBase.h"
 
 namespace tator {
 

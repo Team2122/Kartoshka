@@ -4,10 +4,10 @@
  * @date Feb 3, 2015
  */
 
-#include "TestGroup.h"
-
 #ifndef TESTER_H_
 #define TESTER_H_
+
+#include "TestGroup.h"
 
 namespace tator {
 class Tester: public TestGroup {

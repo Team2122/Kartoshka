@@ -4,10 +4,10 @@
  * @date Feb 4, 2015
  */
 
-#include "Common/Test.h"
-
 #ifndef SUCCESSFULTEST_H_
 #define SUCCESSFULTEST_H_
+
+#include "Common/Test.h"
 
 namespace tator {
 class SuccessfulTest: public Test {

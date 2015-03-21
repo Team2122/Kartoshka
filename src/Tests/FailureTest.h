@@ -4,10 +4,10 @@
  * @date Feb 4, 2015
  */
 
-#include "Common/Test.h"
-
 #ifndef FAILURETEST_H_
 #define FAILURETEST_H_
+
+#include "Common/Test.h"
 
 namespace tator {
 class FailureTest: public Test {

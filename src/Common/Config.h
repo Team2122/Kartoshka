@@ -4,10 +4,10 @@
  * @date Jan 18, 2015
  */
 
-#include <yaml-cpp/yaml.h>
-
 #ifndef CONFIG_H_
 #define CONFIG_H_
+
+#include <yaml-cpp/yaml.h>
 
 namespace tator {
 

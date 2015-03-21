@@ -4,12 +4,12 @@
  * @date Jan 19, 2015
  */
 
+#ifndef KREMLIN_H_
+#define KREMLIN_H_
+
 #include <CommandBase.h>
 #include <map>
 #include "Logger.h"
-
-#ifndef KREMLIN_H_
-#define KREMLIN_H_
 
 namespace tator {
 

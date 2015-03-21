@@ -4,10 +4,10 @@
  * @date Jan 19, 2015
  */
 
-#include "CommandBase.h"
-
 #ifndef BINDER_H_
 #define BINDER_H_
+
+#include "CommandBase.h"
 
 namespace tator {
 

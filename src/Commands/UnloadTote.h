@@ -4,12 +4,12 @@
  * @author Lee Bousfield
  */
 
+#ifndef UNLOADTOTE_H_
+#define UNLOADTOTE_H_
+
 #include "Subsystems/Shuttle.h"
 #include "Subsystems/ToteFeed.h"
 #include "CommandBase.h"
-
-#ifndef UNLOADTOTE_H_
-#define UNLOADTOTE_H_
 
 namespace tator {
 

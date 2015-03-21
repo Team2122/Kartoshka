@@ -4,11 +4,11 @@
  * @author Zachary Snow
  */
 
-#include "Subsystems/ToteFeed.h"
-#include "CommandBase.h"
-
 #ifndef HOLDBOTTOMTOTE_H_
 #define HOLDBOTTOMTOTE_H_
+
+#include "Subsystems/ToteFeed.h"
+#include "CommandBase.h"
 
 namespace tator {
 

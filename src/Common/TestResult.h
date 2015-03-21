@@ -3,10 +3,10 @@
  * @date Jan 29, 2015
  */
 
-#include "Logger.h"
-
 #ifndef TESTRESULT_H_
 #define TESTRESULT_H_
+
+#include "Logger.h"
 
 namespace tator {
 class TestResult {

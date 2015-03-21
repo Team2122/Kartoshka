@@ -4,11 +4,11 @@
  * @author Lee Bousfield
  */
 
-#include "CommandBase.h"
-#include "ClawLift.h"
-
 #ifndef TOPCLAW_H_
 #define TOPCLAW_H_
+
+#include "CommandBase.h"
+#include "ClawLift.h"
 
 namespace tator {
 class TopClaw: public ClawLift {

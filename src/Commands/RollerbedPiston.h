@@ -1,5 +1,3 @@
-#include "CommandBase.h"
-
 #ifndef ROLLERBEDPISTON_H_
 #define ROLLERBEDPISTON_H_
 

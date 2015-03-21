@@ -4,11 +4,11 @@
  * @author Lee Bousfield
  */
 
-#include "Subsystems/ToteFeed.h"
-#include "CommandBase.h"
-
 #ifndef RECIEVETOTE_H_
 #define RECIEVETOTE_H_
+
+#include "Subsystems/ToteFeed.h"
+#include "CommandBase.h"
 
 namespace tator {
 

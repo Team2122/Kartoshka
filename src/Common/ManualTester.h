@@ -1,9 +1,9 @@
+#ifndef MANUALTESTER_H_
+#define MANUALTESTER_H_
+
 #include <WPILib.h>
 #include "FixedField.h"
 #include "Common/Logger.h"
-
-#ifndef MANUALTESTER_H_
-#define MANUALTESTER_H_
 
 namespace tator {
 

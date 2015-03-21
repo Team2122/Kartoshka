@@ -1,5 +1,3 @@
-#include "CommandBase.h"
-
 #ifndef ROLLERBEDPISTONTOGGLE_H_
 #define ROLLERBEDPISTONTOGGLE_H_
 
