@@ -6,6 +6,7 @@
  */
 #include "Shuttle.h"
 #include "Common/ManualTester.h"
+#include "CommandBase.h" // For accessing the level 1 tote sensor from ToteFeed
 
 namespace tator {
 
@@ -33,8 +34,8 @@ Shuttle::Shuttle(YAML::Node config) :
 	maxMotorCurrent = values["maxCurrent"].as<double>();
 
 	liftEncoder->SetReverseDirection(true);
-	totes = 0;
-	ResetMaxToteCount();
+	totesHeld = 0;
+	totesRatcheted = 0;
 
 	ManualTester* manualTester = ManualTester::GetInstance();
 	std::string name = GetName();
@@ -79,12 +80,30 @@ void Shuttle::CloseProngs() {
 	clampPiston->Set(false);
 }
 
-int Shuttle::GetToteCount() {
-	return totes;
+int Shuttle::GetTotesHeld() {
+	return totesHeld;
 }
 
-void Shuttle::IncrementToteCount(int increment) {
-	totes = totes + increment;
+void Shuttle::SetTotesHeld(int count) {
+	totesHeld = count;
+}
+
+int Shuttle::GetTotesRatcheted() {
+	return totesRatcheted;
+}
+
+void Shuttle::ZeroTotesRatcheted() {
+	totesRatcheted = 0;
+}
+
+void Shuttle::UpdateTotesRatcheted() {
+	totesRatcheted = totesHeld;
+	if (CommandBase::toteFeed::GetBackSensor()) {
+		totesRatcheted--; // That tote isn't ratcheted
+	}
+	if (IsTotePresent()) {
+		totesRatcheted--;
+	}
 }
 
 void Shuttle::SetShuttleSpeed(Speed state) {
@@ -115,10 +134,6 @@ void Shuttle::SetShuttleSpeed(double speed) {
 	liftMotor->SetSpeed(speed);
 }
 
-void Shuttle::ResetToteCount() {
-	totes = 0;
-}
-
 int32_t Shuttle::GetEncoderTicks() {
 	return liftEncoder->Get();
 }
@@ -140,18 +155,6 @@ void Shuttle::SetFingersPiston(FingersState state) {
 		log.Error("Invalid fingers piston position");
 	}
 
-}
-
-int Shuttle::GetMaxToteCount() {
-	return maxToteCount;
-}
-
-void Shuttle::ResetMaxToteCount() {
-	maxToteCount = 4;
-}
-
-void Shuttle::DecrementMaxToteCount() {
-	maxToteCount--;
 }
 
 }

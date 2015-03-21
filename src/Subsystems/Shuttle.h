@@ -19,7 +19,7 @@ namespace tator {
 class Shuttle: public SubsystemBase {
 private:
 
-	DigitalInput* toteSensor; ///< Sensor that senses if totes are here
+	DigitalInput* toteSensor; ///< Sensor that senses if totes are here (at the lift base)
 	DigitalInput* lowerLimit; ///< Sensor that senses if Shuttle has reached it's lower limit
 	DigitalInput* upperLimit; ///< Sensor that senses if Shuttle has reached it's upper limit
 	Solenoid* clampPiston; ///< Piston that grabs the totes
@@ -33,8 +33,8 @@ private:
 	double speedScale; ///< The Value that can be multiplied by how many totes we are holding to get the speed we need to counteract that force
 	uint8_t motorPDPChannel; ///< The motor PDP channel
 	double maxMotorCurrent; ///< The max current that can be sent to the shuttle motors. Used ot know if there is a motor stall
-	int totes; ///< How many totes we are "rescuing"
-	int maxToteCount; ///< The maximum amount of totes we have rescued
+	int totesHeld; ///< How many totes the robot is holding
+	int totesRatcheted; ///< How many totes are being held by the fingers
 
 public:
 	Shuttle(YAML::Node config);
@@ -110,19 +110,31 @@ public:
 
 	/**
 	 * Tells comrade how many totes in safety
-	 * @return the total number of totes
+	 * @return the total number of totes in the robot
 	 */
-	int GetToteCount();
+	int GetTotesHeld();
 
 	/**
-	 * Adds an int to totes
+	 * Update number of totes in safety with information from comrade
+	 * @param The new count of totes
 	 */
-	void IncrementToteCount(int);
+	void SetTotesHeld(int);
 
 	/**
-	 * Set tote to 0
+	 * Tells comrade how many totes are ratcheted
+	 * @return the number of totes ratcheted
 	 */
-	void ResetToteCount();
+	int GetTotesRatcheted();
+
+	/**
+	 * Zeros the number of totes ratcheted
+	 */
+	void ZeroTotesRatcheted();
+
+	/**
+	 * Preform calculations to determine the number of totes ratcheted
+	 */
+	void UpdateTotesRatcheted();
 
 	/**
 	 * Get how many ticks are on the encoder
@@ -140,10 +152,6 @@ public:
 	 * @param state is the enum kHeld (holds totes) or kReleased (releases totes)
 	 */
 	void SetFingersPiston(FingersState state);
-
-	int GetMaxToteCount();
-	void ResetMaxToteCount();
-	void DecrementMaxToteCount();
 
 };
 
