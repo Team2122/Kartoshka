@@ -16,7 +16,7 @@
   4: WhenPressed $RegripBin
   5: WhenPressed $PlatformToPlacement
   6: ToggleWhenPressed ToteDirector
-  7: WhenPressed $Restack
+  7: WhenPressed $Unstack
   8: WhenPressed ClawClampDeathGrip
   9: WhenPressed ClawClampTote
   10: WhenPressed ClawClampContainer

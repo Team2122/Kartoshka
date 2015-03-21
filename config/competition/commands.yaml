@@ -89,18 +89,21 @@ ShuttleClamp:
 ShuttleDown:
   ticks: 50
   tolerance: 10
-  speed: 0.0
+  speedMul: 0.0
+
+ShuttleHold:
+  speed: -.4
+  time: .5
 
 ShuttlePosition:
   - name: Down
     ticks: 0
-    tolerance: 10
   - name: Up
     ticks: 700
-    tolerance: 10
   - name: Unload
     ticks: 350
-    tolerance: 10
+  - name: Unstack
+    ticks: 460
 
 ShuttleRamp:
   - name: Up
@@ -189,11 +192,11 @@ ClawRegripPosition:
 
 ClawRollers:
   - name: In
-      status: 2
+    status: 2
   - name: Out
-      status: 1
+    status: 1
   - name: Off
-      status: 0
+    status: 0
 
 ClawRotation:
   - name: Pick
@@ -289,8 +292,17 @@ $: # This is GenericCommandGroup
       - ShuttleClampOpen
   - name: Unstack
     commands:
+      - ShuttleClampOpen
+      - ShuttlePositionUnstack
+      - ShuttleClampClose
       - name: WaitCommand
-        time: 0.5
+        time: 0.25
+      - ShuttleRampUp
+      - FingersRelease
+      - ShuttleHold
+      - ShuttleDown
+      - ShuttleRampDown
+      - ShuttleClampOpen
   - name: GroundToPlatform
     commands:
       - ClawPositionMiddle

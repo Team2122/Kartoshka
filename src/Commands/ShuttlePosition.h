@@ -17,7 +17,6 @@ public:
 	ShuttlePosition(std::string name, YAML::Node config) :
 			CommandBase(name) {
 		targetTicks = config["ticks"].as<int32_t>();
-		tolerance = config["tolerance"].as<int32_t>();
 		speed = Shuttle::kStop;
 		Requires(shuttle);
 	}
@@ -52,15 +51,22 @@ protected:
 
 	bool IsFinished() override {
 		int shuttleTicks = shuttle->GetEncoderTicks();
-		int difference = abs(shuttleTicks - targetTicks);
 		int limit = shuttle->GetLimit();
-		if (limit != Shuttle::kUnknown)
-			log.Info("Limit hit");
 		switch (speed) {
 		case Shuttle::kUp:
-			return difference <= tolerance || limit == Shuttle::kUpper;
+			if (limit == Shuttle::kUpper) {
+				log.Warn("Upper limit hit");
+				this->Cancel();
+				return true;
+			}
+			return shuttleTicks >= targetTicks;
 		case Shuttle::kDown:
-			return difference <= tolerance || limit == Shuttle::kLower;
+			if (limit == Shuttle::kLower) {
+				log.Warn("Lower limit hit");
+				this->Cancel();
+				return true;
+			}
+			return shuttleTicks <= targetTicks;
 		default:
 			return true;
 		}
@@ -68,16 +74,18 @@ protected:
 
 	void End() override {
 		shuttle->SetShuttleSpeed(Shuttle::kStop);
+		log.Info("targetTicks: %d, actual ticks: %d", targetTicks, shuttle->GetEncoderTicks());
 		CommandBase::End();
 	}
 
 	void Interrupted() override {
 		shuttle->SetShuttleSpeed(Shuttle::kStop);
+		log.Info("targetTicks: %d, actual ticks: %d", targetTicks, shuttle->GetEncoderTicks());
 		CommandBase::Interrupted();
 	}
 
 private:
-	int32_t targetTicks, tolerance;
+	int32_t targetTicks;
 	Shuttle::Speed speed;
 };
 

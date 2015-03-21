@@ -88,7 +88,8 @@ protected:
 				intakeTotes->Start();
 
 				// And if we have unratcheted totes
-				if (shuttle->GetTotesHeld() - shuttle->GetTotesRatcheted() > 1) {
+				if (shuttle->GetTotesHeld() - shuttle->GetTotesRatcheted()
+						> 1) {
 					// And we aren't already stacking
 					if (!stackSequence->IsRunning()) {
 						// Put it on the ratchets
@@ -129,8 +130,8 @@ protected:
 		else {
 			// And we have totes on the ratchets
 			// And we don't have a tote at the shuttle base
-			if (shuttle->GetTotesRatcheted() > 0 &&
-					!toteFeed->GetBackSensor()) {
+			if (shuttle->GetTotesRatcheted() > 0
+					&& !toteFeed->GetBackSensor()) {
 				// Act like they aren't there anymore
 				shuttle->ZeroTotesRatcheted();
 				// Unstack everything

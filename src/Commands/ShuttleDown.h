@@ -18,7 +18,7 @@ public:
 			CommandBase(name) {
 		targetTicks = config["ticks"].as<int>();
 		tolerance = config["tolerance"].as<int>();
-		speed = config["speed"].as<double>();
+		speedMul = config["speedMul"].as<double>();
 		Requires(shuttle);
 	}
 
@@ -29,7 +29,7 @@ public:
 protected:
 	void Initialize() override {
 		CommandBase::Initialize();
-		shuttle->SetShuttleSpeed(speed);
+		shuttle->SetShuttleSpeed(shuttle->GetShuttleSpeed(Shuttle::kUp) * speedMul);
 	}
 
 	void Execute() override {
@@ -37,7 +37,7 @@ protected:
 
 	bool IsFinished() override {
 		return abs(shuttle->GetEncoderTicks() - targetTicks) <= tolerance
-				|| shuttle->GetLimit() != Shuttle::kUnknown;
+				|| shuttle->GetLimit() == Shuttle::kLower;
 	}
 
 	void End() override {
@@ -52,7 +52,7 @@ protected:
 
 private:
 	int targetTicks, tolerance;
-	double speed;
+	double speedMul;
 };
 
 }

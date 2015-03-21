@@ -39,6 +39,7 @@
 #include "Commands/SetDesiredTotes.h"
 #include "Commands/ShuttleClamp.h"
 #include "Commands/ShuttleDown.h"
+#include "Commands/ShuttleHold.h"
 #include "Commands/ShuttlePosition.h"
 #include "Commands/ShuttleRamp.h"
 #include "Commands/TopClaw.h"
@@ -85,6 +86,7 @@ void Kremlin::CreateCommands() {
 	CreateCommandsForClass<UpdateTotesRatcheted>();
 	CreateCommandsForClass<SetDesiredTotes>();
 	CreateCommandsForClass<IntakeTotes>();
+	CreateCommandsForClass<ShuttleHold>();
 	CreateCommandsForClass<GenericCommandGroup>();
 	CreateCommandsForClass<ToteDirector>();
 	CreateCommandsForClass<Cancel>();
