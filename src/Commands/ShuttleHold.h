@@ -37,7 +37,7 @@ protected:
 	}
 
 	bool IsFinished() override {
-		return timer.Get() >= time;
+		return timer.HasPeriodPassed(time);
 	}
 
 	void End() override {

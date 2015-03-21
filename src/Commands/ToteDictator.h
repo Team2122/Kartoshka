@@ -1,11 +1,11 @@
 /**
- * @file ToteDirector.h
+ * @file ToteDictator.h
  * @date Mar 20, 2015
  * @author Zachary Snow
  */
 
-#ifndef TOTEDIRECTOR_H_
-#define TOTEDIRECTOR_H_
+#ifndef TOTEDICTATOR_H_
+#define TOTEDICTATOR_H_
 
 #include "CommandBase.h"
 #include "Subsystems/Shuttle.h"
@@ -13,9 +13,9 @@
 
 namespace tator {
 
-class ToteDirector: public CommandBase {
+class ToteDictator: public CommandBase {
 public:
-	ToteDirector(std::string name, YAML::Node config) :
+	ToteDictator(std::string name, YAML::Node config) :
 			CommandBase(name) {
 		recieveBottomTote = Kremlin::Get("RecieveBottomTote");
 		bumpBottomTote = Kremlin::Get("BumpBottomTote");
@@ -31,7 +31,7 @@ public:
 	}
 
 	static std::string GetBaseName() {
-		return "ToteDirector";
+		return "ToteDictator";
 	}
 
 protected:
@@ -168,4 +168,4 @@ private:
 
 }
 
-#endif /* TOTEDIRECTOR_H_ */
+#endif /* TOTEDICTATOR_H_ */

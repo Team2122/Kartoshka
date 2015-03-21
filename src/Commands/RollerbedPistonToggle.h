@@ -25,7 +25,7 @@ protected:
 		}
 	}
 
-	bool IsFinished() {
+	bool IsFinished() override {
 		return true;
 	}
 };

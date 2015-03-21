@@ -37,7 +37,7 @@ protected:
 							"This is bad news. Please take it out");
 			this->Cancel();
 		}
-		clawRotationContinuousCommand->Cancel();
+		clawRotationContinuousCommand->Cancel(); // we rotate manually, so disable this
 		claw->ReenableClaw();
 		claw->SetClampStatus(Claw::ClampStatus::kDeathGrip);
 	}

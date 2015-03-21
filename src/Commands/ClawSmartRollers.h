@@ -35,7 +35,7 @@ protected:
 	}
 
 	bool IsFinished() override {
-		return isWaiting && timer.Get() >= waitTime;
+		return isWaiting && timer.HasPeriodPassed(waitTime);
 	}
 
 	void End() override {

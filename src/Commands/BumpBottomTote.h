@@ -7,8 +7,8 @@
 #ifndef BUMPBOTTOMTOTE_H_
 #define BUMPBOTTOMTOTE_H_
 
-#include "Subsystems/ToteFeed.h"
 #include "CommandBase.h"
+#include "Subsystems/ToteFeed.h"
 
 namespace tator {
 
@@ -17,7 +17,6 @@ public:
 	BumpBottomTote(std::string name, YAML::Node config) :
 			CommandBase(name) {
 		Requires(toteFeed);
-		startTime = 0;
 		time = config["time"].as<double>();
 		rollerSpeed = config["rollerSpeed"].as<double>();
 		reversed = false;
@@ -31,20 +30,21 @@ protected:
 	void Initialize() override {
 		CommandBase::Initialize();
 		reversed = false;
-		startTime = Timer::GetFPGATimestamp();
+		timer.Reset();
+		timer.Start();
 	}
 
 	void Execute() override {
-		toteFeed->SetRollers(rollerSpeed * (reversed ? -1 : 1));
+		toteFeed->SetRollers(reversed ? -rollerSpeed : rollerSpeed);
 	}
 
 	bool IsFinished() override {
-		if (Timer::GetFPGATimestamp() > startTime + time) {
+		if (timer.HasPeriodPassed(time)) {
 			if (reversed) {
 				return true;
 			}
 			reversed = true;
-			startTime = Timer::GetFPGATimestamp();
+			timer.Reset();
 		}
 		return false;
 	}
@@ -52,16 +52,18 @@ protected:
 	void End() override {
 		CommandBase::End();
 		toteFeed->SetRollers(0);
+		timer.Stop();
 	}
 
 	void Interrupted() override {
 		CommandBase::Interrupted();
 		toteFeed->SetRollers(0);
+		timer.Stop();
 	}
 
 private:
+	Timer timer;
 	double rollerSpeed, time;
-	double startTime;
 	bool reversed;
 };
 

@@ -27,8 +27,6 @@ public:
 	}
 
 protected:
-	double currentDistance, startDistance, distance, speed;
-
 	void Initialize() override {
 		CommandBase::Initialize();
 		startDistance = drive->GetDistance();
@@ -52,6 +50,9 @@ protected:
 		CommandBase::Interrupted();
 		drive->SetSpeeds(0, 0);
 	}
+
+private:
+	double currentDistance, startDistance, distance, speed;
 };
 
 }

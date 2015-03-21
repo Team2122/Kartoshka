@@ -167,7 +167,7 @@ $StackTote:
   - ShuttleRampDown
   - UpdateTotesRatcheted
 
-ToteDirector:
+ToteDictator:
   samples: 6
 
 $Unstack:
@@ -344,9 +344,6 @@ BumpBottomTote:
   rollerSpeed: -0.5
   time: 0.25
 
-FlapFlappers:
-  # No config
-
 HoldBottomTote:
   rollerSpeed: 0.05
 
@@ -428,6 +425,6 @@ $Auto6:
 ###########
 
 Cancel:
-  - name: ToteDirector
+  - name: ToteDictator
   - name: ClawForceHome
   - name: HomeClaw

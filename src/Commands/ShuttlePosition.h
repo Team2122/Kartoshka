@@ -16,7 +16,7 @@ class ShuttlePosition: public CommandBase {
 public:
 	ShuttlePosition(std::string name, YAML::Node config) :
 			CommandBase(name) {
-		targetTicks = config["ticks"].as<int32_t>();
+		targetTicks = config["ticks"].as<int>();
 		speed = Shuttle::kStop;
 		Requires(shuttle);
 	}
@@ -44,8 +44,7 @@ protected:
 	void Execute() override {
 		if (shuttle->IsStalled()) {
 			log.Error("The shuttle has stalled while traveling to a position");
-			Cancel();
-			return;
+			this->Cancel();
 		}
 	}
 
@@ -56,14 +55,12 @@ protected:
 		case Shuttle::kUp:
 			if (limit == Shuttle::kUpper) {
 				log.Warn("Upper limit hit");
-				this->Cancel();
 				return true;
 			}
 			return shuttleTicks >= targetTicks;
 		case Shuttle::kDown:
 			if (limit == Shuttle::kLower) {
 				log.Warn("Lower limit hit");
-				this->Cancel();
 				return true;
 			}
 			return shuttleTicks <= targetTicks;
@@ -74,20 +71,16 @@ protected:
 
 	void End() override {
 		shuttle->SetShuttleSpeed(Shuttle::kStop);
-		log.Info("targetTicks: %d, actual ticks: %d", targetTicks,
-				shuttle->GetEncoderTicks());
 		CommandBase::End();
 	}
 
 	void Interrupted() override {
 		shuttle->SetShuttleSpeed(Shuttle::kStop);
-		log.Info("targetTicks: %d, actual ticks: %d", targetTicks,
-				shuttle->GetEncoderTicks());
 		CommandBase::Interrupted();
 	}
 
 private:
-	int32_t targetTicks;
+	int targetTicks;
 	Shuttle::Speed speed;
 };
 

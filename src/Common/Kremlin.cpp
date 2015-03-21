@@ -26,7 +26,6 @@
 #include "Commands/DriveRotate.h"
 #include "Commands/DriveStraight.h"
 #include "Commands/Fingers.h"
-#include "Commands/FlapFlappers.h"
 #include "Commands/GenericCommandGroup.h"
 #include "Commands/HoldBottomTote.h"
 #include "Commands/HomeClaw.h"
@@ -45,7 +44,7 @@
 #include "Commands/ShuttlePosition.h"
 #include "Commands/ShuttleRamp.h"
 #include "Commands/TopClaw.h"
-#include "Commands/ToteDirector.h"
+#include "Commands/ToteDictator.h"
 #include "Commands/UnloadTote.h"
 #include "Commands/UpdateTotesRatcheted.h"
 
@@ -70,7 +69,6 @@ void Kremlin::CreateCommandsOnce() {
 	CreateCommandsForClass<Fingers>();
 	CreateCommandsForClass<RecieveBottomTote>();
 	CreateCommandsForClass<UnloadTote>();
-	CreateCommandsForClass<FlapFlappers>();
 	CreateCommandsForClass<ShuttleDown>();
 	CreateCommandsForClass<HomeClaw>();
 	CreateCommandsForClass<TopClaw>();
@@ -94,7 +92,7 @@ void Kremlin::CreateCommandsOnce() {
 	CreateCommandsForClass<ShuttleHold>();
 	CreateCommandsForClass<DriveRotate>();
 	CreateCommandsForClass<GenericCommandGroup>();
-	CreateCommandsForClass<ToteDirector>();
+	CreateCommandsForClass<ToteDictator>();
 	CreateCommandsForClass<Cancel>();
 }
 

@@ -30,25 +30,19 @@ protected:
 	}
 
 	void Execute() override {
+		if (shuttle->IsStalled()) {
+			log.Error("The shuttle has stalled while homing");
+			this->Cancel();
+		}
+		if (shuttle->GetLimit() == Shuttle::kUpper) {
+			log.Error("We have big problems. The shuttle went up when we "
+					"thought it should go down");
+			this->Cancel();
+		}
 	}
 
 	bool IsFinished() override {
-		if (shuttle->IsStalled()) {
-			log.Error("The shuttle has stalled while homing");
-			Cancel();
-			return true;
-		}
-		switch (shuttle->GetLimit()) {
-		case Shuttle::kUpper:
-			log.Error("We have big problems. The shuttle went up when we "
-					"thought it should go down");
-			Cancel();
-			return true;
-		case Shuttle::kLower:
-			return true;
-		default:
-			return false;
-		}
+		return shuttle->GetLimit() == Shuttle::kLower;
 	}
 
 	void End() override {

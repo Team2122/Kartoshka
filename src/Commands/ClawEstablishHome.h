@@ -19,7 +19,7 @@ public:
 
 protected:
 	void Execute() override {
-		if (!claw->IsHome() && !hasEstablished) {
+		if (!claw->IsHome() && !hasEstablished) { // only establish once
 			log.Error(
 					"You tried to start the claw when it is not in the home position."
 							" This has been decided as unsafe. Please fix this and restart the"
@@ -34,7 +34,7 @@ protected:
 
 	void End() override {
 		if (!hasEstablished) {
-			claw->ZeroLiftEncoder();
+			claw->ZeroLiftEncoder(); // only zero if we actually did something
 		}
 		hasEstablished = true;
 		CommandBase::End();

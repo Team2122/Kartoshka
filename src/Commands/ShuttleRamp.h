@@ -16,9 +16,9 @@ class ShuttleRamp: public CommandBase {
 public:
 	ShuttleRamp(std::string name, YAML::Node config) :
 			CommandBase(name) {
-		rampDistance = config["rampDistance"].as<int32_t>();
-		targetTicks = config["ticks"].as<int32_t>();
-		tolerance = config["tolerance"].as<int32_t>();
+		rampDistance = config["rampDistance"].as<int>();
+		targetTicks = config["ticks"].as<int>();
+		tolerance = config["tolerance"].as<int>();
 		rampFactor = config["rampFactor"].as<double>();
 		speed = Shuttle::kStop;
 		Requires(shuttle);
@@ -60,13 +60,19 @@ protected:
 		int shuttleTicks = shuttle->GetEncoderTicks();
 		int difference = abs(shuttleTicks - targetTicks);
 		int limit = shuttle->GetLimit();
-		if (limit != Shuttle::kUnknown)
-			log.Info("Limit hit");
 		switch (speed) {
 		case Shuttle::Speed::kUp:
-			return difference <= tolerance || limit == Shuttle::kUpper;
+			if (limit == Shuttle::kUpper) {
+				log.Warn("Upper limit hit");
+				return true;
+			}
+			return difference <= tolerance;
 		case Shuttle::Speed::kDown:
-			return difference <= tolerance || limit == Shuttle::kLower;
+			if (limit == Shuttle::kLower) {
+				log.Warn("Lower limit hit");
+				return true;
+			}
+			return difference <= tolerance;
 		default:
 			return true;
 		}
@@ -84,7 +90,7 @@ protected:
 
 private:
 	double rampFactor;
-	int32_t targetTicks, tolerance, rampDistance;
+	int targetTicks, tolerance, rampDistance;
 	Shuttle::Speed speed;
 };
 

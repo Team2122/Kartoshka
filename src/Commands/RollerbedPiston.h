@@ -19,12 +19,11 @@ public:
 	}
 
 protected:
-
 	void Execute() override {
 		toteFeed->SetRollerPiston(targetState);
 	}
 
-	bool IsFinished() {
+	bool IsFinished() override {
 		return true;
 	}
 
