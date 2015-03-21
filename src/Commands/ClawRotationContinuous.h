@@ -29,20 +29,20 @@ public:
 
 protected:
 	void Execute() override {
-		double currentAngle = claw->GetRotationAngle();
-		Claw::ClawAngle clawAngle = claw->GetTargetAngle();
-		double targetAngle = angles[(int) clawAngle];
+		double currentAngle = claw->GetRotationAngle(); // current angle of the claw
+		Claw::ClawAngle clawAngle = claw->GetTargetAngle(); // the number of the target angle
+		double targetAngle = angles[(int) clawAngle]; // the actual target angle
 		double difference = abs(targetAngle - currentAngle);
-		bool hold = difference <= tolerance;
+		bool hold = difference <= tolerance; // if we are within our tolerance
 		double speed;
-		if (clawAngle == Claw::ClawAngle::kPick) {
+		if (clawAngle == Claw::ClawAngle::kPick) { // towards pick: negative
 			speed = -1;
-		} else if (clawAngle == Claw::ClawAngle::kPlatform) {
+		} else if (clawAngle == Claw::ClawAngle::kPlatform) { // towards platform: positive
 			speed = 1;
 		}
 		if (hold) {
 			speed *= holdSpeed;
-			claw->SetRotationFinished(true);
+			claw->SetRotationFinished(true); // if we are applying hold power, tell ClawRotation to finish
 		} else {
 			speed *= moveSpeed;
 			claw->SetRotationFinished(false);
@@ -66,7 +66,7 @@ protected:
 
 private:
 	double tolerance, moveSpeed, holdSpeed;
-	std::vector<double> angles;
+	std::vector<double> angles; // holds the two angles the claw can be at
 };
 
 }
