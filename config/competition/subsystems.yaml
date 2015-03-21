@@ -3,7 +3,7 @@ Claw:
     liftVertical: 6
     liftRotation: 7
     verticalTicks: [6, 7]
-    rotationAngle: {Channel: 0, Scale: 360, Offset: -44.0}
+    rotationAngle: {Channel: 0, Scale: 360, Offset: -48.0}
     upperLimit: {channel: 13, isNPN: true}
     clampLong: 2
     clampShort: 3

@@ -199,7 +199,7 @@ ClawEstablishHome:
 
 ClawForceHome:
   angle: 69.0
-  speed: -.30
+  speed: -.25
 
 ClawPosition:
   - name: Pick
@@ -255,7 +255,7 @@ ClawRotation:
 ClawRotationContinuous:
   tolerance: 15.0
   angles: [70, 235] # Pick, Platform
-  speeds: {move: .40, hold: .20}
+  speeds: {move: .25, hold: .15}
 
 ClawSmartRollers:
   waitTime: .25
