@@ -37,33 +37,8 @@ USBManager* USBManager::GetInstance() {
 void USBManager::Initialize() {
 	if (log == nullptr)
 		log = new Logger("USBManager");
-	log->Info("Opening mount directory...");
-	DIR* dir;
-	if ((dir = opendir(kMountDirectory)) == nullptr) {
-		if (errno == ENOENT) {
-			if (!mkdir(kMountDirectory, 0755)) {
-				return log->Error("Creating mount directory: %s",
-						strerror(errno));
-			} else {
-				log->Info("Created mount directory");
-			}
-		} else {
-			return log->Error("Opening mount directory: %s", strerror(errno));
-		}
-	} else {
-		closedir(dir);
-	}
-	log->Info("Mounting usb drive...");
-	if (mount(kMountDevice, kMountDirectory, kMountFS, MS_NOATIME, "") != 0) {
-		if (errno == EBUSY) {
-			log->Warn("USB Already Mounted");
-		} else {
-			return log->Error("Mounting FS: %s", strerror(errno));
-		}
-	} else {
-		log->Info("Mounted USB");
-	}
 	log->Info("Opening log directory...");
+	DIR* dir;
 	if ((dir = opendir(kLogDirectory)) == nullptr) {
 		if (errno == ENOENT) {
 			if (!mkdir(kLogDirectory, 0755)) {

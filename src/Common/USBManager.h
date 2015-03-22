@@ -15,10 +15,7 @@ namespace tator {
 
 class USBManager {
 public:
-	constexpr const static char* kMountDirectory = "/usb";
-	constexpr const static char* kMountDevice = "/dev/sda1";
-	constexpr const static char* kMountFS = "vfat";
-	constexpr const static char* kLogDirectory = "/usb/logs/";
+	constexpr const static char* kLogDirectory = "/media/sda1/logs/";
 
 	USBManager();
 	virtual ~USBManager();
