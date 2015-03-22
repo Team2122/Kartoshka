@@ -9,41 +9,46 @@
 #include <yaml-cpp/yaml.h>
 #include <iostream>
 
-#include "Commands/BumpBottomTote.h"
-#include "Commands/Cancel.h"
-#include "Commands/ClawClamp.h"
-#include "Commands/ClawClampToggle.h"
-#include "Commands/ClawEstablishHome.h"
-#include "Commands/ClawRollers.h"
-#include "Commands/ClawSmartRollers.h"
-#include "Commands/ClawToAngle.h"
-#include "Commands/ClawToHeight.h"
-#include "Commands/DriveContinuous.h"
-#include "Commands/DriveDistance.h"
-#include "Commands/DriveRotate.h"
-#include "Commands/DriveStraight.h"
-#include "Commands/Fingers.h"
-#include "Commands/GenericCommandGroup.h"
-#include "Commands/HoldBottomTote.h"
-#include "Commands/HomeClaw.h"
-#include "Commands/HomeShuttle.h"
-#include "Commands/IntakeTotes.h"
-#include "Commands/LackOfStack.h"
-#include "Commands/ManualClawLift.h"
-#include "Commands/MessageCommand.h"
-#include "Commands/RecieveBottomTote.h"
-#include "Commands/RollerbedPiston.h"
-#include "Commands/RollerbedPistonToggle.h"
-#include "Commands/SetDesiredTotes.h"
-#include "Commands/ShuttleClamp.h"
-#include "Commands/ShuttleDown.h"
-#include "Commands/ShuttleHold.h"
-#include "Commands/ShuttlePosition.h"
-#include "Commands/ShuttleRamp.h"
-#include "Commands/TopClaw.h"
-#include "Commands/ToteDictator.h"
-#include "Commands/UnloadTote.h"
-#include "Commands/UpdateTotesRatcheted.h"
+#include "Commands/Claw/ClawClamp.h"
+#include "Commands/Claw/ClawClampToggle.h"
+#include "Commands/Claw/ClawEstablishHome.h"
+#include "Commands/Claw/ClawRollers.h"
+#include "Commands/Claw/ClawSmartRollers.h"
+#include "Commands/Claw/ClawToAngle.h"
+#include "Commands/Claw/ClawToHeight.h"
+#include "Commands/Claw/HomeClaw.h"
+#include "Commands/Claw/ManualClawLift.h"
+#include "Commands/Claw/TopClaw.h"
+
+#include "Commands/Drive/DriveContinuous.h"
+#include "Commands/Drive/DriveDistance.h"
+#include "Commands/Drive/DriveRotate.h"
+#include "Commands/Drive/DriveStraight.h"
+
+#include "Commands/Shuttle/Fingers.h"
+#include "Commands/Shuttle/HomeShuttle.h"
+#include "Commands/Shuttle/ShuttleClamp.h"
+#include "Commands/Shuttle/ShuttleDown.h"
+#include "Commands/Shuttle/ShuttleHold.h"
+#include "Commands/Shuttle/ShuttlePosition.h"
+#include "Commands/Shuttle/ShuttleRamp.h"
+
+#include "Commands/ToteDictator/SetDesiredTotes.h"
+#include "Commands/ToteDictator/ToteDictator.h"
+#include "Commands/ToteDictator/UpdateTotesRatcheted.h"
+
+#include "Commands/ToteFeed/BumpBottomTote.h"
+#include "Commands/ToteFeed/HoldBottomTote.h"
+#include "Commands/ToteFeed/IntakeTotes.h"
+#include "Commands/ToteFeed/LackOfStack.h"
+#include "Commands/ToteFeed/RecieveBottomTote.h"
+#include "Commands/ToteFeed/RollerbedPiston.h"
+#include "Commands/ToteFeed/RollerbedPistonToggle.h"
+#include "Commands/ToteFeed/UnloadTote.h"
+
+#include "Commands/Utilities/Cancel.h"
+#include "Commands/Utilities/MessageCommand.h"
+#include "Commands/Utilities/GenericCommandGroup.h"
 
 namespace tator {
 
@@ -53,41 +58,52 @@ std::map<std::string, Kremlin::CommandDetails> Kremlin::commands;
 Logger Kremlin::log("Kremlin");
 
 void Kremlin::CreateCommandsOnce() {
-	CreateCommandsForClass<MessageCommand>();
+	// Claw
+	CreateCommandsForClass<ClawClamp>();
+	CreateCommandsForClass<ClawClampToggle>();
+	CreateCommandsForClass<ClawEstablishHome>();
+	CreateCommandsForClass<ClawRollers>();
+	CreateCommandsForClass<ClawSmartRollers>();
+	CreateCommandsForClass<ClawToAngle>();
+	CreateCommandsForClass<ClawToHeight>();
+	CreateCommandsForClass<HomeClaw>();
+	CreateCommandsForClass<ManualClawLift>();
+	CreateCommandsForClass<TopClaw>();
+
+	// Drive
 	CreateCommandsForClass<DriveContinuous>();
+	CreateCommandsForClass<DriveDistance>();
+	CreateCommandsForClass<DriveRotate>();
+	CreateCommandsForClass<DriveStraight>();
+
+	// Shuttle
+	CreateCommandsForClass<Fingers>();
 	CreateCommandsForClass<HomeShuttle>();
 	CreateCommandsForClass<ShuttlePosition>();
 	CreateCommandsForClass<ShuttleRamp>();
 	CreateCommandsForClass<ShuttleClamp>();
-	CreateCommandsForClass<ClawClamp>();
-	CreateCommandsForClass<ClawRollers>();
-	CreateCommandsForClass<ClawSmartRollers>();
-	CreateCommandsForClass<Fingers>();
-	CreateCommandsForClass<RecieveBottomTote>();
-	CreateCommandsForClass<UnloadTote>();
 	CreateCommandsForClass<ShuttleDown>();
-	CreateCommandsForClass<HomeClaw>();
-	CreateCommandsForClass<TopClaw>();
-	CreateCommandsForClass<ClawEstablishHome>();
-	CreateCommandsForClass<ManualClawLift>();
-	CreateCommandsForClass<DriveDistance>();
-	CreateCommandsForClass<DriveStraight>();
-	CreateCommandsForClass<LackOfStack>();
-	CreateCommandsForClass<ClawClampToggle>();
-	CreateCommandsForClass<RollerbedPiston>();
-	CreateCommandsForClass<RollerbedPistonToggle>();
-	CreateCommandsForClass<ClawToHeight>();
+	CreateCommandsForClass<ShuttleHold>();
+
+	// ToteFeed
 	CreateCommandsForClass<BumpBottomTote>();
 	CreateCommandsForClass<HoldBottomTote>();
-	CreateCommandsForClass<UpdateTotesRatcheted>();
-	CreateCommandsForClass<SetDesiredTotes>();
 	CreateCommandsForClass<IntakeTotes>();
-	CreateCommandsForClass<ShuttleHold>();
-	CreateCommandsForClass<DriveRotate>();
-	CreateCommandsForClass<ClawToAngle>();
-	CreateCommandsForClass<GenericCommandGroup>();
-	CreateCommandsForClass<ToteDictator>();
+	CreateCommandsForClass<LackOfStack>();
+	CreateCommandsForClass<RecieveBottomTote>();
+	CreateCommandsForClass<RollerbedPiston>();
+	CreateCommandsForClass<RollerbedPistonToggle>();
+	CreateCommandsForClass<UnloadTote>();
+
+	// Utilities
 	CreateCommandsForClass<Cancel>();
+	CreateCommandsForClass<GenericCommandGroup>();
+	CreateCommandsForClass<MessageCommand>();
+
+	// ToteDictator
+	CreateCommandsForClass<SetDesiredTotes>();
+	CreateCommandsForClass<UpdateTotesRatcheted>();
+	CreateCommandsForClass<ToteDictator>();
 }
 
 void Kremlin::CreateCommands() {
