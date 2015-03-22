@@ -23,7 +23,7 @@ public:
 
 protected:
 	bool IsFinished() override {
-		return claw->IsTop();
+		return claw->IsAtTop();
 	}
 };
 }

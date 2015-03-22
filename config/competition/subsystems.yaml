@@ -1,22 +1,26 @@
 Claw:
   Ports:
-    liftVertical: 6
-    liftRotation: 7
-    verticalTicks: [6, 7]
-    rotationAngle: {Channel: 0, Scale: 360, Offset: -42.0}
-    upperLimit: {channel: 13, isNPN: true}
-    clampLong: 2
-    clampShort: 3
+    lift:
+      motor: 6
+      encoder: [6, 7]
+    rotation:
+      motor: 7
+      encoder: {Channel: 0, Scale: 360, Offset: -70.0}
+    limits:
+      home: {channel: 12, isNPN: false}
+      top: {channel: 13, isNPN: true}
+    clamp: {long: 2, short: 3}
     rollers: 8
     binSensor: {channel: 18, isNPN: true}
-    homeLimit: {channel: 12, isNPN: false}
   Software:
-    clearClaw: {rotate: 149.0, minAngle: 75.0, minHeight: 149}
+    heightTolerance: 3.0
+    angles:
+      tolerance: 15.0
+      front: 70.0
+      back: 235.0
   Speeds:
     outward: 0.5
     inward: -.8
-    up: -1
-    down: .5
 Drive:
   drive:
     L: 1

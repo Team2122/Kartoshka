@@ -19,84 +19,63 @@ namespace tator {
  */
 class Claw: public SubsystemBase {
 public:
-	enum class RotationSpeed {
-		kStopped = 0, kBackward, kForward, kHoldPick, kUnknown
-	};
-
-	enum class LiftSpeed {
-		kStop = 0, kUp = 1, kDown = 2
-	};
-
 	enum class ClawAngle {
-		kPick = 0, kPlatform = 1
+		neither, front, back
 	};
+
+	enum class ClampStatus {
+		kReleased = 0, kTote = 1, kContainer = 2, kDeathGrip = 3
+	};
+
+	enum class RollerStatus {
+		kStopped = 0, kOutward = 1, kInward = 2
+	};
+
 private:
-	Talon* liftMotor; ///< Talon for the Vertical, Incremental
-	Talon* clawRotation; ///< Talon for the Rotation, Absolute
-	Encoder* liftEncoder; ///< Encoder for the Vertical
-	AnalogPotentiometer* rotationAngle; ///< Encoder for the Rotation
-	FixedField* upperLimit; ///< The upper limit sensor of the claw
+	bool enabled; ///< Whether or not the claw is in a known position
+
+	Talon* liftMotor; ///< Talon for the vertical
+	Encoder* liftEncoder; ///< Encoder for the vertical, incremental
+	double heightTolerance; ///< The tolerance that the claw height must be within
+
 	FixedField* homeLimit; ///< The lower/home limit sensor of the claw
+	FixedField* topLimit; ///< The upper limit sensor of the claw
 
-	double clearClawRotate; ///< Minimum safety for claw to fully rotate
-	double clearClawMinAngle; ///< Minimum safety for claw to fully rotate
-	double clearClawMinHeight; ///< Minimum safety for claw to move up and down
-
-	float upSpeed; ///< How fast the claw will move up
-	float downSpeed; ///< How fast the claw will move down
+	Talon* rotationMotor; ///< Talon for the rotation
+	AnalogPotentiometer* rotationEncoder; ///< Encoder for the rotation, absolute
+	double angleTolerance; ///< The tolerance that the claw angle must be within
+	double frontAngle; ///< The angle when the claw is in the front
+	double backAngle; ///< The angle when the claw is in the back
 
 	Solenoid* clampLong; ///< The solenoid for the long clamp
 	Solenoid* clampShort; ///< The solenoid for the short clamp
-	Talon* rollers; ///< The roller motor
-	FixedField* binSensor; ///< The sensor that senses all the bins
 
+	Talon* rollers; ///< The roller motor
 	double rollerInwardSpeed; ///< The inward speed of the rollers
 	double rollerOutwardSpeed; ///< The outward speed of the rollers
 
-	bool disabled; ///< Checks to see if the robot is disabled
-
-	ClawAngle clawAngle; ///< Gets the claw angle
-	bool rotationFinished; ///< Checks if the rotation is finished
-	LiftSpeed liftSpeed; ///< The lift speed of the claw
+	FixedField* binSensor; ///< The sensor that senses all the bins
 
 public:
 	Claw(YAML::Node config);
 	~Claw();
 
 	/**
-	 * Disables the claw until the code is rebooted
+	 * Disables the claw until the code is rebooted. Prevents the claw from
+	 * moving up or down or rotating.
 	 */
 	void DisableClaw();
 
 	/**
-	 * Reenables the claw
+	 * Enables the claw after being disabled.
 	 */
-	void ReenableClaw();
+	void EnableClaw();
 
 	/**
 	 * Sets the lift speed to power if not disabled
-	 * @param power, the power the motor will be set to
+	 * @param speed, the power the motor will be set to
 	 */
-	void SetLiftSpeed(double power);
-
-	/**
-	 * Sets the lift speed to speed
-	 * @param speed, the speed of the robot
-	 */
-	void SetLiftSpeed(LiftSpeed speed);
-
-	/**
-	 * Gets the lift speed of the claw
-	 * @return the LiftSpeed
-	 */
-	LiftSpeed GetLiftSpeed();
-
-	/**
-	 * Gets the lift speed of the claw
-	 * @param speed, the lift speed of the claw
-	 * @return the lift speed
-	 */
-	double GetLiftSpeed(LiftSpeed speed);
+	void SetLiftSpeed(double speed);
 
 	/**
 	 * Gets the position of the lift encoder
@@ -110,39 +89,48 @@ public:
 	void ZeroLiftEncoder();
 
 	/**
-	 * Returns the current height of the robot
+	 * Checks if the claw lift is within the specified height
+	 * @param height The height to check
+	 * @return true if it is within the tolerance
 	 */
-	int32_t GetPosition();
+	bool IsAtHeight(double height);
 
 	/**
 	 * Checks if the home limit is tripped
-	 * @return If the claw/lift is home
+	 * @return If the claw lift is home
 	 */
-	bool IsHome();
+	bool IsAtHome();
 
 	/**
 	 * Checks if the top limit is tripped
-	 * @return If the claw/lift is at the very top
+	 * @return If the claw lift is at the very top
 	 */
-	bool IsTop();
+	bool IsAtTop();
 
 	/**
-	 * Resets the encoder to the value of 0
+	 * Converts the name of a claw angle to the actual angle
+	 * @param name The name of the angle
+	 * @return The actual angle
 	 */
-	void ResetTicks();
+	ClawAngle AngleFromName(std::string name);
 
-	enum class RollerStatus {
-		kStopped = 0, kOutward = 1, kInward = 2
-	};
+	/**
+	 * Checks if the claw is at the specified angle
+	 * @param angle The angle to check if the claw is at
+	 * @return True if it is at the angle
+	 */
+	bool IsAtAngle(ClawAngle angle);
+
+	/**
+	 * Sets the rotation speed of the claw
+	 * @param speed, the speed the claw will rotate at
+	 */
+	void SetRotationSpeed(double speed);
 
 	/**
 	 * Da roller speed is become in, out, or oof.
 	 */
 	void SetRollerSpeed(RollerStatus operation);
-
-	enum class ClampStatus {
-		kReleased = 0, kTote = 1, kContainer = 2, kDeathGrip = 3
-	};
 
 	/**
 	 * Puny container is crushed from Mother Russia's technologically superior claw.
@@ -150,44 +138,9 @@ public:
 	void SetClampStatus(ClampStatus status);
 
 	/**
-	 * Sets the rotation speed of the claw
-	 * @param speed, the speed the claw will rotate at
-	 * @param override, set to false unless told otherwise
-	 */
-	void SetRotationSpeed(double speed, bool override = false);
-
-	/**
-	 * Sets the rotationFinished variable to the parameter given
-	 * @param rotationFinished, what the rotationFinished will be set to
-	 */
-	void SetRotationFinished(bool rotationFinished);
-
-	/**
-	 * Returns true or false depending on if the rotation is finished
-	 * @return rotationFinished
-	 */
-	bool IsRotationFinished();
-
-	/**
-	 * Gets the rotation angle
-	 * @return rotationAngle
-	 */
-	float GetRotationAngle();
-
-	/**
 	 * The motherland demand robot to say if it has shown mercy to puny
 	 */
 	bool HasContainer();
-
-	/**
-	 * Mother Russia shows gentle side end politely esk for TargetAngle
-	 */
-	ClawAngle GetTargetAngle();
-
-	/**
-	 * KGB invade and persuade target angle to change ideas
-	 */
-	void SetTargetAngle(ClawAngle newClawAngle);
 };
 
 }

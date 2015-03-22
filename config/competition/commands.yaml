@@ -212,44 +212,6 @@ ClawClampToggle:
 ClawEstablishHome:
   # No config
 
-ClawForceHome:
-  angle: 69.0
-  speed: -.25
-
-ClawPosition:
-  - name: Pick
-    target: 0.0
-    tolerance: 3.0
-    speedMul: 1.0
-  - name: Transport
-    target: 30.0
-    tolerance: 3.0
-    speedMul: 1.0
-  - name: Top
-    target: 243.0
-    tolerance: 3.0
-    speedMul: 1.0
-  - name: Middle
-    target: 200
-    tolerance: 3.0
-    speedMul: 1.0
-  - name: Platform
-    target: 178
-    tolerance: 3.0
-    speedMul: .5
-  - name: Regrip
-    target: 156
-    tolerance: 3.0
-    speedMul: .5
-
-ClawRamp:
-  - name: Pick
-    target: 0.0
-    tolerance: 3.0
-    speed: 1.0
-    rampDistance: 50.0
-    rampFactor: .25
-
 ClawRegripPosition:
   speed: .2
 
@@ -261,39 +223,67 @@ ClawRollers:
   - name: Off
     status: 0
 
-ClawRotation:
-  - name: Pick
-    targetAngle: 0
-  - name: Platform
-    targetAngle: 1
-
-ClawRotationContinuous:
-  tolerance: 15.0
-  angles: [70, 235] # Pick, Platform
-  speeds: {move: .25, hold: .15}
-
 ClawSmartRollers:
   waitTime: .25
+
+ClawToAngle:
+  - name: Front
+    angle: front
+    speed: -.25
+    holdSpeed: -.15
+    minimumHeight: 160
+  - name: Back
+    angle: back
+    speed: .25
+    holdSpeed: .15
+    minimumHeight: 160
+
+ClawToHeight:
+  - name: Home
+    height: 0.0
+    ramp: {distance: 50.0, factor: .15}
+    speed: 1.0
+    requiredAngle: front
+  - name: Top
+    height: 247.0
+    ramp: {distance: 20.0, factor: .25}
+    speed: 1.0
+    requiredAngle: neither
+  - name: Middle
+    height: 200
+    ramp: {distance: 0.0, factor: 0.0}
+    speed: 1.0
+    requiredAngle: neither
+  - name: Platform
+    height: 178
+    ramp: {distance: 0.0, factor: 0.0}
+    speed: .25
+    requiredAngle: back
+  - name: Regrip
+    height: 156
+    ramp: {distance: 0.0, factor: 0.0}
+    speed: .25
+    requiredAngle: back
 
 ClawToHome:
   rotateWait: .25
 
 $ClawToHome:
-  - ClawRotationPick
+  - ClawToAngleFront
   - name: WaitCommand
     time: 0.25
-  - ClawPositionPick
+  - ClawToHeightHome
 
 $ClawToPick:
-  - ClawRotationPick
-  - ClawRampPick
+  - ClawToAngleFront
+  - ClawToHeightHome
 
 $GroundToPlatform:
-  - ClawPositionMiddle
-  - ClawRotationPlatform
+  - ClawToHeightMiddle
+  - ClawToAngleBack
   - name: WaitCommand
     time: 0.5
-  - ClawPositionPlatform
+  - ClawToHeightPlatform
 
 ManualClawLift:
   - name: "Up"
@@ -319,9 +309,9 @@ $PickUpMoveToPlatform:
   - $GroundToPlatform
 
 $PlatformToPlacement:
-  - ClawPositionTop
+  - ClawToHeightTop
   - LackOfStack
-  - ClawRotationPick
+  - ClawToAngleFront
 
 $RegripBin:
   - name: WaitCommand
@@ -329,7 +319,7 @@ $RegripBin:
   - ClawClampReleased
   - name: WaitCommand
     time: 0.25
-  - ClawPositionRegrip
+  - ClawToHeightRegrip
   - name: WaitCommand
     time: 0.25
   - ClawClampContainer
@@ -436,5 +426,4 @@ $Auto7:
 
 Cancel:
   - name: ToteDictator
-  - name: ClawForceHome
   - name: HomeClaw

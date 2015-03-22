@@ -40,7 +40,6 @@ void Robot::RobotInit() {
 	USBManager::GetInstance()->Initialize();
 	Kremlin::Get("ClawEstablishHome")->Start();
 	Kremlin::Get("$ShuttleInit")->Start();
-	Kremlin::Get("ClawRotationContinuous")->Start();
 	CameraServer::GetInstance()->StartAutomaticCapture("cam2"); // CHANGE THIS BACK
 	CommandBase::otto->GetAutoModeNumber();
 	CommandBase::otto->StartGyroCalibration();

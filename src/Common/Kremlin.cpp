@@ -14,13 +14,10 @@
 #include "Commands/ClawClamp.h"
 #include "Commands/ClawClampToggle.h"
 #include "Commands/ClawEstablishHome.h"
-#include "Commands/ClawForceHome.h"
-#include "Commands/ClawPosition.h"
-#include "Commands/ClawRamp.h"
 #include "Commands/ClawRollers.h"
-#include "Commands/ClawRotation.h"
-#include "Commands/ClawRotationContinuous.h"
 #include "Commands/ClawSmartRollers.h"
+#include "Commands/ClawToAngle.h"
+#include "Commands/ClawToHeight.h"
 #include "Commands/DriveContinuous.h"
 #include "Commands/DriveDistance.h"
 #include "Commands/DriveRotate.h"
@@ -63,7 +60,6 @@ void Kremlin::CreateCommandsOnce() {
 	CreateCommandsForClass<ShuttleRamp>();
 	CreateCommandsForClass<ShuttleClamp>();
 	CreateCommandsForClass<ClawClamp>();
-	CreateCommandsForClass<ClawRotation>();
 	CreateCommandsForClass<ClawRollers>();
 	CreateCommandsForClass<ClawSmartRollers>();
 	CreateCommandsForClass<Fingers>();
@@ -72,10 +68,7 @@ void Kremlin::CreateCommandsOnce() {
 	CreateCommandsForClass<ShuttleDown>();
 	CreateCommandsForClass<HomeClaw>();
 	CreateCommandsForClass<TopClaw>();
-	CreateCommandsForClass<ClawPosition>();
 	CreateCommandsForClass<ClawEstablishHome>();
-	CreateCommandsForClass<ClawRotationContinuous>();
-	CreateCommandsForClass<ClawForceHome>();
 	CreateCommandsForClass<ManualClawLift>();
 	CreateCommandsForClass<DriveDistance>();
 	CreateCommandsForClass<DriveStraight>();
@@ -83,7 +76,7 @@ void Kremlin::CreateCommandsOnce() {
 	CreateCommandsForClass<ClawClampToggle>();
 	CreateCommandsForClass<RollerbedPiston>();
 	CreateCommandsForClass<RollerbedPistonToggle>();
-	CreateCommandsForClass<ClawRamp>();
+	CreateCommandsForClass<ClawToHeight>();
 	CreateCommandsForClass<BumpBottomTote>();
 	CreateCommandsForClass<HoldBottomTote>();
 	CreateCommandsForClass<UpdateTotesRatcheted>();
@@ -91,6 +84,7 @@ void Kremlin::CreateCommandsOnce() {
 	CreateCommandsForClass<IntakeTotes>();
 	CreateCommandsForClass<ShuttleHold>();
 	CreateCommandsForClass<DriveRotate>();
+	CreateCommandsForClass<ClawToAngle>();
 	CreateCommandsForClass<GenericCommandGroup>();
 	CreateCommandsForClass<ToteDictator>();
 	CreateCommandsForClass<Cancel>();

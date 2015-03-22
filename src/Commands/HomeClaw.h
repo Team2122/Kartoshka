@@ -25,7 +25,7 @@ public:
 
 protected:
 	bool IsFinished() override {
-		return claw->IsHome();
+		return claw->IsAtHome();
 	}
 
 	void End() override {

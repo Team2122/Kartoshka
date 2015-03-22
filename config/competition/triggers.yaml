@@ -26,12 +26,8 @@
   3: WhenPressed SetDesiredTotesThree
   4: WhenPressed SetDesiredTotesFour
   5: WhenPressed SetDesiredTotesFive
-  6: WhenPressed ClawRotationPick
-  7: WhenPressed ClawRotationPlatform
-  8:
-    - WhenPressed ClawForceHome
-    - WhenReleased CancelClawForceHome
-    - WhenReleased CancelHomeClaw
+  6: WhenPressed ClawToAngleFront
+  7: WhenPressed ClawToAngleBack
   9: WhenPressed RollerbedPistonToggle
   10: WhileHeld ManualClawLiftUp
   11: WhileHeld ManualClawLiftDown
