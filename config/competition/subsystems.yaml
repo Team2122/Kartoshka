@@ -57,8 +57,6 @@ ToteFeed:
     rollers: 2
     backSensor: {channel: 16, isNPN: true}
     flappers: 3
-    rollerPiston: 1
-  flapperSpeed: .5
 Otto:
   Ports:
     switch: [23, 22, 21]

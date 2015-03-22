@@ -344,15 +344,6 @@ RecieveBottomTote:
   flapperSpeed: 0.35
   rollerSpeed: 0.8
 
-RollerbedPiston:
-  - name: Up
-    direction: 0
-  - name: Down
-    direction: 1
-
-RollerbedPistonToggle:
-  # No config
-
 UnloadTote:
   rollerSpeed: -1
   flapperSpeed: -1

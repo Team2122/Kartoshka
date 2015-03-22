@@ -28,7 +28,6 @@
   5: WhenPressed SetDesiredTotesFive
   6: WhenPressed ClawToAngleFront
   7: WhenPressed ClawToAngleBack
-  9: WhenPressed RollerbedPistonToggle
   10: WhileHeld ManualClawLiftUp
   11: WhileHeld ManualClawLiftDown
   12: WhileHeld UnloadTote

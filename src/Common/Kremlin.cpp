@@ -42,8 +42,6 @@
 #include "Commands/ToteFeed/IntakeTotes.h"
 #include "Commands/ToteFeed/LackOfStack.h"
 #include "Commands/ToteFeed/RecieveBottomTote.h"
-#include "Commands/ToteFeed/RollerbedPiston.h"
-#include "Commands/ToteFeed/RollerbedPistonToggle.h"
 #include "Commands/ToteFeed/UnloadTote.h"
 
 #include "Commands/Utilities/Cancel.h"
@@ -91,8 +89,6 @@ void Kremlin::CreateCommandsOnce() {
 	CreateCommandsForClass<IntakeTotes>();
 	CreateCommandsForClass<LackOfStack>();
 	CreateCommandsForClass<RecieveBottomTote>();
-	CreateCommandsForClass<RollerbedPiston>();
-	CreateCommandsForClass<RollerbedPistonToggle>();
 	CreateCommandsForClass<UnloadTote>();
 
 	// Utilities

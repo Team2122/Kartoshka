@@ -44,16 +44,6 @@ public:
 	 */
 	void SetRollers(double speed);
 	/**
-	 * Sets the roller piston state
-	 * @param state the state to change it to
-	 */
-	void SetRollerPiston(RollerPistonState state);
-	/**
-	 * Gets the roller piston state
-	 * @return the state of the roller piston
-	 */
-	bool GetRollerPiston();
-	/**
 	 * Sets the flappers
 	 * @param flappers the speed of the flappers
 	 */
@@ -63,8 +53,6 @@ private:
 	Talon* rollers; ///< The roller motors
 	Talon* flappers; ///< The flapper motors
 	FixedField* backSensor; ///< The back sensor
-	Solenoid* rollerPiston; ///< The solenoid for the tote feed rollers
-	double flapperSpeed; ///< Sets the flapper speed
 };
 
 }
