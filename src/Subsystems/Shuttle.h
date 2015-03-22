@@ -18,6 +18,7 @@ namespace tator {
  * This shuttle take precious totes very high and keep them safe from evil bots
  */
 class Shuttle: public SubsystemBase {
+	friend class Tester;
 private:
 
 	FixedField* toteSensor; ///< Sensor that senses if totes are here (at the lift base)

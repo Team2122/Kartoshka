@@ -8,6 +8,7 @@
 #include "TestGroup.h"
 #include "CommandBase.h"
 #include "Subsystems/Drive.h"
+#include "Subsystems/Shuttle.h"
 #include "Tests/SuccessfulTest.h"
 #include "Tests/FailureTest.h"
 #include "Tests/SpeedControllerEncoderTest.h"
@@ -18,13 +19,17 @@ Tester* Tester::instance = nullptr;
 
 Tester::Tester() {
 	Test* leftDrive = new SpeedControllerEncoderTest("left drive",
-			CommandBase::drive->driveL, CommandBase::drive->encoderL, 1, .25,
-			1);
+			CommandBase::drive->driveL, CommandBase::drive->encoderL, .25, .25,
+			.6);
 	Test* rightDrive = new SpeedControllerEncoderTest("right drive",
-			CommandBase::drive->driveR, CommandBase::drive->encoderR, 1, .25,
-			1);
+			CommandBase::drive->driveR, CommandBase::drive->encoderR, .25, .25,
+			.6);
 	TestGroup* driveTests = new TestGroup("Drive", { leftDrive, rightDrive });
-	tests = new TestGroup("Tester", { driveTests });
+	Test* shuttleLift = new SpeedControllerEncoderTest("shuttle lift",
+			CommandBase::shuttle->liftMotor, CommandBase::shuttle->liftEncoder,
+			.25, -.25, 300);
+	TestGroup* shuttleTests = new TestGroup("Shuttle", { shuttleLift });
+	tests = new TestGroup("Tester", { driveTests, shuttleTests });
 }
 
 void Tester::End() {
@@ -44,6 +49,7 @@ void Tester::Execute() {
 
 void Tester::Interrupted() {
 	tests->Interrupted();
+	End();
 }
 
 Tester::~Tester() {

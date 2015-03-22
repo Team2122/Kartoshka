@@ -67,10 +67,13 @@ void TestGroup::Execute() {
 		(*currTest)->test->Execute();
 		if ((*currTest)->test->IsFinished()) {
 			(*currTest)->isFinished = true;
+			(*currTest)->test->End();
 			HandleFinishedTest((*currTest)->test);
 			currTest++;
 			if (currTest == tests.end()) {
 				End();
+			} else {
+				(*currTest)->test->Initialize();
 			}
 		}
 	}

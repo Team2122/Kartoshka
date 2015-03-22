@@ -18,7 +18,6 @@ namespace tator {
 Robot::Robot() :
 		log("Robot") {
 	scheduler = Scheduler::GetInstance();
-	tester = Tester::GetInstance();
 	manualTester = ManualTester::GetInstance();
 	testMode = TestMode::manual;
 }
@@ -43,6 +42,7 @@ void Robot::RobotInit() {
 	CameraServer::GetInstance()->StartAutomaticCapture("cam2"); // CHANGE THIS BACK
 	CommandBase::otto->GetAutoModeNumber();
 	CommandBase::otto->StartGyroCalibration();
+	tester = Tester::GetInstance();
 }
 
 void Robot::DisabledInit() {

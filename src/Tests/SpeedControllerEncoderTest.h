@@ -23,13 +23,12 @@ public:
 	}
 
 	void Initialize() override {
-		speedController->Set(speed);
 		timer.Reset();
 		timer.Start();
 	}
 
 	void Execute() override {
-
+		speedController->Set(speed);
 	}
 
 	bool IsFinished() override {
@@ -38,18 +37,18 @@ public:
 
 protected:
 	void End() override {
-		speedController->Set(speed);
+		speedController->Set(0);
 		double rate = encoder->GetRate();
 		if (rate / minimumEncoderRate < 1) {
 			Error("The encoder was going at rate %f which is less than %f",
 					rate, minimumEncoderRate);
 		} else {
-			Success("The encoder works");
+			Success("The encoder works at rate %f", rate);
 		}
 	}
 
 	void Interrupted() override {
-		speedController->Set(speed);
+		speedController->Set(0);
 	}
 
 private:
