@@ -42,12 +42,19 @@ DriveDistance:
     distance: 1.0
 
 DriveRotate:
-  - name: Test
+  - name: Auto6
     speed: .35
     angle: -90.0
     tolerance: .5
     rampAngle: 45.0
     rampFactor: .25
+
+DriveStraight:
+  - name: Auto6
+    speed: .4
+    distance: 4.0
+    speedOffset: .1
+    angleTolerance: .25
 
 ###########
 # SHUTTLE #
@@ -410,7 +417,11 @@ $Auto5:
   - $RegripBin
 
 $Auto6:
-  - DriveRotateTest
+  - $PickBin
+  - $GroundToPlatform
+  - $RegripBin
+  - DriveRotateAuto6
+  - DriveStraightAuto6
 
 ###########
 # UTILITY #
