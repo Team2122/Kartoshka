@@ -110,7 +110,7 @@ void Kremlin::CreateCommands() {
 		if (!createdCommand) {
 			lastTry = !lastTry;
 		}
-	} while (createdCommand);
+	} while (createdCommand || lastTry);
 }
 
 template<typename T>
