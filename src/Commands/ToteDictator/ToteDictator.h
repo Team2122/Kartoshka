@@ -22,10 +22,6 @@ public:
 		holdBottomTote = Kremlin::Get("HoldBottomTote");
 		intakeTotes = Kremlin::Get("IntakeTotes");
 
-		stackSequence = Kremlin::Get("$StackTote");
-		restackSequence = Kremlin::Get("$Restack");
-		unstackSequence = Kremlin::Get("$Unstack");
-
 		sampleCount = 0;
 		samplesRequired = config["samples"].as<int>();
 	}
@@ -35,6 +31,13 @@ public:
 	}
 
 protected:
+	void Initialize() override {
+		CommandBase::Initialize();
+		stackSequence = Kremlin::Get("$StackTote");
+		restackSequence = Kremlin::Get("$Restack");
+		unstackSequence = Kremlin::Get("$Unstack");
+	}
+
 	void Execute() override {
 		// If there is tote at the bottom of the bot
 		if (toteFeed->GetBackSensor()) {

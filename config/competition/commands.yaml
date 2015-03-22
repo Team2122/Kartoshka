@@ -287,9 +287,9 @@ $GroundToPlatform:
 
 ManualClawLift:
   - name: "Up"
-    speed: 1
+    speed: -.75
   - name: "Down"
-    speed: 2
+    speed: .25
 
 $PickBin:
   - ClawClampTote
@@ -423,7 +423,3 @@ $Auto7:
 ###########
 # UTILITY #
 ###########
-
-Cancel:
-  - name: ToteDictator
-  - name: HomeClaw
