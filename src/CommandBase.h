@@ -24,6 +24,9 @@ class Otto;
  * The base for all commands.
  */
 class CommandBase: public Command {
+	friend class Tester;
+	friend class Robot;
+	friend class Shuttle;
 public:
 	// Remeber to implement static std::string GetBaseName()
 	CommandBase(const std::string& name);
@@ -44,8 +47,6 @@ protected:
 	static Claw* claw;
 	static Drive* drive;
 	static Shuttle* shuttle;
-
-public:
 	static ToteFeed* toteFeed;
 	static Otto* otto;
 };

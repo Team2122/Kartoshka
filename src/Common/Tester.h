@@ -10,7 +10,7 @@
 #include "TestGroup.h"
 
 namespace tator {
-class Tester: public TestGroup {
+class Tester {
 public:
 	/**
 	 * Gets the instance of the Tester
@@ -23,6 +23,10 @@ public:
 	 * Called when the tester ends
 	 */
 	void End();
+
+	void Initialize();
+	void Execute();
+	void Interrupted();
 
 private:
 	/**
@@ -37,8 +41,7 @@ private:
 
 	/// The instance of the tester
 	static Tester* instance;
-	/// All the tests
-	std::vector<Test*> allTests;
+	TestGroup* tests; ///< All the tests
 };
 }
 

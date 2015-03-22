@@ -30,8 +30,8 @@ public:
 	 * @param synchronous Should these tests run one at a time
 	 * @param stopOnError Should the test group stop on an error
 	 */
-	TestGroup(const char* name, std::vector<Test*> tests, bool simultaneous,
-			bool stopOnError = true);
+	TestGroup(const char* name, std::vector<Test*> tests, bool simultaneous =
+			false, bool stopOnError = true);
 
 	/**
 	 * Deletes the TestGroup

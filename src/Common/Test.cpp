@@ -10,9 +10,8 @@
 #include <iostream>
 
 namespace tator {
-Test::Test(const char* name) :
-		logger(name) {
-	this->name = name;
+Test::Test(std::string name) :
+		name(name), logger(name.c_str()) {
 }
 
 Test::~Test() {

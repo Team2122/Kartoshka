@@ -16,6 +16,7 @@ namespace tator {
  * Drives robot for the glory of Russia
  */
 class Drive: public SubsystemBase {
+	friend class Tester;
 private:
 	Talon* driveL; ///< The left drive talon
 	Talon* driveR; ///< The right drive talon

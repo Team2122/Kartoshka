@@ -13,16 +13,18 @@
 
 namespace tator {
 
+class Tester;
 class TestGroup;
 
 class Test {
+	friend Tester;
 	friend TestGroup;
 public:
 	/**
 	 * Constructor for Test
 	 * @param name The name of the test
 	 */
-	Test(const char* name);
+	Test(std::string name);
 
 	/**
 	 * Deletes Test
