@@ -11,6 +11,7 @@ public:
 	DriveContinuous(std::string name, YAML::Node config) :
 			CommandBase(name) {
 		int joystickPort = config["joystick"].as<int>();
+		Requires(drive);
 		YAML::Node axes = config["axes"];
 		axisLeft = axes["left"].as<int>();
 		axisRight = axes["right"].as<int>();

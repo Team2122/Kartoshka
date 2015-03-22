@@ -21,8 +21,8 @@ public:
 		speed = config["speed"].as<double>();
 		deltaAngle = config["angle"].as<double>();
 		tolerance = config["tolerance"].as<double>();
-		rampAngle = config["rampAngle"].as<double>();
-		rampFactor = config["rampFactor"].as<double>();
+		slowAngle = config["slowAngle"].as<double>();
+		slowFactor = config["slowFactor"].as<double>();
 		startAngle = 0, angle = 0;
 	}
 
@@ -48,9 +48,8 @@ protected:
 		angle = otto->GetAngle() - startAngle;
 		double difference = fabs(angle - deltaAngle);
 		double rampedSpeed;
-		if (difference <= rampAngle) {
-			double r = difference / rampAngle;
-			rampedSpeed = (rampFactor + (1 - rampFactor) * r) * speed;
+		if (difference <= slowAngle) {
+			rampedSpeed = speed * slowFactor;
 		} else {
 			rampedSpeed = speed;
 		}
@@ -79,8 +78,8 @@ protected:
 	}
 
 private:
-	double startAngle, deltaAngle, tolerance, speed, angle, rampAngle,
-			rampFactor;
+	double startAngle, deltaAngle, tolerance, speed, angle, slowAngle,
+			slowFactor;
 
 };
 

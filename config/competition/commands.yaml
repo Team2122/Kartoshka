@@ -43,17 +43,17 @@ DriveDistance:
 
 DriveRotate:
   - name: Auto6
-    speed: .35
+    speed: .75
     angle: -90.0
     tolerance: .5
-    rampAngle: 45.0
-    rampFactor: .25
+    slowAngle: 25.0
+    slowFactor: .4
 
 DriveStraight:
   - name: Auto6
-    speed: .4
-    distance: 4.0
-    speedOffset: .1
+    speed: .75
+    distance: 15.0
+    speedOffset: .2
     angleTolerance: .25
 
 ###########
@@ -413,12 +413,22 @@ $Auto5:
   - $GroundToPlatform
   - $RegripBin
 
-$Auto6:
-  - $PickBin
+$Auto6BinSequence:
   - $GroundToPlatform
   - $RegripBin
+
+$Auto6DriveSequence:
   - DriveRotateAuto6
   - DriveStraightAuto6
+
+$Auto6:
+  - $PickBin
+  - name: $Auto6BinSequence
+    execution: Parallel
+  - $Auto6DriveSequence
+
+$Auto7:
+  - DriveRotateAuto6
 
 ###########
 # UTILITY #
