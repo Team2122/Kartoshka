@@ -19,6 +19,7 @@ namespace tator {
  * Moves totes
  */
 class ToteFeed: public SubsystemBase {
+	friend class Tester;
 public:
 	enum class RollerPistonState {
 		up = 1, down = 0

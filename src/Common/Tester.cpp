@@ -9,10 +9,12 @@
 #include "CommandBase.h"
 #include "Subsystems/Drive.h"
 #include "Subsystems/Shuttle.h"
+#include "Subsystems/ToteFeed.h"
 #include "Tests/SuccessfulTest.h"
 #include "Tests/FailureTest.h"
 #include "Tests/SpeedControllerEncoderTest.h"
 #include "Tests/ShuttleHomeTest.h"
+#include "Tests/ToteFeedTest.h"
 
 namespace tator {
 
@@ -30,9 +32,13 @@ Tester::Tester() {
 			CommandBase::shuttle->liftMotor, CommandBase::shuttle->liftEncoder,
 			.25, -.25, 300);
 	Test* shuttleHomeTest = new ShuttleHomeTest(CommandBase::shuttle->liftMotor,
-			CommandBase::shuttle->lowerLimit, CommandBase::shuttle->upperLimit);
-	TestGroup* shuttleTests = new TestGroup("Shuttle", { shuttleLift,
-			shuttleHomeTest });
+			CommandBase::shuttle->lowerLimit, CommandBase::shuttle->upperLimit,
+			CommandBase::shuttle->clampPiston);
+	Test* toteFeedTest = new ToteFeedTest(CommandBase::toteFeed->rollers,
+			CommandBase::toteFeed->backSensor, CommandBase::shuttle->toteSensor,
+			CommandBase::shuttle->clampPiston);
+	TestGroup* shuttleTests = new TestGroup("Shuttle", { shuttleHomeTest,
+			shuttleLift, toteFeedTest });
 	tests = new TestGroup("Tester", { driveTests, shuttleTests });
 }
 
