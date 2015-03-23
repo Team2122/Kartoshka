@@ -91,4 +91,4 @@ private:
 
 }
 
-#endif /* SPEEDCONTROLLERENCODERTEST_H_ */
+#endif /* SHUTTLEHOMETEST_H_ */

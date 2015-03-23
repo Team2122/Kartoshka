@@ -14,6 +14,7 @@
 #include "Tests/FailureTest.h"
 #include "Tests/SpeedControllerEncoderTest.h"
 #include "Tests/ShuttleHomeTest.h"
+#include "Tests/ShuttlePistonsTest.h"
 #include "Tests/ToteFeedTest.h"
 
 namespace tator {
@@ -39,7 +40,14 @@ Tester::Tester() {
 			CommandBase::shuttle->clampPiston);
 	TestGroup* shuttleTests = new TestGroup("Shuttle", { shuttleHomeTest,
 			shuttleLift, toteFeedTest });
-	tests = new TestGroup("Tester", { driveTests, shuttleTests });
+
+	Test* shuttleOpen = new ShuttleTest("ShuttleOpenTest", false, false);
+	Test* shuttleClamped = new ShuttleTest("ShuttleClampedTest", true, true);
+	Test* shuttleGrab = new ShuttleTest("ShuttleGrapTest", true, false);
+	TestGroup* shuttlePistonsTests = new TestGroup("Shuttle Pistons", { shuttleOpen,
+		shuttleClamped, shuttleGrab });
+
+	tests = new TestGroup("Tester", { driveTests, shuttleTests, shuttlePistonsTests });
 }
 
 void Tester::End() {
