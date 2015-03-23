@@ -4,7 +4,6 @@
  * @date Jan 17, 2015
  */
 
-#include <CameraServer.h>
 #include "Robot.h"
 #include "Common/Config/Config.h"
 #include "Common/Config/Binder.h"
@@ -39,7 +38,6 @@ void Robot::RobotInit() {
 	USBManager::GetInstance()->Initialize();
 	Kremlin::Get("ClawEstablishHome")->Start();
 	Kremlin::Get("$ShuttleInit")->Start();
-	CameraServer::GetInstance()->StartAutomaticCapture("cam2"); // CHANGE THIS BACK
 	CommandBase::otto->GetAutoModeNumber();
 	CommandBase::otto->StartGyroCalibration();
 	tester = Tester::GetInstance();

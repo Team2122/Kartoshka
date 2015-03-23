@@ -3,6 +3,7 @@
  * @file Otto.cpp
  * @author Nick Hodes
  */
+#include <CameraServer.h>
 #include "Otto.h"
 #include "Common/Tester/ManualTester.h"
 #include "Common/Config/Kremlin.h"
@@ -17,6 +18,9 @@ Otto::Otto(YAML::Node config) :
 	autoSwitch1 = new DigitalInput(autoSwitch[1].as<int>());
 	autoSwitch2 = new DigitalInput(autoSwitch[2].as<int>());
 	gyro = new ADXRS453(SPI::kOnboardCS0);
+	std::string cameraName = config["cameraName"].as<std::string>();
+	CameraServer::GetInstance()->StartAutomaticCapture(cameraName.c_str());
+
 	ManualTester* manualTester = ManualTester::GetInstance();
 	manualTester->Add(GetName(), "auto switch 0", autoSwitch0);
 	manualTester->Add(GetName(), "auto switch 1", autoSwitch1);

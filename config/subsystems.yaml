@@ -60,3 +60,4 @@ ToteFeed:
 Otto:
   Ports:
     switch: [23, 22, 21]
+  cameraName: cam2
