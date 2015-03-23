@@ -11,7 +11,7 @@
 
 namespace tator {
 Test::Test(std::string name) :
-		name(name), logger(name.c_str()) {
+		log(name.c_str()), name(name) {
 }
 
 Test::~Test() {
@@ -25,11 +25,27 @@ std::vector<TestResult> Test::GetResults() {
 	return results;
 }
 
+void Test::ClearResults() {
+	results.clear();
+}
+
+void Test::Initialize() {
+	log.Info("Test %s has initialized", GetName().c_str());
+}
+
+void Test::End() {
+	log.Info("Test %s has ended", GetName().c_str());
+}
+
+void Test::Interrupted() {
+	log.Info("Test %s has been interrupted", GetName().c_str());
+}
+
 void Test::AddTestResult(TestResult::Type resultType, const char* message,
 		va_list vargs) {
 	char* buffer = new char[Logger::kMaxLength];
 	vsnprintf(buffer, Logger::kMaxLength, message, vargs);
-	results.push_back(TestResult(&logger, resultType, buffer));
+	results.push_back(TestResult(&log, resultType, buffer));
 }
 
 void Test::Success(const char* message, ...) {

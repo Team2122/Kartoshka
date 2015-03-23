@@ -17,8 +17,7 @@ namespace tator {
 Robot::Robot() :
 		log("Robot") {
 	scheduler = Scheduler::GetInstance();
-	manualTester = ManualTester::GetInstance();
-	testMode = TestMode::manual;
+	tester = Tester::GetInstance();
 }
 
 Robot::~Robot() {
@@ -36,17 +35,17 @@ void Robot::RobotInit() {
 	log.Info("Deleting Configs...");
 	Config::Delete();
 	USBManager::GetInstance()->Initialize();
+	tester->CreateTests();
 	Kremlin::Get("ClawEstablishHome")->Start();
 	Kremlin::Get("$ShuttleInit")->Start();
 	CommandBase::otto->GetAutoModeNumber();
 	CommandBase::otto->StartGyroCalibration();
-	tester = Tester::GetInstance();
 }
 
 void Robot::DisabledInit() {
 	log.Info("==== DisabledInit ====");
 	Kremlin::Get("DriveContinuous")->Cancel();
-	tester->Interrupted();
+	tester->Disable();
 	USBManager::GetInstance()->Flush();
 }
 
@@ -63,9 +62,7 @@ void Robot::TeleopInit() {
 
 void Robot::TestInit() {
 	log.Info("==== TestInit ====");
-	log.Info("Defaulted to the ManualTester");
-	log.Info("Press START (10) to switch to the automated Tester");
-	testMode = TestMode::manual;
+	tester->Initialize();
 }
 
 void Robot::DisabledPeriodic() {
@@ -80,21 +77,7 @@ void Robot::TeleopPeriodic() {
 }
 
 void Robot::TestPeriodic() {
-	Joystick* joy = Joystick::GetStickForPort(0);
-	switch (testMode) {
-	case TestMode::manual:
-		manualTester->Execute();
-		if (joy->GetRawButton(10)) {
-			log.Info("Switching to automated testing");
-			manualTester->StopTesting();
-			tester->Initialize();
-			testMode = TestMode::autonomous;
-		}
-		break;
-	case TestMode::autonomous:
-		tester->Execute();
-		break;
-	}
+	tester->Run();
 }
 
 } /* namespace tator */

@@ -7,136 +7,82 @@
 #include "TestGroup.h"
 #include "TestResult.h"
 #include "Tester.h"
-#include "Test.h"
+#include <algorithm>
 
 namespace tator {
+
 TestGroup::TestGroup(const char* name, std::vector<Test*> tests,
-		bool simultaneous, bool stopOnError) :
-		Test(name) {
-	this->name = name;
+		bool stopOnError) :
+		Test(name), stopOnError(stopOnError) {
 	for (Test* test : tests) {
-		this->tests.push_back(new TestData { test, false, false });
+		AddTest(test);
 	}
-	this->simultaneous = simultaneous;
 	this->stopOnError = stopOnError;
-	this->currTest = this->tests.end();
 }
 
 TestGroup::~TestGroup() {
 }
 
 void TestGroup::Initialize() {
-	if (simultaneous) {
-		for (TestData* testPair : tests) {
-			if (!testPair->hasStarted) {
-				logger.Info("Initializing %s asynchronously",
-						testPair->test->GetName().c_str());
-				testPair->hasStarted = true;
-				testPair->test->Initialize();
-			}
-		}
-	} else {
-		currTest = tests.begin();
-		logger.Info("Initializing %s", (*currTest)->test->GetName().c_str());
-		(*currTest)->hasStarted = true;
-		(*currTest)->test->Initialize();
+	currentTest = tests.begin();
+	if (currentTest != tests.end()) { // if we have any tests
+		(*currentTest)->Initialize();
 	}
 }
 
+void TestGroup::ClearResults() {
+	Test::ClearResults();
+	std::for_each(tests.begin(), tests.end(), [](auto& test) {
+		test->ClearResults();
+	});
+}
+
+void TestGroup::AddTest(Test* test) {
+	tests.push_back(std::unique_ptr<Test>(test));
+	currentTest = tests.end();
+}
+
 void TestGroup::Execute() {
-	if (simultaneous) {
-		for (TestData* testPair : tests) {
-			if (!testPair->isFinished) {
-				testPair->test->Execute();
-				if (testPair->test->IsFinished()) {
-					testPair->isFinished = true;
-					HandleFinishedTest(testPair->test);
-					bool allDone = true;
-					for (TestData* currTestData : tests) {
-						if (!currTestData->isFinished) {
-							allDone = false;
-						}
-					}
-					if (allDone) {
-						End();
-					}
-				}
+	if (currentTest != tests.end()) { // if we are not finished with that
+		auto& test = *currentTest;
+		test->Execute(); // run the test
+		if (test->IsFinished()) { // if it has finished
+			// end the test and get all results
+			test->End();
+			std::vector<TestResult> results = test->GetResults();
+			// insert all of the results of the test to this test group
+			this->results.insert(this->results.end(), results.begin(),
+					results.end());
+			// check if any results is an error
+			bool hasError = std::any_of(results.begin(), results.end(),
+					[](auto result) {
+						return result.GetType() == TestResult::Type::error;
+					});
+			currentTest++; // and move on
+			if (hasError && stopOnError) {
+				Interrupted(); // interrupt self if there is an error and we should stop on errors
 			}
-		}
-	} else if (currTest != tests.end()) {
-		(*currTest)->test->Execute();
-		if ((*currTest)->test->IsFinished()) {
-			(*currTest)->isFinished = true;
-			(*currTest)->test->End();
-			HandleFinishedTest((*currTest)->test);
-			currTest++;
-			if (currTest == tests.end()) {
-				End();
-			} else {
-				(*currTest)->test->Initialize();
+			if (currentTest != tests.end()) { // unless we're at the last test
+				(*currentTest)->Initialize(); // initialize it
 			}
 		}
 	}
 }
 
 bool TestGroup::IsFinished() {
-	if (simultaneous) {
-		for (TestData* testPair : tests) {
-			if (!testPair->isFinished) {
-				return false;
-			}
-		}
-		return true;
-	} else {
-		return currTest == tests.end();
-	}
+	return currentTest == tests.end(); // we're done when the iterator is at the end
 }
 
 void TestGroup::End() {
-	// Nothing needs done as when this is finished everything is already ended
 }
 
 void TestGroup::Interrupted() {
-	if (simultaneous) {
-		for (TestData* testPair : tests) {
-			if (!testPair->isFinished && testPair->hasStarted) {
-				testPair->test->Interrupted();
-				HandleFinishedTest(testPair->test, true);
-				testPair->isFinished = true;
-			}
-		}
-	} else {
-		if (currTest != tests.end() && (*currTest)->hasStarted) {
-			(*currTest)->test->Interrupted();
-			HandleFinishedTest((*currTest)->test, true);
-			currTest = tests.end();
-		}
+	// if we havn't finished running sequentially
+	if (currentTest != tests.end()) {
+		// interrupt and mark as finished
+		(*currentTest)->Interrupted();
+		currentTest = tests.end();
 	}
 }
 
-void TestGroup::HandleFinishedTest(Test* test, bool testWasInterrupted) {
-	std::vector<TestResult> results = test->GetResults();
-	bool hasError = false;
-	logger.Info("%s has finished", test->GetName().c_str());
-	if (testWasInterrupted) {
-		logger.Info("It was interrupted");
-	}
-	for (TestResult result : results) {
-		this->results.push_back(result);
-		if (result.GetType() == TestResult::Type::error) {
-			hasError = true;
-		}
-	}
-	if (testWasInterrupted) {
-		if (hasError && stopOnError) {
-			Interrupted();
-		} else {
-			test->End();
-		}
-	}
-}
-
-std::string TestGroup::GetName() {
-	return name;
-}
 }

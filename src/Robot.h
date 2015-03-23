@@ -9,7 +9,6 @@
 
 #include "Common/Logger.h"
 #include "Common/Tester/Tester.h"
-#include "Common/Tester/ManualTester.h"
 #include <IterativeRobot.h>
 
 namespace tator {
@@ -37,13 +36,7 @@ public:
 private:
 	Scheduler *scheduler;
 	Tester *tester;
-	ManualTester* manualTester;
 
-	enum class TestMode {
-		autonomous, manual
-	};
-
-	TestMode testMode;
 protected:
 	Logger log;
 };

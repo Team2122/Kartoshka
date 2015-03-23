@@ -6,8 +6,8 @@
 #include "TestResult.h"
 
 namespace tator {
-TestResult::TestResult(Logger* logger, Type type, const char* message) {
-	this->logger = logger;
+TestResult::TestResult(Logger* log, Type type, const char* message) {
+	this->log = log;
 	this->type = type;
 	this->message = message;
 }
@@ -23,13 +23,13 @@ void TestResult::Log() {
 	switch (type) {
 	case Type::success:
 	case Type::info:
-		logger->Info(message);
+		log->Info(message);
 		break;
 	case Type::warning:
-		logger->Warn(message);
+		log->Warn(message);
 		break;
 	case Type::error:
-		logger->Error(message);
+		log->Error(message);
 		break;
 	}
 }

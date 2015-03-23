@@ -22,7 +22,9 @@ public:
 
 	}
 
+protected:
 	void Initialize() override {
+		Test::Initialize();
 		timer.Reset();
 		timer.Start();
 	}
@@ -35,7 +37,6 @@ public:
 		return timer.HasPeriodPassed(time);
 	}
 
-protected:
 	void End() override {
 		speedController->Set(0);
 		double rate = encoder->GetRate();
@@ -45,10 +46,12 @@ protected:
 		} else {
 			Success("The encoder works at rate %f", rate);
 		}
+		Test::End();
 	}
 
 	void Interrupted() override {
 		speedController->Set(0);
+		Test::Interrupted();
 	}
 
 private:

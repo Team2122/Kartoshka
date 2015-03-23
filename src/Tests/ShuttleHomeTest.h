@@ -21,10 +21,11 @@ public:
 		unclamped = false;
 		finished = false;
 		upperSensorTripped = false;
-
 	}
 
+protected:
 	void Initialize() override {
+		Test::Initialize();
 		timer.Reset();
 		timer.Start();
 		unclamped = upperSensorTripped = finished = false;
@@ -71,13 +72,14 @@ public:
 		return timer.HasPeriodPassed(10.0) || finished;
 	}
 
-protected:
 	void End() override {
 		speedController->Set(0);
+		Test::End();
 	}
 
 	void Interrupted() override {
 		speedController->Set(0);
+		Test::Interrupted();
 	}
 
 private:

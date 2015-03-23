@@ -8,78 +8,67 @@
 #define TESTGROUP_H_
 
 #include "Test.h"
+#include <vector>
+#include <memory>
 
 namespace tator {
 
-struct TestData {
-	/// The test
-	Test* test;
-	/// Is the test finished?
-	bool isFinished;
-	/// Has the test started?
-	bool hasStarted;
-};
-
 class TestGroup: public Test {
+	friend class Tester;
 public:
-
 	/**
 	 * Creates a TestGroup
 	 * @param name The name of the test group
 	 * @param tests The list of tests
-	 * @param synchronous Should these tests run one at a time
 	 * @param stopOnError Should the test group stop on an error
 	 */
-	TestGroup(const char* name, std::vector<Test*> tests, bool simultaneous =
-			false, bool stopOnError = true);
+	TestGroup(const char* name, std::vector<Test*> tests, bool stopOnError = true);
 
 	/**
-	 * Deletes the TestGroup
+	 * Deletes the TestGroup and all child tests.
 	 */
 	~TestGroup();
 
 	/**
+	 * Clears the results of this test group and all children.
+	 */
+	void ClearResults() override;
+
+	/**
+	 * Adds a test to this TestGroup. Do not call after the tester has been started
+	 * @param test The test to add.
+	 */
+	void AddTest(Test* test);
+
+protected:
+	/**
 	 * Initializes the tests
 	 */
-	void Initialize();
+	void Initialize() override;
 
 	/**
 	 * Executes the tests
 	 */
-	void Execute();
+	void Execute() override;
 
 	/**
 	 * Checks if all the tests are finished
 	 */
-	bool IsFinished();
+	bool IsFinished() override;
 
 	/**
 	 * Ends all the tests
 	 */
-	void End();
+	void End() override;
 
 	/**
 	 * Interrupts all the tests
 	 */
-	void Interrupted();
+	void Interrupted() override;
 
-	/**
-	 * Returns the name of the TestGroup
-	 */
-	std::string GetName();
-protected:
-
-	/**
-	 * Handles a finished test
-	 * @param test The test
-	 * @param testWasInterrupted If this test was just interrupted
-	 */
-	void HandleFinishedTest(Test* test, bool testWasInterrupted = false);
-
-	std::vector<TestData*> tests;
-	std::vector<TestData*>::iterator currTest;
-	std::string name;
-	bool simultaneous;
+	typedef std::vector<std::unique_ptr<Test>> Tests;
+	Tests tests;
+	Tests::iterator currentTest;
 	bool stopOnError;
 };
 }

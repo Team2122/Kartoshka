@@ -15,13 +15,14 @@ public:
 		success, info, warning, error
 	};
 
-	TestResult(Logger* logger, Type resultType, const char* message);
+	TestResult(Logger* log, Type resultType, const char* message);
 	~TestResult();
 
 	Type GetType();
 	void Log();
+
 protected:
-	Logger* logger;
+	Logger* log;
 	Type type;
 	const char* message;
 };

@@ -13,12 +13,9 @@
 
 namespace tator {
 
-class Tester;
-class TestGroup;
-
 class Test {
-	friend Tester;
-	friend TestGroup;
+	friend class Tester;
+	friend class TestGroup;
 public:
 	/**
 	 * Constructor for Test
@@ -32,9 +29,27 @@ public:
 	virtual ~Test();
 
 	/**
+	 * Gets the name of the test
+	 * @return the name of the test
+	 */
+	std::string GetName();
+
+	/**
+	 * Gets the list of results for this test
+	 * @return The list of results for this test
+	 */
+	std::vector<TestResult> GetResults();
+
+	/**
+	 * Clears the list of results
+	 */
+	virtual void ClearResults();
+
+protected:
+	/**
 	 * Called when a test is ready to be executed
 	 */
-	virtual void Initialize() = 0;
+	virtual void Initialize();
 
 	/**
 	 * Called periodically so a test can test
@@ -47,32 +62,15 @@ public:
 	virtual bool IsFinished() = 0;
 
 	/**
-	 * Gets the name of the test
-	 * @return the name of the test
-	 */
-	std::string GetName();
-
-	/**
-	 * Gets the list of results for this test
-	 * @return The list of results for this test
-	 */
-	std::vector<TestResult> GetResults();
-
-private:
-	/// The name of the test
-	std::string name;
-
-protected:
-	/**
 	 * Called when a test ends
 	 */
-	virtual void End() = 0;
+	virtual void End();
 
 	/**
 	 * Called when a test is interrupted
 	 * End will not be called
 	 */
-	virtual void Interrupted() = 0;
+	virtual void Interrupted();
 
 	/**
 	 * Adds a test result to the list of results
@@ -109,9 +107,14 @@ protected:
 	void Error(const char* message, ...);
 
 	/// The logger for this test
-	Logger logger;
+	Logger log;
+
+private:
 	/// The list of "results" that occurred (for more info see the TestResult class)
 	std::vector<TestResult> results;
+
+	/// The name of the test
+	std::string name;
 };
 
 }

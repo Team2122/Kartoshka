@@ -33,7 +33,9 @@ public:
 		state = State::start;
 	}
 
+protected:
 	void Initialize() override {
+		Test::Initialize();
 		timer.Reset();
 		timer.Start();
 		state = State::start;
@@ -133,13 +135,14 @@ public:
 		return state == State::finished || timer.HasPeriodPassed(10.0);
 	}
 
-protected:
 	void End() override {
 		speedController->Set(0);
+		Test::End();
 	}
 
 	void Interrupted() override {
 		speedController->Set(0);
+		Test::Interrupted();
 	}
 
 private:

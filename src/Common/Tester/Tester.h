@@ -8,6 +8,9 @@
 #define TESTER_H_
 
 #include "TestGroup.h"
+#include "ManualTester.h"
+#include "Joystick.h"
+#include <memory>
 
 namespace tator {
 class Tester {
@@ -20,13 +23,35 @@ public:
 	static Tester* GetInstance();
 
 	/**
-	 * Called when the tester ends
+	 * Creates all of the tests for the tester
 	 */
-	void End();
+	void CreateTests();
 
+	/**
+	 * Initializes the tester. Should be called once before run.
+	 */
 	void Initialize();
-	void Execute();
-	void Interrupted();
+
+	/**
+	 * Runs the tester. Should be called periodically during test.
+	 */
+	void Run();
+
+	/**
+	 * Disables the tester. Should be called once during disabled.
+	 */
+	void Disable();
+
+	/**
+	 * Prints the results of automated testing
+	 */
+	void PrintResults();
+
+	/**
+	 * Adds a test to the tester. Do not call after starting the tester.
+	 * @param test The test to add
+	 */
+	void AddTest(Test* test);
 
 private:
 	/**
@@ -35,13 +60,22 @@ private:
 	Tester();
 
 	/**
-	 * Destrory the Tester
+	 * Destroys the Tester
 	 */
 	~Tester();
 
 	/// The instance of the tester
 	static Tester* instance;
-	TestGroup* tests; ///< All the tests
+	Logger log;
+	Joystick* joy;
+	ManualTester* manualTester;
+	std::unique_ptr<TestGroup> tests; ///< All the tests
+
+	enum class TestMode {
+		disabled, autonomous, manual, finished
+	};
+
+	TestMode testMode;
 };
 }
 

@@ -21,7 +21,9 @@ public:
 		rolledAway = finished = false;
 	}
 
+protected:
 	void Initialize() override {
+		Test::Initialize();
 		timer.Reset();
 		timer.Start();
 		rolledAway = finished = false;
@@ -71,17 +73,18 @@ public:
 		return timer.HasPeriodPassed(5.0) || finished;
 	}
 
-protected:
 	void End() override {
 		rollers->Set(0);
 		flappers->Set(0);
 		clamp->Set(false);
+		Test::End();
 	}
 
 	void Interrupted() override {
 		rollers->Set(0);
 		flappers->Set(0);
 		clamp->Set(false);
+		Test::Interrupted();
 	}
 
 private:
