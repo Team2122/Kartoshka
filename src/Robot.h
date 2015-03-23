@@ -7,10 +7,10 @@
 #ifndef ROBOT_H_
 #define ROBOT_H_
 
-#include <WPILib.h>
 #include "Common/Logger.h"
 #include "Common/Tester/Tester.h"
 #include "Common/Tester/ManualTester.h"
+#include <IterativeRobot.h>
 
 namespace tator {
 

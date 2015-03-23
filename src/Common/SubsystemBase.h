@@ -7,7 +7,7 @@
 #ifndef SUBSYSTEMBASE_H_
 #define SUBSYSTEMBASE_H_
 
-#include <WPILib.h>
+#include <Commands/Subsystem.h>
 #include "Logger.h"
 
 namespace tator {

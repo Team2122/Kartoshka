@@ -7,8 +7,11 @@
 #ifndef DRIVE_H_
 #define DRIVE_H_
 
-#include <Common/SubsystemBase.h>
-#include <yaml-cpp/yaml.h>
+#include <Talon.h>
+#include <Encoder.h>
+#include <PIDController.h>
+#include "Common/SubsystemBase.h"
+#include "Common/Config/Config.h"
 
 namespace tator {
 

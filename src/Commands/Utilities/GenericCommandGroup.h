@@ -8,6 +8,8 @@
 #define GENERICCOMMANDGROUP_H_
 
 #include "CommandBase.h"
+#include <Commands/CommandGroup.h>
+#include <Commands/WaitCommand.h>
 #include "Common/Config/Kremlin.h"
 
 namespace tator {

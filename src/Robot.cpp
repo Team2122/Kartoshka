@@ -4,14 +4,14 @@
  * @date Jan 17, 2015
  */
 
-#include <Robot.h>
+#include <CameraServer.h>
+#include "Robot.h"
 #include "Common/Config/Config.h"
 #include "Common/Config/Binder.h"
 #include "Common/Config/Kremlin.h"
 #include "Common/USBManager.h"
 #include "CommandBase.h"
 #include "Subsystems/Otto.h"
-#include <WPILib.h>
 
 namespace tator {
 

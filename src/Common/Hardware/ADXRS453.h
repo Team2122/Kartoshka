@@ -7,8 +7,12 @@
 #ifndef ADXRS453_H_
 #define ADXRS453_H_
 
-#include <WPILib.h>
 #include <array>
+#include <SensorBase.h>
+#include <PIDSource.h>
+#include <SPI.h>
+#include <Task.h>
+#include <Notifier.h>
 #include "Common/Logger.h"
 
 namespace tator {
@@ -220,7 +224,6 @@ protected:
 	Notifier* updater; ///< the notifier that runs the update routine
 	Timer* timer; ///< the timer used for measuring the delay between runs
 	SPI* spi; ///< the spi class used for communication with the gyro
-	ITable* table; ///< the table for LiveWindow
 
 	DISALLOW_COPY_AND_ASSIGN(ADXRS453);
 };

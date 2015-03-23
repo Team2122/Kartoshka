@@ -1,7 +1,16 @@
 #ifndef MANUALTESTER_H_
 #define MANUALTESTER_H_
 
-#include <WPILib.h>
+#include <SpeedController.h>
+#include <PIDController.h>
+#include <Solenoid.h>
+#include <Encoder.h>
+#include <DigitalInput.h>
+#ifndef ANALOGPOTENTIOMETER_H_
+#define ANALOGPOTENTIOMETER_H_
+#include <AnalogPotentiometer.h>
+#endif
+#include <Joystick.h>
 #include "Common/Hardware/FixedField.h"
 #include "Common/Logger.h"
 
@@ -48,4 +57,3 @@ protected:
 }
 
 #endif /* MANUALTESTER_H_ */
-

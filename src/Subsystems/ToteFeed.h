@@ -7,9 +7,9 @@
 #ifndef TOTEFEED_H_
 #define TOTEFEED_H_
 
-#include <WPILib.h>
-#include "Common/SubsystemBase.h"
 #include <yaml-cpp/yaml.h>
+#include <Talon.h>
+#include "Common/SubsystemBase.h"
 #include "Common/Hardware/FixedField.h"
 
 namespace tator {

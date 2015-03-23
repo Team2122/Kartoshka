@@ -7,7 +7,10 @@
 #ifndef SHUTTLE_H
 #define SHUTTLE_H
 
-#include <WPILib.h>
+#include <Talon.h>
+#include <Solenoid.h>
+#include <Encoder.h>
+#include <PowerDistributionPanel.h>
 #include "Common/SubsystemBase.h"
 #include "Common/Config/Config.h"
 #include "Common/Hardware/FixedField.h"

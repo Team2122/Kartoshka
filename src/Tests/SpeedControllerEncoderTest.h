@@ -8,7 +8,6 @@
 #define SPEEDCONTROLLERENCODERTEST_H_
 
 #include "Common/Tester/Test.h"
-#include <WPILib.h>
 
 namespace tator {
 

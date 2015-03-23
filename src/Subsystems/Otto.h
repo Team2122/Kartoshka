@@ -7,7 +7,6 @@
 #ifndef OTTO_H
 #define OTTO_H
 
-#include <WPILib.h>
 #include "Common/SubsystemBase.h"
 #include "Common/Config/Config.h"
 #include "Common/Hardware/ADXRS453.h"

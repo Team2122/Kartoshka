@@ -2,6 +2,7 @@
 #define DRIVECONTINUOUS_H_
 
 #include "CommandBase.h"
+#include <Joystick.h>
 #include "Subsystems/Drive.h"
 
 namespace tator {

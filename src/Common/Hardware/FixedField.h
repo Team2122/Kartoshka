@@ -1,7 +1,7 @@
 #ifndef FIXEDFIELD_H_
 #define FIXEDFIELD_H_
 
-#include <WPILib.h>
+#include <DigitalInput.h>
 
 namespace tator {
 class FixedField {

@@ -9,7 +9,6 @@
 
 #include "Common/Tester/Test.h"
 #include "Common/Hardware/FixedField.h"
-#include <WPILib.h>
 
 namespace tator {
 

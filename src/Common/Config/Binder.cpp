@@ -5,9 +5,10 @@
  */
 
 #include "Binder.h"
+#include <Joystick.h>
+#include <Buttons/JoystickButton.h>
 #include "Config.h"
 #include "Kremlin.h"
-#include <WPILib.h>
 #include <iostream>
 
 namespace tator {

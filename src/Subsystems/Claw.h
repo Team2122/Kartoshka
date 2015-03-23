@@ -7,7 +7,15 @@
 #ifndef CLAW_H
 #define CLAW_H
 
-#include <WPILib.h>
+#include <Talon.h>
+#include <Encoder.h>
+#include <Solenoid.h>
+
+#ifndef ANALOGPOTENTIOMETER_H_
+#define ANALOGPOTENTIOMETER_H_
+#include <AnalogPotentiometer.h>
+#endif
+
 #include "Common/SubsystemBase.h"
 #include "Common/Config/Config.h"
 #include "Common/Hardware/FixedField.h"
