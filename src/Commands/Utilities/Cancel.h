@@ -8,7 +8,7 @@
 #define CANCEL_H_
 
 #include "CommandBase.h"
-#include "Common/Kremlin.h"
+#include "Common/Config/Kremlin.h"
 
 namespace tator {
 

@@ -9,7 +9,7 @@
 
 #include <WPILib.h>
 #include <array>
-#include "Logger.h"
+#include "Common/Logger.h"
 
 namespace tator {
 

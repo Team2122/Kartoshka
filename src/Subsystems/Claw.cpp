@@ -3,8 +3,9 @@
  * @file Claw.cpp
  * @author Paul Vaughan
  */
+
 #include "Claw.h"
-#include "Common/ManualTester.h"
+#include "Common/Tester/ManualTester.h"
 
 namespace tator {
 

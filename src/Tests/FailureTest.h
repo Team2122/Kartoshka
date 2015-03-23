@@ -7,7 +7,7 @@
 #ifndef FAILURETEST_H_
 #define FAILURETEST_H_
 
-#include "Common/Test.h"
+#include "Common/Tester/Test.h"
 
 namespace tator {
 class FailureTest: public Test {

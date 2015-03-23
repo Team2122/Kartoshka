@@ -7,7 +7,7 @@
 #ifndef SPEEDCONTROLLERENCODERTEST_H_
 #define SPEEDCONTROLLERENCODERTEST_H_
 
-#include "Common/Test.h"
+#include "Common/Tester/Test.h"
 #include <WPILib.h>
 
 namespace tator {

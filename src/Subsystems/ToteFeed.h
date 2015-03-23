@@ -10,7 +10,7 @@
 #include <WPILib.h>
 #include "Common/SubsystemBase.h"
 #include <yaml-cpp/yaml.h>
-#include "Common/FixedField.h"
+#include "Common/Hardware/FixedField.h"
 
 namespace tator {
 

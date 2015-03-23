@@ -6,7 +6,7 @@
 #ifndef TESTRESULT_H_
 #define TESTRESULT_H_
 
-#include "Logger.h"
+#include "Common/Logger.h"
 
 namespace tator {
 class TestResult {

@@ -2,7 +2,7 @@
 #define MANUALTESTER_H_
 
 #include <WPILib.h>
-#include "FixedField.h"
+#include "Common/Hardware/FixedField.h"
 #include "Common/Logger.h"
 
 namespace tator {

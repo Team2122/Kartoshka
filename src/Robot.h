@@ -9,8 +9,8 @@
 
 #include <WPILib.h>
 #include "Common/Logger.h"
-#include "Common/Tester.h"
-#include "Common/ManualTester.h"
+#include "Common/Tester/Tester.h"
+#include "Common/Tester/ManualTester.h"
 
 namespace tator {
 

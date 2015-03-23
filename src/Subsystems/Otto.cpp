@@ -4,8 +4,8 @@
  * @author Nick Hodes
  */
 #include "Otto.h"
-#include "Common/ManualTester.h"
-#include "Common/Kremlin.h"
+#include "Common/Tester/ManualTester.h"
+#include "Common/Config/Kremlin.h"
 
 namespace tator {
 

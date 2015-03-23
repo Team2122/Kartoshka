@@ -7,8 +7,8 @@
 #ifndef TOTEFEEDTEST_H_
 #define TOTEFEEDTEST_H_
 
-#include "Common/Test.h"
-#include "Common/FixedField.h"
+#include "Common/Tester/Test.h"
+#include "Common/Hardware/FixedField.h"
 #include <WPILib.h>
 
 namespace tator {

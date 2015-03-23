@@ -9,8 +9,8 @@
 
 #include <WPILib.h>
 #include "Common/SubsystemBase.h"
-#include "Common/Config.h"
-#include "Common/FixedField.h"
+#include "Common/Config/Config.h"
+#include "Common/Hardware/FixedField.h"
 
 namespace tator {
 

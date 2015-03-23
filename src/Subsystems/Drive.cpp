@@ -5,7 +5,7 @@
  */
 
 #include "Drive.h"
-#include "Common/ManualTester.h"
+#include "Common/Tester/ManualTester.h"
 
 namespace tator {
 

@@ -5,7 +5,7 @@
  *      Author: Daniele
  */
 #include "Shuttle.h"
-#include "Common/ManualTester.h"
+#include "Common/Tester/ManualTester.h"
 #include "CommandBase.h" // For accessing the level 1 tote sensor from ToteFeed
 #include "Subsystems/ToteFeed.h"
 

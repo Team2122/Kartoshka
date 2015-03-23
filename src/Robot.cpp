@@ -5,9 +5,9 @@
  */
 
 #include <Robot.h>
-#include "Common/Config.h"
-#include "Common/Binder.h"
-#include "Common/Kremlin.h"
+#include "Common/Config/Config.h"
+#include "Common/Config/Binder.h"
+#include "Common/Config/Kremlin.h"
 #include "Common/USBManager.h"
 #include "CommandBase.h"
 #include "Subsystems/Otto.h"

@@ -9,7 +9,7 @@
 
 #include <CommandBase.h>
 #include <map>
-#include "Logger.h"
+#include "Common/Logger.h"
 
 namespace tator {
 

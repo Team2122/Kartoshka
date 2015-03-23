@@ -9,8 +9,8 @@
 
 #include <WPILib.h>
 #include "Common/SubsystemBase.h"
-#include "Common/Config.h"
-#include "Common/ADXRS453.h"
+#include "Common/Config/Config.h"
+#include "Common/Hardware/ADXRS453.h"
 
 namespace tator {
 

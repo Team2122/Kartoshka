@@ -7,7 +7,7 @@
 #ifndef SUCCESSFULTEST_H_
 #define SUCCESSFULTEST_H_
 
-#include "Common/Test.h"
+#include "Common/Tester/Test.h"
 
 namespace tator {
 class SuccessfulTest: public Test {
