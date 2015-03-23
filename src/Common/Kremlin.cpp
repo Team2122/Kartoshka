@@ -20,6 +20,7 @@
 #include "Commands/Claw/ManualClawLift.h"
 #include "Commands/Claw/TopClaw.h"
 
+#include "Commands/Drive/DriveArc.h"
 #include "Commands/Drive/DriveContinuous.h"
 #include "Commands/Drive/DriveDistance.h"
 #include "Commands/Drive/DriveRotate.h"
@@ -69,6 +70,7 @@ void Kremlin::CreateCommandsOnce() {
 	CreateCommandsForClass<TopClaw>();
 
 	// Drive
+	CreateCommandsForClass<DriveArc>();
 	CreateCommandsForClass<DriveContinuous>();
 	CreateCommandsForClass<DriveDistance>();
 	CreateCommandsForClass<DriveRotate>();

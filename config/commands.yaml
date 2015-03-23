@@ -41,18 +41,26 @@ DriveDistance:
     speed: 0.45
     distance: 1.0
 
+DriveArc:
+  - name: Auto6
+    speed: .75
+    distance: 7.5
+    speedOffset: .75
+    angleTolerance: .25
+    degreesPerFoot: 6.0
+
 DriveRotate:
   - name: Auto6
     speed: .75
     angle: -90.0
     tolerance: .5
     slowAngle: 25.0
-    slowFactor: .4
+    slowFactor: .75
 
 DriveStraight:
   - name: Auto6
     speed: .75
-    distance: 15.0
+    distance: 9.0
     speedOffset: .2
     angleTolerance: .25
 
@@ -401,6 +409,7 @@ $Auto6BinSequence:
 $Auto6DriveSequence:
   - DriveRotateAuto6
   - DriveStraightAuto6
+  - DriveArcAuto6
 
 $Auto6:
   - $PickBin
@@ -409,7 +418,7 @@ $Auto6:
   - $Auto6DriveSequence
 
 $Auto7:
-  - DriveRotateAuto6
+  - DriveArcAuto6
 
 ###########
 # UTILITY #

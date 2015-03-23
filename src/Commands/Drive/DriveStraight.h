@@ -8,6 +8,7 @@
 #define DRIVESTRAIGHT_H_
 
 #include "CommandBase.h"
+#include "Subsystems/Otto.h"
 #include "Subsystems/Drive.h"
 
 namespace tator {
@@ -20,6 +21,7 @@ public:
 		currentDistance = 0;
 		startDistance = 0;
 		startAngle = 0;
+		targetAngle = 0;
 		speed = config["speed"].as<double>();
 		distance = config["distance"].as<double>();
 		speedOffset = config["speedOffset"].as<double>();
@@ -31,6 +33,7 @@ public:
 	}
 
 protected:
+	double targetAngle, currentDistance, startDistance;
 	void Initialize() override {
 		CommandBase::Initialize();
 		startDistance = drive->GetDistance();
@@ -38,13 +41,16 @@ protected:
 	}
 
 	void Execute() override {
-		double angle = otto->GetAngle() - startAngle;
+		double angle = (otto->GetAngle() - startAngle) - targetAngle;
 		if (angle >= angleTolerance) {
 			drive->SetSpeeds(speed - speedOffset, speed);
+			log.Info("angle: %f, arcing left", angle);
 		} else if (angle <= -angleTolerance) {
 			drive->SetSpeeds(speed, speed - speedOffset);
+			log.Info("angle: %f, arcing right", angle);
 		} else {
 			drive->SetSpeeds(speed, speed);
+			log.Info("angle: %f, going straight", angle);
 		}
 		currentDistance = drive->GetDistance();
 	}
@@ -64,8 +70,7 @@ protected:
 	}
 
 private:
-	double currentDistance, startDistance, distance, speed, speedOffset,
-			angleTolerance, startAngle;
+	double distance, speed, speedOffset, angleTolerance, startAngle;
 };
 
 }
