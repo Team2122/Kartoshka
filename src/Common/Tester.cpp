@@ -12,6 +12,7 @@
 #include "Tests/SuccessfulTest.h"
 #include "Tests/FailureTest.h"
 #include "Tests/SpeedControllerEncoderTest.h"
+#include "Tests/ShuttleHomeTest.h"
 
 namespace tator {
 
@@ -28,7 +29,10 @@ Tester::Tester() {
 	Test* shuttleLift = new SpeedControllerEncoderTest("shuttle lift",
 			CommandBase::shuttle->liftMotor, CommandBase::shuttle->liftEncoder,
 			.25, -.25, 300);
-	TestGroup* shuttleTests = new TestGroup("Shuttle", { shuttleLift });
+	Test* shuttleHomeTest = new ShuttleHomeTest(CommandBase::shuttle->liftMotor,
+			CommandBase::shuttle->lowerLimit, CommandBase::shuttle->upperLimit);
+	TestGroup* shuttleTests = new TestGroup("Shuttle", { shuttleLift,
+			shuttleHomeTest });
 	tests = new TestGroup("Tester", { driveTests, shuttleTests });
 }
 

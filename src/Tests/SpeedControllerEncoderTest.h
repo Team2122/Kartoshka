@@ -17,8 +17,9 @@ public:
 	SpeedControllerEncoderTest(std::string name,
 			SpeedController* speedController, Encoder* encoder, double time,
 			double speed, double minimumEncoderRate) :
-			Test(name), speedController(speedController), encoder(encoder), time(
-					time), speed(speed), minimumEncoderRate(minimumEncoderRate) {
+			Test("SpeedControllerEncoder " + name), speedController(
+					speedController), encoder(encoder), time(time), speed(
+					speed), minimumEncoderRate(minimumEncoderRate) {
 
 	}
 
