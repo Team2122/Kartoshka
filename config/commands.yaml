@@ -48,6 +48,12 @@ DriveArc:
     speedOffset: .75
     angleTolerance: .25
     degreesPerFoot: 6.0
+  - name: Auto7
+    speed: .75
+    distance: 7.5
+    speedOffset: 1.0
+    angleTolerance: .25
+    degreesPerFoot: 6.0
 
 DriveRotate:
   - name: Auto6
@@ -56,11 +62,40 @@ DriveRotate:
     tolerance: .5
     slowAngle: 25.0
     slowFactor: .75
+  - name: Auto7_1
+    speed: .75
+    angle: -90.0
+    tolerance: .5
+    slowAngle: 25.0
+    slowFactor: .75
+  - name: Auto7_2
+    speed: .75
+    angle: -30.0
+    tolerance: .5
+    slowAngle: 25.0
+    slowFactor: .75
+  - name: Auto7_3
+    speed: .75
+    angle: 105.0
+    tolerance: .5
+    slowAngle: 25.0
+    slowFactor: .75
 
 DriveStraight:
   - name: Auto6
     speed: .75
-    distance: 9.0
+    # distance: 9.0
+    distance: 12.0
+    speedOffset: .2
+    angleTolerance: .25
+  - name: Auto7_1
+    speed: 1.0
+    distance: 16.0
+    speedOffset: .2
+    angleTolerance: .25
+  - name: Auto7_2
+    speed: -.75
+    distance: 2.5
     speedOffset: .2
     angleTolerance: .25
 
@@ -237,12 +272,12 @@ ClawSmartRollers:
 ClawToAngle:
   - name: Front
     angle: front
-    speed: -.25
+    speed: -.35
     holdSpeed: -.15
     minimumHeight: 160
   - name: Back
     angle: back
-    speed: .25
+    speed: .35
     holdSpeed: .15
     minimumHeight: 160
 
@@ -343,7 +378,7 @@ BumpBottomTote:
   time: 0.25
 
 HoldBottomTote:
-  rollerSpeed: 0.05
+  rollerSpeed: 0.10
 
 IntakeTotes:
   flapperSpeed: 1.0
@@ -409,7 +444,14 @@ $Auto6BinSequence:
 $Auto6DriveSequence:
   - DriveRotateAuto6
   - DriveStraightAuto6
-  - DriveArcAuto6
+#  - DriveArcAuto6
+
+$Auto7DriveSequence:
+  - DriveRotateAuto7_1
+  - DriveStraightAuto7_1
+  - DriveRotateAuto7_2
+  - DriveStraightAuto7_2
+  - DriveRotateAuto7_3
 
 $Auto6:
   - $PickBin
@@ -418,7 +460,10 @@ $Auto6:
   - $Auto6DriveSequence
 
 $Auto7:
-  - DriveArcAuto6
+  - $PickBin
+  - name: $Auto6BinSequence
+    execution: Parallel
+  - $Auto7DriveSequence
 
 ###########
 # UTILITY #

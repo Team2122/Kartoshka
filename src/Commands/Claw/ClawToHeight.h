@@ -26,6 +26,7 @@ public:
 		requiredAngle = claw->AngleFromName(requiredAngleName);
 
 		direction = 1;
+		safetyActivated = false;
 	}
 
 	static std::string GetBaseName() {
@@ -35,9 +36,11 @@ public:
 protected:
 	void Initialize() override {
 		CommandBase::Initialize();
+		safetyActivated = false;
 		if (!claw->IsAtAngle(requiredAngle)) {
 			log.Error("We cannot move the claw lift to this position when we "
 					"are not at %s angle", requiredAngleName.c_str());
+			safetyActivated = true;
 			return this->Cancel();
 		}
 		double liftHeight = claw->GetLiftEncoder();
@@ -51,6 +54,7 @@ protected:
 	}
 
 	void Execute() override {
+		if (safetyActivated) return;
 		double liftHeight = claw->GetLiftEncoder();
 		if (height >= liftHeight) { // calculate the sign of the direction
 			direction = -1;
@@ -98,6 +102,7 @@ private:
 	double direction;
 	double rampDistance, rampFactor;
 	double speed;
+	bool safetyActivated;
 	std::string requiredAngleName;
 	Claw::ClawAngle requiredAngle;
 };
