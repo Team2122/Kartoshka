@@ -61,7 +61,6 @@ public:
 
 		case State::start:
 			clamp->Set(!shouldClamp);
-			fingers->Set(!shouldRatchet);
 			StateAfterTime(State::upOne, .5);
 			break;
 
@@ -76,6 +75,7 @@ public:
 			break;
 
 		case State::top:
+			fingers->Set(!shouldRatchet);
 			speedController->Set(-.1);
 			if (this->StateAfterTime(State::drop, 0.5)) {
 				if (toteSensor->Get()) {
