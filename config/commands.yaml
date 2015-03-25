@@ -204,11 +204,11 @@ $StackTote:
   - name: WaitCommand
     time: .25
   - ShuttleRampUp
-  - UpdateTotesRatcheted
   - name: WaitCommand
     time: .25
   - ShuttleClampOpen
   - ShuttleRampDown
+  - UpdateTotesRatcheted
 
 ToteDictator:
   samples: 6

@@ -39,6 +39,11 @@ protected:
 	}
 
 	void Execute() override {
+		// If any sequence is running
+		if (stackSequence->IsRunning() || restackSequence->IsRunning()
+				|| unstackSequence->IsRunning()) {
+			return; // Now is not the time for logic
+		}
 		// If there is tote at the bottom of the bot
 		if (toteFeed->GetBackSensor()) {
 			// And we have not counted it yet
