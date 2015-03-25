@@ -70,13 +70,13 @@ DriveRotate:
     slowFactor: .75
   - name: Auto7_2
     speed: .75
-    angle: -30.0
+    angle: -25.0
     tolerance: .5
     slowAngle: 25.0
     slowFactor: .75
   - name: Auto7_3
     speed: .75
-    angle: 105.0
+    angle: 110.0
     tolerance: .5
     slowAngle: 25.0
     slowFactor: .75
@@ -94,7 +94,7 @@ DriveStraight:
     speedOffset: .2
     angleTolerance: .25
   - name: Auto7_2
-    speed: -.75
+    speed: -.60
     distance: 2.5
     speedOffset: .2
     angleTolerance: .25
@@ -204,11 +204,11 @@ $StackTote:
   - name: WaitCommand
     time: .25
   - ShuttleRampUp
+  - UpdateTotesRatcheted
   - name: WaitCommand
     time: .25
   - ShuttleClampOpen
   - ShuttleRampDown
-  - UpdateTotesRatcheted
 
 ToteDictator:
   samples: 6
@@ -322,6 +322,7 @@ $ClawToPick:
   - ClawToHeightHome
 
 $GroundToPlatform:
+  - ClawClampDeathGrip
   - ClawToHeightMiddle
   - ClawToAngleBack
   - name: WaitCommand
@@ -439,7 +440,6 @@ $Auto5:
 
 $Auto6BinSequence:
   - $GroundToPlatform
-  - $RegripBin
 
 $Auto6DriveSequence:
   - DriveRotateAuto6

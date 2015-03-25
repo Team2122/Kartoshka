@@ -10,11 +10,11 @@
   9: ToggleWhenPressed ClawClampToggle
   10: WhenPressed $Restack
 1:
-  1: WhenPressed $ClawToPick
-  2: ToggleWhenPressed $ClawPick
-  3: WhenPressed $GroundToPlatform
-  4: WhenPressed $RegripBin
-  5: WhenPressed $PlatformToPlacement
+  1: WhenPressed SetDesiredTotesTwo
+  2: WhenPressed SetDesiredTotesThree
+  3: WhenPressed SetDesiredTotesFour
+  4: WhenPressed SetDesiredTotesFive
+  5: WhenPressed SetDesiredTotesSix
   6: ToggleWhenPressed ToteDictator
   7: WhenPressed $Restack
   8: WhenPressed ClawClampDeathGrip
@@ -22,12 +22,13 @@
   10: WhenPressed ClawClampContainer
 2:
   1: WhenPressed ClawClampReleased
-  2: WhenPressed SetDesiredTotesTwo
-  3: WhenPressed SetDesiredTotesThree
-  4: WhenPressed SetDesiredTotesFour
-  5: WhenPressed SetDesiredTotesFive
+  2: WhenPressed $ClawToPick
+  3: ToggleWhenPressed $ClawPick
+  4: WhenPressed $GroundToPlatform
+  5: WhenPressed $RegripBin
   6: WhenPressed ClawToAngleFront
   7: WhenPressed ClawToAngleBack
+  8: WhenPressed $PlatformToPlacement
   10: WhileHeld ManualClawLiftUp
   11: WhileHeld ManualClawLiftDown
   12: WhileHeld UnloadTote
