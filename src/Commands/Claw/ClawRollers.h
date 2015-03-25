@@ -11,6 +11,7 @@ public:
 	ClawRollers(std::string name, YAML::Node config) :
 			CommandBase(name) {
 		rollerStatus = (Claw::RollerStatus) config["status"].as<int>();
+		Requires(claw);
 	}
 
 	static std::string GetBaseName() {

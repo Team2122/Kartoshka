@@ -7,7 +7,7 @@
   6: WhenPressed $RegripBin
   7: WhileHeld ManualClawLiftDown
   8: WhenPressed $PlatformToPlacement
-  9: ToggleWhenPressed ClawClampToggle
+  9: WhenPressed ClawClampToggle
   10: WhenPressed $Restack
 1:
   1: WhenPressed SetDesiredTotesTwo

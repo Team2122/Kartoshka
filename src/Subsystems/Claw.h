@@ -146,6 +146,12 @@ public:
 	void SetClampStatus(ClampStatus status);
 
 	/**
+	 * Interrogates claw pistons about clamp status
+	 * @return The clamp status
+	 */
+	ClampStatus GetClampStatus();
+
+	/**
 	 * The motherland demand robot to say if it has shown mercy to puny
 	 */
 	bool HasContainer();

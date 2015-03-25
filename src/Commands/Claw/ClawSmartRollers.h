@@ -12,6 +12,7 @@ public:
 			CommandBase(name) {
 		waitTime = config["waitTime"].as<double>();
 		isWaiting = false;
+		Requires(claw);
 	}
 
 	static std::string GetBaseName() {

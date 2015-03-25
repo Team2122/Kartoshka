@@ -24,26 +24,18 @@ public:
 	}
 
 protected:
-	void Initialize() override {
-		CommandBase::Initialize();
-		claw->SetClampStatus(Claw::ClampStatus::kReleased);
-	}
-
 	void Execute() override {
+		if (claw->GetClampStatus() == Claw::ClampStatus::kDeathGrip) {
+			log.Info("Releasing claw clamp");
+			claw->SetClampStatus(Claw::ClampStatus::kReleased);
+		} else {
+			log.Info("Death gripping the claw");
+			claw->SetClampStatus(Claw::ClampStatus::kDeathGrip);
+		}
 	}
 
 	bool IsFinished() override {
-		return false;
-	}
-
-	void End() override {
-		CommandBase::End();
-		claw->SetClampStatus(Claw::ClampStatus::kDeathGrip);
-	}
-
-	void Interrupted() override {
-		CommandBase::Interrupted();
-		claw->SetClampStatus(Claw::ClampStatus::kDeathGrip);
+		return true;
 	}
 };
 

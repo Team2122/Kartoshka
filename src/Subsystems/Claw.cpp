@@ -192,6 +192,24 @@ void Claw::SetClampStatus(ClampStatus status) {
 	}
 }
 
+Claw::ClampStatus Claw::GetClampStatus() {
+	bool isLong = clampLong->Get();
+	bool isShort = clampShort->Get();
+	if (isLong) {
+		if (isShort) {
+			return ClampStatus::kReleased;
+		} else {
+			return ClampStatus::kTote;
+		}
+	} else {
+		if (isShort) {
+			return ClampStatus::kContainer;
+		} else {
+			return ClampStatus::kDeathGrip;
+		}
+	}
+}
+
 bool Claw::HasContainer() {
 	return binSensor->Get();
 }
