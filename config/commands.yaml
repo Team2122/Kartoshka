@@ -103,6 +103,19 @@ DriveStraight:
 # SHUTTLE #
 ###########
 
+ArmShuttle:
+  first:
+    rollerSpeed: 0.8
+    flapperSpeed: 0.35
+  rest:
+    rollerSpeed: 0.05
+    flapperSpeed: 1.0
+  bump:
+    rollerSpeed: -.5
+    flapperSpeed: 0
+  toteTicks: 6
+  bumpTime: .25
+
 Fingers:
   - name: Hold
     state: 1
@@ -391,7 +404,6 @@ $Auto1:
     execution: Parallel
   - $PickBin
   - $GroundToPlatform
-  - $RegripBin
 
 $Auto2:
   - name: DriveDistanceAutoPick
@@ -400,21 +412,18 @@ $Auto2:
   - name: DriveDistanceAutoBackLong
     execution: Parallel
   - $GroundToPlatform
-  - $RegripBin
 
 $Auto3:
   - name: DriveDistanceAutoThreeDistance
     execution: Parallel
   - $PickBin
   - $GroundToPlatform
-  - $RegripBin
 
 $Auto4:
   - name: DriveDistanceAutoFourDistance
     execution: Parallel
   - $PickBin
   - $GroundToPlatform
-  - $RegripBin
 
 $Auto5:
   - name: DriveDistanceAutoPickShort
@@ -423,7 +432,6 @@ $Auto5:
   - name: DriveDistanceAutoBack
     execution: Parallel
   - $GroundToPlatform
-  - $RegripBin
 
 $Auto6BinSequence:
   - $GroundToPlatform
