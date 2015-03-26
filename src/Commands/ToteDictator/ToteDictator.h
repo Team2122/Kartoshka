@@ -80,15 +80,15 @@ protected:
 		// If there is tote at the bottom of the bot
 		if (toteFeed->GetBackSensor()) {
 			// And we have not counted it yet
-			if (shuttle->GetTotesHeld() == 0) {
-				shuttle->SetTotesHeld(1); // Count it
+			if (shuttle->GetTotesHeld() - shuttle->GetTotesRatcheted() == 0) {
+				shuttle->SetTotesHeld(shuttle->GetTotesHeld() + 1); // Count it
 				bumpBottomTote->Start(); // Realign it
 			}
 		}
 		// If we don't have a tote at the bottom
 		else {
 			// And we have not counted any totes yet
-			if (shuttle->GetTotesHeld() == 0) {
+			if (shuttle->GetTotesHeld() - shuttle->GetTotesRatcheted() == 0) {
 				// Intake the bottom tote
 				recieveBottomTote->Start();
 			}
@@ -124,7 +124,7 @@ protected:
 		// If we have fewer totes than we want
 		if (shuttle->GetTotesHeld() < shuttle->GetDesiredTotes()) {
 			// And we already have one at the bottom
-			if (shuttle->GetTotesHeld() > 0) {
+			if (shuttle->GetTotesHeld() - shuttle->GetTotesRatcheted() > 0) {
 				// Start intaking
 				intakeTotes->Start();
 
