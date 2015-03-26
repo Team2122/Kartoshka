@@ -103,19 +103,6 @@ DriveStraight:
 # SHUTTLE #
 ###########
 
-ArmShuttle:
-  first:
-    rollerSpeed: 0.8
-    flapperSpeed: 0.35
-  rest:
-    rollerSpeed: 0.05
-    flapperSpeed: 1.0
-  bump:
-    rollerSpeed: -.5
-    flapperSpeed: 0
-  toteTicks: 6
-  bumpTime: .25
-
 Fingers:
   - name: Hold
     state: 1
