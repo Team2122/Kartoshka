@@ -44,13 +44,10 @@ protected:
 		double angle = (otto->GetAngle() - startAngle) - targetAngle;
 		if (angle >= angleTolerance) {
 			drive->SetSpeeds(speed - speedOffset, speed);
-			log.Info("angle: %f, arcing left", angle);
 		} else if (angle <= -angleTolerance) {
 			drive->SetSpeeds(speed, speed - speedOffset);
-			log.Info("angle: %f, arcing right", angle);
 		} else {
 			drive->SetSpeeds(speed, speed);
-			log.Info("angle: %f, going straight", angle);
 		}
 		currentDistance = drive->GetDistance();
 	}

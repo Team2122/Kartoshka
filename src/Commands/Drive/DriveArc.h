@@ -31,7 +31,6 @@ protected:
 	void Execute() override {
 		double distance = drive->GetDistance() - startDistance;
 		targetAngle = fabs(distance) * degreesPerFoot;
-		log.Info("distance: %f, targetAngle: %f", distance, targetAngle);
 		DriveStraight::Execute();
 	}
 

@@ -52,7 +52,7 @@ protected:
 
 	void Reset() {
 		shuttle->SetDesiredTotes(6);
-		shuttle->SetTotesHeld(0);
+		shuttle->SetTotesHeld(shuttle->GetTotesRatcheted());
 		toteFeed->SetRollers(0);
 		toteFeed->SetFlapperSpeed(0);
 	}

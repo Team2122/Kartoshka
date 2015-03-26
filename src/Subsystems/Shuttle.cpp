@@ -118,6 +118,9 @@ void Shuttle::UpdateTotesRatcheted() {
 	if (HasToteAtShuttleBase()) {
 		totesRatcheted--;
 	}
+	log.Info("UpdateTotesRatcheted: Desired Totes: %d, Totes Held: %d, "
+			"Totes Ratcheted: %d", GetDesiredTotes(), GetTotesHeld(),
+			GetTotesRatcheted());
 }
 
 void Shuttle::SetShuttleSpeed(Speed state) {
