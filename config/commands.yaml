@@ -287,6 +287,46 @@ ClawToHeight:
     ramp: {distance: 0.0, factor: 0.0}
     speed: .25
     requiredAngle: back
+  - name: Stack2
+    height: 247
+    ramp: {distance: 0.0, factor: 0.0}
+    speed: 1.0
+    requiredAngle: neither
+  - name: Stack3
+    height: 247
+    ramp: {distance: 0.0, factor: 0.0}
+    speed: 1.0
+    requiredAngle: neither
+  - name: Stack4
+    height: 247
+    ramp: {distance: 0.0, factor: 0.0}
+    speed: 1.0
+    requiredAngle: neither
+  - name: Stack5
+    height: 247
+    ramp: {distance: 0.0, factor: 0.0}
+    speed: 1.0
+    requiredAngle: neither
+    
+$PlacementStack2:
+  - ClawToHeightMiddle
+  - ClawToAngleFront
+  - ClawToHeightStack2
+
+$PlacementStack3:
+  - ClawToHeightMiddle
+  - ClawToAngleFront
+  - ClawToHeightStack3
+
+$PlacementStack4:
+  - ClawToHeightMiddle
+  - ClawToAngleFront
+  - ClawToHeightStack4
+
+$PlacementStack5:
+  - ClawToHeightStack5
+  - LackOfStack
+  - ClawToAngleFront
 
 ClawToHome:
   rotateWait: .25
