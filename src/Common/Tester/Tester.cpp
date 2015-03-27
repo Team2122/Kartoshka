@@ -32,7 +32,7 @@ Tester::Tester() {
 	TestGroup* driveTests = new TestGroup("Drive", { leftDrive, rightDrive });
 	Test* shuttleLift = new SpeedControllerEncoderTest("shuttle lift",
 			CommandBase::shuttle->liftMotor, CommandBase::shuttle->liftEncoder,
-			.25, -.25, 300);
+			.25, -.30, 200);
 	Test* shuttleHomeTest = new ShuttleHomeTest(CommandBase::shuttle->liftMotor,
 			CommandBase::shuttle->lowerLimit, CommandBase::shuttle->upperLimit,
 			CommandBase::shuttle->clampPiston);

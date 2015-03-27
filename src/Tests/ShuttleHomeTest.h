@@ -39,7 +39,7 @@ public:
 				unclamped = true;
 			}
 		} else if (!upperSensorTripped) {
-			speedController->Set(-.25);
+			speedController->Set(-.30);
 			if (time >= 1.5) {
 				clamp->Set(false);
 			}
