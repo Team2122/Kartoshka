@@ -165,6 +165,11 @@ protected:
 					this->Cancel();
 				}
 			}
+			// If we have no totes on the ratchets
+			else {
+				// Stop the intake sequence
+				this->Cancel();
+			}
 		}
 
 		// If we have more than the number of totes we want
