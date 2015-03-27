@@ -47,10 +47,10 @@ Shuttle:
       encoder: [4, 5]
       pdp: 15
   Values:
-    upSpeed: -0.7
+    upSpeed: -0.75
     downSpeed: 0.3
     holdSpeed: -0.1
-    speedScale: -.075
+    speedScale: -.1
     maxCurrent: 120.0
 ToteFeed:
   ports:
