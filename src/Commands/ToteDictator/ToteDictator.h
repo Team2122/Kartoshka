@@ -10,6 +10,7 @@
 #include "CommandBase.h"
 #include "Subsystems/Shuttle.h"
 #include "Subsystems/ToteFeed.h"
+#include <cstring>
 
 namespace tator {
 
@@ -22,6 +23,10 @@ public:
 		holdBottomTote = Kremlin::Get("HoldBottomTote");
 		intakeTotes = Kremlin::Get("IntakeTotes");
 
+		stackSequence = nullptr;
+		restackSequence = nullptr;
+		unstackSequence = nullptr;
+
 		sampleCount = 0;
 		samplesRequired = config["samples"].as<int>();
 	}
@@ -31,14 +36,42 @@ public:
 	}
 
 protected:
+	struct LogData {
+		bool toteAtLift;
+		bool toteAtRollers;
+		int totesDesired;
+		int totesHeld;
+		int totesRatcheted;
+	};
+
+	LogData GetLogData() {
+		return LogData { shuttle->HasToteAtShuttleBase(),
+				toteFeed->GetBackSensor(), shuttle->GetDesiredTotes(),
+				shuttle->GetTotesHeld(), shuttle->GetTotesRatcheted() };
+	}
+
+	void PrintLogData(LogData data) {
+		log.Info("Tote at lift base: %s, tote at rollers: %s, "
+				"totes desired: %d, totes held: %d, totes ratcheted: %d",
+				data.toteAtLift ? "true" : "false",
+				data.toteAtRollers ? "true" : "false", data.totesDesired,
+				data.totesHeld, data.totesRatcheted);
+	}
+
 	void Initialize() override {
 		CommandBase::Initialize();
 		stackSequence = Kremlin::Get("$StackTote");
 		restackSequence = Kremlin::Get("$Restack");
 		unstackSequence = Kremlin::Get("$Unstack");
+		lastLogData = GetLogData();
 	}
 
 	void Execute() override {
+		LogData logData = GetLogData();
+		if (memcmp(&logData, &lastLogData, sizeof(LogData)) != 0) {
+			PrintLogData(logData);
+			lastLogData = logData;
+		}
 		// If any sequence is running
 		if (stackSequence->IsRunning() || restackSequence->IsRunning()
 				|| unstackSequence->IsRunning()) {
@@ -177,6 +210,7 @@ private:
 
 	int sampleCount;
 	int samplesRequired;
+	LogData lastLogData;
 };
 
 }
