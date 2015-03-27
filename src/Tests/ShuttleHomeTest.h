@@ -15,9 +15,9 @@ namespace tator {
 class ShuttleHomeTest: public Test {
 public:
 	ShuttleHomeTest(SpeedController* speedController, FixedField* lower,
-			FixedField* upper, Solenoid* clamp) :
+			FixedField* upper, Solenoid* clamp, Encoder* liftEncoder) :
 			Test("ShuttleHomeTest"), speedController(speedController), lower(
-					lower), upper(upper), clamp(clamp) {
+					lower), upper(upper), clamp(clamp), liftEncoder(liftEncoder) {
 		unclamped = false;
 		finished = false;
 		upperSensorTripped = false;
@@ -39,11 +39,11 @@ public:
 				unclamped = true;
 			}
 		} else if (!upperSensorTripped) {
-			speedController->Set(-.25);
-			if (time >= 1.5) {
+			speedController->Set(-.30);
+			if (liftEncoder->Get() >= 350) {
 				clamp->Set(false);
 			}
-			if (time >= 3.0) {
+			if (time >= 5.0) {
 				Error("Upper sensor was not tripped after 3 seconds");
 				upperSensorTripped = true;
 				timer.Reset();
@@ -54,10 +54,10 @@ public:
 			}
 		} else {
 			speedController->Set(0);
-			if (time >= 1.5) {
+			if (liftEncoder->Get() <= 350) {
 				clamp->Set(true);
 			}
-			if (time >= 6.0) {
+			if (time >= 10.0) {
 				Error("Lower sensor was not tripped after 6 seconds falling");
 				finished = true;
 			} else if (lower->Get()) {
@@ -85,6 +85,7 @@ private:
 	SpeedController* speedController;
 	FixedField *lower, *upper;
 	Solenoid* clamp;
+	Encoder* liftEncoder;
 	bool unclamped, upperSensorTripped, finished;
 };
 

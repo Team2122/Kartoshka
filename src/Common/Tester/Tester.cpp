@@ -32,10 +32,11 @@ Tester::Tester() {
 	TestGroup* driveTests = new TestGroup("Drive", { leftDrive, rightDrive });
 	Test* shuttleLift = new SpeedControllerEncoderTest("shuttle lift",
 			CommandBase::shuttle->liftMotor, CommandBase::shuttle->liftEncoder,
-			.25, -.25, 300);
+			.25, -.25, 200);
 	Test* shuttleHomeTest = new ShuttleHomeTest(CommandBase::shuttle->liftMotor,
 			CommandBase::shuttle->lowerLimit, CommandBase::shuttle->upperLimit,
-			CommandBase::shuttle->clampPiston);
+			CommandBase::shuttle->clampPiston,
+			CommandBase::shuttle->liftEncoder);
 	Test* toteFeedTest = new ToteFeedTest(CommandBase::toteFeed->rollers,
 			CommandBase::toteFeed->backSensor, CommandBase::shuttle->toteSensor,
 			CommandBase::shuttle->clampPiston);
@@ -44,12 +45,9 @@ Tester::Tester() {
 	TestGroup* shuttleTests = new TestGroup("Shuttle", { shuttleHomeTest,
 			shuttleLift, toteFeedTest, fingersTest });
 
-	Test* shuttleOpen = new ShuttleTest("ShuttleOpenTest", false, false)
-	;
-	Test* shuttleClamped = new ShuttleTest("ShuttleClampedTest", true, true)
-	;
-	Test* shuttleGrab = new ShuttleTest("ShuttleGrapTest", true, false)
-	;
+	Test* shuttleOpen = new ShuttleTest("ShuttleOpenTest", false, false);
+	Test* shuttleClamped = new ShuttleTest("ShuttleClampedTest", true, true);
+	Test* shuttleGrab = new ShuttleTest("ShuttleGrapTest", true, false);
 	TestGroup* shuttlePistonsTests = new TestGroup("Shuttle Pistons", {
 			shuttleOpen, shuttleClamped, shuttleGrab });
 

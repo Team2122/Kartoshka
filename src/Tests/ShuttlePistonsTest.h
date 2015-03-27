@@ -9,6 +9,7 @@
 
 #include "Common/Tester/Test.h"
 #include "Common/Hardware/FixedField.h"
+#include <functional>
 
 namespace tator {
 
@@ -23,12 +24,12 @@ private:
 public:
 	ShuttlePistonsTest(std::string name, SpeedController* speedController,
 			FixedField* lower, FixedField* upper, Solenoid* clamp,
-			Solenoid* fingers, FixedField* toteSensor, bool shouldClamp,
-			bool shouldRatchet) :
+			Solenoid* fingers, FixedField* toteSensor, Encoder* liftEncoder,
+			bool shouldClamp, bool shouldRatchet) :
 			Test(name), speedController(speedController), lower(lower), upper(
 					upper), clamp(clamp), fingers(fingers), toteSensor(
-					toteSensor), shouldClamp(shouldClamp), shouldRatchet(
-					shouldRatchet) {
+					toteSensor), liftEncoder(liftEncoder), shouldClamp(
+					shouldClamp), shouldRatchet(shouldRatchet) {
 		state = State::start;
 	}
 
@@ -38,8 +39,8 @@ public:
 		state = State::start;
 	}
 
-	bool StateAfterTime(State nextState, double time) {
-		if (timer.Get() > time) {
+	bool StateAfter(State nextState, std::function<bool()> condition) {
+		if (condition()) {
 			state = nextState;
 			timer.Reset();
 			return true;
@@ -47,13 +48,12 @@ public:
 		return false;
 	}
 
+	bool StateAfterTime(State nextState, double time) {
+		return StateAfter(nextState, [&]() {return timer.Get() > time;});
+	}
+
 	bool StateAfterSensor(State nextState, FixedField* sensor) {
-		if (sensor->Get()) {
-			state = nextState;
-			timer.Reset();
-			return true;
-		}
-		return false;
+		return StateAfter(nextState, [&]() {return sensor->Get();});
 	}
 
 	void Execute() override {
@@ -66,7 +66,8 @@ public:
 
 		case State::upOne:
 			speedController->Set(shouldClamp ? -.5 : -.25);
-			this->StateAfterTime(State::upTwo, shouldClamp ? 0.35 : 1.0);
+			this->StateAfter(State::upTwo,
+					[&] {return liftEncoder->Get() >= 350;});
 			break;
 
 		case State::upTwo:
@@ -96,7 +97,8 @@ public:
 
 		case State::drop:
 			speedController->Set(0.1);
-			this->StateAfterTime(State::down, 0.5);
+			this->StateAfter(State::down,
+					[&] {return liftEncoder->Get() <= 400;});
 			break;
 
 		case State::down:
@@ -147,6 +149,7 @@ private:
 	Solenoid* clamp;
 	Solenoid* fingers;
 	FixedField* toteSensor;
+	Encoder* liftEncoder;
 
 	bool shouldClamp;
 	bool shouldRatchet;
@@ -156,7 +159,8 @@ private:
 	ShuttlePistonsTest(testName, CommandBase::shuttle->liftMotor, \
 			CommandBase::shuttle->lowerLimit, CommandBase::shuttle->upperLimit, \
 			CommandBase::shuttle->clampPiston, CommandBase::shuttle->fingersPiston, \
-			CommandBase::shuttle->toteSensor, shouldClamp, shouldRatchet); \
+			CommandBase::shuttle->toteSensor, CommandBase::shuttle->liftEncoder, \
+			shouldClamp, shouldRatchet) \
 
 }
 
