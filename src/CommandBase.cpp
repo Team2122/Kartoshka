@@ -11,6 +11,7 @@
 #include "Subsystems/Otto.h"
 #include "Common/Logger.h"
 #include "Subsystems/Shuttle.h"
+#include "Subsystems/Thief.h"
 #include "Subsystems/ToteFeed.h"
 
 namespace tator {
@@ -18,6 +19,7 @@ namespace tator {
 Claw* CommandBase::claw = nullptr;
 Drive* CommandBase::drive = nullptr;
 Shuttle* CommandBase::shuttle = nullptr;
+Thief* CommandBase::thief = nullptr;
 ToteFeed* CommandBase::toteFeed = nullptr;
 Otto* CommandBase::otto = nullptr;
 
@@ -44,6 +46,7 @@ void CommandBase::InitSubsystems(YAML::Node subsystem) {
 	claw = new Claw(subsystem["Claw"]);
 	drive = new Drive(subsystem["Drive"]);
 	shuttle = new Shuttle(subsystem["Shuttle"]);
+	thief = new Thief(subsystem["Thief"]);
 	toteFeed = new ToteFeed(subsystem["ToteFeed"]);
 	otto = new Otto(subsystem["Otto"]);
 }

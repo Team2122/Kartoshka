@@ -17,6 +17,7 @@ namespace tator {
 class Claw;
 class Drive;
 class Shuttle;
+class Thief;
 class ToteFeed;
 class Otto;
 
@@ -47,6 +48,7 @@ protected:
 	static Claw* claw;
 	static Drive* drive;
 	static Shuttle* shuttle;
+	static Thief* thief;
 	static ToteFeed* toteFeed;
 	static Otto* otto;
 };
