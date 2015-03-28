@@ -182,8 +182,6 @@ ShuttleRamp:
     rampDistance: 300
 
 $StackTote:
-  - name: WaitCommand
-    time: .25
   - FingersHold
   - ShuttleClampOpen
   - ShuttleRampDown
@@ -347,7 +345,6 @@ $PickUpMoveToPlatform:
 
 $PlatformToPlacement:
   - ClawToHeightTop
-  - LackOfStack
   - ClawToAngleFront
 
 $RegripBin:
