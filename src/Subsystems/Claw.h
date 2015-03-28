@@ -136,6 +136,11 @@ public:
 	void SetRotationSpeed(double speed);
 
 	/**
+	 * @return How many degrees it is away from the angle
+	 */
+	double GetDegreesFromAngle(ClawAngle angle);
+
+	/**
 	 * Da roller speed is become in, out, or oof.
 	 */
 	void SetRollerSpeed(RollerStatus operation);

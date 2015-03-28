@@ -21,6 +21,11 @@ public:
 		angle = claw->AngleFromName(config["angle"].as<std::string>());
 		speed = config["speed"].as<double>();
 		holdSpeed = config["holdSpeed"].as<double>();
+
+		YAML::Node ramp = config["ramp"];
+		rampDistance = ramp["distance"].as<double>();
+		rampFactor = ramp["factor"].as<double>();
+
 		minimumHeight = config["minimumHeight"].as<double>();
 	}
 
@@ -38,11 +43,16 @@ protected:
 					"than %f", minimumHeight);
 			return this->Cancel();
 		}
-		claw->SetRotationSpeed(speed);
 	}
 
 	void Execute() override {
-		// Nothing to do, boss!
+		double distance = claw->GetDegreesFromAngle(angle);
+		double multiplier = 1;
+		if (distance <= rampDistance) {
+			double ratio = distance / rampDistance;
+			multiplier = rampFactor + (1 - rampFactor) * ratio;
+		}
+		claw->SetRotationSpeed(speed * multiplier);
 	}
 
 	bool IsFinished() override {
@@ -62,6 +72,7 @@ protected:
 private:
 	Claw::ClawAngle angle;
 	double speed, holdSpeed;
+	double rampDistance, rampFactor;
 	double minimumHeight;
 };
 

@@ -155,6 +155,18 @@ void Claw::SetRotationSpeed(double speed) {
 	rotationMotor->SetSpeed(speed);
 }
 
+double Claw::GetDegreesFromAngle(ClawAngle angle) {
+	double currentAngle = rotationEncoder->Get();
+	switch (angle) {
+	case ClawAngle::front:
+		return fabs(frontAngle - currentAngle);
+	case ClawAngle::back:
+		return fabs(backAngle - currentAngle);
+	default:
+		return 0;
+	}
+}
+
 void Claw::SetRollerSpeed(RollerStatus status) {
 	switch (status) {
 	case RollerStatus::kOutward:

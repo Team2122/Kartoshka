@@ -259,13 +259,19 @@ ClawSmartRollers:
 ClawToAngle:
   - name: Front
     angle: front
-    speed: -.20
+    speed: -.30
     holdSpeed: -.15
+    ramp:
+      distance: 45
+      factor: .1
     minimumHeight: 160
   - name: Back
     angle: back
     speed: .20
     holdSpeed: .15
+    ramp:
+      distance: 30
+      factor: .25
     minimumHeight: 160
 
 ClawToHeight:
