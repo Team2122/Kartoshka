@@ -175,13 +175,19 @@ protected:
 		// If we have more than the number of totes we want
 		else {
 			// And we have totes on the ratchets
-			// And we don't have a tote at the shuttle base
-			if (shuttle->GetTotesRatcheted() > 0
-					&& !toteFeed->GetBackSensor()) {
-				// Act like they aren't there anymore
-				shuttle->ZeroTotesRatcheted();
-				// Unstack everything
-				unstackSequence->Start();
+			if (shuttle->GetTotesRatcheted() > 0) {
+				// And we don't have a tote at the shuttle base
+				if (!toteFeed->GetBackSensor()) {
+					// Act like they aren't there anymore
+					shuttle->ZeroTotesRatcheted();
+					// Unstack everything
+					unstackSequence->Start();
+					// Stop the intake sequence
+					this->Cancel();
+				}
+			}
+			// If we have no totes on the ratchets
+			else {
 				// Stop the intake sequence
 				this->Cancel();
 			}
