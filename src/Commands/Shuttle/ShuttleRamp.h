@@ -79,6 +79,7 @@ protected:
 	}
 
 	void End() override {
+		log.Info("Finished while at %d, target of %d", shuttle->GetEncoderTicks(), targetTicks);
 		shuttle->SetShuttleSpeed(Shuttle::kStop);
 		CommandBase::End();
 	}

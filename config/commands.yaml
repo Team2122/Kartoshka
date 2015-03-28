@@ -172,12 +172,12 @@ ShuttlePosition:
 ShuttleRamp:
   - name: Up
     ticks: 697
-    tolerance: 5
+    tolerance: 4
     rampFactor: .75
     rampDistance: 300
   - name: Down
     ticks: 0
-    tolerance: 5
+    tolerance: 4
     rampFactor: .2
     rampDistance: 300
 
