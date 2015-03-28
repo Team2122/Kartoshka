@@ -259,12 +259,12 @@ ClawSmartRollers:
 ClawToAngle:
   - name: Front
     angle: front
-    speed: -.35
+    speed: -.20
     holdSpeed: -.15
     minimumHeight: 160
   - name: Back
     angle: back
-    speed: .35
+    speed: .20
     holdSpeed: .15
     minimumHeight: 160
 
@@ -285,12 +285,12 @@ ClawToHeight:
     speed: 1.0
     requiredAngle: neither
   - name: Platform
-    height: 178
+    height: 180
     ramp: {distance: 0.0, factor: 0.0}
     speed: .25
     requiredAngle: back
   - name: Regrip
-    height: 156
+    height: 158
     ramp: {distance: 0.0, factor: 0.0}
     speed: .25
     requiredAngle: back
