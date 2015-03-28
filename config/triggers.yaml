@@ -16,7 +16,7 @@
   4: WhenPressed SetDesiredTotesFive
   5: WhenPressed SetDesiredTotesSix
   6: ToggleWhenPressed ToteDictator
-  7: WhenPressed $Restack
+  7: WhenPressed ThiefGrabberOut
   8: WhenPressed ClawClampDeathGrip
   9: WhenPressed ClawClampTote
   10: WhenPressed ClawClampContainer
@@ -29,6 +29,7 @@
   6: WhenPressed ClawToAngleFront
   7: WhenPressed ClawToAngleBack
   8: WhenPressed $PlatformToPlacement
+  9: WhenPressed ThiefGrabberIn
   10: WhileHeld ManualClawLiftUp
   11: WhileHeld ManualClawLiftDown
   12: WhileHeld UnloadTote

@@ -360,6 +360,16 @@ $RegripBin:
   - ClawSmartRollers
   - ClawClampDeathGrip
 
+#########
+# THIEF #
+#########
+
+ThiefGrabber:
+  - name: In
+    status: 0
+  - name: Out
+    status: 1
+
 #############
 # TOTE FEED #
 #############

@@ -34,6 +34,8 @@
 #include "Commands/Shuttle/ShuttlePosition.h"
 #include "Commands/Shuttle/ShuttleRamp.h"
 
+#include "Commands/Thief/ThiefGrabber.h"
+
 #include "Commands/ToteDictator/SetDesiredTotes.h"
 #include "Commands/ToteDictator/ToteDictator.h"
 #include "Commands/ToteDictator/UpdateTotesRatcheted.h"
@@ -84,6 +86,9 @@ void Kremlin::CreateCommandsOnce() {
 	CreateCommandsForClass<ShuttleClamp>();
 	CreateCommandsForClass<ShuttleDown>();
 	CreateCommandsForClass<ShuttleHold>();
+
+	// Thief
+	CreateCommandsForClass<ThiefGrabber>();
 
 	// ToteFeed
 	CreateCommandsForClass<BumpBottomTote>();
