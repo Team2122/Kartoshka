@@ -18,9 +18,6 @@ Claw:
       tolerance: 15.0
       front: 70.0
       back: 235.0
-  Speeds:
-    outward: 0.5
-    inward: -.8
 Drive:
   drive:
     L: 1

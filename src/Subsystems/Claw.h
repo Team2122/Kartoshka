@@ -61,8 +61,6 @@ private:
 	Solenoid* clampRight; ///< The solenoid for the right clamp
 
 	Talon* rollers; ///< The roller motor
-	double rollerInwardSpeed; ///< The inward speed of the rollers
-	double rollerOutwardSpeed; ///< The outward speed of the rollers
 
 	FixedField* binSensor; ///< The sensor that senses all the bins
 
@@ -145,7 +143,7 @@ public:
 	/**
 	 * Da roller speed is become in, out, or oof.
 	 */
-	void SetRollerSpeed(RollerStatus operation);
+	void SetRollerSpeed(RollerStatus operation, double speed);
 
 	/**
 	 * Puny container is crushed from Mother Russia's technologically superior claw.

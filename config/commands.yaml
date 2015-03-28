@@ -240,8 +240,20 @@ ClawEstablishHome:
 ClawRegripPosition:
   speed: .2
 
+ClawRollers:
+  - name: In
+    status: 2
+    speed: 0.8
+  - name: Out
+    status: 1
+    speed: 0.5
+  - name: Off
+    status: 0
+    speed: 0.0
+
 ClawSmartRollers:
   waitTime: .25
+  speed: 0.8
 
 ClawToAngle:
   - name: Front
@@ -287,6 +299,11 @@ ClawToHeight:
     ramp: {distance: 0.0, factor: 0.0}
     speed: .25
     requiredAngle: back
+  - name: RightBin
+    height: 80
+    ramp: {distance: 0.0, factor: 0.0}
+    speed: 0.7
+    requiredAngle: front
 
 ClawToHome:
   rotateWait: .25
@@ -347,6 +364,16 @@ $RegripBin:
   - name: WaitCommand
     time: 0.25
   - $PickBin
+  - ClawClampContainer
+  - ClawSmartRollers
+  - ClawClampDeathGrip
+  
+$RightBin:
+  - ClawToHeightHighPick
+  - ClawRollersRightBin
+  - name: WaitCommand
+    time: 1.0
+  - ClawToHeightRightBin
 
 #########
 # THIEF #

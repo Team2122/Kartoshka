@@ -11,6 +11,7 @@ public:
 	ClawSmartRollers(std::string name, YAML::Node config) :
 			CommandBase(name) {
 		waitTime = config["waitTime"].as<double>();
+		speed = config["speed"].as<double>();
 		isWaiting = false;
 		Requires(claw);
 	}
@@ -22,7 +23,7 @@ public:
 protected:
 	void Initialize() override {
 		CommandBase::Initialize();
-		claw->SetRollerSpeed(Claw::RollerStatus::kInward);
+		claw->SetRollerSpeed(Claw::RollerStatus::kInward, speed);
 		isWaiting = false;
 		timer.Reset();
 	}
@@ -40,19 +41,20 @@ protected:
 	}
 
 	void End() override {
-		claw->SetRollerSpeed(Claw::RollerStatus::kStopped);
+		claw->SetRollerSpeed(Claw::RollerStatus::kStopped, speed);
 		timer.Stop();
 		CommandBase::End();
 	}
 
 	void Interrupted() override {
-		claw->SetRollerSpeed(Claw::RollerStatus::kStopped);
+		claw->SetRollerSpeed(Claw::RollerStatus::kStopped, speed);
 		timer.Stop();
 		CommandBase::Interrupted();
 	}
 
 private:
 	double waitTime;
+	double speed;
 	bool isWaiting;
 	Timer timer;
 };

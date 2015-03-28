@@ -55,10 +55,6 @@ Claw::Claw(YAML::Node config) :
 	this->binSensor = new FixedField(binSensor["channel"].as<int>(),
 			binSensor["isNPN"].as<bool>());
 
-	YAML::Node speeds = config["Speeds"];
-	rollerInwardSpeed = speeds["inward"].as<double>();
-	rollerOutwardSpeed = speeds["outward"].as<double>();
-
 	ManualTester* manualTester = ManualTester::GetInstance();
 	std::string name = GetName();
 	manualTester->Add(name, "claw lift", liftMotor);
@@ -167,13 +163,13 @@ double Claw::GetDegreesFromAngle(ClawAngle angle) {
 	}
 }
 
-void Claw::SetRollerSpeed(RollerStatus status) {
+void Claw::SetRollerSpeed(RollerStatus status, double speed) {
 	switch (status) {
 	case RollerStatus::kOutward:
-		rollers->Set(rollerOutwardSpeed);
+		rollers->Set(speed);
 		break;
 	case RollerStatus::kInward:
-		rollers->Set(rollerInwardSpeed);
+		rollers->Set(-speed);
 		break;
 	case RollerStatus::kStopped:
 	default:
