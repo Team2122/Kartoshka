@@ -369,7 +369,7 @@ BumpBottomTote:
   time: 0.25
 
 HoldBottomTote:
-  rollerSpeed: 0.10
+  rollerSpeed: 0.15
 
 IntakeTotes:
   flapperSpeed: 1.0
@@ -392,13 +392,13 @@ $Auto0:
 $Auto1:
   - name: DriveDistanceAutoPickLong
     execution: Parallel
-  - $PickBin
+  - $ClawPick
   - $GroundToPlatform
 
 $Auto2:
   - name: DriveDistanceAutoPick
     execution: Parallel
-  - $PickBin
+  - $ClawPick
   - name: DriveDistanceAutoBackLong
     execution: Parallel
   - $GroundToPlatform
@@ -406,19 +406,19 @@ $Auto2:
 $Auto3:
   - name: DriveDistanceAutoThreeDistance
     execution: Parallel
-  - $PickBin
+  - $ClawPick
   - $GroundToPlatform
 
 $Auto4:
   - name: DriveDistanceAutoFourDistance
     execution: Parallel
-  - $PickBin
+  - $ClawPick
   - $GroundToPlatform
 
 $Auto5:
   - name: DriveDistanceAutoPickShort
     execution: Parallel
-  - $PickBin
+  - $ClawPick
   - name: DriveDistanceAutoBack
     execution: Parallel
   - $GroundToPlatform
@@ -439,13 +439,13 @@ $Auto7DriveSequence:
   - DriveRotateAuto7_3
 
 $Auto6:
-  - $PickBin
+  - $ClawPick
   - name: $Auto6BinSequence
     execution: Parallel
   - $Auto6DriveSequence
 
 $Auto7:
-  - $PickBin
+  - $ClawPick
   - name: $Auto6BinSequence
     execution: Parallel
   - $Auto7DriveSequence

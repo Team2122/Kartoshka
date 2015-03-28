@@ -34,15 +34,21 @@ public:
 	}
 
 protected:
-	void Initialize() override {
-		CommandBase::Initialize();
-		safetyActivated = false;
+	bool ClawAngleCheck() {
 		if (!claw->IsAtAngle(requiredAngle)) {
 			log.Error("We cannot move the claw lift to this position when we "
 					"are not at %s angle", requiredAngleName.c_str());
 			safetyActivated = true;
-			return this->Cancel();
+			this->Cancel();
+			return true;
 		}
+		return false;
+	}
+
+	void Initialize() override {
+		CommandBase::Initialize();
+		safetyActivated = false;
+		if (!ClawAngleCheck()) return;
 		double liftHeight = claw->GetLiftEncoder();
 		const char* name;
 		if (height >= liftHeight) { // positive is verticle
@@ -54,7 +60,7 @@ protected:
 	}
 
 	void Execute() override {
-		if (safetyActivated) return;
+		if (safetyActivated || !ClawAngleCheck()) return;
 		double liftHeight = claw->GetLiftEncoder();
 		if (height >= liftHeight) { // calculate the sign of the direction
 			direction = -1;

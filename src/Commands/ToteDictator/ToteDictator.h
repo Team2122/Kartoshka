@@ -109,7 +109,7 @@ protected:
 			if (shuttle->GetTotesHeld() == shuttle->GetTotesRatcheted() + 1) {
 				sampleCount++; // Increment sample count
 				// If we've waited long enough
-				if (sampleCount == samplesRequired) {
+				if (sampleCount >= samplesRequired) {
 					shuttle->SetTotesHeld(shuttle->GetTotesHeld() + 1); // Count it
 				}
 			}

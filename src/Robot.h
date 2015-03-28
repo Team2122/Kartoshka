@@ -36,6 +36,7 @@ public:
 private:
 	Scheduler *scheduler;
 	Tester *tester;
+	bool hasRunAuto;
 
 protected:
 	Logger log;

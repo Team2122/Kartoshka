@@ -18,6 +18,7 @@ Robot::Robot() :
 		log("Robot") {
 	scheduler = Scheduler::GetInstance();
 	tester = Tester::GetInstance();
+	hasRunAuto = false;
 }
 
 Robot::~Robot() {
@@ -51,8 +52,11 @@ void Robot::DisabledInit() {
 
 void Robot::AutonomousInit() {
 	log.Info("==== AutonomousInit ====");
-	CommandBase::otto->FinishGyroCalibration();
-	CommandBase::otto->StartAutoCommand();
+	if (!hasRunAuto) {
+		CommandBase::otto->FinishGyroCalibration();
+		CommandBase::otto->StartAutoCommand();
+		hasRunAuto = true;
+	}
 }
 
 void Robot::TeleopInit() {
