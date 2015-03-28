@@ -14,12 +14,11 @@ namespace tator {
 
 class ToteFeedTest: public Test {
 public:
-	ToteFeedTest(SpeedController* speedController, FixedField* lower,
-			FixedField* upper, Solenoid* clamp) :
-			Test("ShuttleHomeTest"), speedController(speedController), lower(
+	ToteFeedTest(SpeedController* rollers, SpeedController* flappers,
+			FixedField* lower, FixedField* upper, Solenoid* clamp) :
+			Test("ShuttleHomeTest"), rollers(rollers), flappers(flappers), lower(
 					lower), upper(upper), clamp(clamp) {
 		rolledAway = finished = false;
-
 	}
 
 	void Initialize() override {
@@ -32,7 +31,8 @@ public:
 	void Execute() override {
 		double time = timer.Get();
 		if (!rolledAway) {
-			speedController->Set(-.25);
+			rollers->Set(-.25);
+			flappers->Set(-.25);
 			if (time >= 2.0) {
 				if (lower->Get() && upper->Get()) {
 					Error("Sensor still tripped after 2 seconds");
@@ -49,7 +49,8 @@ public:
 				timer.Reset();
 			}
 		} else {
-			speedController->Set(.25);
+			rollers->Set(.25);
+			flappers->Set(.25);
 			if (time >= 2.0) {
 				if (!lower->Get() && !upper->Get()) {
 					Error("Sensors not tripped after 2 seconds");
@@ -72,18 +73,21 @@ public:
 
 protected:
 	void End() override {
-		speedController->Set(0);
+		rollers->Set(0);
+		flappers->Set(0);
 		clamp->Set(false);
 	}
 
 	void Interrupted() override {
-		speedController->Set(0);
+		rollers->Set(0);
+		flappers->Set(0);
 		clamp->Set(false);
 	}
 
 private:
 	Timer timer;
-	SpeedController* speedController;
+	SpeedController* rollers;
+	SpeedController* flappers;
 	FixedField *lower, *upper;
 	Solenoid* clamp;
 	bool rolledAway, finished;

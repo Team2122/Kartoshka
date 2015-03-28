@@ -12,7 +12,6 @@
 #include "Subsystems/ToteFeed.h"
 #include "Tests/SuccessfulTest.h"
 #include "Tests/FailureTest.h"
-#include "Tests/FingersTest.h"
 #include "Tests/SpeedControllerEncoderTest.h"
 #include "Tests/ShuttleHomeTest.h"
 #include "Tests/ShuttlePistonsTest.h"
@@ -38,12 +37,11 @@ Tester::Tester() {
 			CommandBase::shuttle->clampPiston,
 			CommandBase::shuttle->liftEncoder);
 	Test* toteFeedTest = new ToteFeedTest(CommandBase::toteFeed->rollers,
-			CommandBase::toteFeed->backSensor, CommandBase::shuttle->toteSensor,
+			CommandBase::toteFeed->flappers, CommandBase::toteFeed->backSensor,
+			CommandBase::shuttle->toteSensor,
 			CommandBase::shuttle->clampPiston);
-	Test* fingersTest = new FingersTest(CommandBase::toteFeed->flappers,
-			CommandBase::toteFeed->backSensor);
 	TestGroup* shuttleTests = new TestGroup("Shuttle", { shuttleHomeTest,
-			shuttleLift, toteFeedTest, fingersTest });
+			shuttleLift, toteFeedTest });
 
 	Test* shuttleOpen = new ShuttleTest("ShuttleOpenTest", false, false);
 	Test* shuttleClamped = new ShuttleTest("ShuttleClampedTest", true, true);
