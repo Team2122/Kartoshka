@@ -49,8 +49,7 @@ protected:
 		double distance = claw->GetDegreesFromAngle(angle);
 		double multiplier = 1;
 		if (distance <= rampDistance) {
-			double ratio = distance / rampDistance;
-			multiplier = rampFactor + (1 - rampFactor) * ratio;
+			multiplier = rampFactor;
 		}
 		claw->SetRotationSpeed(speed * multiplier);
 	}
