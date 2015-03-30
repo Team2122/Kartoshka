@@ -45,7 +45,6 @@
 #include "Commands/ToteFeed/UnloadTote.h"
 
 #include "Commands/Utilities/Cancel.h"
-#include "Commands/Utilities/MessageCommand.h"
 #include "Commands/Utilities/GenericCommandGroup.h"
 
 namespace tator {
@@ -92,7 +91,6 @@ void Kremlin::CreateNormalCommands() {
 
 	// Utilities
 	CreateCommandsForClass<Cancel>();
-	CreateCommandsForClass<MessageCommand>();
 
 	// ToteDictator
 	CreateCommandsForClass<SetDesiredTotes>();

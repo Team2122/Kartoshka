@@ -1,13 +1,3 @@
-###########
-# TESTING #
-###########
-
-MessageCommand:
-  - name: One
-    message: Testing message for variant one
-  - name: Two
-    message: Testing message for variant two
-
 #########
 # DRIVE #
 #########
