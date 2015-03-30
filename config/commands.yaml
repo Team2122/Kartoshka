@@ -235,12 +235,6 @@ UpdateTotesRatcheted:
 # CLAW #
 ########
 
-HomeClaw:
-  speed: .4
-
-TopClaw:
-  speed: -1
-
 ClawClamp:
   - name: Released
     status: 0
