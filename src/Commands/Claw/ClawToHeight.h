@@ -26,7 +26,6 @@ public:
 		requiredAngle = claw->AngleFromName(requiredAngleName);
 
 		direction = 1;
-		safetyActivated = false;
 	}
 
 	static std::string GetBaseName() {
@@ -34,21 +33,26 @@ public:
 	}
 
 protected:
-	bool ClawAngleCheck() {
-		if (!claw->IsAtAngle(requiredAngle)) {
+	/**
+	 * Checks if the claw is at a safe angle to move vertically.
+	 * @return True if it is
+	 */
+	bool IsAtAngle() {
+		if (claw->IsAtAngle(requiredAngle)) {
+			return true; // we are safe to move
+		} else {
 			log.Error("We cannot move the claw lift to this position when we "
 					"are not at %s angle", requiredAngleName.c_str());
-			safetyActivated = true;
 			this->Cancel();
-			return true;
+			return false; // not so much :d
 		}
-		return false;
 	}
 
 	void Initialize() override {
 		CommandBase::Initialize();
-		safetyActivated = false;
-		if (ClawAngleCheck()) return;
+		if (!IsAtAngle()) {
+			return; // If we are not at a safe angle, abort
+		}
 		double liftHeight = claw->GetLiftEncoder();
 		const char* name;
 		if (height >= liftHeight) { // positive is verticle
@@ -60,7 +64,9 @@ protected:
 	}
 
 	void Execute() override {
-		if (safetyActivated || ClawAngleCheck()) return;
+		if (!IsAtAngle()) {
+			return; // If we are not at a safe angle, abort
+		}
 		double liftHeight = claw->GetLiftEncoder();
 		if (height >= liftHeight) { // calculate the sign of the direction
 			direction = -1;
@@ -81,7 +87,8 @@ protected:
 			// this is 1 when we should be at speed, and 0 when we should be at speed * rampFactor
 			double ratio = difference / rampDistance;
 			// this is derived from a basic lerp function
-			double rampedSpeed = (rampFactor + (1 - rampFactor) * ratio) * speed;
+			double rampedSpeed = (rampFactor + (1 - rampFactor) * ratio)
+					* speed;
 			claw->SetLiftSpeed(rampedSpeed * direction);
 		} else {
 			// if we're not within the ramp distance, just run normally
@@ -108,7 +115,6 @@ private:
 	double direction;
 	double rampDistance, rampFactor;
 	double speed;
-	bool safetyActivated;
 	std::string requiredAngleName;
 	Claw::ClawAngle requiredAngle;
 };
