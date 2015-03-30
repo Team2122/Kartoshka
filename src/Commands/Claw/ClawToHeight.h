@@ -48,7 +48,7 @@ protected:
 	void Initialize() override {
 		CommandBase::Initialize();
 		safetyActivated = false;
-		if (!ClawAngleCheck()) return;
+		if (ClawAngleCheck()) return;
 		double liftHeight = claw->GetLiftEncoder();
 		const char* name;
 		if (height >= liftHeight) { // positive is verticle
@@ -60,7 +60,7 @@ protected:
 	}
 
 	void Execute() override {
-		if (safetyActivated || !ClawAngleCheck()) return;
+		if (safetyActivated || ClawAngleCheck()) return;
 		double liftHeight = claw->GetLiftEncoder();
 		if (height >= liftHeight) { // calculate the sign of the direction
 			direction = -1;
