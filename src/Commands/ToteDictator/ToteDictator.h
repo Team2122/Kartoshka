@@ -140,57 +140,25 @@ protected:
 			}
 		}
 
-		// If we have exactly the number of totes we want
-		else if (shuttle->GetDesiredTotes() == shuttle->GetTotesHeld()) {
-			// And we have totes on the ratchets
-			if (shuttle->GetTotesRatcheted() > 0) {
-				// And if we have a tote at the shuttle base
-				if (shuttle->HasToteAtShuttleBase()) {
-					// Act like they aren't there anymore
-					shuttle->ZeroTotesRatcheted();
-					// Restack everything
-					restackSequence->Start();
-					// Stop the intake sequence
-					this->Cancel();
-				}
-
-				// And if they are all on the ratchets
-				else if (shuttle->GetTotesHeld()
-						== shuttle->GetTotesRatcheted() + 1) {
-					// Act like they aren't there anymore
-					shuttle->ZeroTotesRatcheted();
-					// Unstack everything
-					unstackSequence->Start();
-					// Stop the intake sequence
-					this->Cancel();
-				}
-			}
-			// If we have no totes on the ratchets
-			else {
-				// Stop the intake sequence
-				this->Cancel();
-			}
-		}
-
-		// If we have more than the number of totes we want
+		// If we have at greater than or equal to the number of totes we want
 		else {
 			// And we have totes on the ratchets
 			if (shuttle->GetTotesRatcheted() > 0) {
+				// Act like they aren't there anymore
+				shuttle->ZeroTotesRatcheted();
+				// And if we have a tote at the shuttle base
+				if (shuttle->HasToteAtShuttleBase()) {
+					// Restack everything
+					restackSequence->Start();
+				}
 				// And we don't have a tote at the shuttle base
-				if (!toteFeed->GetBackSensor()) {
-					// Act like they aren't there anymore
-					shuttle->ZeroTotesRatcheted();
+				else {
 					// Unstack everything
 					unstackSequence->Start();
-					// Stop the intake sequence
-					this->Cancel();
 				}
 			}
-			// If we have no totes on the ratchets
-			else {
-				// Stop the intake sequence
-				this->Cancel();
-			}
+			// Stop the intake sequence
+			this->Cancel();
 		}
 	}
 
