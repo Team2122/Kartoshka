@@ -260,14 +260,6 @@ ClawEstablishHome:
 ClawRegripPosition:
   speed: .2
 
-ClawRollers:
-  - name: In
-    status: 2
-  - name: Out
-    status: 1
-  - name: Off
-    status: 0
-
 ClawSmartRollers:
   waitTime: .25
 
