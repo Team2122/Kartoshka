@@ -60,6 +60,9 @@ ToteFeed:
 Otto:
   Ports:
     switch: [23, 22, 21]
-  cameraName: cam1
+  Camera:
+    name: cam1
+    exposure: auto
+    brightness: 50
 Thief:
   port: 5

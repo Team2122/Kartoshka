@@ -18,8 +18,18 @@ Otto::Otto(YAML::Node config) :
 	autoSwitch1 = new DigitalInput(autoSwitch[1].as<int>());
 	autoSwitch2 = new DigitalInput(autoSwitch[2].as<int>());
 	gyro = new ADXRS453(SPI::kOnboardCS0);
-	std::string cameraName = config["cameraName"].as<std::string>();
-	CameraServer::GetInstance()->StartAutomaticCapture(cameraName.c_str());
+
+	YAML::Node camera = config["Camera"];
+	std::string cameraName = camera["name"].as<std::string>();
+	std::shared_ptr<USBCamera> usbCamera(new USBCamera(cameraName, true));
+	if (camera["exposure"].as<std::string>() == "auto") {
+		usbCamera->SetExposureAuto();
+	} else {
+		usbCamera->SetExposureManual(camera["exposure"].as<int>());
+	}
+	usbCamera->SetBrightness(camera["brightness"].as<int>());
+	usbCamera->OpenCamera();
+	CameraServer::GetInstance()->StartAutomaticCapture(usbCamera);
 
 	ManualTester* manualTester = ManualTester::GetInstance();
 	manualTester->Add(GetName(), "auto switch 0", autoSwitch0);
