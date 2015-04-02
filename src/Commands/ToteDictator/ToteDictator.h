@@ -63,6 +63,7 @@ protected:
 		stackSequence = Kremlin::Get("$StackTote");
 		restackSequence = Kremlin::Get("$Restack");
 		unstackSequence = Kremlin::Get("$Unstack");
+		fixJamSequence = Kremlin::Get("$FixJam");
 		lastLogData = GetLogData();
 	}
 
@@ -74,7 +75,8 @@ protected:
 		}
 		// If any sequence is running
 		if (stackSequence->IsRunning() || restackSequence->IsRunning()
-				|| unstackSequence->IsRunning()) {
+				|| unstackSequence->IsRunning()
+				|| fixJamSequence->IsRunning()) {
 			return; // Now is not the time for logic
 		}
 		// If there is tote at the bottom of the bot
@@ -181,6 +183,7 @@ private:
 	Command* stackSequence;
 	Command* restackSequence;
 	Command* unstackSequence;
+	Command* fixJamSequence;
 
 	int sampleCount;
 	int samplesRequired;

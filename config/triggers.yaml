@@ -29,7 +29,7 @@
   6: WhenPressed ClawToAngleFront
   7: WhenPressed ClawToAngleBack
   8: WhenPressed $PlatformToPlacement
-  9: WhenPressed ThiefGrabberIn
+  9: WhenPressed $FixJam
   10: WhileHeld ManualClawLiftUp
   11: WhileHeld ManualClawLiftDown
   12: WhileHeld UnloadTote

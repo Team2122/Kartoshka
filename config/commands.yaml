@@ -121,6 +121,11 @@ Fingers:
   - name: Release
     state: 0
 
+$FixJam:
+  - ShuttlePositionUnload
+  # - ShuttleDown
+  - ShuttleRampDown
+
 HomeShuttle:
   # No config
 
