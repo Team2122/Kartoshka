@@ -32,9 +32,9 @@ public:
 	static Command* GetCopyOf(std::string fullName);
 protected:
 	/**
-	 * Creates all the commands once
+	 * Creates all the normal commands
 	 */
-	static void CreateCommandsOnce();
+	static void CreateNormalCommands();
 	struct CommandDetails {
 		Command* command;
 		std::function<Command*()> constructor;
@@ -50,6 +50,11 @@ protected:
 	 * Loops the config searching for commands with the name of the class
 	 */
 	static void CreateCommandsForClass();
+	/**
+	 * Creates the command groups
+	 * Special code is required to do dependency injection
+	 */
+	static void CreateGenericCommandGroups();
 };
 
 }

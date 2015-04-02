@@ -58,7 +58,7 @@ bool Kremlin::createdCommand;
 std::map<std::string, Kremlin::CommandDetails> Kremlin::commands;
 Logger Kremlin::log("Kremlin");
 
-void Kremlin::CreateCommandsOnce() {
+void Kremlin::CreateNormalCommands() {
 	// Claw
 	CreateCommandsForClass<ClawClamp>();
 	CreateCommandsForClass<ClawClampToggle>();
@@ -109,88 +109,88 @@ void Kremlin::CreateCommandsOnce() {
 }
 
 void Kremlin::CreateCommands() {
-	Kremlin::CreateCommandsOnce();
+	Kremlin::CreateNormalCommands();
 	lastTry = false;
 	do {
 		createdCommand = false;
-		CreateCommandsForClass<GenericCommandGroup>();
+		Kremlin::CreateGenericCommandGroups();
 		if (!createdCommand) {
 			lastTry = !lastTry;
 		}
 	} while (createdCommand || lastTry);
 }
 
+void Kremlin::CreateGenericCommandGroups() {
+	// Special GenericCommandGroup code
+	for (YAML::Node::iterator it = Config::commands.begin();
+			it != Config::commands.end(); it++) {
+		std::string fullName = it->first.as<std::string>();
+		if (fullName.at(0) == '$') {
+			YAML::Node commandConfig = it->second;
+			bool missingCommand = false;
+			if (commands.count(fullName) > 0) {
+				// We already created the command
+				continue;
+			}
+			for (YAML::Node command : commandConfig) {
+				std::string dependency;
+				if (command.IsMap()) {
+					dependency = command["name"].as<std::string>();
+					if (dependency == "WaitCommand") {
+						continue;
+					}
+				} else {
+					dependency = command.as<std::string>();
+				}
+				if (commands.count(dependency) == 0) {
+					if (lastTry) {
+						log.Error(
+								"CommandGroup %s could not be created as %s is missing.",
+								fullName.c_str(), dependency.c_str());
+					}
+					missingCommand = true;
+					break;
+				}
+			}
+			if (missingCommand) {
+				continue;
+			}
+			CommandDetails details = { new GenericCommandGroup(fullName, commandConfig),
+					[fullName, commandConfig] () {
+						return new GenericCommandGroup(fullName, commandConfig);
+					} };
+			commands[fullName] = details;
+			createdCommand = true;
+		}
+	}
+}
+
 template<typename T>
 void Kremlin::CreateCommandsForClass() {
 	std::string name = T::GetBaseName();
-	if (name == "GenericCommandGroup") {
-		// Special GenericCommandGroup code
-		for (YAML::Node::iterator it = Config::commands.begin();
-				it != Config::commands.end(); it++) {
-			std::string fullName = it->first.as<std::string>();
-			if (fullName.at(0) == '$') {
-				YAML::Node commandConfig = it->second;
-				bool missingCommand = false;
-				if (commands.count(fullName) > 0) {
-					// We already created the command
-					continue;
-				}
-				for (YAML::Node command : commandConfig) {
-					std::string dependency;
-					if (command.IsMap()) {
-						dependency = command["name"].as<std::string>();
-						if (dependency == "WaitCommand") {
-							continue;
-						}
-					} else {
-						dependency = command.as<std::string>();
-					}
-					if (commands.count(dependency) == 0) {
-						if (lastTry) {
-							log.Error(
-									"CommandGroup %s could not be created as %s is missing.",
-									fullName.c_str(), dependency.c_str());
-						}
-						missingCommand = true;
-						break;
-					}
-				}
-				if (missingCommand) {
-					continue;
-				}
-				CommandDetails details = { new T(fullName, commandConfig),
-						[fullName, commandConfig] () {
-							return new T(fullName, commandConfig);
-						} };
-				commands[fullName] = details;
-				createdCommand = true;
+	YAML::Node commandConfig = Config::commands[name];
+	if (!commandConfig.IsDefined()) {
+		return;
+	}
+	if (commandConfig.IsSequence()) {
+		for (YAML::Node node : commandConfig) {
+			std::string totalName = name;
+			if (node["name"].IsScalar()) {
+				totalName += node["name"].as<std::string>();
 			}
+			// This is a lambda
+			// See http://www.cprogramming.com/c++11/c++11-lambda-closures.html
+			CommandDetails details = { new T(totalName, node),
+					[totalName, node] () {
+						return new T(totalName, node);
+					} };
+			commands[totalName] = details;
 		}
 	} else {
-		YAML::Node commandConfig = Config::commands[name];
-		if (!commandConfig.IsDefined()) {
-			return;
-		}
-		if (commandConfig.IsSequence()) {
-			for (YAML::Node node : commandConfig) {
-				std::string totalName = name;
-				if (node["name"].IsScalar()) {
-					totalName += node["name"].as<std::string>();
-				}
-				// This is a lambda
-				// See http://www.cprogramming.com/c++11/c++11-lambda-closures.html
-				CommandDetails details = { new T(totalName, node),
-						[totalName, node] () {
-							return new T(totalName, node);
-						} };
-				commands[totalName] = details;
-			}
-		} else {
-			CommandDetails details =
-					{ new T(name, commandConfig),
-							[name, commandConfig] () {return new T(name, commandConfig);} };
-			commands[name] = details;
-		}
+		CommandDetails details =
+				{ new T(name, commandConfig),
+						[name, commandConfig] () {return new T(name, commandConfig);} };
+		commands[name] = details;
 	}
 }
 
