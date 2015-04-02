@@ -100,7 +100,6 @@ void Kremlin::CreateCommandsOnce() {
 
 	// Utilities
 	CreateCommandsForClass<Cancel>();
-	CreateCommandsForClass<GenericCommandGroup>();
 	CreateCommandsForClass<MessageCommand>();
 
 	// ToteDictator
@@ -110,10 +109,11 @@ void Kremlin::CreateCommandsOnce() {
 }
 
 void Kremlin::CreateCommands() {
+	Kremlin::CreateCommandsOnce();
 	lastTry = false;
 	do {
 		createdCommand = false;
-		Kremlin::CreateCommandsOnce();
+		CreateCommandsForClass<GenericCommandGroup>();
 		if (!createdCommand) {
 			lastTry = !lastTry;
 		}
