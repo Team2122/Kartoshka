@@ -7,7 +7,7 @@ Claw:
       motor: 7
       encoder: {Channel: 0, Scale: 360, Offset: -70.0}
     limits:
-      home: {channel: 12, isNPN: false}
+      home: {channel: 12, isNPN: true}
       top: {channel: 13, isNPN: true}
     clamp: {long: 2, short: 3}
     rollers: 8
@@ -60,6 +60,6 @@ ToteFeed:
 Otto:
   Ports:
     switch: [23, 22, 21]
-  cameraName: cam2
+  cameraName: cam1
 Thief:
   port: 5
