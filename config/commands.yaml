@@ -383,7 +383,7 @@ HoldBottomTote:
   rollerSpeed: 0.15
 
 IntakeTotes:
-  flapperSpeed: 1.0
+  flapperSpeed: .9
 
 RecieveBottomTote:
   flapperSpeed: 0.35
