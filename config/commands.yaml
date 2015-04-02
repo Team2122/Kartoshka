@@ -260,16 +260,16 @@ ClawToAngle:
     speed: -.35
     holdSpeed: -.15
     ramp:
-      distance: 45
-      factor: .55
+      distance: 35
+      factor: .75
     minimumHeight: 160
   - name: Back
     angle: back
     speed: .35
     holdSpeed: .15
     ramp:
-      distance: 45
-      factor: .55
+      distance: 40
+      factor: .75
     minimumHeight: 160
 
 ClawToHeight:
@@ -345,6 +345,7 @@ $PickUpMoveToPlatform:
 
 $PlatformToPlacement:
   - ClawToHeightTop
+  - LackOfStack
   - ClawToAngleFront
 
 $RegripBin:
