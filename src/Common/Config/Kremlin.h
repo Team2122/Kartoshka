@@ -42,8 +42,6 @@ protected:
 	/// Map of strings to CommandDetails
 	static std::map<std::string, CommandDetails> commands;
 	static Logger log;
-	static bool createdCommand; ///< If this iteration of command creation created a command
-	static bool lastTry; ///< If this iteration of command creation is just to check for problems
 	template<typename T>
 	/**
 	 * Creates the commands for a given class
@@ -53,8 +51,10 @@ protected:
 	/**
 	 * Creates the command groups
 	 * Special code is required to do dependency injection
+	 * @param lastTry If this is the last iteration, meant only to log which commands are missing
+	 * @return If a command was created
 	 */
-	static void CreateGenericCommandGroups();
+	static bool CreateGenericCommandGroups(bool lastTry);
 };
 
 }

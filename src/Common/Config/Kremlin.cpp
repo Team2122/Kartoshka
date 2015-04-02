@@ -53,8 +53,6 @@
 
 namespace tator {
 
-bool Kremlin::lastTry;
-bool Kremlin::createdCommand;
 std::map<std::string, Kremlin::CommandDetails> Kremlin::commands;
 Logger Kremlin::log("Kremlin");
 
@@ -110,17 +108,18 @@ void Kremlin::CreateNormalCommands() {
 
 void Kremlin::CreateCommands() {
 	Kremlin::CreateNormalCommands();
-	lastTry = false;
+	bool lastTry = false;
+	bool createdCommand = false;
 	do {
-		createdCommand = false;
-		Kremlin::CreateGenericCommandGroups();
+		createdCommand = Kremlin::CreateGenericCommandGroups(lastTry);
 		if (!createdCommand) {
 			lastTry = !lastTry;
 		}
 	} while (createdCommand || lastTry);
 }
 
-void Kremlin::CreateGenericCommandGroups() {
+bool Kremlin::CreateGenericCommandGroups(bool lastTry) {
+	bool createdCommand = false;
 	// Special GenericCommandGroup code
 	for (YAML::Node::iterator it = Config::commands.begin();
 			it != Config::commands.end(); it++) {
@@ -163,6 +162,7 @@ void Kremlin::CreateGenericCommandGroups() {
 			createdCommand = true;
 		}
 	}
+	return createdCommand;
 }
 
 template<typename T>
