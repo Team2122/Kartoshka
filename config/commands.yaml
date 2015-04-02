@@ -310,6 +310,7 @@ $ClawToHome:
 
 $ClawToPick:
   - ClawToAngleFront
+  - LackOfStack
   - ClawToHeightHome
 
 $GroundToPlatform:
