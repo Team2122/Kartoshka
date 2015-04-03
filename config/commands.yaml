@@ -40,6 +40,12 @@ DriveDistance:
   - name: AutoFourDistance
     speed: 0.45
     distance: 1.0
+  - name: Auto2
+    speed: -0.75
+    distance: 4.0
+  - name: Auto2_2
+    speed: -0.75
+    distance: 6.0
 
 DriveArc:
   - name: Auto6
@@ -80,6 +86,12 @@ DriveRotate:
     tolerance: .5
     slowAngle: 25.0
     slowFactor: .75
+  - name: Auto2
+    speed: .85
+    angle: 90.0
+    tolerance: .5
+    slowAngle: 25.0
+    slowFactor: .9
 
 DriveStraight:
   - name: Auto6
@@ -406,13 +418,19 @@ $Auto1:
   - $ClawPick
   - $GroundToPlatform
 
-$Auto2:
-  - name: DriveDistanceAutoPick
-    execution: Parallel
-  - $ClawPick
-  - name: DriveDistanceAutoBackLong
-    execution: Parallel
+$Auto2DriveSequence:
+  - DriveDistanceAuto2
+  - DriveRotateAuto2
+  - DriveDistanceAuto2_2
+
+$Auto2BinSequence:
+  - ClawSmartRollers
   - $GroundToPlatform
+
+$Auto2:
+  - name: $Auto2DriveSequence
+    execution: Parallel
+  - $Auto2BinSequence
 
 $Auto3:
   - name: DriveDistanceAutoThreeDistance
