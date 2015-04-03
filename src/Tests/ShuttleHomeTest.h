@@ -45,7 +45,7 @@ protected:
 				clamp->Set(false);
 			}
 			if (time >= 5.0) {
-				Error("Upper sensor was not tripped after 3 seconds");
+				Error("Upper sensor was not tripped after 5 seconds");
 				upperSensorTripped = true;
 				timer.Reset();
 			} else if (upper->Get()) {
@@ -54,11 +54,11 @@ protected:
 				timer.Reset();
 			}
 		} else {
-			speedController->Set(0);
-			if (liftEncoder->Get() <= 350) {
+			speedController->Set(.15);
+			if (liftEncoder->Get() <= 400) {
 				clamp->Set(true);
 			}
-			if (time >= 10.0) {
+			if (time >= 6.0) {
 				Error("Lower sensor was not tripped after 6 seconds falling");
 				finished = true;
 			} else if (lower->Get()) {
