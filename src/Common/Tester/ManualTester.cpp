@@ -31,14 +31,21 @@ public:
 	}
 	void LogInit() {
 		log->Info("Now testing speed controller %s", name.c_str());
+		log->Info("Press A (2) for 100%% and B (2) for -100%%");
 	}
 	void Execute(Joystick* joystick) {
-		double raw = joystick->GetRawAxis(1);
-		double speed = std::min(pow(fabs(raw), 3), cap);
-		if (raw < 0) {
-			speed *= -1;
+		if (joystick->GetRawButton(2)) {
+			controller->Set(1.0);
+		} else if (joystick->GetRawButton(3)) {
+			controller->Set(-1.0);
+		} else {
+			double raw = joystick->GetRawAxis(1);
+			double speed = std::min(pow(fabs(raw), 3), cap);
+			if (raw < 0) {
+				speed *= -1;
+			}
+			controller->Set(speed);
 		}
-		controller->Set(speed);
 	}
 	void End() {
 		controller->Set(0);
@@ -196,7 +203,8 @@ public:
 	}
 	virtual void LogInit() {
 		const char* type = input->IsNPN() ? "NPN" : "PNP";
-		log->Info("Now testing fixed field sensor %s, which is %s", name.c_str(), type);
+		log->Info("Now testing fixed field sensor %s, which is %s",
+				name.c_str(), type);
 	}
 	virtual void LogValue() {
 		const char* strState = input->Get() ? "true" : "false";
