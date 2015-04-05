@@ -424,6 +424,8 @@ $Auto1:
   - $GroundToPlatform
 
 $Auto2DriveSequence:
+  - name: WaitCommand
+    time: 1.0
   - DriveDistanceAuto2
   - DriveRotateAuto2
   - DriveDistanceAuto2_2
@@ -433,6 +435,7 @@ $Auto2BinSequence:
   - $GroundToPlatform
 
 $Auto2:
+  - $ClawToPick
   - name: $Auto2DriveSequence
     execution: Parallel
   - $Auto2BinSequence
