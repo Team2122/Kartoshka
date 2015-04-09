@@ -26,6 +26,7 @@ namespace tator {
  * De lift inspire claw to move both up end not up
  */
 class Claw: public SubsystemBase {
+	friend class Tester;
 public:
 	enum class ClawAngle {
 		neither, front, back

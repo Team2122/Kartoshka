@@ -16,6 +16,7 @@
 #include "Tests/ShuttleHomeTest.h"
 #include "Tests/ShuttlePistonsTest.h"
 #include "Tests/ToteFeedTest.h"
+#include "Tests/ClawRotationTest.h"
 
 namespace tator {
 
@@ -63,6 +64,15 @@ void Tester::CreateTests() {
 	TestGroup* shuttlePistonsTests = new TestGroup("Shuttle Pistons", {
 			shuttleOpen, shuttleClamped, shuttleGrab });
 	this->AddTest(shuttlePistonsTests);
+
+	Test* clawRotationTest = new ClawRotationTest(
+			CommandBase::claw->rotationEncoder);
+	Test* clawLiftTest = new SpeedControllerEncoderTest("claw lift",
+			CommandBase::claw->liftMotor, CommandBase::claw->liftEncoder, .25,
+			-.25, 10);
+	TestGroup* clawTests = new TestGroup("Claw", { clawRotationTest,
+			clawLiftTest });
+	this->AddTest(clawTests);
 }
 
 void Tester::Initialize() {
