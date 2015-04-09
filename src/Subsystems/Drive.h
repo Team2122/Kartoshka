@@ -20,6 +20,12 @@ namespace tator {
  */
 class Drive: public SubsystemBase {
 	friend class Tester;
+
+public:
+	enum class Mode {
+		pid, direct
+	};
+
 private:
 	Talon* driveL; ///< The left drive talon
 	Talon* driveR; ///< The right drive talon
@@ -28,6 +34,7 @@ private:
 	PIDController* pidL; ///< The PID for the left drive
 	PIDController* pidR; ///< The PID for the right drive
 	double maxRPS; ///< The maximum Rotations Per Second for the drive
+	Mode mode; ///< The current speed control mode
 
 public:
 	Drive(YAML::Node config);
@@ -41,15 +48,17 @@ public:
 	 */
 	void SetSpeeds(float leftSpeed, float rightSpeed);
 
-	double GetDistance();
+	/**
+	 * Sets the method for velocity control
+	 * @param mode The desired mode of control
+	 */
+	void SetControlMode(Mode mode);
 
 	/**
-	 * Sets the speed of the wheels in rps
-	 * @param leftRPS The speed of the left wheel in RPS
-	 * @param rightRPS The speed of the right wheel in RPS
+	 * Gets the current distance traveled in feet
+	 * @return Distance in feet
 	 */
-	void SetRPS(float leftRPS, float rightRPS);
-
+	double GetDistance();
 };
 
 } /* namespace tator */

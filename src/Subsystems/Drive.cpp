@@ -29,8 +29,8 @@ Drive::Drive(YAML::Node config) :
 	encoderR->SetDistancePerPulse(1.0 / 360.0);
 	encoderL->SetPIDSourceParameter(PIDSource::kRate);
 	encoderR->SetPIDSourceParameter(PIDSource::kRate);
-	pidL->Enable();
-	pidR->Enable();
+
+	this->SetControlMode(Mode::pid);
 
 	ManualTester* manualTester = ManualTester::GetInstance();
 	manualTester->Add(GetName(), "left drive", driveL);
@@ -51,20 +51,44 @@ Drive::~Drive() {
 }
 
 void Drive::SetSpeeds(float leftSpeed, float rightSpeed) {
-	leftSpeed *= maxRPS;
-	rightSpeed *= maxRPS;
-	SetRPS(leftSpeed, rightSpeed);
+	leftSpeed *= -1;
+	switch (mode) {
+	case Mode::pid:
+		leftSpeed *= maxRPS;
+		rightSpeed *= maxRPS;
+		pidL->SetSetpoint(leftSpeed);
+		pidR->SetSetpoint(rightSpeed);
+		break;
+	case Mode::direct:
+		driveL->Set(leftSpeed);
+		driveR->Set(rightSpeed);
+		break;
+	}
+}
+
+void Drive::SetControlMode(Mode mode) {
+	switch (mode) {
+	case Mode::pid:
+		log.Info("Switcing to PID velocity control");
+		pidL->Enable();
+		pidR->Enable();
+		break;
+	case Mode::direct:
+		log.Info("Switcing to direct drive velocity control");
+		pidL->Disable();
+		pidR->Disable();
+		break;
+	default:
+		log.Error("Invalid velocity control mode!");
+		return; // Don't update the mode
+	}
+	this->mode = mode;
 }
 
 double Drive::GetDistance() {
 	double distance = ((-encoderL->GetDistance()) + encoderR->GetDistance())
 			/ 2;
 	return (12.5663 * (distance / 12)); // 12 inches per feet
-}
-
-void Drive::SetRPS(float leftRPS, float rightRPS) {
-	pidL->SetSetpoint(-leftRPS);
-	pidR->SetSetpoint(rightRPS);
 }
 
 } /* namespace tator */

@@ -24,6 +24,11 @@ public:
 	}
 
 protected:
+	void Initialize() override {
+		CommandBase::Initialize();
+		drive->SetControlMode(Drive::Mode::direct);
+	}
+
 	void Execute() override {
 		float speedLeft = joystick->GetRawAxis(axisLeft);
 		float speedRight = joystick->GetRawAxis(axisRight);
@@ -36,11 +41,13 @@ protected:
 
 	void End() override {
 		drive->SetSpeeds(0, 0);
+		drive->SetControlMode(Drive::Mode::pid);
 		CommandBase::End();
 	}
 
 	void Interrupted() override {
 		drive->SetSpeeds(0, 0);
+		drive->SetControlMode(Drive::Mode::pid);
 		CommandBase::Interrupted();
 	}
 
