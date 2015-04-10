@@ -9,7 +9,7 @@ Claw:
     limits:
       home: {channel: 12, isNPN: false}
       top: {channel: 13, isNPN: true}
-    clamp: {long: 2, short: 3}
+    clamp: {left: 3, right: 2}
     rollers: 8
     binSensor: {channel: 18, isNPN: true}
   Software:

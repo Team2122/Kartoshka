@@ -18,8 +18,8 @@
   6: ToggleWhenPressed ToteDictator
   7: WhenPressed ThiefToggle
   8: WhenPressed ClawClampDeathGrip
-  9: WhenPressed ClawClampTote
-  10: WhenPressed ClawClampContainer
+  9: WhenPressed ClawClampLeft
+  10: WhenPressed ClawClampRight
 2:
   1: WhenPressed ClawClampReleased
   2: WhenPressed $ClawToPick

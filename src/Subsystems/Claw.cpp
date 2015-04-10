@@ -46,8 +46,8 @@ Claw::Claw(YAML::Node config) :
 	backAngle = angles["back"].as<double>();
 
 	YAML::Node clamp = ports["clamp"];
-	clampLong = new Solenoid(clamp["long"].as<int>());
-	clampShort = new Solenoid(clamp["short"].as<int>());
+	clampLeft = new Solenoid(clamp["left"].as<int>());
+	clampRight = new Solenoid(clamp["right"].as<int>());
 
 	rollers = new Talon(ports["rollers"].as<int>());
 
@@ -67,8 +67,8 @@ Claw::Claw(YAML::Node config) :
 	manualTester->Add(name, "claw rotation", this->rotationEncoder);
 	manualTester->Add(name, "home limit", this->homeLimit);
 	manualTester->Add(name, "upper limit", this->topLimit);
-	manualTester->Add(name, "long clamp", clampLong);
-	manualTester->Add(name, "short clamp", clampShort);
+	manualTester->Add(name, "left clamp", clampLeft);
+	manualTester->Add(name, "right clamp", clampRight);
 	manualTester->Add(name, "claw rollers", rollers);
 	manualTester->Add(name, "bin sensor", this->binSensor);
 }
@@ -80,8 +80,8 @@ Claw::~Claw() {
 	delete homeLimit;
 	delete rotationMotor;
 	delete rotationEncoder;
-	delete clampLong;
-	delete clampShort;
+	delete clampLeft;
+	delete clampRight;
 	delete rollers;
 	delete binSensor;
 }
@@ -185,37 +185,37 @@ void Claw::SetRollerSpeed(RollerStatus status) {
 void Claw::SetClampStatus(ClampStatus status) {
 	switch (status) {
 	case ClampStatus::kDeathGrip:
-		clampLong->Set(false);
-		clampShort->Set(false);
+		clampLeft->Set(false);
+		clampRight->Set(false);
 		break;
-	case ClampStatus::kContainer:
-		clampLong->Set(false);
-		clampShort->Set(true);
+	case ClampStatus::kRight:
+		clampLeft->Set(false);
+		clampRight->Set(true);
 		break;
-	case ClampStatus::kTote:
-		clampLong->Set(true);
-		clampShort->Set(false);
+	case ClampStatus::kLeft:
+		clampLeft->Set(true);
+		clampRight->Set(false);
 		break;
 	case ClampStatus::kReleased:
 	default:
-		clampLong->Set(true);
-		clampShort->Set(true);
+		clampLeft->Set(true);
+		clampRight->Set(true);
 		break;
 	}
 }
 
 Claw::ClampStatus Claw::GetClampStatus() {
-	bool isLong = clampLong->Get();
-	bool isShort = clampShort->Get();
-	if (isLong) {
-		if (isShort) {
+	bool isLeft = clampLeft->Get();
+	bool isRight = clampRight->Get();
+	if (isLeft) {
+		if (isRight) {
 			return ClampStatus::kReleased;
 		} else {
-			return ClampStatus::kTote;
+			return ClampStatus::kLeft;
 		}
 	} else {
-		if (isShort) {
-			return ClampStatus::kContainer;
+		if (isRight) {
+			return ClampStatus::kRight;
 		} else {
 			return ClampStatus::kDeathGrip;
 		}

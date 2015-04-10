@@ -31,8 +31,10 @@ public:
 		neither, front, back
 	};
 
+	//kLeft and kRight refer to the piston that is currently opened
+	//if kLeft, then the left side will be in, ready to pick
 	enum class ClampStatus {
-		kReleased = 0, kTote = 1, kContainer = 2, kDeathGrip = 3
+		kReleased = 0, kLeft = 1, kRight = 2, kDeathGrip = 3
 	};
 
 	enum class RollerStatus {
@@ -55,8 +57,8 @@ private:
 	double frontAngle; ///< The angle when the claw is in the front
 	double backAngle; ///< The angle when the claw is in the back
 
-	Solenoid* clampLong; ///< The solenoid for the long clamp
-	Solenoid* clampShort; ///< The solenoid for the short clamp
+	Solenoid* clampLeft; ///< The solenoid for the left clamp
+	Solenoid* clampRight; ///< The solenoid for the right clamp
 
 	Talon* rollers; ///< The roller motor
 	double rollerInwardSpeed; ///< The inward speed of the rollers

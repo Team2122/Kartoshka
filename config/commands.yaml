@@ -224,9 +224,9 @@ UpdateTotesRatcheted:
 ClawClamp:
   - name: Released
     status: 0
-  - name: Tote
+  - name: Left
     status: 1
-  - name: Container
+  - name: Right
     status: 2
   - name: DeathGrip
     status: 3
@@ -316,7 +316,7 @@ ManualClawLift:
     speed: .25
 
 $PickBin:
-  - ClawClampTote
+  - ClawClampLeft
   - ClawSmartRollers
   - name: WaitCommand
     time: 0.25
@@ -346,9 +346,7 @@ $RegripBin:
   - ClawToHeightRegrip
   - name: WaitCommand
     time: 0.25
-  - ClawClampContainer
-  - ClawSmartRollers
-  - ClawClampDeathGrip
+  - $PickBin
 
 #########
 # THIEF #
