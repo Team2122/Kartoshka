@@ -52,18 +52,6 @@ DriveArc:
     degreesPerFoot: 6.0
 
 DriveRotate:
-  - name: Auto6
-    speed: .75
-    angle: -90.0
-    tolerance: .5
-    slowAngle: 25.0
-    slowFactor: .75
-  - name: Auto7_1
-    speed: .75
-    angle: -90.0
-    tolerance: .5
-    slowAngle: 25.0
-    slowFactor: .75
   - name: Auto7_2
     speed: .75
     angle: -25.0
@@ -82,6 +70,14 @@ DriveRotate:
     tolerance: .5
     slowAngle: 25.0
     slowFactor: .9
+
+
+DriveRotatePID:
+  - name: 90Left
+    angle: -90.0
+    tolerance: 0
+    PID: {P: .04, I: .002, D: .32, F: 0}
+
 
 DriveStraight:
   - name: Auto6
@@ -391,7 +387,7 @@ UnloadTote:
 ########
 
 $Auto0:
-  # No commands
+  - DriveRotatePID90Left
 
 $Auto1:
   - name: DriveDistanceAutoPickLong
@@ -440,12 +436,12 @@ $Auto6BinSequence:
   - $GroundToPlatform
 
 $Auto6DriveSequence:
-  - DriveRotateAuto6
+  - DriveRotatePID90Left
   - DriveStraightAuto6
 #  - DriveArcAuto6
 
 $Auto7DriveSequence:
-  - DriveRotateAuto7_1
+  - DriveRotatePID90Left
   - DriveStraightAuto7_1
   - DriveRotateAuto7_2
   - DriveStraightAuto7_2

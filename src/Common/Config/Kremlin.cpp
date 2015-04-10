@@ -21,6 +21,7 @@
 #include "Commands/Drive/DriveContinuous.h"
 #include "Commands/Drive/DriveDistance.h"
 #include "Commands/Drive/DriveRotate.h"
+#include "Commands/Drive/DriveRotatePID.h"
 #include "Commands/Drive/DriveStraight.h"
 
 #include "Commands/Shuttle/Fingers.h"
@@ -67,6 +68,7 @@ void Kremlin::CreateNormalCommands() {
 	CreateCommandsForClass<DriveContinuous>();
 	CreateCommandsForClass<DriveDistance>();
 	CreateCommandsForClass<DriveRotate>();
+	CreateCommandsForClass<DriveRotatePID>();
 	CreateCommandsForClass<DriveStraight>();
 
 	// Shuttle
