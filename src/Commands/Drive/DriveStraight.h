@@ -10,21 +10,24 @@
 #include "CommandBase.h"
 #include "Subsystems/Otto.h"
 #include "Subsystems/Drive.h"
+#include <PIDSource.h>
+#include <PIDOutput.h>
 
 namespace tator {
 
-class DriveStraight: public CommandBase {
+class DriveStraight: public CommandBase, public PIDSource, public PIDOutput {
 public:
 	DriveStraight(std::string name, YAML::Node config) :
 			CommandBase(name) {
 		Requires(drive);
 		currentDistance = 0;
 		startDistance = 0;
-		targetAngle = config["angle"].as<double>();
+		angle = config["angle"].as<double>();
 		speed = config["speed"].as<double>();
 		distance = config["distance"].as<double>();
-		speedOffset = config["speedOffset"].as<double>();
-		angleTolerance = config["angleTolerance"].as<double>();
+		YAML::Node pid_ = config["PID"];
+		pid = new PIDController(pid_["P"].as<double>(), pid_["I"].as<double>(),
+				pid_["D"].as<double>(), pid_["F"].as<double>(), this, this);
 	}
 
 	static std::string GetBaseName() {
@@ -32,40 +35,49 @@ public:
 	}
 
 protected:
-	double targetAngle, currentDistance, startDistance;
+	double PIDGet() override {
+		return otto->GetAngle();
+	}
+
+	void PIDWrite(float output) override {
+		drive->SetSpeeds(speed + output, speed - output);
+	}
+
+	double currentDistance;
+	PIDController* pid;
+
 	void Initialize() override {
 		CommandBase::Initialize();
 		startDistance = drive->GetDistance();
+		pid->SetSetpoint(angle);
+		pid->Reset();
+		pid->Enable();
 	}
 
 	void Execute() override {
-		double angle = otto->GetAngle() - targetAngle;
-		if (angle >= angleTolerance) {
-			drive->SetSpeeds(speed - speedOffset, speed);
-		} else if (angle <= -angleTolerance) {
-			drive->SetSpeeds(speed, speed - speedOffset);
-		} else {
-			drive->SetSpeeds(speed, speed);
-		}
-		currentDistance = drive->GetDistance();
+		currentDistance = fabs(drive->GetDistance() - startDistance);
+		log.Info("Angle: %f, distance: %f", PIDGet(), currentDistance);
 	}
 
 	bool IsFinished() override {
-		return fabs(currentDistance - startDistance) >= distance;
+		return currentDistance >= distance;
 	}
 
 	void End() override {
 		CommandBase::End();
+		pid->Disable();
 		drive->SetSpeeds(0, 0);
 	}
 
 	void Interrupted() override {
 		CommandBase::Interrupted();
+		pid->Disable();
 		drive->SetSpeeds(0, 0);
 	}
 
 private:
-	double distance, speed, speedOffset, angleTolerance;
+	double distance, speed, angle;
+	double startDistance;
 };
 
 }

@@ -39,7 +39,9 @@ protected:
 		} else {
 			name = "counterclockwise";
 		}
-		log.Info("Moving %s for %f degrees", name, targetAngle);
+		angle = otto->GetAngle();
+		log.Info("Moving %s for from %f to %f degrees", name, angle,
+				targetAngle);
 	}
 
 	void Execute() override {
@@ -65,8 +67,7 @@ protected:
 
 	void End() override {
 		CommandBase::End();
-		log.Info("Finished rotating. target: %f, actual: %f", targetAngle,
-				angle);
+		log.Info("Finished rotating. Angle: %f, target: %f", angle, targetAngle);
 		drive->SetSpeeds(0, 0);
 	}
 
@@ -76,8 +77,7 @@ protected:
 	}
 
 private:
-	double targetAngle, tolerance, speed, angle, slowAngle,
-			slowFactor;
+	double targetAngle, tolerance, speed, angle, slowAngle, slowFactor;
 
 };
 

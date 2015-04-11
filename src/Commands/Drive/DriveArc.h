@@ -15,7 +15,6 @@ class DriveArc: public DriveStraight {
 public:
 	DriveArc(std::string name, YAML::Node config) :
 			DriveStraight(name, config) {
-		targetAngle = 0;
 		degreesPerFoot = config["degreesPerFoot"].as<double>();
 	}
 
@@ -29,9 +28,8 @@ protected:
 	}
 
 	void Execute() override {
-		double distance = drive->GetDistance() - startDistance;
-		targetAngle = fabs(distance) * degreesPerFoot;
 		DriveStraight::Execute();
+		pid->SetSetpoint(currentDistance * degreesPerFoot);
 	}
 
 private:
