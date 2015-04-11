@@ -61,7 +61,7 @@ Otto:
   Ports:
     switch: [23, 22, 21]
   Camera:
-    name: cam1
+    name: cam2
     exposure: auto
     brightness: 50
 Thief:
