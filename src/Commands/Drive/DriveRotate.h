@@ -19,11 +19,11 @@ public:
 			CommandBase(name) {
 		Requires(drive);
 		speed = config["speed"].as<double>();
-		deltaAngle = config["angle"].as<double>();
+		targetAngle = config["angle"].as<double>();
 		tolerance = config["tolerance"].as<double>();
 		slowAngle = config["slowAngle"].as<double>();
 		slowFactor = config["slowFactor"].as<double>();
-		startAngle = 0, angle = 0;
+		angle = 0;
 	}
 
 	static std::string GetBaseName() {
@@ -33,27 +33,25 @@ public:
 protected:
 	void Initialize() override {
 		CommandBase::Initialize();
-		// We store this because we want to operate on an angle delta instead of an absolute angle
-		startAngle = otto->GetAngle();
 		const char* name;
-		if (deltaAngle >= 0) {
+		if (targetAngle >= 0) {
 			name = "clockwise";
 		} else {
 			name = "counterclockwise";
 		}
-		log.Info("Moving %s for %f degrees", name, deltaAngle);
+		log.Info("Moving %s for %f degrees", name, targetAngle);
 	}
 
 	void Execute() override {
-		angle = otto->GetAngle() - startAngle;
-		double difference = fabs(angle - deltaAngle);
+		angle = otto->GetAngle();
+		double difference = fabs(angle - targetAngle);
 		double rampedSpeed;
 		if (difference <= slowAngle) {
 			rampedSpeed = speed * slowFactor;
 		} else {
 			rampedSpeed = speed;
 		}
-		if (deltaAngle >= angle) { // Positive is clockwise
+		if (targetAngle >= angle) { // Positive is clockwise
 			drive->SetSpeeds(rampedSpeed, -rampedSpeed);
 		} else {
 			drive->SetSpeeds(-rampedSpeed, rampedSpeed);
@@ -61,13 +59,13 @@ protected:
 	}
 
 	bool IsFinished() override {
-		double difference = fabs(angle - deltaAngle);
+		double difference = fabs(angle - targetAngle);
 		return difference <= tolerance;
 	}
 
 	void End() override {
 		CommandBase::End();
-		log.Info("Finished rotating. target: %f, actual: %f", deltaAngle,
+		log.Info("Finished rotating. target: %f, actual: %f", targetAngle,
 				angle);
 		drive->SetSpeeds(0, 0);
 	}
@@ -78,7 +76,7 @@ protected:
 	}
 
 private:
-	double startAngle, deltaAngle, tolerance, speed, angle, slowAngle,
+	double targetAngle, tolerance, speed, angle, slowAngle,
 			slowFactor;
 
 };

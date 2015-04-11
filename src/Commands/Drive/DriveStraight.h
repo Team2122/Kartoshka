@@ -20,8 +20,7 @@ public:
 		Requires(drive);
 		currentDistance = 0;
 		startDistance = 0;
-		startAngle = 0;
-		targetAngle = 0;
+		targetAngle = config["angle"].as<double>();
 		speed = config["speed"].as<double>();
 		distance = config["distance"].as<double>();
 		speedOffset = config["speedOffset"].as<double>();
@@ -37,11 +36,10 @@ protected:
 	void Initialize() override {
 		CommandBase::Initialize();
 		startDistance = drive->GetDistance();
-		startAngle = otto->GetAngle();
 	}
 
 	void Execute() override {
-		double angle = (otto->GetAngle() - startAngle) - targetAngle;
+		double angle = otto->GetAngle() - targetAngle;
 		if (angle >= angleTolerance) {
 			drive->SetSpeeds(speed - speedOffset, speed);
 		} else if (angle <= -angleTolerance) {
@@ -67,7 +65,7 @@ protected:
 	}
 
 private:
-	double distance, speed, speedOffset, angleTolerance, startAngle;
+	double distance, speed, speedOffset, angleTolerance;
 };
 
 }

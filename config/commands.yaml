@@ -44,12 +44,6 @@ DriveArc:
     speedOffset: .75
     angleTolerance: .25
     degreesPerFoot: 6.0
-  - name: Auto7
-    speed: .75
-    distance: 7.5
-    speedOffset: 1.0
-    angleTolerance: .25
-    degreesPerFoot: 6.0
 
 DriveRotate:
   - name: Auto6
@@ -66,13 +60,13 @@ DriveRotate:
     slowFactor: .75
   - name: Auto7_2
     speed: .75
-    angle: -25.0
+    angle: -115.0
     tolerance: .5
     slowAngle: 25.0
     slowFactor: .75
   - name: Auto7_3
     speed: .75
-    angle: 70.0
+    angle: -45.0
     tolerance: .5
     slowAngle: 25.0
     slowFactor: .75
@@ -86,20 +80,25 @@ DriveRotate:
 DriveStraight:
   - name: Auto6
     speed: .75
+    angle: -90.0
     # distance: 9.0
     distance: 12.0
     speedOffset: .2
     angleTolerance: .25
   - name: Auto7_1
     speed: 1.0
+    angle: -90.0
     distance: 16.0
     speedOffset: .2
     angleTolerance: .25
   - name: Auto7_2
     speed: -.60
+    angle: -115.0
     distance: 2.5
     speedOffset: .2
     angleTolerance: .25
+
+ResetAngle:
 
 ###########
 # SHUTTLE #
@@ -394,6 +393,7 @@ $Auto0:
   # No commands
 
 $Auto1:
+  - ResetAngle
   - name: DriveDistanceAutoPickLong
     execution: Parallel
   - $ClawPick
@@ -411,6 +411,7 @@ $Auto2BinSequence:
   - $GroundToPlatform
 
 $Auto2:
+  - ResetAngle
   - $ClawToPick
   - name: $Auto2DriveSequence
     execution: Parallel
@@ -452,12 +453,14 @@ $Auto7DriveSequence:
   - DriveRotateAuto7_3
 
 $Auto6:
+  - ResetAngle
   - $ClawPick
   - name: $Auto6BinSequence
     execution: Parallel
   - $Auto6DriveSequence
 
 $Auto7:
+  - ResetAngle
   - $ClawPick
   - name: $Auto6BinSequence
     execution: Parallel
