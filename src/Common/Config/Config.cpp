@@ -14,9 +14,30 @@ YAML::Node Config::commands;
 YAML::Node Config::triggers;
 
 void Config::Load() {
-	subsystems = YAML::LoadFile(std::string(kConfigDir) + "subsystems.yaml");
-	commands = YAML::LoadFile(std::string(kConfigDir) + "commands.yaml");
-	triggers = YAML::LoadFile(std::string(kConfigDir) + "triggers.yaml");
+	std::string configDir = std::string(kConfigDir);
+	subsystems = YAML::LoadFile(configDir + "subsystems.yaml");
+	commands = YAML::LoadFile(configDir + "commands.yaml");
+	triggers = YAML::LoadFile(configDir + "triggers.yaml");
+	YAML::Node subsysemOverrides = YAML::LoadFile(
+			configDir + "subsystems-overrides.yaml");
+	if (subsysemOverrides["override"]) {
+		ApplyOverrides(subsystems, subsysemOverrides);
+	}
+}
+
+void Config::ApplyOverrides(YAML::Node to, YAML::Node from) {
+	if (to.IsMap() && from.IsMap()) {
+		for (auto it = from.begin(); it != from.end(); ++it) {
+			ApplyOverrides(to[it->first], it->second);
+		}
+	} else if ((to.IsSequence() && from.IsSequence())
+			|| (to.IsScalar() && from.IsScalar())) {
+		to = from;
+	} else {
+		throw std::runtime_error(
+				"mismatch in override config: " + to.Scalar() + " vs "
+						+ from.Scalar());
+	}
 }
 
 void Config::Delete() {

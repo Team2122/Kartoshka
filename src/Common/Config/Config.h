@@ -18,6 +18,8 @@ namespace tator {
 class Config {
 protected:
 	const constexpr static char* kConfigDir = "/etc/Kartoshka/";
+
+	static void ApplyOverrides(YAML::Node to, YAML::Node from);
 public:
 	/// Subsystems config
 	static YAML::Node subsystems;
