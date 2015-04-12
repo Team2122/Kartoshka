@@ -33,6 +33,7 @@
 #include "Commands/Shuttle/ShuttleRamp.h"
 
 #include "Commands/Thief/ThiefGrabber.h"
+#include "Commands/Thief/ThiefToggle.h"
 
 #include "Commands/ToteDictator/SetDesiredTotes.h"
 #include "Commands/ToteDictator/ToteDictator.h"
@@ -82,6 +83,7 @@ void Kremlin::CreateNormalCommands() {
 
 	// Thief
 	CreateCommandsForClass<ThiefGrabber>();
+	CreateCommandsForClass<ThiefToggle>();
 
 	// ToteFeed
 	CreateCommandsForClass<BumpBottomTote>();

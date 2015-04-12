@@ -360,6 +360,8 @@ ThiefGrabber:
   - name: Out
     status: 1
 
+ThiefToggle:
+
 #############
 # TOTE FEED #
 #############

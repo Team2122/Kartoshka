@@ -16,7 +16,7 @@
   4: WhenPressed SetDesiredTotesFive
   5: WhenPressed SetDesiredTotesSix
   6: ToggleWhenPressed ToteDictator
-  7: WhenPressed ThiefGrabberOut
+  7: WhenPressed ThiefToggle
   8: WhenPressed ClawClampDeathGrip
   9: WhenPressed ClawClampTote
   10: WhenPressed ClawClampContainer

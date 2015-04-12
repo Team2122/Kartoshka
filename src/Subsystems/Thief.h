@@ -24,6 +24,7 @@ public:
 	~Thief();
 
 	void Set(State state);
+	void Toggle();
 
 private:
 	Solenoid* piston;

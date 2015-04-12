@@ -35,4 +35,9 @@ void Thief::Set(State state){
 		break;
 	}
 }
+
+void Thief::Toggle() {
+	piston->Set(!piston->Get());
+}
+
 }
