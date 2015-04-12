@@ -28,6 +28,7 @@ public:
 		YAML::Node pid_ = config["PID"];
 		pid = new PIDController(pid_["P"].as<double>(), pid_["I"].as<double>(),
 				pid_["D"].as<double>(), pid_["F"].as<double>(), this, this);
+		cyclesSinceLog = 0;
 	}
 
 	static std::string GetBaseName() {
@@ -52,11 +53,15 @@ protected:
 		pid->SetSetpoint(angle);
 		pid->Reset();
 		pid->Enable();
+		cyclesSinceLog = 0;
 	}
 
 	void Execute() override {
 		currentDistance = fabs(drive->GetDistance() - startDistance);
-		log.Info("Angle: %f, distance: %f", PIDGet(), currentDistance);
+		if (cyclesSinceLog++ >= 10) {
+			log.Info("Angle: %f, distance: %f", PIDGet(), currentDistance);
+			cyclesSinceLog = 0;
+		}
 	}
 
 	bool IsFinished() override {
@@ -78,6 +83,7 @@ protected:
 private:
 	double distance, speed, angle;
 	double startDistance;
+	int cyclesSinceLog;
 };
 
 }
