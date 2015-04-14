@@ -5,9 +5,9 @@ Claw:
       encoder: [6, 7]
     rotation:
       motor: 7
-      encoder: {Channel: 0, Scale: 360, Offset: 13.0}
+      encoder: {Channel: 0, Scale: 360, Offset: 23.0}
     limits:
-      home: {channel: 12, isNPN: true}
+      home: {channel: 12, isNPN: false}
       top: {channel: 13, isNPN: true}
     clamp: {long: 2, short: 3}
     rollers: 8
