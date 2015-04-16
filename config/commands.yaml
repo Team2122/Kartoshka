@@ -388,7 +388,6 @@ UnloadTote:
 
 $Auto0:
   - ResetAngle
-  - $Auto7DriveSequence
 
 $Auto1:
   - ResetAngle
@@ -404,16 +403,13 @@ $Auto2DriveSequence:
   - DriveRotateAuto2
   - DriveDistanceAuto2_2
 
-$Auto2BinSequence:
-  - ClawSmartRollers
-  - $GroundToPlatform
-
 $Auto2:
   - ResetAngle
   - $ClawToPick
   - name: $Auto2DriveSequence
     execution: Parallel
-  - $Auto2BinSequence
+  - ClawSmartRollers
+  - $GroundToPlatform
 
 $Auto3:
   - name: DriveDistanceAutoThreeDistance
@@ -435,35 +431,22 @@ $Auto5:
     execution: Parallel
   - $GroundToPlatform
 
-$Auto6BinSequence:
-  - $GroundToPlatform
-
-$Auto6DriveSequence:
+$Auto6:
+  - ResetAngle
+  - $ClawPick
+  - name: $GroundToPlatform
+    execution: Parallel
   - DriveRotateAuto6
   - DriveStraightAuto6
 #  - DriveArcAuto6
 
-$Auto7DriveSequence:
+$Auto7:
+  - ResetAngle
+  - $ClawPick
+  - name: $GroundToPlatform
+    execution: Parallel
   - DriveRotateAuto7_1
   - DriveStraightAuto7_1
   - DriveRotateAuto7_2
   - DriveStraightAuto7_2
   - DriveRotateAuto7_3
-
-$Auto6:
-  - ResetAngle
-  - $ClawPick
-  - name: $Auto6BinSequence
-    execution: Parallel
-  - $Auto6DriveSequence
-
-$Auto7:
-  - ResetAngle
-  - $ClawPick
-  - name: $Auto6BinSequence
-    execution: Parallel
-  - $Auto7DriveSequence
-
-###########
-# UTILITY #
-###########
