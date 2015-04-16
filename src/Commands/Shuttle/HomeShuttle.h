@@ -30,10 +30,6 @@ protected:
 	}
 
 	void Execute() override {
-		if (shuttle->IsStalled()) {
-			log.Error("The shuttle has stalled while homing");
-			this->Cancel();
-		}
 		if (shuttle->GetLimit() == Shuttle::kUpper) {
 			log.Error("We have big problems. The shuttle went up when we "
 					"thought it should go down");

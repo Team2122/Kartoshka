@@ -30,14 +30,11 @@ private:
 	Solenoid* clampPiston; ///< Piston that grabs the totes
 	Talon* liftMotor; ///< Motor that lifts the shuttle with totes
 	Encoder* liftEncoder; ///< Encoder to read how far shuttle has moved
-	PowerDistributionPanel* pdp; ///< Power distribution board for detecting if motor has stalled
 	Solenoid* fingersPiston; ///< Pistons that hold uppermost totes in place
 	double upSpeed; ///< This is the speed of the shuttle when going up
 	double downSpeed; ///< The speed of the shuttle when going down
 	double holdSpeed; ///< The speed of the shuttle when holding the totes in place
 	double speedScale; ///< The Value that can be multiplied by how many totes we are holding to get the speed we need to counteract that force
-	uint8_t motorPDPChannel; ///< The motor PDP channel
-	double maxMotorCurrent; ///< The max current that can be sent to the shuttle motors. Used ot know if there is a motor stall
 
 	int toteHeight; ///< How high of a stack we want to build
 	int totesHeld; ///< How many totes the robot is holding
@@ -108,12 +105,6 @@ public:
 	void SetShuttleSpeed(double speed);
 
 	double GetShuttleSpeed(Speed speed);
-
-	/**
-	 * Gets if stupid usa has stalled motor
-	 * @return Yes if evil
-	 */
-	bool IsStalled();
 
 	/**
 	 * Gets the height of the stack we want to build

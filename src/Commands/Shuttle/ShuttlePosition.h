@@ -42,10 +42,6 @@ protected:
 	}
 
 	void Execute() override {
-		if (shuttle->IsStalled()) {
-			log.Error("The shuttle has stalled while traveling to a position");
-			this->Cancel();
-		}
 	}
 
 	bool IsFinished() override {

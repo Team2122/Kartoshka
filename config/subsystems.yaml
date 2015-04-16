@@ -45,13 +45,11 @@ Shuttle:
     lift:
       motor: 4
       encoder: [4, 5]
-      pdp: 15
   Values:
     upSpeed: -0.7
     downSpeed: 0.5
     holdSpeed: -0.1
     speedScale: -.075
-    maxCurrent: 120.0
 ToteFeed:
   ports:
     rollers: 2

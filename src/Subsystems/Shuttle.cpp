@@ -26,8 +26,6 @@ Shuttle::Shuttle(YAML::Node config) :
 	YAML::Node liftEncoder_ = lift["encoder"];
 	liftEncoder = new Encoder(liftEncoder_[0].as<int>(),
 			liftEncoder_[1].as<int>());
-	pdp = new PowerDistributionPanel();
-	motorPDPChannel = lift["pdp"].as<int>();
 	fingersPiston = new Solenoid(ports["fingersPiston"].as<int>());
 
 	YAML::Node values = config["Values"];
@@ -35,7 +33,6 @@ Shuttle::Shuttle(YAML::Node config) :
 	downSpeed = values["downSpeed"].as<double>();
 	holdSpeed = values["holdSpeed"].as<double>();
 	speedScale = values["speedScale"].as<double>();
-	maxMotorCurrent = values["maxCurrent"].as<double>();
 
 	liftEncoder->SetReverseDirection(true);
 
@@ -153,10 +150,6 @@ void Shuttle::SetShuttleSpeed(double speed) {
 
 int32_t Shuttle::GetEncoderTicks() {
 	return liftEncoder->Get();
-}
-
-bool Shuttle::IsStalled() {
-	return pdp->GetCurrent(motorPDPChannel) >= maxMotorCurrent;
 }
 
 void Shuttle::ResetEncoder() {
