@@ -26,9 +26,11 @@ public:
 		stackSequence = nullptr;
 		restackSequence = nullptr;
 		unstackSequence = nullptr;
+		fixJamSequence = nullptr;
 
 		sampleCount = 0;
 		samplesRequired = config["samples"].as<int>();
+		maxStackSequenceTime = config["maxStackSequenceTime"].as<double>();
 	}
 
 	static std::string GetBaseName() {
@@ -73,12 +75,20 @@ protected:
 			PrintLogData(logData);
 			lastLogData = logData;
 		}
+		// If the stack sequence is running and has been for more than the max time
+		if (stackSequence->IsRunning()
+				&& stackSequence->TimeSinceInitialized() >= maxStackSequenceTime) {
+			// It has jammed against a tote, run the fix jam sequence
+			fixJamSequence->Start();
+		}
+
 		// If any sequence is running
 		if (stackSequence->IsRunning() || restackSequence->IsRunning()
 				|| unstackSequence->IsRunning()
 				|| fixJamSequence->IsRunning()) {
 			return; // Now is not the time for logic
 		}
+
 		// If there is tote at the bottom of the bot
 		if (toteFeed->GetBackSensor()) {
 			// And we have not counted it yet
@@ -187,6 +197,7 @@ private:
 
 	int sampleCount;
 	int samplesRequired;
+	double maxStackSequenceTime;
 	LogData lastLogData;
 };
 

@@ -201,6 +201,7 @@ $StackTote:
 
 ToteDictator:
   samples: 6
+  maxStackSequenceTime: 3.0
 
 $Unstack:
   - ShuttleClampOpen
