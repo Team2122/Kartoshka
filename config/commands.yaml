@@ -240,6 +240,9 @@ ClawEstablishHome:
 ClawRegripPosition:
   speed: .2
 
+ClawRightBin:
+  speed: 0.8
+
 ClawRollers:
   - name: In
     status: 2
@@ -367,7 +370,7 @@ $RegripBin:
   - ClawClampContainer
   - ClawSmartRollers
   - ClawClampDeathGrip
-  
+
 $RightBin:
   - ClawToHeightHighPick
   - ClawRollersRightBin

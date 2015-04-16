@@ -12,6 +12,7 @@
 #include "Commands/Claw/ClawClamp.h"
 #include "Commands/Claw/ClawClampToggle.h"
 #include "Commands/Claw/ClawEstablishHome.h"
+#include "Commands/Claw/ClawRightBin.h"
 #include "Commands/Claw/ClawSmartRollers.h"
 #include "Commands/Claw/ClawToAngle.h"
 #include "Commands/Claw/ClawToHeight.h"
@@ -59,6 +60,7 @@ void Kremlin::CreateNormalCommands() {
 	CreateCommandsForClass<ClawClamp>();
 	CreateCommandsForClass<ClawClampToggle>();
 	CreateCommandsForClass<ClawEstablishHome>();
+	CreateCommandsForClass<ClawRightBin>();
 	CreateCommandsForClass<ClawSmartRollers>();
 	CreateCommandsForClass<ClawToAngle>();
 	CreateCommandsForClass<ClawToHeight>();
