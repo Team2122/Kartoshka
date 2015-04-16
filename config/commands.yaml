@@ -316,7 +316,7 @@ ManualClawLift:
     speed: .25
 
 $PickBin:
-  - ClawClampLeft
+  - ClawClampRight
   - ClawSmartRollers
   - name: WaitCommand
     time: 0.25
