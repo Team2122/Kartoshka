@@ -15,7 +15,7 @@ Claw:
   Software:
     heightTolerance: 3.0
     angles:
-      tolerance: 15.0
+      tolerance: 7.5
       front: 70.0
       back: 235.0
   Speeds:
