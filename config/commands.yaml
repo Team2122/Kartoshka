@@ -117,7 +117,6 @@ Fingers:
 
 $FixJam:
   - ShuttlePositionUnload
-  # - ShuttleDown
   - ShuttleRampDown
 
 HomeShuttle:
@@ -134,8 +133,6 @@ $Restack:
     time: 0.25
   - ShuttlePositionUnload
   - FingersRelease
-  - name: WaitCommand
-    time: 0
   - ShuttleDown
   - ShuttleRampDown
   - ShuttleClampOpen
@@ -171,10 +168,6 @@ $ShuttleInit:
   - HomeShuttle
 
 ShuttlePosition:
-  - name: Down
-    ticks: 0
-  - name: Up
-    ticks: 700
   - name: Unload
     ticks: 350
   - name: Unstack
@@ -295,15 +288,6 @@ ClawToHeight:
     ramp: {distance: 0.0, factor: 0.0}
     speed: .25
     requiredAngle: back
-
-ClawToHome:
-  rotateWait: .25
-
-$ClawToHome:
-  - ClawToAngleFront
-  - name: WaitCommand
-    time: 0.25
-  - ClawToHeightHome
 
 $ClawToPick:
   - ClawToAngleFront
