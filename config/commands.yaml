@@ -36,15 +36,23 @@ DriveDistance:
   - name: Auto2_2
     speed: -0.75
     distance: 6.0
+  - name: GetCans
+    speed: .75
+    distance: 3.5
+  - name: AutoBackShort
+    speed: -.50
+    distance: 0.25
+  - name: EscapeCan
+    speed: 0.50
+    distance: 2.0
 
-# DriveArc:
-#   - name: Auto6
-#     speed: .75
-#     distance: 7.5
-#     speedOffset: .75
-#     angleTolerance: .25
-#     angle: -90
-#     degreesPerFoot: 6.0
+DriveArc:
+  - name: Auto6
+    speed: .5
+    angle: 0.0
+    distance: 6.0
+    degreesPerFoot: 15.0
+    PID: {P: .05, I: .00, D: 0, F: 0}
 
 DriveRotate:
   - name: Auto6
@@ -80,10 +88,10 @@ DriveRotate:
 
 DriveStraight:
   - name: Auto6
-    speed: .75
+    speed: -1.0
     angle: -90.0
     distance: 12.0
-    PID: {P: 0, I: 0, D: 0, F: 0}
+    PID: {P: .05, I: .00, D: 0, F: 0}
   - name: Auto7_1
     speed: 1.0
     angle: -87
@@ -334,7 +342,6 @@ $PickUpMoveToPlatform:
 
 $PlatformToPlacement:
   - ClawToHeightTop
-  - LackOfStack
   - ClawToAngleFront
 
 $RegripBin:
@@ -432,13 +439,21 @@ $Auto5:
   - $GroundToPlatform
 
 $Auto6:
+  - ThiefGrabberOut
   - ResetAngle
-  - $ClawPick
-  - name: $GroundToPlatform
+  - name: $ClawToPick
     execution: Parallel
-  - DriveRotateAuto6
-  - DriveStraightAuto6
-#  - DriveArcAuto6
+  - name: WaitCommand
+    time: 2.0
+  - DriveDistanceGetCans
+  # - name: $GroundToPlatform
+  #   execution: Parallel
+  - ThiefGrabberIn
+  - name: WaitCommand
+    time: 1.0
+  - DriveDistanceAutoBackShort
+  - DriveDistanceEscapeCan
+  # - DriveArcAuto6
 
 $Auto7:
   - ResetAngle
