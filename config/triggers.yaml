@@ -6,7 +6,7 @@
   5: WhileHeld ManualClawLiftUp
   6: WhenPressed $RegripBin
   7: WhileHeld ManualClawLiftDown
-  8: WhenPressed ClawToHeightTop
+  8: WhenPressed ClawUnload
   9: WhenPressed ClawClampToggle
   12: WhenPressed ClawToAngleFront
 1:

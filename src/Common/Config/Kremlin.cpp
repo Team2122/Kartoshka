@@ -15,6 +15,7 @@
 #include "Commands/Claw/ClawSmartRollers.h"
 #include "Commands/Claw/ClawToAngle.h"
 #include "Commands/Claw/ClawToHeight.h"
+#include "Commands/Claw/ClawUnload.h"
 #include "Commands/Claw/ManualClawLift.h"
 
 #include "Commands/Drive/DriveArc.h"
@@ -62,6 +63,7 @@ void Kremlin::CreateNormalCommands() {
 	CreateCommandsForClass<ClawSmartRollers>();
 	CreateCommandsForClass<ClawToAngle>();
 	CreateCommandsForClass<ClawToHeight>();
+	CreateCommandsForClass<ClawUnload>();
 	CreateCommandsForClass<ManualClawLift>();
 
 	// Drive
