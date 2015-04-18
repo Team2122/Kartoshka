@@ -70,7 +70,7 @@ DriveRotate:
   - name: Auto7_2
     speed: .75
     angle: -115.0
-    tolerance: .5
+    tolerance: 1.0
     slowAngle: 25.0
     slowFactor: .75
   - name: Auto7_3
@@ -274,7 +274,7 @@ ClawToHeight:
     speed: 1.0
     requiredAngle: neither
   - name: Middle
-    height: 200
+    height: 196
     ramp: {distance: 0.0, factor: 0.0}
     speed: 1.0
     requiredAngle: neither
@@ -356,7 +356,7 @@ BumpBottomTote:
   time: 0.25
 
 HoldBottomTote:
-  rollerSpeed: 0.15
+  rollerSpeed: 0.30
 
 IntakeTotes:
   flapperSpeed: .9

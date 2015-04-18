@@ -8,7 +8,7 @@
   7: WhileHeld ManualClawLiftDown
   8: WhenPressed ClawToHeightTop
   9: WhenPressed ClawClampToggle
-  10: WhenPressed ClawToAngleFront
+  12: WhenPressed ClawToAngleFront
 1:
   1: WhenPressed SetDesiredTotesTwo
   2: WhenPressed SetDesiredTotesThree
