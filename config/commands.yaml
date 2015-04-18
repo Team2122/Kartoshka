@@ -74,9 +74,9 @@ DriveRotate:
     slowAngle: 25.0
     slowFactor: .75
   - name: Auto7_3
-    speed: .75
+    speed: .9
     angle: -45.0
-    tolerance: .5
+    tolerance: 1.0
     slowAngle: 25.0
     slowFactor: .75
   - name: Auto2
@@ -98,7 +98,7 @@ DriveStraight:
     distance: 16.0
     PID: {P: .05, I: .00, D: 0, F: 0}
   - name: Auto7_2
-    speed: -.60
+    speed: -.40
     angle: -115.0
     distance: 2.5
     PID: {P: 0, I: 0, D: 0, F: 0}
