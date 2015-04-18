@@ -6,9 +6,9 @@
   5: WhileHeld ManualClawLiftUp
   6: WhenPressed $RegripBin
   7: WhileHeld ManualClawLiftDown
-  8: WhenPressed $PlatformToPlacement
+  8: WhenPressed ClawToHeightTop
   9: WhenPressed ClawClampToggle
-  10: WhenPressed $Restack
+  10: WhenPressed ClawToAngleFront
 1:
   1: WhenPressed SetDesiredTotesTwo
   2: WhenPressed SetDesiredTotesThree
@@ -28,7 +28,7 @@
   5: WhenPressed $RegripBin
   6: WhenPressed ClawToAngleFront
   7: WhenPressed ClawToAngleBack
-  8: WhenPressed $PlatformToPlacement
+  8: WhenPressed ClawToHeightTop
   9: WhenPressed $FixJam
   10: WhileHeld ManualClawLiftUp
   11: WhileHeld ManualClawLiftDown
