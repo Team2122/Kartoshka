@@ -358,7 +358,7 @@ BumpBottomTote:
   time: 0.25
 
 HoldBottomTote:
-  rollerSpeed: 0.30
+  rollerSpeed: 0.25
 
 IntakeTotes:
   flapperSpeed: .9
