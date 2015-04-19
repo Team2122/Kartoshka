@@ -37,7 +37,7 @@ DriveDistance:
     speed: -0.75
     distance: 6.0
   - name: GetCans
-    speed: .75
+    speed: 1.0
     distance: 3.5
   - name: AutoBackShort
     speed: -.50
@@ -57,7 +57,7 @@ DriveArc:
 DriveRotate:
   - name: Auto6
     speed: .75
-    angle: -90.0
+    angle: 90.0
     tolerance: .5
     slowAngle: 25.0
     slowFactor: .75
@@ -88,8 +88,8 @@ DriveRotate:
 
 DriveStraight:
   - name: Auto6
-    speed: -1.0
-    angle: -90.0
+    speed: 1.0
+    angle: 90.0
     distance: 12.0
     PID: {P: .05, I: .00, D: 0, F: 0}
   - name: Auto7_1
@@ -426,7 +426,7 @@ $Auto6:
   - name: $ClawToPick
     execution: Parallel
   - name: WaitCommand
-    time: 2.0
+    time: 1.75
   - DriveDistanceGetCans
   # - name: $GroundToPlatform
   #   execution: Parallel
@@ -435,7 +435,8 @@ $Auto6:
     time: 1.0
   - DriveDistanceAutoBackShort
   - DriveDistanceEscapeCan
-  # - DriveArcAuto6
+  - DriveRotateAuto6
+  - DriveStraightAuto6
 
 $Auto7:
   - ResetAngle
