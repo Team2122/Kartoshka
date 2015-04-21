@@ -422,21 +422,23 @@ $Auto5:
 
 $Auto6:
   - ThiefGrabberOut
-  - ResetAngle
+  - name: ResetAngle
+    execution: Parallel
   - name: $ClawToPick
     execution: Parallel
   - name: WaitCommand
-    time: 1.75
-  - DriveDistanceGetCans
-  # - name: $GroundToPlatform
-  #   execution: Parallel
+    time: 0.4
   - ThiefGrabberIn
   - name: WaitCommand
-    time: 1.0
-  - DriveDistanceAutoBackShort
+    time: 0.3
+  - ThiefGrabberOut
+  - name: WaitCommand
+    time: 0.2
+  - DriveDistanceGetCans
+  - ThiefGrabberIn
   - DriveDistanceEscapeCan
-  - DriveRotateAuto6
-  - DriveStraightAuto6
+  # - DriveRotateAuto6
+  # - DriveStraightAuto6
 
 $Auto7:
   - ResetAngle
