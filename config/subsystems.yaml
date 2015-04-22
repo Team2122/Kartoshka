@@ -7,7 +7,7 @@ Claw:
       motor: 7
       encoder: {Channel: 0, Scale: 360, Offset: 37.0}
     limits:
-      home: {channel: 12, isNPN: false}
+      home: {channel: 12, isNPN: true}
       top: {channel: 13, isNPN: true}
     clamp: {left: 3, right: 2}
     rollers: 8
@@ -59,7 +59,7 @@ Otto:
   Ports:
     switch: [23, 22, 21]
   Camera:
-    name: cam2
+    name: cam1
     exposure: auto
     brightness: 50
 Thief:
