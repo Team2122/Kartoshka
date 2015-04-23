@@ -248,7 +248,7 @@ ClawToAngle:
   - name: Front
     angle: front
     speed: -.50
-    holdSpeed: -.15
+    holdSpeed: -.20
     ramp:
       distance: 45
       factor: .35
@@ -256,7 +256,7 @@ ClawToAngle:
   - name: Back
     angle: back
     speed: .50
-    holdSpeed: .15
+    holdSpeed: .20
     ramp:
       distance: 45
       factor: .35
