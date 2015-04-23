@@ -275,7 +275,7 @@ ClawToHeight:
     requiredAngle: neither
   - name: Middle
     height: 196
-    ramp: {distance: 0.0, factor: 0.0}
+    ramp: {distance: 20.0, factor: .25}
     speed: 1.0
     requiredAngle: neither
   - name: Platform
