@@ -251,7 +251,7 @@ ClawToAngle:
     holdSpeed: -.15
     ramp:
       distance: 45
-      factor: .5
+      factor: .35
     minimumHeight: 160
   - name: Back
     angle: back
@@ -259,7 +259,7 @@ ClawToAngle:
     holdSpeed: .15
     ramp:
       distance: 45
-      factor: .5
+      factor: .35
     minimumHeight: 160
 
 ClawToHeight:
