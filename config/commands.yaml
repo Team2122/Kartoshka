@@ -335,7 +335,8 @@ $RegripBin:
   - ClawToHeightRegrip
   - name: WaitCommand
     time: 0.25
-  - $PickBin
+  - ClawClampDeathGrip
+  - ClawSmartRollers
 
 #########
 # THIEF #
