@@ -5,7 +5,7 @@ Claw:
       encoder: [6, 7]
     rotation:
       motor: 7
-      encoder: {Channel: 0, Scale: 360, Offset: -12.5}
+      encoder: {Channel: 0, Scale: 360, Offset: -10.5}
     limits:
       home: {channel: 12, isNPN: true}
       top: {channel: 13, isNPN: true}
@@ -16,7 +16,7 @@ Claw:
     heightTolerance: 3.0
     angles:
       tolerance: 7.5
-      front: 70.0
+      front: 68.0
       back: 240.0
   Speeds:
     outward: 0.5
