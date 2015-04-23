@@ -41,9 +41,10 @@ protected:
 		if (claw->IsAtAngle(requiredAngle)) {
 			return true; // we are safe to move
 		} else {
+			double delta = claw->GetDegreesFromAngle(requiredAngle);
 			log.Error("We cannot move the claw lift to this position when we "
-					"are not at %s angle", requiredAngleName.c_str());
-			this->Cancel();
+					"are not at %s angle (we are %f degrees away)",
+					requiredAngleName.c_str(), delta);
 			return false; // not so much :d
 		}
 	}
@@ -51,6 +52,7 @@ protected:
 	void Initialize() override {
 		CommandBase::Initialize();
 		if (!IsAtAngle()) {
+			this->Cancel();
 			return; // If we are not at a safe angle, abort
 		}
 		double liftHeight = claw->GetLiftEncoder();
@@ -65,7 +67,8 @@ protected:
 
 	void Execute() override {
 		if (!IsAtAngle()) {
-			return; // If we are not at a safe angle, abort
+			claw->SetLiftSpeed(0);
+			return; // If we are not at a safe angle, set speed to 0
 		}
 		double liftHeight = claw->GetLiftEncoder();
 		if (height >= liftHeight) { // calculate the sign of the direction
