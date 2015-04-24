@@ -438,8 +438,8 @@ $Auto6:
   - DriveDistanceGetCans
   - ThiefGrabberIn
   - DriveDistanceEscapeCan
-  # - DriveRotateAuto6
-  # - DriveStraightAuto6
+  - DriveRotateAuto6
+  - DriveStraightAuto6
 
 $Auto7:
   - ResetAngle
