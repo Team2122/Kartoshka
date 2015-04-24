@@ -37,14 +37,17 @@ DriveDistance:
     speed: -0.75
     distance: 6.0
   - name: GetCans
-    speed: 1.0
-    distance: 3.5
+    speed: 2.0
+    distance: 2.5
   - name: AutoBackShort
     speed: -.50
     distance: 0.25
   - name: EscapeCan
     speed: 0.50
     distance: 2.0
+  - name: CatchCan
+    speed: -.5
+    distance: .1
 
 DriveArc:
   - name: Auto6
@@ -427,6 +430,8 @@ $Auto6:
     execution: Parallel
   - name: $ClawToPick
     execution: Parallel
+  - name: DriveDistanceCatchCan
+    execution: Parallel
   - name: WaitCommand
     time: 0.4
   - ThiefGrabberIn
@@ -434,7 +439,7 @@ $Auto6:
     time: 0.3
   - ThiefGrabberOut
   - name: WaitCommand
-    time: 0.2
+    time: .75
   - DriveDistanceGetCans
   - ThiefGrabberIn
   - DriveDistanceEscapeCan
