@@ -93,7 +93,7 @@ DriveStraight:
   - name: Auto6
     speed: 1.0
     angle: 90.0
-    distance: 6.0
+    distance: 2.0
     PID: {P: .05, I: .00, D: 0, F: 0}
   - name: Auto7_1
     speed: 1.0
