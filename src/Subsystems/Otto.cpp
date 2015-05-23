@@ -68,7 +68,7 @@ double Otto::GetAngle() {
 }
 
 void Otto::ResetAngle() {
-	gyro->Reset();
+	gyro->ResetAngle();
 }
 
 void Otto::StartGyroCalibration() {

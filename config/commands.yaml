@@ -90,6 +90,11 @@ DriveRotate:
     slowFactor: .9
 
 DriveStraight:
+  - name: Auto0
+    speed: 1.0
+    angle: 0.0
+    distance: 30.0
+    PID: {P: .05, I: .0025, D: 0, F: 0}
   - name: Auto6
     speed: 1.0
     angle: 90.0
@@ -381,6 +386,7 @@ UnloadTote:
 
 $Auto0:
   - ResetAngle
+  - DriveStraightAuto0
 
 $Auto1:
   - ResetAngle
