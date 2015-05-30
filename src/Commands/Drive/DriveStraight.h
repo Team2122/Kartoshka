@@ -37,12 +37,10 @@ public:
 protected:
 	double PIDGet() override {
 		double angle = otto->GetAngle();
-		log.Info("angle, %f", angle);
 		return angle;
 	}
 
 	void PIDWrite(float output) override {
-		log.Info("output, %f", output);
 		drive->SetSpeeds(speed + output, speed - output);
 	}
 
@@ -59,7 +57,7 @@ protected:
 
 	void Execute() override {
 		currentDistance = fabs(drive->GetDistance() - startDistance);
-//		log.Info("Angle: %f, distance: %f", PIDGet(), currentDistance);
+		log.Info("angle: %f, target: %f, distance: %f", PIDGet(), pid->GetSetpoint(), currentDistance);
 	}
 
 	bool IsFinished() override {

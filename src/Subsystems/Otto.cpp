@@ -67,6 +67,10 @@ double Otto::GetAngle() {
 	return gyro->GetAngle();
 }
 
+double Otto::GetRate() {
+	return gyro->GetRate();
+}
+
 void Otto::ResetAngle() {
 	gyro->ResetAngle();
 }

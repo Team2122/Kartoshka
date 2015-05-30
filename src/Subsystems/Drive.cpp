@@ -30,7 +30,7 @@ Drive::Drive(YAML::Node config) :
 	encoderL->SetPIDSourceParameter(PIDSource::kRate);
 	encoderR->SetPIDSourceParameter(PIDSource::kRate);
 
-	this->SetControlMode(Mode::pid);
+	this->SetControlMode(Mode::direct);
 
 	ManualTester* manualTester = ManualTester::GetInstance();
 	manualTester->Add(GetName(), "left drive", driveL);

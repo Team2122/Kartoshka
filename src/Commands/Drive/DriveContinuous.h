@@ -41,13 +41,13 @@ protected:
 
 	void End() override {
 		drive->SetSpeeds(0, 0);
-		drive->SetControlMode(Drive::Mode::pid);
+		drive->SetControlMode(Drive::Mode::direct);
 		CommandBase::End();
 	}
 
 	void Interrupted() override {
 		drive->SetSpeeds(0, 0);
-		drive->SetControlMode(Drive::Mode::pid);
+		drive->SetControlMode(Drive::Mode::direct);
 		CommandBase::Interrupted();
 	}
 

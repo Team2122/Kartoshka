@@ -56,6 +56,12 @@ DriveArc:
     distance: 6.0
     degreesPerFoot: 15.0
     PID: {P: .05, I: .00, D: 0, F: 0}
+  - name: Test
+    speed: .5
+    angle: 0.0
+    distance: 3.0
+    degreesPerFoot: 30.0
+    PID: {P: .05, I: .00, D: 0, F: 0}
 
 DriveRotate:
   - name: Auto6
@@ -110,6 +116,18 @@ DriveStraight:
     angle: -115.0
     distance: 2.5
     PID: {P: 0, I: 0, D: 0, F: 0}
+
+DriveZach:
+  - name: Test1
+    speed: 0.25
+    distance: 12.0
+    startAngle: 0.0
+    endAngle: 360.0
+  - name: Test2
+    speed: -0.25
+    distance: 12.0
+    startAngle: 360.0
+    endAngle: 0.0
 
 ResetAngle:
 
@@ -388,7 +406,8 @@ UnloadTote:
 
 $Auto0:
   - ResetAngle
-  - DriveStraightAuto0
+  - DriveZachTest1
+  - DriveZachTest2
 
 $Auto1:
   - ResetAngle

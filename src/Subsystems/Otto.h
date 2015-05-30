@@ -50,6 +50,12 @@ public:
 	double GetAngle();
 
 	/**
+	 * Gets the rate of rotation of communism
+	 * @return The rate in degrees/second
+	 */
+	double GetRate();
+
+	/**
 	 * Resets angle to straight communsim
 	 */
 	void ResetAngle();
