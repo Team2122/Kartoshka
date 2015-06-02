@@ -41,6 +41,8 @@ protected:
 	};
 	/// Map of strings to CommandDetails
 	static std::map<std::string, CommandDetails> commands;
+	/// Map of command names to default configs
+	static std::map<std::string, YAML::Node> defaultConfigs;
 	static Logger log;
 	template<typename T>
 	/**

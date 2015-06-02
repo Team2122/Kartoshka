@@ -53,6 +53,7 @@
 namespace tator {
 
 std::map<std::string, Kremlin::CommandDetails> Kremlin::commands;
+std::map<std::string, YAML::Node> Kremlin::defaultConfigs;
 Logger Kremlin::log("Kremlin");
 
 void Kremlin::CreateNormalCommands() {
@@ -112,6 +113,8 @@ void Kremlin::CreateCommands() {
 		createdCommand = Kremlin::CreateGenericCommandGroups(lastTry);
 		if (!createdCommand) {
 			lastTry = !lastTry;
+		} else {
+			lastTry = false;
 		}
 	} while (createdCommand || lastTry);
 }
@@ -124,6 +127,14 @@ bool Kremlin::CreateGenericCommandGroups(bool lastTry) {
 		std::string fullName = it->first.as<std::string>();
 		if (fullName.at(0) == '$') {
 			YAML::Node commandConfig = it->second;
+			std::string ending = "Default";
+			if (fullName.length() >= ending.length()
+					&& fullName.compare(fullName.length() - ending.length(),
+							ending.length(), ending) == 0) {
+				// It ends with default
+				defaultConfigs[fullName] = commandConfig;
+				continue;
+			}
 			bool missingCommand = false;
 			if (commands.count(fullName) > 0) {
 				// We already created the command
@@ -151,6 +162,19 @@ bool Kremlin::CreateGenericCommandGroups(bool lastTry) {
 			}
 			if (missingCommand) {
 				continue;
+			}
+			YAML::Node defaultConfig;
+			if (defaultConfigs.count(fullName) == 0) {
+				if (lastTry) {
+					defaultConfig = YAML::Node();
+				} else {
+					continue;
+				}
+			} else {
+				defaultConfig = defaultConfigs[fullName];
+			}
+			for (YAML::Node subnode : defaultConfig) {
+				commandConfig.push_back(subnode);
 			}
 			CommandDetails details = { new GenericCommandGroup(fullName, commandConfig),
 					[fullName, commandConfig] () {
