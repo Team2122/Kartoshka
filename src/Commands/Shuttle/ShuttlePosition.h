@@ -30,7 +30,7 @@ protected:
 		CommandBase::Initialize();
 		int shuttleTicks = shuttle->GetEncoderTicks();
 		const char* name;
-		if (targetTicks >= shuttleTicks) {
+		if (targetTicks > shuttleTicks) {
 			speed = Shuttle::kUp;
 			name = "up";
 		} else {
@@ -38,7 +38,7 @@ protected:
 			name = "down";
 		}
 		shuttle->SetShuttleSpeed(speed);
-		log.Info("We are moving %s to %d ticks", name, targetTicks);
+		log.Info("We are moving %s from %d to %d ticks", name, shuttleTicks, targetTicks);
 	}
 
 	void Execute() override {
@@ -67,12 +67,12 @@ protected:
 
 	void End() override {
 		log.Info("Finished while at %d, target of %d", shuttle->GetEncoderTicks(), targetTicks);
-		shuttle->SetShuttleSpeed(Shuttle::kStop);
+		shuttle->SetShuttleSpeed(Shuttle::kHold);
 		CommandBase::End();
 	}
 
 	void Interrupted() override {
-		shuttle->SetShuttleSpeed(Shuttle::kStop);
+		shuttle->SetShuttleSpeed(Shuttle::kHold);
 		CommandBase::Interrupted();
 	}
 

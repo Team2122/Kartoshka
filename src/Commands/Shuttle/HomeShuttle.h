@@ -17,6 +17,7 @@ public:
 	HomeShuttle(std::string name, YAML::Node config) :
 			CommandBase(name) {
 		Requires(shuttle);
+		speed = config["speed"].as<double>();
 	}
 
 	static std::string GetBaseName() {
@@ -25,7 +26,7 @@ public:
 
 protected:
 	void Initialize() override {
-		shuttle->SetShuttleSpeed(Shuttle::kDown);
+		shuttle->SetShuttleSpeed(speed);
 		CommandBase::Initialize();
 	}
 
@@ -43,14 +44,17 @@ protected:
 
 	void End() override {
 		shuttle->ResetEncoder();
-		shuttle->SetShuttleSpeed(Shuttle::kStop);
+		shuttle->SetShuttleSpeed(Shuttle::kHold);
 		CommandBase::End();
 	}
 
 	void Interrupted() override {
-		shuttle->SetShuttleSpeed(Shuttle::kStop);
+		shuttle->SetShuttleSpeed(Shuttle::kHold);
 		CommandBase::Interrupted();
 	}
+
+private:
+	double speed;
 };
 
 }

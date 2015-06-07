@@ -46,9 +46,9 @@ Shuttle:
       motor: 4
       encoder: [4, 5]
   Values:
-    upSpeed: -0.7
-    downSpeed: 0.5
-    holdSpeed: -0.1
+    upSpeed: -0.75
+    downSpeed: 0.75
+    holdSpeed: 0.1
     speedScale: -.075
 ToteFeed:
   ports:

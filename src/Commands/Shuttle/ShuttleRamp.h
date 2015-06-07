@@ -18,7 +18,6 @@ public:
 			CommandBase(name) {
 		rampDistance = config["rampDistance"].as<int>();
 		targetTicks = config["ticks"].as<int>();
-		tolerance = config["tolerance"].as<int>();
 		rampFactor = config["rampFactor"].as<double>();
 		speed = Shuttle::kStop;
 		Requires(shuttle);
@@ -33,14 +32,14 @@ protected:
 		CommandBase::Initialize();
 		int shuttleTicks = shuttle->GetEncoderTicks();
 		const char* name;
-		if (targetTicks >= shuttleTicks) {
+		if (targetTicks > shuttleTicks) {
 			speed = Shuttle::Speed::kUp;
 			name = "up";
 		} else {
 			speed = Shuttle::Speed::kDown;
 			name = "down";
 		}
-		log.Info("We are moving %s to %d ticks", name, targetTicks);
+		log.Info("We are moving %s from %d to %d ticks", name, shuttleTicks, targetTicks);
 	}
 
 	void Execute() override {
@@ -58,7 +57,6 @@ protected:
 
 	bool IsFinished() override {
 		int shuttleTicks = shuttle->GetEncoderTicks();
-		int difference = abs(shuttleTicks - targetTicks);
 		int limit = shuttle->GetLimit();
 		switch (speed) {
 		case Shuttle::Speed::kUp:
@@ -66,13 +64,13 @@ protected:
 				log.Warn("Upper limit hit");
 				return true;
 			}
-			return difference <= tolerance;
+			return shuttleTicks >= targetTicks;
 		case Shuttle::Speed::kDown:
 			if (limit == Shuttle::kLower) {
 				log.Warn("Lower limit hit");
 				return true;
 			}
-			return difference <= tolerance;
+			return shuttleTicks <= targetTicks;
 		default:
 			return true;
 		}
@@ -80,18 +78,18 @@ protected:
 
 	void End() override {
 		log.Info("Finished while at %d, target of %d", shuttle->GetEncoderTicks(), targetTicks);
-		shuttle->SetShuttleSpeed(Shuttle::kStop);
+		shuttle->SetShuttleSpeed(Shuttle::kHold);
 		CommandBase::End();
 	}
 
 	void Interrupted() override {
-		shuttle->SetShuttleSpeed(Shuttle::kStop);
+		shuttle->SetShuttleSpeed(Shuttle::kHold);
 		CommandBase::Interrupted();
 	}
 
 private:
 	double rampFactor;
-	int targetTicks, tolerance, rampDistance;
+	int targetTicks, rampDistance;
 	Shuttle::Speed speed;
 };
 

@@ -134,7 +134,7 @@ double Shuttle::GetShuttleSpeed(Speed state) {
 		speed = downSpeed;
 		break;
 	case kHold:
-		speed += holdSpeed;
+		speed = holdSpeed;
 		break;
 	case kStop:
 	default:

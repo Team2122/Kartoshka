@@ -128,7 +128,7 @@ $FixJam:
   - ShuttleRampDown
 
 HomeShuttle:
-  # No config
+  speed: .4
 
 LackOfStack:
   # No config
@@ -164,7 +164,7 @@ ShuttleClamp:
 ShuttleDown:
   ticks: 50
   tolerance: 10
-  speedMul: 0.0
+  speed: 0.1
 
 ShuttleHold:
   speed: -.4
@@ -172,8 +172,8 @@ ShuttleHold:
 
 $ShuttleInit:
   - FingersRelease
-  - ShuttleClampOpen
   - HomeShuttle
+  - ShuttleClampOpen
 
 ShuttlePosition:
   - name: Unload
@@ -183,14 +183,12 @@ ShuttlePosition:
 
 ShuttleRamp:
   - name: Up
-    ticks: 697
-    tolerance: 4
-    rampFactor: .75
+    ticks: 699
+    rampFactor: .5
     rampDistance: 300
   - name: Down
-    ticks: 0
-    tolerance: 4
-    rampFactor: .2
+    ticks: -2
+    rampFactor: .75
     rampDistance: 300
 
 $StackTote:
@@ -203,7 +201,7 @@ $StackTote:
   - ShuttleRampUp
   - UpdateTotesRatcheted
   - name: WaitCommand
-    time: .25
+    time: 0
   - ShuttleClampOpen
   - ShuttleRampDown
 
@@ -367,7 +365,7 @@ BumpBottomTote:
   time: 0.25
 
 HoldBottomTote:
-  rollerSpeed: 0.25
+  rollerSpeed: 0.1
 
 IntakeTotes:
   flapperSpeed: .9

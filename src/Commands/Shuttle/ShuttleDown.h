@@ -18,7 +18,7 @@ public:
 			CommandBase(name) {
 		targetTicks = config["ticks"].as<int>();
 		tolerance = config["tolerance"].as<int>();
-		speedMul = config["speedMul"].as<double>();
+		speed = config["speed"].as<double>();
 		Requires(shuttle);
 	}
 
@@ -29,8 +29,7 @@ public:
 protected:
 	void Initialize() override {
 		CommandBase::Initialize();
-		shuttle->SetShuttleSpeed(
-				shuttle->GetShuttleSpeed(Shuttle::kUp) * speedMul);
+		shuttle->SetShuttleSpeed(speed);
 	}
 
 	void Execute() override {
@@ -53,7 +52,7 @@ protected:
 
 private:
 	int targetTicks, tolerance;
-	double speedMul;
+	double speed;
 };
 
 }
