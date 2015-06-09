@@ -20,10 +20,16 @@ public:
 		kRate = 0.02;
 		angleTolerance = .5;
 		speed = config["speed"].as<double>();
-		kRate *= speed;
 		distance = config["distance"].as<double>();
 		startAngle = config["startAngle"].as<double>();
 		endAngle = config["endAngle"].as<double>();
+		if (config["ramp"].IsDefined()) {
+			rampDistance = config["ramp"]["distance"].as<double>();
+			rampPower = config["ramp"]["power"].as<double>();
+		} else {
+			rampDistance = 0.0;
+			rampPower = 0.0;
+		}
 		desiredRate = 0;
 		startDistance = 0;
 		currentDistance = 0;
@@ -44,6 +50,13 @@ protected:
 
 	void Execute() override {
 		currentDistance = fabs(startDistance - drive->GetDistance());
+		double distanceLeft = distance - currentDistance;
+
+		double rampedSpeed = speed;
+		if (rampDistance != 0 && distanceLeft <= rampDistance) {
+			double percentage = distanceLeft / rampDistance;
+			rampedSpeed *= pow(percentage, rampPower);
+		}
 
 		double desiredAngle = desiredRate * currentDistance + startAngle;
 		gyroAngle = otto->GetAngle();
@@ -51,13 +64,11 @@ protected:
 
 		double gyroRate = otto->GetRate();
 
-//		double rate = (endAngle - gyroAngle) / (distance - currentDistance);
-		double rate = desiredRate;
-		double offset = angleDelta * kAngle + rate * kRate;
+		double offset = angleDelta * kAngle + desiredRate * kRate * rampedSpeed;
 		log.Info(
 				"gyroAngle: %f, desiredAngle: %f, gyroRate: %f, rate: %f, currentDistance: %f",
-				gyroAngle, desiredAngle, gyroRate, rate, currentDistance);
-		drive->SetSpeeds(speed + offset, speed - offset);
+				gyroAngle, desiredAngle, gyroRate, desiredRate, currentDistance);
+		drive->SetSpeeds(rampedSpeed + offset, rampedSpeed - offset);
 	}
 
 	bool IsFinished() override {
@@ -94,6 +105,9 @@ private:
 	double distance;
 	double startAngle;
 	double endAngle;
+
+	double rampDistance;
+	double rampPower;
 
 	double desiredRate;
 	double startDistance;
