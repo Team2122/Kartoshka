@@ -5,9 +5,9 @@ Claw:
       encoder: [6, 7]
     rotation:
       motor: 7
-      encoder: {Channel: 0, Scale: 360, Offset: 0}
+      encoder: {Channel: 0, Scale: 360, Offset: -2}
     limits:
-      home: {channel: 12, isNPN: false}
+      home: {channel: 12, isNPN: true}
       top: {channel: 13, isNPN: true}
     clamp: {left: 3, right: 2}
     rollers: 8
@@ -53,13 +53,13 @@ Shuttle:
 ToteFeed:
   ports:
     rollers: 2
-    backSensor: {channel: 16, isNPN: true}
+    backSensor: {channel: 16, isNPN: false}
     flappers: 3
 Otto:
   Ports:
     switch: [23, 22, 21]
   Camera:
-    name: cam1
+    name: cam2
     exposure: auto
     brightness: 50
 Thief:
