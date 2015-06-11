@@ -32,12 +32,15 @@ protected:
 		CommandBase::Initialize();
 		int shuttleTicks = shuttle->GetEncoderTicks();
 		const char* name;
-		if (targetTicks > shuttleTicks) {
+		if (targetTicks > shuttleTicks + tolerance) {
 			speed = Shuttle::Speed::kUp;
 			name = "up";
-		} else {
+		} else if (targetTicks < shuttleTicks - tolerance) {
 			speed = Shuttle::Speed::kDown;
 			name = "down";
+		} else {
+			speed = Shuttle::Speed::kStop;
+			name = "(just kidding)";
 		}
 		log.Info("We are moving %s from %d to %d ticks", name, shuttleTicks, targetTicks);
 	}
@@ -71,6 +74,7 @@ protected:
 				return true;
 			}
 			return shuttleTicks <= targetTicks;
+		case Shuttle::Speed::kStop:
 		default:
 			return true;
 		}
@@ -88,6 +92,7 @@ protected:
 	}
 
 private:
+	const int tolerance = 4;
 	double rampFactor;
 	int targetTicks, rampDistance;
 	Shuttle::Speed speed;
