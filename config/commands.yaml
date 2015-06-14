@@ -164,7 +164,7 @@ ShuttleClamp:
 ShuttleDown:
   ticks: 50
   tolerance: 10
-  speed: 0.1
+  speed: 0.25
 
 ShuttleHold:
   speed: -.4
