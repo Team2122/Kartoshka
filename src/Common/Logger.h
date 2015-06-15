@@ -31,21 +31,21 @@ public:
 	 * @param const char *message for message of many words.
 	 * @param anything else needed such as things needed for %c for char
 	 */
-	void Info(const char *message, ...);
+	void Info(const char *message, ...)  __attribute__((format(printf, 2, 3)));
 
 	/**
 	 * Display logger level warn
 	 * @param const char *message for message of many words.
 	 * @param anything else needed such as things needed for %c for char
 	 */
-	void Warn(const char *message, ...);
+	void Warn(const char *message, ...)  __attribute__((format(printf, 2, 3)));
 
 	/**
 	 * Display logger level error
 	 * @param const char *message for message of many words.
 	 * @param anything else needed such as things needed for %c for char
 	 */
-	void Error(const char *message, ...);
+	void Error(const char *message, ...)  __attribute__((format(printf, 2, 3)));
 
 	/**
 	 * Display logger level info
