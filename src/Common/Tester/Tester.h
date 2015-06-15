@@ -9,7 +9,6 @@
 
 #include "TestGroup.h"
 #include "ManualTester.h"
-#include "Joystick.h"
 #include <memory>
 
 namespace tator {

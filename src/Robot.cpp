@@ -5,6 +5,7 @@
  */
 
 #include "Robot.h"
+#include <Commands/Scheduler.h>
 #include "Common/Config/Config.h"
 #include "Common/Config/Binder.h"
 #include "Common/Config/Kremlin.h"

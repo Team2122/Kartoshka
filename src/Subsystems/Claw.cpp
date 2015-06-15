@@ -59,18 +59,17 @@ Claw::Claw(YAML::Node config) :
 	rollerInwardSpeed = speeds["inward"].as<double>();
 	rollerOutwardSpeed = speeds["outward"].as<double>();
 
-	ManualTester* manualTester = ManualTester::GetInstance();
-	std::string name = GetName();
-	manualTester->Add(name, "claw lift", liftMotor);
-	manualTester->Add(name, "claw lift", this->liftEncoder);
-	manualTester->Add(name, "claw rotation", rotationMotor, 0.3);
-	manualTester->Add(name, "claw rotation", this->rotationEncoder);
-	manualTester->Add(name, "home limit", this->homeLimit);
-	manualTester->Add(name, "upper limit", this->topLimit);
-	manualTester->Add(name, "left clamp", clampLeft);
-	manualTester->Add(name, "right clamp", clampRight);
-	manualTester->Add(name, "claw rollers", rollers);
-	manualTester->Add(name, "bin sensor", this->binSensor);
+	ManualTester::GetInstance()->Subsystem(GetName())
+			.Add("claw lift", liftMotor)
+			.Add("claw lift", this->liftEncoder)
+			.Add("claw rotation", rotationMotor, 0.3)
+			.Add("claw rotation", this->rotationEncoder)
+			.Add("home limit", this->homeLimit)
+			.Add("upper limit", this->topLimit)
+			.Add("left clamp", clampLeft)
+			.Add("right clamp", clampRight)
+			.Add("claw rollers", rollers)
+			.Add("bin sensor", this->binSensor);
 }
 
 Claw::~Claw() {

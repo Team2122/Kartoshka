@@ -32,13 +32,13 @@ Drive::Drive(YAML::Node config) :
 
 	this->SetControlMode(Mode::pid);
 
-	ManualTester* manualTester = ManualTester::GetInstance();
-	manualTester->Add(GetName(), "left drive", driveL);
-	manualTester->Add(GetName(), "right drive", driveR);
-	manualTester->Add(GetName(), "left drive", encoderL);
-	manualTester->Add(GetName(), "right drive", encoderR);
-	manualTester->Add(GetName(), "left drive", pidL, maxRPS);
-	manualTester->Add(GetName(), "right drive", pidR, maxRPS);
+	ManualTester::GetInstance()->Subsystem(GetName())
+			.Add("left drive", driveL)
+			.Add("right drive", driveR)
+			.Add("left drive", encoderL)
+			.Add("right drive", encoderR)
+			.Add("left drive", pidL, maxRPS)
+			.Add("right drive", pidR, maxRPS);
 }
 
 Drive::~Drive() {

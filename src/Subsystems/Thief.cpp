@@ -13,9 +13,8 @@ Thief::Thief(YAML::Node config) :
 		SubsystemBase("Thief") {
 	piston = new Solenoid(config["port"].as<int>());
 
-	ManualTester* manualTester = ManualTester::GetInstance();
-	std::string name = GetName();
-	manualTester->Add(name, "thief piston", piston);
+	ManualTester::GetInstance()->Subsystem(GetName())
+			.Add("thief piston", piston);
 }
 
 Thief::~Thief() {

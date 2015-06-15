@@ -7,9 +7,12 @@
 #include "Tester.h"
 #include "TestGroup.h"
 #include "CommandBase.h"
+#include <Joystick.h>
+
 #include "Subsystems/Drive.h"
 #include "Subsystems/Shuttle.h"
 #include "Subsystems/ToteFeed.h"
+
 #include "Tests/SuccessfulTest.h"
 #include "Tests/FailureTest.h"
 #include "Tests/SpeedControllerEncoderTest.h"
@@ -69,15 +72,16 @@ void Tester::Initialize() {
 	log.Info("Running the manual tester");
 	log.Info("Press START (10) to switch to the automated Tester");
 	testMode = TestMode::manual;
+	manualTester->Initialize();
 }
 
 void Tester::Run() {
 	switch (testMode) {
 	case TestMode::manual:
-		manualTester->Execute();
+		manualTester->Run();
 		if (joy->GetRawButton(10)) {
 			log.Info("Running automated tests");
-			manualTester->StopTesting();
+			manualTester->Disable();
 			tests->Initialize();
 			testMode = TestMode::autonomous;
 		}
@@ -103,7 +107,7 @@ void Tester::Disable() {
 		PrintResults();
 		break;
 	case TestMode::manual:
-		manualTester->StopTesting();
+		manualTester->Disable();
 		break;
 	default:
 		break;

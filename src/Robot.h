@@ -11,6 +11,8 @@
 #include "Common/Tester/Tester.h"
 #include <IterativeRobot.h>
 
+class Scheduler;
+
 namespace tator {
 
 /**

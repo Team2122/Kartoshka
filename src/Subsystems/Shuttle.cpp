@@ -40,15 +40,14 @@ Shuttle::Shuttle(YAML::Node config) :
 	totesHeld = 0;
 	totesRatcheted = 0;
 
-	ManualTester* manualTester = ManualTester::GetInstance();
-	std::string name = GetName();
-	manualTester->Add(name, "tote sensor", toteSensor);
-	manualTester->Add(name, "lower limit", lowerLimit);
-	manualTester->Add(name, "upper limit", upperLimit);
-	manualTester->Add(name, "shuttle clamp", clampPiston);
-	manualTester->Add(name, "shuttle lift", liftMotor, 0.4);
-	manualTester->Add(name, "shuttle lift", liftEncoder);
-	manualTester->Add(name, "shuttle fingers", fingersPiston);
+	ManualTester::GetInstance()->Subsystem(GetName())
+			.Add("tote sensor", toteSensor)
+			.Add("lower limit", lowerLimit)
+			.Add("upper limit", upperLimit)
+			.Add("shuttle clamp", clampPiston)
+			.Add("shuttle lift", liftMotor, 0.4)
+			.Add("shuttle lift", liftEncoder)
+			.Add("shuttle fingers", fingersPiston);
 }
 
 Shuttle::~Shuttle() {

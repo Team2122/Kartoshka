@@ -3,8 +3,10 @@
  * @file Otto.cpp
  * @author Nick Hodes
  */
-#include <CameraServer.h>
 #include "Otto.h"
+#include <CameraServer.h>
+#include <USBCamera.h>
+#include <memory>
 #include "Common/Tester/ManualTester.h"
 #include "Common/Config/Kremlin.h"
 
@@ -31,11 +33,11 @@ Otto::Otto(YAML::Node config) :
 	usbCamera->OpenCamera();
 	CameraServer::GetInstance()->StartAutomaticCapture(usbCamera);
 
-	ManualTester* manualTester = ManualTester::GetInstance();
-	manualTester->Add(GetName(), "auto switch 0", autoSwitch0);
-	manualTester->Add(GetName(), "auto switch 1", autoSwitch1);
-	manualTester->Add(GetName(), "auto switch 2", autoSwitch2);
-	manualTester->Add(GetName(), "gyro", gyro);
+	ManualTester::GetInstance()->Subsystem(GetName())
+			.Add("auto switch 0", autoSwitch0)
+			.Add("auto switch 1", autoSwitch1)
+			.Add("auto switch 2", autoSwitch2)
+			.Add("gyro", gyro);
 
 	gyro->Start();
 }
