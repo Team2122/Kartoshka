@@ -8,48 +8,7 @@ namespace tator {
 
 class ClawSmartRollers: public CommandBase {
 public:
-	ClawSmartRollers(std::string name, YAML::Node config) :
-			CommandBase(name) {
-		waitTime = config["waitTime"].as<double>();
-		isWaiting = false;
-		Requires(claw);
-	}
-
-	static std::string GetBaseName() {
-		return "ClawSmartRollers";
-	}
-
-protected:
-	void Initialize() override {
-		CommandBase::Initialize();
-		claw->SetRollerSpeed(Claw::RollerStatus::kInward);
-		isWaiting = false;
-		timer.Reset();
-	}
-
-	void Execute() override {
-		if (claw->HasContainer() && !isWaiting) {
-			isWaiting = true;
-			claw->SetClampStatus(Claw::ClampStatus::kDeathGrip);
-			timer.Start();
-		}
-	}
-
-	bool IsFinished() override {
-		return isWaiting && timer.HasPeriodPassed(waitTime);
-	}
-
-	void End() override {
-		claw->SetRollerSpeed(Claw::RollerStatus::kStopped);
-		timer.Stop();
-		CommandBase::End();
-	}
-
-	void Interrupted() override {
-		claw->SetRollerSpeed(Claw::RollerStatus::kStopped);
-		timer.Stop();
-		CommandBase::Interrupted();
-	}
+	COMMAND_METHODS(ClawSmartRollers);
 
 private:
 	double waitTime;

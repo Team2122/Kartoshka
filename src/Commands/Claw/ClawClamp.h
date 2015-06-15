@@ -13,23 +13,7 @@ namespace tator {
 
 class ClawClamp: public CommandBase {
 public:
-	ClawClamp(std::string name, YAML::Node config) :
-			CommandBase(name) {
-		clampStatus = (Claw::ClampStatus) config["status"].as<int>();
-	}
-
-	static std::string GetBaseName() {
-		return "ClawClamp";
-	}
-
-protected:
-	void Execute() override {
-		claw->SetClampStatus(clampStatus);
-	}
-
-	bool IsFinished() override {
-		return true;
-	}
+	COMMAND_BASE_METHODS(ClawClamp);
 
 private:
 	Claw::ClampStatus clampStatus;

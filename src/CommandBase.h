@@ -53,6 +53,41 @@ protected:
 	static Otto* otto;
 };
 
+/**
+ * Defines the base methods needed for a command, including a constructor,
+ * GetBaseName, and standard required command methods. The constructor, Execute,
+ * and IsFinished must be implemented elsewhere.
+ */
+#define COMMAND_BASE_METHODS(command_name) \
+	command_name(const std::string& name, YAML::Node config); \
+	static std::string GetBaseName() { \
+		return #command_name; \
+	} \
+protected: \
+	void Execute() override; \
+	bool IsFinished() override
+
+/**
+ * Defines everything defined in @c COMMAND_BASE_METHODS plus Initialize, End,
+ * and Interrupted.
+ */
+#define COMMAND_METHODS(command_name) \
+	COMMAND_BASE_METHODS(command_name); \
+	void Initialize() override; \
+	void End() override; \
+	void Interrupted() override
+
+
+/**
+ * Defines the prototype for a constructor for a command. This exposes the name
+ * of the command as a std::string reference named `name`, and the config for
+ * the command as a YAML::Node named `config`.
+ */
+#define COMMAND_CONSTRUCTOR_DEF(command_name) \
+	command_name::command_name(const std::string& name, YAML::Node config) \
+		: CommandBase(name)
+
+
 } /* namespace tator */
 
 #endif /* COMMANDBASE_H_ */
