@@ -36,11 +36,10 @@ protected:
 	}
 
 	bool IsFinished() override {
-		return toteFeed->GetBackSensor();
+		return false;
 	}
 
 	void End() override {
-		log.Info("Back beam triggered, stopping rollers");
 		CommandBase::End();
 		toteFeed->SetFlapperSpeed(0);
 		toteFeed->SetRollers(0);

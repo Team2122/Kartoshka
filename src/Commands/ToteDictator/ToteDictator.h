@@ -27,8 +27,10 @@ public:
 		restackSequence = nullptr;
 		unstackSequence = nullptr;
 
-		sampleCount = 0;
-		samplesRequired = config["samples"].as<int>();
+		bottomSampleCount = 0;
+		bottomSamplesRequired = config["samples"]["bottom"].as<int>();
+		shuttleSampleCount = 0;
+		shuttleSamplesRequired = config["samples"]["shuttle"].as<int>();
 	}
 
 	static std::string GetBaseName() {
@@ -83,8 +85,12 @@ protected:
 		if (toteFeed->GetBackSensor()) {
 			// And we have not counted it yet
 			if (shuttle->GetTotesHeld() - shuttle->GetTotesRatcheted() == 0) {
-				shuttle->SetTotesHeld(shuttle->GetTotesHeld() + 1); // Count it
-				bumpBottomTote->Start(); // Realign it
+				bottomSampleCount++; // Increment the sample count
+				// If we have waited long enough
+				if (bottomSampleCount >= bottomSamplesRequired) {
+					shuttle->SetTotesHeld(shuttle->GetTotesHeld() + 1); // Count it
+					bumpBottomTote->Start(); // Realign it
+				}
 			}
 		}
 		// If we don't have a tote at the bottom
@@ -93,6 +99,8 @@ protected:
 			if (shuttle->GetTotesHeld() - shuttle->GetTotesRatcheted() == 0) {
 				// Intake the bottom tote
 				recieveBottomTote->Start();
+				// Reset the sample count
+				bottomSampleCount = 0;
 			}
 
 			// And we do have at least one tote
@@ -109,9 +117,9 @@ protected:
 		if (shuttle->HasToteAtShuttleBase()) {
 			// And we haven't counted it yet
 			if (shuttle->GetTotesHeld() == shuttle->GetTotesRatcheted() + 1) {
-				sampleCount++; // Increment sample count
+				shuttleSampleCount++; // Increment sample count
 				// If we've waited long enough
-				if (sampleCount >= samplesRequired) {
+				if (shuttleSampleCount >= shuttleSamplesRequired) {
 					shuttle->SetTotesHeld(shuttle->GetTotesHeld() + 1); // Count it
 				}
 			}
@@ -120,7 +128,7 @@ protected:
 		// If we don't have a tote at the shuttle base
 		else {
 			// Reset our sampling counter
-			sampleCount = 0;
+			shuttleSampleCount = 0;
 		}
 
 		// If we have fewer totes than we want
@@ -185,8 +193,10 @@ private:
 	Command* unstackSequence;
 	Command* fixJamSequence;
 
-	int sampleCount;
-	int samplesRequired;
+	int bottomSampleCount;
+	int bottomSamplesRequired;
+	int shuttleSampleCount;
+	int shuttleSamplesRequired;
 	LogData lastLogData;
 };
 

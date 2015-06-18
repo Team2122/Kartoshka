@@ -206,7 +206,9 @@ $StackTote:
   - ShuttleRampDown
 
 ToteDictator:
-  samples: 6
+  samples:
+    bottom: 13
+    shuttle: 6
 
 $Unstack:
   - ShuttleClampOpen
@@ -368,7 +370,7 @@ HoldBottomTote:
   rollerSpeed: 0.1
 
 IntakeTotes:
-  flapperSpeed: .9
+  flapperSpeed: .8
 
 RecieveBottomTote:
   flapperSpeed: 0.35
