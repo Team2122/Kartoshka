@@ -184,12 +184,12 @@ ShuttlePosition:
 ShuttleRamp:
   - name: Up
     ticks: 699
-    rampFactor: .5
-    rampDistance: 300
+    rampFactor: .2
+    rampDistance: 150
   - name: Down
     ticks: -5
-    rampFactor: .75
-    rampDistance: 300
+    rampFactor: .2
+    rampDistance: 150
 
 $StackTote:
   - FingersHold
