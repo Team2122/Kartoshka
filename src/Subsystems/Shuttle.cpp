@@ -29,10 +29,14 @@ Shuttle::Shuttle(YAML::Node config) :
 	fingersPiston = new Solenoid(ports["fingersPiston"].as<int>());
 
 	YAML::Node values = config["Values"];
-	upSpeed = values["upSpeed"].as<double>();
+	upSpeeds = values["upSpeeds"].as<std::vector<double>>();
+	if (upSpeeds.size() != kNumUpSpeeds) {
+		log.Error("%d up speeds were specified instead of %d", upSpeeds.size(),
+				kNumUpSpeeds);
+		exit(-1);
+	}
 	downSpeed = values["downSpeed"].as<double>();
 	holdSpeed = values["holdSpeed"].as<double>();
-	speedScale = values["speedScale"].as<double>();
 
 	liftEncoder->SetReverseDirection(true);
 
@@ -125,23 +129,21 @@ void Shuttle::SetShuttleSpeed(Speed state) {
 }
 
 double Shuttle::GetShuttleSpeed(Speed state) {
-	double speed = (GetTotesHeld() - 1) * speedScale;
 	switch (state) {
 	case kUp:
-		speed += upSpeed;
-		break;
+		if (totesRatcheted >= kNumUpSpeeds) {
+			return upSpeeds[kNumUpSpeeds - 1];
+		} else {
+			return upSpeeds[totesRatcheted];
+		}
 	case kDown:
-		speed = downSpeed;
-		break;
+		return downSpeed;
 	case kHold:
-		speed = holdSpeed;
-		break;
+		return holdSpeed;
 	case kStop:
 	default:
-		speed = 0;
-		break;
+		return 0.0;
 	}
-	return speed;
 }
 
 void Shuttle::SetShuttleSpeed(double speed) {

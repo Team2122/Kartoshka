@@ -31,16 +31,17 @@ private:
 	Talon* liftMotor; ///< Motor that lifts the shuttle with totes
 	Encoder* liftEncoder; ///< Encoder to read how far shuttle has moved
 	Solenoid* fingersPiston; ///< Pistons that hold uppermost totes in place
-	double upSpeed; ///< This is the speed of the shuttle when going up
+	std::vector<double> upSpeeds; ///< The speeds of the shuttle when it is going up with 0-4 totes on the ratchets
 	double downSpeed; ///< The speed of the shuttle when going down
 	double holdSpeed; ///< The speed of the shuttle when holding the totes in place
-	double speedScale; ///< The Value that can be multiplied by how many totes we are holding to get the speed we need to counteract that force
 
-	int toteHeight; ///< How high of a stack we want to build
-	int totesHeld; ///< How many totes the robot is holding
-	int totesRatcheted; ///< How many totes are being held by the fingers
+	unsigned toteHeight; ///< How high of a stack we want to build
+	unsigned totesHeld; ///< How many totes the robot is holding
+	unsigned totesRatcheted; ///< How many totes are being held by the fingers
 
 public:
+	const size_t kNumUpSpeeds = 5;
+
 	Shuttle(YAML::Node config);
 	virtual ~Shuttle();
 
