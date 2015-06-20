@@ -17,7 +17,8 @@ public:
 	HoldBottomTote(std::string name, YAML::Node config) :
 			CommandBase(name) {
 		Requires(toteFeed);
-		rollerSpeed = config["rollerSpeed"].as<double>();
+		rollerSpeedSlow = config["rollerSpeed"]["slow"].as<double>();
+		rollerSpeedFast = config["rollerSpeed"]["fast"].as<double>();
 	}
 
 	static std::string GetBaseName() {
@@ -26,7 +27,11 @@ public:
 
 protected:
 	void Execute() override {
-		toteFeed->SetRollers(rollerSpeed);
+		if (toteFeed->GetBackSensor()) {
+			toteFeed->SetRollers(rollerSpeedSlow);
+		} else {
+			toteFeed->SetRollers(rollerSpeedFast);
+		}
 	}
 
 	bool IsFinished() override {
@@ -44,7 +49,8 @@ protected:
 	}
 
 private:
-	double rollerSpeed;
+	double rollerSpeedSlow;
+	double rollerSpeedFast;
 };
 
 }
