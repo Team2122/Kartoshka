@@ -6,6 +6,7 @@
 
 #include "Drive.h"
 #include "Common/Tester/ManualTester.h"
+#include "Common/PIDLogger.h"
 
 namespace tator {
 
@@ -19,10 +20,12 @@ Drive::Drive(YAML::Node config) :
 	encoderR = new Encoder(conEncR[0].as<int>(), conEncR[1].as<int>());
 	YAML::Node pidl = config["PID"]["L"];
 	YAML::Node pidr = config["PID"]["R"];
+	PIDLogger* pidLoggerL = new PIDLogger(encoderL, driveL, "DriveLeft");
 	pidL = new PIDController(pidl["P"].as<double>(), pidl["I"].as<double>(),
-			pidl["D"].as<double>(), pidl["F"].as<double>(), encoderL, driveL);
+			pidl["D"].as<double>(), pidl["F"].as<double>(), pidLoggerL, pidLoggerL);
+	PIDLogger* pidLoggerR = new PIDLogger(encoderR, driveR, "DriveRight");
 	pidR = new PIDController(pidr["P"].as<double>(), pidr["I"].as<double>(),
-			pidr["D"].as<double>(), pidr["F"].as<double>(), encoderR, driveR);
+			pidr["D"].as<double>(), pidr["F"].as<double>(), pidLoggerR, pidLoggerR);
 	maxRPS = config["maxRPS"].as<double>();
 
 	encoderL->SetDistancePerPulse(1.0 / 360.0);

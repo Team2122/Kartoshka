@@ -12,6 +12,7 @@
 #include "Subsystems/Drive.h"
 #include <PIDSource.h>
 #include <PIDOutput.h>
+#include "Common/PIDLogger.h"
 
 namespace tator {
 
@@ -26,8 +27,9 @@ public:
 		speed = config["speed"].as<double>();
 		distance = config["distance"].as<double>();
 		YAML::Node pid_ = config["PID"];
+		PIDLogger* pidLogger = new PIDLogger(this, this, name);
 		pid = new PIDController(pid_["P"].as<double>(), pid_["I"].as<double>(),
-				pid_["D"].as<double>(), pid_["F"].as<double>(), this, this);
+				pid_["D"].as<double>(), pid_["F"].as<double>(), pidLogger, pidLogger);
 	}
 
 	static std::string GetBaseName() {
