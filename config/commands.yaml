@@ -58,6 +58,12 @@ DriveArc:
     PID: {P: .05, I: .00, D: 0, F: 0}
 
 DriveRotate:
+  - name: Auto4
+    speed: .9
+    angle: 45.0
+    tolerance: 2.0
+    slowAngle: 25.0
+    slowFactor: .85
   - name: Auto6
     speed: .8
     angle: 90.0
@@ -94,6 +100,16 @@ DriveStraight:
     speed: 1.0
     angle: 0.0
     distance: 30.0
+    PID: {P: .05, I: .0025, D: 0, F: 0}
+  - name: Auto4_1
+    speed: -.75
+    angle: -5.0
+    distance: 5.0
+    PID: {P: .05, I: .0025, D: 0, F: 0}
+  - name: Auto4_2
+    speed: .75
+    angle: 45.0
+    distance: 2.0
     PID: {P: .05, I: .0025, D: 0, F: 0}
   - name: Auto6
     speed: 1.0
@@ -419,10 +435,12 @@ $Auto3:
   - $GroundToPlatform
 
 $Auto4:
-  - name: DriveDistanceAutoFourDistance
-    execution: Parallel
+  - ResetAngle
   - $ClawPick
   - $GroundToPlatform
+  - DriveStraightAuto4_1
+  - DriveRotateAuto4
+  - DriveStraightAuto4_2
 
 $Auto5:
   - name: DriveDistanceAutoPickShort
