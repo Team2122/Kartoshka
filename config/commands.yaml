@@ -69,7 +69,7 @@ DriveRotate:
     angle: -87.0
     tolerance: .5
     slowAngle: 25.0
-    slowFactor: .75
+    slowFactor: .85
   - name: Auto7_2
     speed: .75
     angle: -115.0
