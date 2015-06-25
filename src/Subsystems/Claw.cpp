@@ -6,13 +6,12 @@
 
 #include "Claw.h"
 #include "Common/Tester/ManualTester.h"
+#include <DriverStation.h>
 
 namespace tator {
 
 Claw::Claw(YAML::Node config) :
 		SubsystemBase("Claw") {
-	enabled = true;
-
 	YAML::Node ports = config["Ports"];
 	YAML::Node soft = config["Software"];
 
@@ -24,6 +23,8 @@ Claw::Claw(YAML::Node config) :
 	this->liftEncoder->SetDistancePerPulse(1.0 / 360);
 	this->liftEncoder->SetPIDSourceParameter(PIDSource::kDistance);
 	heightTolerance = soft["heightTolerance"].as<double>();
+	topDistance = soft["topDistance"].as<double>();
+	homePosition = HomePosition::neither;
 
 	YAML::Node limits = ports["limits"];
 	YAML::Node homeLimit = limits["home"];
@@ -86,27 +87,62 @@ Claw::~Claw() {
 	delete binSensor;
 }
 
-void Claw::DisableClaw() {
-	enabled = false;
-}
-
-void Claw::EnableClaw() {
-	enabled = true;
-}
-
 void Claw::SetLiftSpeed(double power) {
-	if (!enabled) {
+	if (!IsHomed()) {
 		return liftMotor->Set(0);
 	}
 	liftMotor->Set(power);
 }
 
-double Claw::GetLiftEncoder() {
-	return liftEncoder->GetDistance();
+void Claw::ForceSetLiftSpeed(double speed) {
+	liftMotor->Set(speed);
 }
 
-void Claw::ZeroLiftEncoder() {
+double Claw::GetLiftEncoder() {
+	switch (GetHomePosition()) {
+	case HomePosition::top:
+		return liftEncoder->GetDistance() + topDistance;
+	case HomePosition::bottom:
+	default:
+		return liftEncoder->GetDistance();
+	}
+}
+
+void Claw::Home() {
+	if (IsHomed()) { // If the claw has already been homed
+		return;
+	}
+	if (IsAtHome()) {
+		// Home at bottom
+		homePosition = HomePosition::bottom;
+	} else if (IsAtTop()) {
+		// Home at top
+		homePosition = HomePosition::top;
+	} else { // If the claw is not where it should be
+		DriverStation* driverStation = DriverStation::GetInstance();
+		// If we are connected to FMS
+		if (driverStation->IsFMSAttached()) {
+			// Warn the driver, but continue to home
+			log.Warn("Claw was not homed at the start of auto!");
+			homePosition = HomePosition::top;
+		}
+		// If we are running in practice
+		else {
+			// Output an error and return
+			return log.Error("The claw was not homed before enabling."
+					" Please home the claw and restart the robot code.");
+		}
+	}
+	// Reset the encoder
 	liftEncoder->Reset();
+}
+
+Claw::HomePosition Claw::GetHomePosition() {
+	return homePosition;
+}
+
+bool Claw::IsHomed() {
+	return GetHomePosition() != HomePosition::neither;
 }
 
 bool Claw::IsAtHeight(double height) {
@@ -149,7 +185,7 @@ bool Claw::IsAtAngle(ClawAngle angle) {
 }
 
 void Claw::SetRotationSpeed(double speed) {
-	if (!enabled) {
+	if (!IsHomed()) {
 		return rotationMotor->SetSpeed(0);
 	}
 	rotationMotor->SetSpeed(speed);

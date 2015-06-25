@@ -41,12 +41,21 @@ public:
 		kStopped = 0, kOutward = 1, kInward = 2
 	};
 
-private:
-	bool enabled; ///< Whether or not the claw is in a known position
+	/**
+	 * The positions at which the claw can be homed at
+	 */
+	enum class HomePosition {
+		neither, ///< Have not homed (disable)
+		bottom, ///< Homed at the bottom
+		top ///< Homed at the top
+	};
 
+private:
 	Talon* liftMotor; ///< Talon for the vertical
 	Encoder* liftEncoder; ///< Encoder for the vertical, incremental
 	double heightTolerance; ///< The tolerance that the claw height must be within
+	double topDistance; ///< The distance of the claw at the top
+	HomePosition homePosition; ///< The position at which the claw is homed at
 
 	FixedField* homeLimit; ///< The lower/home limit sensor of the claw
 	FixedField* topLimit; ///< The upper limit sensor of the claw
@@ -88,15 +97,33 @@ public:
 	void SetLiftSpeed(double speed);
 
 	/**
+	 * Forces setting the lift speed, ignoring homing
+	 * @param speed The power of the motor
+	 */
+	void ForceSetLiftSpeed(double speed);
+
+	/**
 	 * Gets the position of the lift encoder
 	 * @return The position of the lift encoder
 	 */
 	double GetLiftEncoder();
 
 	/**
-	 * Zeros the lift encoder
+	 * Homes the claw lift at the bottom or top
 	 */
-	void ZeroLiftEncoder();
+	void Home();
+
+	/**
+	 * Gets the position at which the claw has been homed at
+	 * @return The home position
+	 */
+	HomePosition GetHomePosition();
+
+	/**
+	 * Gets if the claw is homed
+	 * @return True if the claw has been homed
+	 */
+	bool IsHomed();
 
 	/**
 	 * Checks if the claw lift is within the specified height

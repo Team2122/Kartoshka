@@ -240,6 +240,9 @@ ClawClamp:
 ClawClampToggle:
   # No config
 
+ClawHomeTop:
+  speed: -.4
+
 ClawEstablishHome:
   # No config
 
@@ -409,8 +412,7 @@ $Auto2:
 
 $Auto3:
   - ResetAngle
-  - DriveStraightAuto3_1
-  - DriveStraightAuto3_2
+  - ClawHomeTop
 
 $Auto4:
   - ResetAngle
