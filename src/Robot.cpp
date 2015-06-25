@@ -56,6 +56,8 @@ void Robot::AutonomousInit() {
 		CommandBase::otto->FinishGyroCalibration();
 		CommandBase::otto->StartAutoCommand();
 		hasRunAuto = true;
+	} else {
+		log.Error("Auto does't work if you try to run it twice. Please reboot the robot.");
 	}
 }
 
