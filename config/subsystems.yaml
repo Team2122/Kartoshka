@@ -14,7 +14,7 @@ Claw:
     binSensor: {channel: 18, isNPN: true}
   Software:
     heightTolerance: 3.0
-    topDistance: 240
+    topDistance: 238
     angles:
       tolerance: 7.5
       front: 68.0
