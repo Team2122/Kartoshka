@@ -28,10 +28,10 @@ DriveDistance:
     speed: -.5
     distance: .1
   - name: GetCans
-    speed: 2.0
+    speed: 1.0
     distance: 2.5
   - name: EscapeCan
-    speed: 0.5
+    speed: 0.4
     distance: 5.0
 
 DriveRotate:
@@ -50,9 +50,9 @@ DriveRotate:
   - name: Auto6
     speed: .8
     angle: 90.0
-    tolerance: 1.0
+    tolerance: 0.5
     slowAngle: 25.0
-    slowFactor: .9
+    slowFactor: .85
   - name: Auto7_1
     speed: .65
     angle: -90.0
@@ -96,7 +96,7 @@ DriveStraight:
   - name: Auto6
     speed: 1.0
     angle: 90.0
-    distance: 2.0
+    distance: 12.0
     PID: {P: .05, I: .00, D: 0, F: 0}
   - name: Auto7_1
     speed: 0.65
@@ -123,6 +123,11 @@ DriveZach:
     ramp:
       distance: 1.0
       power: 2.0
+  - name: Auto6
+    speed: .5
+    distance: 10.0
+    startAngle: 90
+    endAngle: -90
 
 ResetAngle:
 
@@ -405,8 +410,7 @@ UnloadTote:
 # Test auto
 $Auto0:
   - ResetAngle
-  - DriveZachTest1
-  - DriveZachTest2
+  - DriveZachAuto6
 
 # Drive and pick can at right slot
 $Auto1:
@@ -459,18 +463,13 @@ $Auto6:
   - name: DriveDistanceCatchCan
     execution: Parallel
   - name: WaitCommand
-    time: 0.4
-  - ThiefGrabberIn
-  - name: WaitCommand
-    time: 0.3
-  - ThiefGrabberOut
-  - name: WaitCommand
-    time: 1.0
+    time: 2.0
   - DriveDistanceGetCans
   - ThiefGrabberIn
   - DriveDistanceEscapeCan
   - DriveRotateAuto6
   - DriveStraightAuto6
+  - DriveZachAuto6
 
 # Pick the left can and drive to the right slot
 $Auto7:

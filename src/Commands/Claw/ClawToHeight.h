@@ -51,7 +51,7 @@ protected:
 
 	void Initialize() override {
 		CommandBase::Initialize();
-		if (!IsAtAngle()) {
+		if (!IsAtAngle() || !claw->IsHomed()) {
 			this->Cancel();
 			return; // If we are not at a safe angle, abort
 		}
