@@ -41,6 +41,12 @@ DriveRotate:
     tolerance: 2.0
     slowAngle: 25.0
     slowFactor: .85
+  - name: Auto3
+    speed: .85
+    angle: 45.0
+    tolerance: 2.0
+    slowAngle: 25.0
+    slowFactor: .85
   - name: Auto6
     speed: .8
     angle: 90.0
@@ -68,14 +74,24 @@ DriveRotate:
 
 DriveStraight:
   - name: Auto3_1
-    speed: 0.5
-    angle: -5.0
-    distance: 4.0
+    speed: -0.5
+    angle: -10.0
+    distance: 5.0
     PID: {P: .05, I: .00, D: 0, F: 0}
   - name: Auto3_2
+    speed: 0.5
+    angle: 10.0
+    distance: 3.0
+    PID: {P: .05, I: .00, D: 0, F: 0}
+  - name: Auto3_3
     speed: -0.5
-    angle: 5.0
-    distance: 4.0
+    angle: -10.0
+    distance: 3.0
+    PID: {P: .05, I: .00, D: 0, F: 0}
+  - name: Auto3_4
+    speed: 0.5
+    angle: 45.0
+    distance: 1.0
     PID: {P: .05, I: .00, D: 0, F: 0}
   - name: Auto6
     speed: 1.0
@@ -410,9 +426,16 @@ $Auto2:
   - DriveRotateAuto2
   - DriveDistanceAuto2_2
 
+# Start on platform with can, drive to right slot
 $Auto3:
   - ResetAngle
   - ClawHomeTop
+  - ClawToHeightPlatform
+  - DriveStraightAuto3_1
+  - DriveStraightAuto3_2
+  - DriveStraightAuto3_3
+  - DriveRotateAuto3
+  - DriveStraightAuto3_4
 
 $Auto4:
   - ResetAngle
