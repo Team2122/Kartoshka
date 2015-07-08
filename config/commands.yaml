@@ -26,13 +26,13 @@ DriveDistance:
     distance: 7.0
   - name: CatchCan
     speed: -.5
-    distance: .1
+    distance: 0.05
   - name: GetCans
     speed: 1.0
     distance: 2.5
   - name: EscapeCan
     speed: 0.4
-    distance: 5.0
+    distance: 4.5
 
 DriveRotate:
   - name: Auto2
@@ -52,7 +52,7 @@ DriveRotate:
     angle: 90.0
     tolerance: 0.5
     slowAngle: 25.0
-    slowFactor: .85
+    slowFactor: .7
   - name: Auto7_1
     speed: .65
     angle: -90.0
@@ -96,7 +96,7 @@ DriveStraight:
   - name: Auto6
     speed: 1.0
     angle: 90.0
-    distance: 12.0
+    distance: 8.5
     PID: {P: .05, I: .00, D: 0, F: 0}
   - name: Auto7_1
     speed: 0.65
@@ -125,7 +125,7 @@ DriveZach:
       power: 2.0
   - name: Auto6
     speed: .5
-    distance: 10.0
+    distance: 10.25
     startAngle: 90
     endAngle: -90
 
@@ -462,6 +462,12 @@ $Auto6:
     execution: Parallel
   - name: DriveDistanceCatchCan
     execution: Parallel
+  # - name: WaitCommand
+    # time: 0.4
+  # - ThiefGrabberIn
+  # - name: WaitCommand
+    # time: 0.3
+  # - ThiefGrabberOut
   - name: WaitCommand
     time: 2.0
   - DriveDistanceGetCans
