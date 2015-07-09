@@ -14,10 +14,11 @@ Claw:
     binSensor: {channel: 18, isNPN: true}
   Software:
     heightTolerance: 3.0
+    topDistance: 238
     angles:
       tolerance: 7.5
       front: 68.0
-      back: 240.0
+      back: 239.0
   Speeds:
     outward: 0.5
     inward: -.8

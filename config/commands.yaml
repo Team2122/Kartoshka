@@ -9,70 +9,53 @@ DriveContinuous:
     right: 3
 
 DriveDistance:
-  - name: AutoPick
-    speed: 0.45
-    distance: 1.0
-  - name: AutoPickLong
-    speed: 0.45
+  - name: Auto1
+    speed: 0.5
     distance: 4.0
-  - name: AutoPickShort
-    speed: 0.45
-    distance: 1.0
-  - name: AutoBack
-    speed: -0.45
-    distance: 7.0
-  - name: AutoBackLong
-    speed: -0.45
-    distance: 8.0
-  - name: AutoThreeDistance
-    speed: 0.45
-    distance: 8.0
-  - name: AutoFourDistance
-    speed: 0.45
-    distance: 1.0
-  - name: Auto2
-    speed: -0.75
+  - name: Auto2_1
+    speed: -0.5
     distance: 4.0
   - name: Auto2_2
-    speed: -0.75
+    speed: -0.5
     distance: 6.0
-  - name: GetCans
-    speed: 2.0
-    distance: 2.5
-  - name: AutoBackShort
-    speed: -.50
+  - name: Auto5_1
+    speed: 0.5
     distance: 0.25
-  - name: EscapeCan
-    speed: 0.50
-    distance: 5.0
+  - name: Auto5_2
+    speed: -0.5
+    distance: 7.0
   - name: CatchCan
     speed: -.5
-    distance: .1
-
-DriveArc:
-  - name: Auto6
-    speed: .5
-    angle: 0.0
-    distance: 6.0
-    degreesPerFoot: 15.0
-    PID: {P: .05, I: .00, D: 0, F: 0}
-  - name: Test
-    speed: .5
-    angle: 0.0
-    distance: 3.0
-    degreesPerFoot: 30.0
-    PID: {P: .05, I: .00, D: 0, F: 0}
+    distance: 0.05
+  - name: GetCans
+    speed: 1.0
+    distance: 2.5
+  - name: EscapeCan
+    speed: 0.4
+    distance: 4.5
 
 DriveRotate:
+  - name: Auto2
+    speed: .65
+    angle: 90.0
+    tolerance: 2.0
+    slowAngle: 25.0
+    slowFactor: .85
+  - name: Auto3
+    speed: .85
+    angle: 45.0
+    tolerance: 2.0
+    slowAngle: 25.0
+    slowFactor: .85
   - name: Auto6
     speed: .8
     angle: 90.0
-    tolerance: 1.0
+    tolerance: 0.5
     slowAngle: 25.0
-    slowFactor: .9
+    slowFactor: .7
   - name: Auto7_1
     speed: .65
-    angle: -87.0
+    angle: -90.0
     tolerance: .5
     slowAngle: 25.0
     slowFactor: .85
@@ -88,27 +71,36 @@ DriveRotate:
     tolerance: 2.0
     slowAngle: 25.0
     slowFactor: .85
-  - name: Auto2
-    speed: .85
-    angle: 90.0
-    tolerance: .5
-    slowAngle: 25.0
-    slowFactor: .9
 
 DriveStraight:
-  - name: Auto0
-    speed: 1.0
-    angle: 0.0
-    distance: 30.0
-    PID: {P: .05, I: .0025, D: 0, F: 0}
+  - name: Auto3_1
+    speed: -0.5
+    angle: -10.0
+    distance: 5.0
+    PID: {P: .05, I: .00, D: 0, F: 0}
+  - name: Auto3_2
+    speed: 0.5
+    angle: 10.0
+    distance: 3.0
+    PID: {P: .05, I: .00, D: 0, F: 0}
+  - name: Auto3_3
+    speed: -0.5
+    angle: -10.0
+    distance: 3.0
+    PID: {P: .05, I: .00, D: 0, F: 0}
+  - name: Auto3_4
+    speed: 0.5
+    angle: 45.0
+    distance: 1.0
+    PID: {P: .05, I: .00, D: 0, F: 0}
   - name: Auto6
     speed: 1.0
     angle: 90.0
-    distance: 2.0
+    distance: 8.5
     PID: {P: .05, I: .00, D: 0, F: 0}
   - name: Auto7_1
     speed: 0.65
-    angle: -87
+    angle: -90
     distance: 16.0
     PID: {P: .05, I: .00, D: 0, F: 0}
   - name: Auto7_2
@@ -131,6 +123,11 @@ DriveZach:
     ramp:
       distance: 1.0
       power: 2.0
+  - name: Auto6
+    speed: .5
+    distance: 10.25
+    startAngle: 90
+    endAngle: -90
 
 ResetAngle:
 
@@ -263,6 +260,9 @@ ClawClamp:
 
 ClawClampToggle:
   # No config
+
+ClawHomeTop:
+  speed: -.4
 
 ClawEstablishHome:
   # No config
@@ -407,53 +407,53 @@ UnloadTote:
 # AUTO #
 ########
 
+# Test auto
 $Auto0:
   - ResetAngle
-  - DriveZachTest1
-  - DriveZachTest2
+  - DriveZachAuto6
 
+# Drive and pick can at right slot
 $Auto1:
   - ResetAngle
-  - name: DriveDistanceAutoPickLong
+  - name: DriveDistanceAuto1
     execution: Parallel
   - $ClawPick
   - $GroundToPlatform
 
-$Auto2DriveSequence:
-  - name: WaitCommand
-    time: 1.0
-  - DriveDistanceAuto2
+# 3309 auto: pick middle can from a 45 degree angle and get behind the scoring platform
+$Auto2:
+  - ResetAngle
+  - $ClawPick
+  - name: $GroundToPlatform
+    execution: Parallel
+  - DriveDistanceAuto2_1
   - DriveRotateAuto2
   - DriveDistanceAuto2_2
 
-$Auto2:
-  - ResetAngle
-  - $ClawToPick
-  - name: $Auto2DriveSequence
-    execution: Parallel
-  - ClawSmartRollers
-  - $GroundToPlatform
-
+# Start on platform with can, drive to right slot
 $Auto3:
-  - name: DriveDistanceAutoThreeDistance
-    execution: Parallel
-  - $ClawPick
-  - $GroundToPlatform
+  - ResetAngle
+  - ClawHomeTop
+  - ClawToHeightPlatform
+  - DriveStraightAuto3_1
+  - DriveStraightAuto3_2
+  - DriveStraightAuto3_3
+  - DriveRotateAuto3
+  - DriveStraightAuto3_4
 
 $Auto4:
-  - name: DriveDistanceAutoFourDistance
-    execution: Parallel
-  - $ClawPick
-  - $GroundToPlatform
+  - ResetAngle
 
+# 624 auto: Pick the left can and get out of there
 $Auto5:
-  - name: DriveDistanceAutoPickShort
+  - name: DriveDistanceAuto5_1
     execution: Parallel
   - $ClawPick
-  - name: DriveDistanceAutoBack
+  - name: DriveDistanceAuto5_2
     execution: Parallel
   - $GroundToPlatform
 
+# Canburgler auto
 $Auto6:
   - ThiefGrabberOut
   - name: ResetAngle
@@ -462,20 +462,22 @@ $Auto6:
     execution: Parallel
   - name: DriveDistanceCatchCan
     execution: Parallel
+  # - name: WaitCommand
+    # time: 0.4
+  # - ThiefGrabberIn
+  # - name: WaitCommand
+    # time: 0.3
+  # - ThiefGrabberOut
   - name: WaitCommand
-    time: 0.4
-  - ThiefGrabberIn
-  - name: WaitCommand
-    time: 0.3
-  - ThiefGrabberOut
-  - name: WaitCommand
-    time: 1.0
+    time: 2.0
   - DriveDistanceGetCans
   - ThiefGrabberIn
   - DriveDistanceEscapeCan
   - DriveRotateAuto6
   - DriveStraightAuto6
+  - DriveZachAuto6
 
+# Pick the left can and drive to the right slot
 $Auto7:
   - ResetAngle
   - $ClawPick

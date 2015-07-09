@@ -19,7 +19,7 @@
   7: WhenPressed ThiefToggle
   8: WhenPressed ClawClampDeathGrip
   9: WhenPressed ClawClampLeft
-  10: WhenPressed ClawClampRight
+  10: ToggleWhenPressed ClawHomeTop
 2:
   1: WhenPressed ClawClampReleased
   2: WhenPressed $ClawToPick
