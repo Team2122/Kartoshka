@@ -430,11 +430,14 @@ $Auto2:
   - DriveRotateAuto2
   - DriveDistanceAuto2_2
 
+$AutoPlatformBinSequence:
+  - ClawHomeTop
+  - ClawToHeightPlatform
+
 # Start on platform with can, drive to right slot
 $Auto3:
   - ResetAngle
-  - ClawHomeTop
-  - ClawToHeightPlatform
+  - $AutoPlatformBinSequence
   - DriveStraightAuto3_1
   - DriveStraightAuto3_2
   - DriveStraightAuto3_3
@@ -458,10 +461,8 @@ $Auto6:
   - ThiefGrabberOut
   - name: ResetAngle
     execution: Parallel
-  - name: $ClawToPick
+  - name: $AutoPlatformBinSequence
     execution: Parallel
-  # - name: DriveDistanceCatchCan
-  #   execution: Parallel
   - name: WaitCommand
     time: 2.0
   - DriveDistanceGetCans
