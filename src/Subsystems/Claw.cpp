@@ -123,8 +123,8 @@ void Claw::Home() {
 		// If we are connected to FMS
 		if (driverStation->IsFMSAttached()) {
 			// Warn the driver, but continue to home
-			log.Warn("Claw was not homed at the start of auto!");
-			homePosition = HomePosition::top;
+			log.Warn("Claw was not homed at the start of auto! Forcing home at bottom.");
+			homePosition = HomePosition::bottom;
 		}
 		// If we are running in practice
 		else {

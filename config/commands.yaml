@@ -410,7 +410,6 @@ UnloadTote:
 # Test auto
 $Auto0:
   - ResetAngle
-  - DriveZachAuto6
 
 # Drive and pick can at right slot
 $Auto1:
