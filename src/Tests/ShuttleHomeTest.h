@@ -35,6 +35,7 @@ protected:
 	void Execute() override {
 		double time = timer.Get();
 		if (!unclamped) {
+			speedController->Set(.2);
 			if (time >= 1.0) {
 				timer.Reset();
 				unclamped = true;
@@ -54,7 +55,7 @@ protected:
 				timer.Reset();
 			}
 		} else {
-			speedController->Set(.15);
+			speedController->Set(.3);
 			if (liftEncoder->Get() <= 400) {
 				clamp->Set(true);
 			}

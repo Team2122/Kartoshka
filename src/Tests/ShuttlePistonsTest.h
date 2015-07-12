@@ -63,11 +63,12 @@ protected:
 
 		case State::start:
 			clamp->Set(!shouldClamp);
+			speedController->Set(.3);
 			StateAfterTime(State::upOne, .5);
 			break;
 
 		case State::upOne:
-			speedController->Set(shouldClamp ? -.5 : -.25);
+			speedController->Set(shouldClamp ? -.3 : -.15);
 			this->StateAfter(State::upTwo,
 					[&] {return liftEncoder->Get() >= 350;});
 			break;
@@ -98,7 +99,7 @@ protected:
 			break;
 
 		case State::drop:
-			speedController->Set(0.1);
+			speedController->Set(0.3);
 			this->StateAfter(State::down,
 					[&] {return liftEncoder->Get() <= 400;});
 			break;
