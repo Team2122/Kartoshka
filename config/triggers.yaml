@@ -18,14 +18,14 @@
   6: ToggleWhenPressed ToteDictator
   7: WhenPressed ThiefToggle
   8: WhenPressed ClawClampDeathGrip
-  9: WhenPressed ClawClampLeft
+  9: ToggleWhenPressed ClawSmartRollers
   10: ToggleWhenPressed ClawHomeTop
 2:
   1: WhenPressed ClawClampReleased
   2: WhenPressed $ClawToPick
   3: ToggleWhenPressed $ClawPick
   4: WhenPressed $GroundToPlatform
-  5: ToggleWhenPressed ClawSmartRollers
+  5: WhenPressed $Regrip
   6: WhenPressed ClawToAngleFront
   7: WhenPressed ClawToAngleBack
   8: WhenPressed ClawToHeightTop
