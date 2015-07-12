@@ -1,0 +1,38 @@
+0: # Joystick
+  1: ToggleWhenPressed ToteDirector
+  2: ToggleWhenPressed $ClawPick
+  3: WhileHeld UnloadTote
+  4: WhenPressed $GroundToPlatform
+  5: WhileHeld ManualClawLiftUp
+  6: WhenPressed $RegripBin
+  7: WhileHeld ManualClawLiftDown
+  8: WhenPressed $PlatformToPlacement
+  9: ToggleWhenPressed ClawClampToggle
+  10: WhenPressed $Restack
+1:
+  1: WhenPressed $ClawToPick
+  2: ToggleWhenPressed $ClawPick
+  3: WhenPressed $GroundToPlatform
+  4: WhenPressed $RegripBin
+  5: WhenPressed $PlatformToPlacement
+  6: ToggleWhenPressed ToteDirector
+  7: WhenPressed $Unstack
+  8: WhenPressed ClawClampDeathGrip
+  9: WhenPressed ClawClampTote
+  10: WhenPressed ClawClampContainer
+2:
+  1: WhenPressed ClawClampReleased
+  2: WhenPressed SetDesiredTotesTwo
+  3: WhenPressed SetDesiredTotesThree
+  4: WhenPressed SetDesiredTotesFour
+  5: WhenPressed SetDesiredTotesFive
+  6: WhenPressed ClawRotationPick
+  7: WhenPressed ClawRotationPlatform
+  8:
+    - WhenPressed ClawForceHome
+    - WhenReleased CancelClawForceHome
+    - WhenReleased CancelHomeClaw
+  9: WhenPressed RollerbedPistonToggle
+  10: WhileHeld ManualClawLiftUp
+  11: WhileHeld ManualClawLiftDown
+  12: WhileHeld UnloadTote

@@ -66,13 +66,23 @@ protected:
 	}
 
 	void End() override {
+<<<<<<< Updated upstream:src/Commands/Shuttle/ShuttlePosition.h
 		log.Info("Finished while at %d, target of %d", shuttle->GetEncoderTicks(), targetTicks);
 		shuttle->SetShuttleSpeed(Shuttle::kHold);
+=======
+		shuttle->SetShuttleSpeed(Shuttle::kStop);
+		log.Info("targetTicks: %d, actual ticks: %d", targetTicks, shuttle->GetEncoderTicks());
+>>>>>>> Stashed changes:src/Commands/ShuttlePosition.h
 		CommandBase::End();
 	}
 
 	void Interrupted() override {
+<<<<<<< Updated upstream:src/Commands/Shuttle/ShuttlePosition.h
 		shuttle->SetShuttleSpeed(Shuttle::kHold);
+=======
+		shuttle->SetShuttleSpeed(Shuttle::kStop);
+		log.Info("targetTicks: %d, actual ticks: %d", targetTicks, shuttle->GetEncoderTicks());
+>>>>>>> Stashed changes:src/Commands/ShuttlePosition.h
 		CommandBase::Interrupted();
 	}
 
