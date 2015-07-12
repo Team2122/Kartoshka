@@ -1,0 +1,10 @@
+1. Is the robot on/battery good?
+2. Is the lift down?
+3. Have Flappers been cleaned?
+4. Is air full or close to it?
+5. Is the enterprise down?
+6. Are the can grabbers down/up?
+7. Is it in the right auto mode?
+8. Rag in chain?
+
+Public/Documents/FRC/Checklist.txt.
