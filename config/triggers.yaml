@@ -25,7 +25,7 @@
   2: WhenPressed $ClawToPick
   3: ToggleWhenPressed $ClawPick
   4: WhenPressed $GroundToPlatform
-  5: WhenPressed $Regrip
+  5: WhenPressed $RegripBin
   6: WhenPressed ClawToAngleFront
   7: WhenPressed ClawToAngleBack
   8: WhenPressed ClawToHeightTop
