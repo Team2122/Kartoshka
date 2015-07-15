@@ -403,6 +403,36 @@ UnloadTote:
   rollerSpeed: -1
   flapperSpeed: -1
 
+#############
+# UTILITIES #
+#############
+
+Revolutsia:
+  commands:
+    - ClawHomeTop
+    - ClawSmartRollers
+    - ClawToAngleBack
+    - ClawToAngleFront
+    - ClawToHeightHome
+    - ClawToHeightTop
+    - ClawToHeightMiddle
+    - ClawToHeightPlatform
+    - ClawToHeightRegrip
+    - ClawUnload
+    - ManualClawLift
+    - HomeShuttle
+    - ShuttleDown
+    - ShuttleHold
+    - ShuttlePositionUnload
+    - ShuttlePositionUnstack
+    - ShuttleRampUp
+    - ShuttleRampDown
+    - BumpBottomTote
+    - HoldBottomTote
+    - IntakeTotes
+    - RecieveBottomTote
+    - UnloadTote
+
 ########
 # AUTO #
 ########

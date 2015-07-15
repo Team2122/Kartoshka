@@ -51,6 +51,7 @@
 
 #include "Commands/Utilities/Cancel.h"
 #include "Commands/Utilities/GenericCommandGroup.h"
+#include "Commands/Utilities/Revolutsia.h"
 
 namespace tator {
 
@@ -101,6 +102,7 @@ void Kremlin::CreateNormalCommands() {
 
 	// Utilities
 	CreateCommandsForClass<Cancel>();
+	CreateCommandsForClass<Revolutsia>();
 
 	// ToteDictator
 	CreateCommandsForClass<SetDesiredTotes>();

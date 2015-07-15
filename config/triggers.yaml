@@ -17,7 +17,7 @@
   5: WhenPressed SetDesiredTotesSix
   6: ToggleWhenPressed ToteDictator
   7: WhenPressed ThiefToggle
-  8: WhenPressed ClawClampDeathGrip
+  8: WhenPressed Revolutsia
   9: ToggleWhenPressed ClawSmartRollers
   10: ToggleWhenPressed ClawHomeTop
 2:
