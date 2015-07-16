@@ -437,8 +437,6 @@ $AutoPlatformBinSequence:
 $Auto3:
   - ResetAngle
   - $AutoPlatformBinSequence
-  - name: WaitCommand
-    time: 0.25
   - DriveStraightAuto3_1
   - name: WaitCommand
     time: 0.25
