@@ -81,7 +81,7 @@ DriveStraight:
   - name: Auto3_2
     speed: 0.5
     angle: 10.0
-    distance: 3.0
+    distance: 2.5
     PID: {P: .05, I: .00, D: 0, F: 0}
   - name: Auto3_3
     speed: -0.5
@@ -437,10 +437,20 @@ $AutoPlatformBinSequence:
 $Auto3:
   - ResetAngle
   - $AutoPlatformBinSequence
+  - name: WaitCommand
+    time: 0.25
   - DriveStraightAuto3_1
+  - name: WaitCommand
+    time: 0.25
   - DriveStraightAuto3_2
+  - name: WaitCommand
+    time: 0.25
   - DriveStraightAuto3_3
+  - name: WaitCommand
+    time: 0.25
   - DriveRotateAuto3
+  - name: WaitCommand
+    time: 0.25
   - DriveStraightAuto3_4
 
 $Auto4:
