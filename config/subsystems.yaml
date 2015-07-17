@@ -5,7 +5,7 @@ Claw:
       encoder: [6, 7]
     rotation:
       motor: 7
-      encoder: {Channel: 0, Scale: 360, Offset: 49}
+      encoder: {Channel: 0, Scale: 360, Offset: 44}
     limits:
       home: {channel: 12, isNPN: false}
       top: {channel: 13, isNPN: true}
@@ -14,7 +14,7 @@ Claw:
     binSensor: {channel: 18, isNPN: true}
   Software:
     heightTolerance: 3.0
-    topDistance: 238.5
+    topDistance: 239.5
     angles:
       tolerance: 7.5
       front: 68.0

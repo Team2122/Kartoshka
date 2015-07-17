@@ -119,19 +119,9 @@ void Claw::Home() {
 		// Home at top
 		homePosition = HomePosition::top;
 	} else { // If the claw is not where it should be
-		DriverStation* driverStation = DriverStation::GetInstance();
-		// If we are connected to FMS
-		if (driverStation->IsFMSAttached()) {
-			// Warn the driver, but continue to home
-			log.Warn("Claw was not homed at the start of auto! Forcing home at bottom.");
-			homePosition = HomePosition::bottom;
-		}
-		// If we are running in practice
-		else {
-			// Output an error and return
-			return log.Error("The claw was not homed before enabling."
-					" Please home the claw and restart the robot code.");
-		}
+		// Output an error and return
+		return log.Error("The claw was not homed before enabling."
+				" Please home the claw and restart the robot code.");
 	}
 	// Reset the encoder
 	liftEncoder->Reset();

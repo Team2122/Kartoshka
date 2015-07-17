@@ -153,13 +153,13 @@ LackOfStack:
 
 $Restack:
   - ShuttleClampOpen
-  - ShuttleRampDown
+  - ShuttleDownBottom
   - ShuttleClampClose
   - name: WaitCommand
     time: 0.25
   - ShuttlePositionUnload
   - FingersRelease
-  - ShuttleDown
+  - ShuttleDownRestack
   - ShuttleRampDown
   - ShuttleClampOpen
 
@@ -180,9 +180,14 @@ ShuttleClamp:
   - name: Close
 
 ShuttleDown:
-  ticks: 50
-  tolerance: 10
-  speed: 0.25
+  - name: Restack
+    ticks: 50
+    tolerance: 10
+    speed: 0.25
+  - name: Bottom
+    ticks: -3
+    tolerance: 3
+    speed: .4
 
 ShuttleHold:
   speed: -.4
@@ -205,14 +210,14 @@ ShuttleRamp:
     rampFactor: .2
     rampDistance: 150
   - name: Down
-    ticks: -5
+    ticks: 0
     rampFactor: .2
     rampDistance: 150
 
 $StackTote:
   - FingersHold
   - ShuttleClampOpen
-  - ShuttleRampDown
+  - ShuttleDownBottom
   - ShuttleClampClose
   - name: WaitCommand
     time: .25
@@ -237,7 +242,7 @@ $Unstack:
   - ShuttleRampUp
   - FingersRelease
   - ShuttleHold
-  - ShuttleDown
+  - ShuttleDownRestack
   - ShuttleRampDown
   - ShuttleClampOpen
 
@@ -298,7 +303,7 @@ ClawToHeight:
     speed: 1.0
     requiredAngle: front
   - name: Top
-    height: 238.5
+    height: 238
     ramp: {distance: 20.0, factor: .25}
     speed: 1.0
     requiredAngle: neither
@@ -313,7 +318,7 @@ ClawToHeight:
     speed: .25
     requiredAngle: back
   - name: Regrip
-    height: 149
+    height: 150.5
     ramp: {distance: 0.0, factor: 0.0}
     speed: .25
     requiredAngle: back
@@ -431,6 +436,7 @@ $Auto2:
 
 $AutoPlatformBinSequence:
   - ClawHomeTop
+  - ClawToAngleBack
   - ClawToHeightPlatform
 
 # Start on platform with can, drive to right slot
