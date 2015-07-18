@@ -159,6 +159,7 @@ $Restack:
     time: 0.25
   - ShuttlePositionUnload
   - FingersRelease
+  - ShuttleHoldRestack
   - ShuttleDownRestack
   - ShuttleRampDown
   - ShuttleClampOpen
@@ -182,16 +183,18 @@ ShuttleClamp:
 ShuttleDown:
   - name: Restack
     ticks: 50
-    tolerance: 10
     speed: 0.25
   - name: Bottom
-    ticks: -3
-    tolerance: 3
+    ticks: 0
     speed: .4
 
 ShuttleHold:
-  speed: -.4
-  time: .5
+  - name: Restack
+    speed: -.2
+    time: .25
+  - name: Unstack
+    speed: -.4
+    time: .5
 
 $ShuttleInit:
   - FingersRelease
@@ -211,7 +214,7 @@ ShuttleRamp:
     rampDistance: 150
   - name: Down
     ticks: 0
-    rampFactor: .2
+    rampFactor: .3
     rampDistance: 150
 
 $StackTote:
@@ -231,7 +234,7 @@ $StackTote:
 ToteDictator:
   samples:
     bottom: 13
-    shuttle: 6
+    shuttle: 10
 
 $Unstack:
   - ShuttleClampOpen
@@ -241,7 +244,7 @@ $Unstack:
     time: 0.25
   - ShuttleRampUp
   - FingersRelease
-  - ShuttleHold
+  - ShuttleHoldUnstack
   - ShuttleDownRestack
   - ShuttleRampDown
   - ShuttleClampOpen
@@ -303,7 +306,7 @@ ClawToHeight:
     speed: 1.0
     requiredAngle: front
   - name: Top
-    height: 238
+    height: 238.5
     ramp: {distance: 20.0, factor: .25}
     speed: 1.0
     requiredAngle: neither
@@ -398,7 +401,7 @@ HoldBottomTote:
     fast: 0.5
 
 IntakeTotes:
-  flapperSpeed: 1.0
+  flapperSpeed: 0.85
 
 RecieveBottomTote:
   flapperSpeed: 0.35
@@ -443,6 +446,8 @@ $AutoPlatformBinSequence:
 $Auto3:
   - ResetAngle
   - $AutoPlatformBinSequence
+  # - name: WaitCommand
+    # time: 3.0
   - DriveStraightAuto3_1
   - name: WaitCommand
     time: 0.25

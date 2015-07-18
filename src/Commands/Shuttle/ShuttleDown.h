@@ -16,8 +16,7 @@ class ShuttleDown: public CommandBase {
 public:
 	ShuttleDown(std::string name, YAML::Node config) :
 			CommandBase(name) {
-		targetTicks = config["ticks"].as<int>();
-		tolerance = config["tolerance"].as<int>();
+		ticks = config["ticks"].as<int>();
 		speed = config["speed"].as<double>();
 		Requires(shuttle);
 	}
@@ -36,22 +35,22 @@ protected:
 	}
 
 	bool IsFinished() override {
-		return abs(shuttle->GetEncoderTicks() - targetTicks) <= tolerance
+		return shuttle->GetEncoderTicks() <= ticks
 				|| shuttle->GetLimit() == Shuttle::kLower;
 	}
 
 	void End() override {
-		shuttle->SetShuttleSpeed(0);
+		shuttle->SetShuttleSpeed(Shuttle::Speed::kHold);
 		CommandBase::End();
 	}
 
 	void Interrupted() override {
-		shuttle->SetShuttleSpeed(0);
+		shuttle->SetShuttleSpeed(Shuttle::Speed::kHold);
 		CommandBase::Interrupted();
 	}
 
 private:
-	int targetTicks, tolerance;
+	int ticks;
 	double speed;
 };
 
