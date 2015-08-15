@@ -18,63 +18,101 @@
 namespace tator {
 
 /**
- * A sensor class for using an ADXRS453 gyroscope, a SPI gyroscope.
+ * An interface for using the ADXRS453 gyroscope, a high-precision SPI gyroscope.
  */
 class ADXRS453: public SensorBase, public PIDSource {
 private:
+	/**
+	 * Bit masks that indicate the type of data being written.
+	 */
 	enum MessageType {
-		kSensorData = (1L << 29), kRead = (1L << 31), kWrite = (1L << 30)
-	};
-
-	enum Bits {
-		kP = (1L << 0),
-		kChk = (1L << 1),
-		kCst = (1L << 2),
-		kPwr = (1L << 3),
-		kPor = (1L << 4),
-		kNvm = (1L << 5),
-		kQ = (1L << 6),
-		kPll = (1L << 7),
-		kFaultBits = kChk | kCst | kPwr | kPor | kNvm | kQ | kPll,
-		kDu = (1L << 16),
-		kRe = (1L << 17),
-		kSpi = (1L << 18),
-		kP0 = (1L << 28),
-		kWriteBit = (1L << 29),
-		kReadBit = (1L << 30)
-	};
-
-	enum Status {
-		kInvalidData = 0x0, kValidData = 0x1, kTestData = 0x2, kReadWrite = 0x03
-	};
-
-	const unsigned kUpdatesPerSecond = 120;
-	const double kUpdatePeriod = 1.0 / kUpdatesPerSecond;
-	const double kDegreesPerSecondPerLSB = 80.0;
-	const static unsigned kCalibrationTicks = 5 * 50; // 5 seconds * 50 per second
-
-public:
-	enum Register {
-		rRate = 0x00,
-		rTem = 0x02,
-		rLoCst = 0x04,
-		rHiCst = 0x06,
-		rQuad = 0x08,
-		rFault = 0x0A,
-		rPid = 0x0C,
-		rSnH = 0x0E,
-		rSnL = 0x10
+		kSensorData = (1L << 29),	///< Sensor data request
+		kRead = (1L << 31),			///< Register read
+		kWrite = (1L << 30)			///< Register write
 	};
 
 	/**
-	 * Creates a new ADXRS453
+	 * Bit masks for all of the bits
+	 */
+	enum Bits {
+		/// Odd parity for the entire request/response
+		kP = (1L << 0),
+		/// Self check bit: faults were generated
+		kChk = (1L << 1),
+		/// Continuous self-test failure or amplitude detection failed
+		kCst = (1L << 2),
+		/// Power regulation failed due to overvoltage or undervoltage condition
+		kPwr = (1L << 3),
+		/// Power-on or reset failed to initialize
+		kPor = (1L << 4),
+		/// Nonvolatile memory fault
+		kNvm = (1L << 5),
+		/// Quadrature error
+		kQ = (1L << 6),
+		/// Phase-locked loop failure
+		kPll = (1L << 7),
+		/// All of the fault bits together
+		kFaultBits = kChk | kCst | kPwr | kPor | kNvm | kQ | kPll,
+		/// Data unavailable error. Requests were sent too rapidly
+		kDu = (1L << 16),
+		/// Request error. Invalid command or register number.
+		kRe = (1L << 17),
+		/// SPI error. Wrong number of bits transmitted or parity check error
+		kSpi = (1L << 18),
+		/// Odd parity for the upper bits in a response.
+		kP0 = (1L << 28),
+		/// Indicates a register write response
+		kWriteBit = (1L << 29),
+		/// Indicates a register read response
+		kReadBit = (1L << 30)
+	};
+
+	/**
+	 * The status of a response.
+	 */
+	enum Status {
+		kInvalidData = 0x0, ///< The data received is invalid because of a fault
+		kValidData = 0x1, 	///< The data received is valid
+		kTestData = 0x2,	///< The data received is self test data
+		kReadWrite = 0x03 	///< The data received is a read or write response
+	};
+
+	/// How many updates per second the update thread performs
+	const unsigned kUpdatesPerSecond = 120;
+	/// The delay in seconds between updates
+	const double kUpdatePeriod = 1.0 / kUpdatesPerSecond;
+	/// Conversion factor from the data received to degrees per second
+	const double kDegreesPerSecondPerLSB = 80.0;
+	/// How many ticks to perform the calibration for.
+	const static unsigned kCalibrationTicks = 5 * kUpdatesPerSecond;
+
+public:
+	/**
+	 * Registers that can be read or written
+	 * @see ReadRegister
+	 * @see WriteRegister
+	 */
+	enum Register {
+		rRate = 0x00,	///< Temperature compensated rate data
+		rTem = 0x02,	///< The temperature of the device
+		rLoCst = 0x04,	///< Self test data low
+		rHiCst = 0x06,	///< Self test data high
+		rQuad = 0x08,	///< Quadrature error
+		rFault = 0x0A,	///< Fault bits
+		rPid = 0x0C, 	///< Part id
+		rSnH = 0x0E, 	///< Serial number high
+		rSnL = 0x10  	///< Serial number low
+	};
+
+	/**
+	 * Creates a new ADXRS453 interface
 	 * @param port The SPI port to attach to
 	 */
 	ADXRS453(SPI::Port port);
 
 	/**
-	 * Creates a new ADXRS453
-	 * @param spi The spi to use
+	 * Creates a new ADXRS453 interface
+	 * @param spi The SPI object to use
 	 */
 	ADXRS453(SPI* spi);
 
@@ -84,7 +122,7 @@ public:
 	virtual ~ADXRS453();
 
 	/**
-	 * Starts the startup thread and update thread.
+	 * Starts the startup thread and update thread. Initializes the gyro.
 	 */
 	void Start();
 
@@ -94,17 +132,18 @@ public:
 	void Stop();
 
 	/**
-	 * Resets everything
+	 * Resets everything, including calibration values, current rate and angle.
 	 */
 	void Reset();
 
 	/**
-	 * Starts calibrating the gyro
+	 * Starts calibrating the gyro.
 	 */
 	void StartCalibration();
 
 	/**
-	 * Finishes calibration
+	 * Finishes calibration. Averages the last five seconds of values and uses
+	 * that for calibration.
 	 */
 	void FinishCalibration();
 
@@ -116,7 +155,7 @@ public:
 
 	/**
 	 * Gets the angle of the gyro
-	 * @return The angle of the gyro in degrees
+	 * @return The angle of the gyro in degrees, positive is clockwise
 	 */
 	double GetAngle();
 
@@ -125,9 +164,30 @@ public:
 	 */
 	void ResetAngle();
 
+	/**
+	 * Reads from a register
+	 * @param reg The register to read from
+	 * @return The value read from the register
+	 */
 	uint16_t ReadRegister(Register reg);
+
+	/**
+	 * Writes to a register
+	 * @param reg The register to write to
+	 * @param value The value to write
+	 */
 	void WriteRegister(Register reg, uint16_t value);
+
+	/**
+	 * Gets the temperature of the device
+	 * @return The temperature of the device in degrees celcius
+	 */
 	double GetTemperature();
+
+	/**
+	 * Gets the serial number of the gyro
+	 * @return The serial number
+	 */
 	uint32_t GetSerialNumber();
 
 	/**
@@ -142,7 +202,7 @@ public:
 	 */
 	virtual double PIDGet();
 
-protected:
+private:
 	/**
 	 * Fixes odd parity on the value
 	 * @param data The input value
@@ -151,29 +211,29 @@ protected:
 	static uint32_t FixParity(uint32_t data);
 
 	/**
-	 * Delays a while
-	 * @param ms How many milliseconds to delay
+	 * Delays for a while
+	 * @param ms How many milliseconds to delay for
 	 */
 	static void Delay(long int ms);
 
 	/**
 	 * Checks the parity and prints if there's an error
 	 * @param data The data
-	 * @return If it is successful
+	 * @return False if there is an error
 	 */
 	bool CheckParity(uint32_t data);
 
 	/**
 	 * Checks the faults of the data and prints if there's an error
 	 * @param data The data
-	 * @return If it is successful
+	 * @return False if there is an error
 	 */
 	bool CheckFaults(uint32_t data);
 
 	/**
-	 * Checks a reponse from the gyro and prints out any errors
+	 * Checks a response from the gyro and prints out any errors
 	 * @param data The data
-	 * @return If it is successful
+	 * @return False if there is an error
 	 */
 	bool CheckResponse(uint32_t data);
 
@@ -197,33 +257,60 @@ protected:
 	uint32_t Transfer(uint32_t data);
 
 	/**
-	 * Runs the startup routine on the gyro
+	 * The startup routine which initializes the gyro.
 	 */
 	void Startup();
 
 	/**
-	 * Reads from the gyro and updates the values from it.
+	 * The update routine which handles reading from the gyro, updating rate and
+	 * angle, and calibration.
 	 */
 	void Update();
 
 	static int StartupFunction(int data);
 	static void UpdateFunction(void* data);
 
+	/// The logger used by this class
 	Logger log;
-	ReentrantSemaphore lock; ///< lock for threaded data
-	PIDSourceParameter pidSource; ///< the source for PID data
-	double rate; ///< the latest rate read from the gyro, zerod
-	double angle; ///< the calculated angle
-	uint32_t lastSent; ///< the last data that was sent to the gyro
-	std::array<double, kCalibrationTicks> calibValues;
-	bool isCalibrating; ///< true if we are calibrating right now
-	size_t calibIndex; ///< how many samples are in the zero value
-	double zeroRate; ///< the zero value for the rate
 
-	Task* startup; ///< the task that performs the startup routine for the gyro
-	Notifier* updater; ///< the notifier that runs the update routine
-	Timer* timer; ///< the timer used for measuring the delay between runs
-	SPI* spi; ///< the spi class used for communication with the gyro
+	/// Lock for multithreaded data
+	ReentrantSemaphore lock;
+
+	/// The source for PID data
+	PIDSourceParameter pidSource;
+
+	/// The latest rate read from the gyro, with calibration applied
+	double rate;
+
+	/// The calculated angle
+	double angle;
+
+	/// The last data that was sent to the gyro
+	uint32_t lastSent;
+
+	/// The values used for calibration
+	std::array<double, kCalibrationTicks> calibValues;
+
+	/// True if we are calibrating right now
+	bool isCalibrating;
+
+	/// How many samples are in the zero value
+	size_t calibIndex;
+
+	/// The calibration value for the rate
+	double zeroRate;
+
+	/// The task that performs the startup routine for the gyro
+	Task* startup;
+
+	/// The notifier that runs the update routine
+	Notifier* updater;
+
+	/// The timer used for measuring the delay between updates
+	Timer* timer;
+
+	/// The spi class used for communication with the gyro
+	SPI* spi;
 
 	DISALLOW_COPY_AND_ASSIGN(ADXRS453);
 };
