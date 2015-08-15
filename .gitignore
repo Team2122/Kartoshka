@@ -2,6 +2,7 @@
 /Debug/
 /Simulate/
 /sysProps.xml
+/doc
 
 # Extra project files
 /.settings/language.settings.xml
