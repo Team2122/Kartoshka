@@ -1,18 +1,18 @@
 #ifndef CLAWSMARTROLLERS_H
 #define CLAWSMARTROLLERS_H
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/Claw.h"
 
 namespace tator {
 
-class ClawSmartRollers: public CommandBase {
+class ClawSmartRollers: public RobotCommand {
 public:
 	ClawSmartRollers(std::string name, YAML::Node config) :
-			CommandBase(name) {
+			RobotCommand(name) {
 		waitTime = config["waitTime"].as<double>();
 		isWaiting = false;
-		Requires(claw);
+		Requires(robot->claw);
 	}
 
 	static std::string GetBaseName() {
@@ -21,16 +21,16 @@ public:
 
 protected:
 	void Initialize() override {
-		CommandBase::Initialize();
-		claw->SetRollerSpeed(Claw::RollerStatus::kInward);
+		RobotCommand::Initialize();
+		robot->claw->SetRollerSpeed(Claw::RollerStatus::kInward);
 		isWaiting = false;
 		timer.Reset();
 	}
 
 	void Execute() override {
-		if (claw->HasContainer() && !isWaiting) {
+		if (robot->claw->HasContainer() && !isWaiting) {
 			isWaiting = true;
-			claw->SetClampStatus(Claw::ClampStatus::kDeathGrip);
+			robot->claw->SetClampStatus(Claw::ClampStatus::kDeathGrip);
 			timer.Start();
 		}
 	}
@@ -40,15 +40,15 @@ protected:
 	}
 
 	void End() override {
-		claw->SetRollerSpeed(Claw::RollerStatus::kStopped);
+		robot->claw->SetRollerSpeed(Claw::RollerStatus::kStopped);
 		timer.Stop();
-		CommandBase::End();
+		RobotCommand::End();
 	}
 
 	void Interrupted() override {
-		claw->SetRollerSpeed(Claw::RollerStatus::kStopped);
+		robot->claw->SetRollerSpeed(Claw::RollerStatus::kStopped);
 		timer.Stop();
-		CommandBase::Interrupted();
+		RobotCommand::Interrupted();
 	}
 
 private:

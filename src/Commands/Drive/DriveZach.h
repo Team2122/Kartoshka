@@ -7,15 +7,15 @@
 #ifndef DRIVEZACH_H_
 #define DRIVEZACH_H_
 
-#include "CommandBase.h"
+#include "Robot.h"
 
 namespace tator {
 
-class DriveZach: public CommandBase {
+class DriveZach: public RobotCommand {
 public:
 	DriveZach(std::string name, YAML::Node config) :
-			CommandBase(name) {
-		Requires(drive);
+			RobotCommand(name) {
+		Requires(robot->drive);
 		kAngle = 0.02;
 		kRate = 0.02;
 		angleTolerance = .5;
@@ -42,14 +42,14 @@ public:
 
 protected:
 	void Initialize() override {
-		CommandBase::Initialize();
-		startDistance = drive->GetDistance();
+		RobotCommand::Initialize();
+		startDistance = robot->drive->GetDistance();
 		double angleDelta = endAngle - startAngle;
 		desiredRate = angleDelta / distance;
 	}
 
 	void Execute() override {
-		currentDistance = fabs(startDistance - drive->GetDistance());
+		currentDistance = fabs(startDistance - robot->drive->GetDistance());
 		double distanceLeft = distance - currentDistance;
 
 		double rampedSpeed = speed;
@@ -59,16 +59,17 @@ protected:
 		}
 
 		double desiredAngle = desiredRate * currentDistance + startAngle;
-		gyroAngle = otto->GetAngle();
+		gyroAngle = robot->otto->GetAngle();
 		double angleDelta = desiredAngle - gyroAngle;
 
-		double gyroRate = otto->GetRate();
+		double gyroRate = robot->otto->GetRate();
 
 		double offset = angleDelta * kAngle + desiredRate * kRate * rampedSpeed;
 		log.Info(
 				"gyroAngle: %f, desiredAngle: %f, gyroRate: %f, rate: %f, currentDistance: %f",
-				gyroAngle, desiredAngle, gyroRate, desiredRate, currentDistance);
-		drive->SetSpeeds(rampedSpeed + offset, rampedSpeed - offset);
+				gyroAngle, desiredAngle, gyroRate, desiredRate,
+				currentDistance);
+		robot->drive->SetSpeeds(rampedSpeed + offset, rampedSpeed - offset);
 	}
 
 	bool IsFinished() override {
@@ -87,13 +88,13 @@ protected:
 	}
 
 	void End() override {
-		CommandBase::End();
-		drive->SetSpeeds(0, 0);
+		RobotCommand::End();
+		robot->drive->SetSpeeds(0, 0);
 	}
 
 	void Interrupted() override {
-		CommandBase::Interrupted();
-		drive->SetSpeeds(0, 0);
+		RobotCommand::Interrupted();
+		robot->drive->SetSpeeds(0, 0);
 	}
 
 private:

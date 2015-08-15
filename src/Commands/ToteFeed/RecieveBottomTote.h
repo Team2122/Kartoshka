@@ -8,15 +8,15 @@
 #define RECIEVETOTE_H_
 
 #include "Subsystems/ToteFeed.h"
-#include "CommandBase.h"
+#include "Robot.h"
 
 namespace tator {
 
-class RecieveBottomTote: public CommandBase {
+class RecieveBottomTote: public RobotCommand {
 public:
 	RecieveBottomTote(std::string name, YAML::Node config) :
-			CommandBase(name) {
-		Requires(toteFeed);
+			RobotCommand(name) {
+		Requires(robot->toteFeed);
 		flapperSpeed = config["flapperSpeed"].as<double>();
 		rollerSpeed = config["rollerSpeed"].as<double>();
 	}
@@ -27,9 +27,9 @@ public:
 
 protected:
 	void Initialize() override {
-		CommandBase::Initialize();
-		toteFeed->SetFlapperSpeed(flapperSpeed);
-		toteFeed->SetRollers(rollerSpeed);
+		RobotCommand::Initialize();
+		robot->toteFeed->SetFlapperSpeed(flapperSpeed);
+		robot->toteFeed->SetRollers(rollerSpeed);
 	}
 
 	void Execute() override {
@@ -40,15 +40,15 @@ protected:
 	}
 
 	void End() override {
-		CommandBase::End();
-		toteFeed->SetFlapperSpeed(0);
-		toteFeed->SetRollers(0);
+		RobotCommand::End();
+		robot->toteFeed->SetFlapperSpeed(0);
+		robot->toteFeed->SetRollers(0);
 	}
 
 	void Interrupted() override {
-		CommandBase::Interrupted();
-		toteFeed->SetFlapperSpeed(0);
-		toteFeed->SetRollers(0);
+		RobotCommand::Interrupted();
+		robot->toteFeed->SetFlapperSpeed(0);
+		robot->toteFeed->SetRollers(0);
 	}
 
 private:

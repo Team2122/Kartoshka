@@ -9,15 +9,15 @@
 
 #include "Subsystems/Shuttle.h"
 #include "Subsystems/ToteFeed.h"
-#include "CommandBase.h"
+#include "Robot.h"
 
 namespace tator {
 
-class UnloadTote: public CommandBase {
+class UnloadTote: public RobotCommand {
 public:
 	UnloadTote(std::string name, YAML::Node config) :
-			CommandBase(name) {
-		Requires(toteFeed);
+			RobotCommand(name) {
+		Requires(robot->toteFeed);
 		rollerSpeed = config["rollerSpeed"].as<double>();
 		flapperSpeed = config["flapperSpeed"].as<double>();
 	}
@@ -28,9 +28,9 @@ public:
 
 protected:
 	void Initialize() override {
-		CommandBase::Initialize();
-		toteFeed->SetRollers(rollerSpeed);
-		toteFeed->SetFlapperSpeed(flapperSpeed);
+		RobotCommand::Initialize();
+		robot->toteFeed->SetRollers(rollerSpeed);
+		robot->toteFeed->SetFlapperSpeed(flapperSpeed);
 	}
 
 	void Execute() override {
@@ -41,20 +41,20 @@ protected:
 	}
 
 	void End() override {
-		CommandBase::End();
+		RobotCommand::End();
 		this->Reset();
 	}
 
 	void Interrupted() override {
-		CommandBase::Interrupted();
+		RobotCommand::Interrupted();
 		this->Reset();
 	}
 
 	void Reset() {
-		shuttle->SetDesiredTotes(6);
-		shuttle->SetTotesHeld(shuttle->GetTotesRatcheted());
-		toteFeed->SetRollers(0);
-		toteFeed->SetFlapperSpeed(0);
+		robot->shuttle->SetDesiredTotes(6);
+		robot->shuttle->SetTotesHeld(robot->shuttle->GetTotesRatcheted());
+		robot->toteFeed->SetRollers(0);
+		robot->toteFeed->SetFlapperSpeed(0);
 	}
 
 private:

@@ -9,49 +9,63 @@
 
 #include <Commands/Command.h>
 #include <yaml-cpp/yaml.h>
-#include "Subsystems/Claw.h"
 #include "Common/Logger.h"
 
 namespace tator {
 
-class Claw;
-class Drive;
-class Shuttle;
-class Thief;
-class ToteFeed;
-class Otto;
-
 /**
- * The base for all commands.
+ * The base for all commands. All subclasses must implement static std::string
+ * GetBaseName() in order to work with Kremlin.
  */
+template<typename T>
 class CommandBase: public Command {
-	friend class Tester;
-	friend class Robot;
-	friend class Shuttle;
 public:
-	// Remeber to implement static std::string GetBaseName()
 	CommandBase(const std::string& name);
 	virtual ~CommandBase();
+
 	/**
 	 * Initializes all static subsystem pointers
 	 */
 	static void InitSubsystems(YAML::Node subsystem);
 
+	static T* robot;
+
 protected:
 	Logger log;
-	virtual void Initialize();
+
+	virtual void Initialize() override;
 	virtual void Execute() = 0;
 	virtual bool IsFinished() = 0;
-	virtual void End();
+	virtual void End() override;
 	virtual void Interrupted();
-
-	static Claw* claw;
-	static Drive* drive;
-	static Shuttle* shuttle;
-	static Thief* thief;
-	static ToteFeed* toteFeed;
-	static Otto* otto;
 };
+
+template<typename T>
+T* CommandBase<T>::robot = nullptr;
+
+template<typename T>
+CommandBase<T>::CommandBase(const std::string& name) :
+		Command(name.c_str()), log(name.c_str()) {
+}
+
+template<typename T>
+CommandBase<T>::~CommandBase() {
+}
+
+template<typename T>
+void CommandBase<T>::Initialize() {
+	log.Info("%s has Initialized", GetName().c_str());
+}
+
+template<typename T>
+void CommandBase<T>::End() {
+	log.Info("%s has Ended", GetName().c_str());
+}
+
+template<typename T>
+void CommandBase<T>::Interrupted() {
+	log.Warn("%s has been Interrupted", GetName().c_str());
+}
 
 } /* namespace tator */
 

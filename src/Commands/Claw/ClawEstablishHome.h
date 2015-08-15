@@ -1,16 +1,16 @@
 #ifndef CLAWESTABLISHHOME_H_
 #define CLAWESTABLISHHOME_H_
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/Claw.h"
 #include <DriverStation.h>
 
 namespace tator {
 
-class ClawEstablishHome: public CommandBase {
+class ClawEstablishHome: public RobotCommand {
 public:
 	ClawEstablishHome(std::string name, YAML::Node config) :
-			CommandBase(name) {
+			RobotCommand(name) {
 	}
 
 	static std::string GetBaseName() {
@@ -19,7 +19,7 @@ public:
 
 protected:
 	void Execute() override {
-		claw->Home();
+		robot->claw->Home();
 	}
 
 	bool IsFinished() override {

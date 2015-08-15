@@ -9,10 +9,10 @@
 
 namespace tator {
 
-class ClawUnload: public CommandBase {
+class ClawUnload: public RobotCommand {
 public:
 	ClawUnload(std::string name, YAML::Node config) :
-			CommandBase(name) {
+			RobotCommand(name) {
 		presses = 0;
 		clawToHeightTop = Kremlin::Get("ClawToHeightTop");
 		clawToAngleFront = Kremlin::Get("ClawToAngleFront");
@@ -24,7 +24,7 @@ public:
 
 protected:
 	void Initialize() override {
-		CommandBase::Initialize();
+		RobotCommand::Initialize();
 		presses++;
 	}
 
@@ -50,7 +50,7 @@ protected:
 	}
 
 	void End() override {
-		CommandBase::End();
+		RobotCommand::End();
 		// If we have pressed it at least 2 times
 		if (presses >= 2) {
 			// Reset the number of presses to 0

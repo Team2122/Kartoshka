@@ -7,7 +7,7 @@
 #ifndef DRIVESTRAIGHT_H_
 #define DRIVESTRAIGHT_H_
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/Otto.h"
 #include "Subsystems/Drive.h"
 #include <PIDSource.h>
@@ -15,11 +15,11 @@
 
 namespace tator {
 
-class DriveStraight: public CommandBase, public PIDSource, public PIDOutput {
+class DriveStraight: public RobotCommand, public PIDSource, public PIDOutput {
 public:
 	DriveStraight(std::string name, YAML::Node config) :
-			CommandBase(name) {
-		Requires(drive);
+			RobotCommand(name) {
+		Requires(robot->drive);
 		currentDistance = 0;
 		startDistance = 0;
 		angle = config["angle"].as<double>();
@@ -36,28 +36,29 @@ public:
 
 protected:
 	double PIDGet() override {
-		double angle = otto->GetAngle();
+		double angle = robot->otto->GetAngle();
 		return angle;
 	}
 
 	void PIDWrite(float output) override {
-		drive->SetSpeeds(speed + output, speed - output);
+		robot->drive->SetSpeeds(speed + output, speed - output);
 	}
 
 	double currentDistance;
 	PIDController* pid;
 
 	void Initialize() override {
-		CommandBase::Initialize();
-		startDistance = drive->GetDistance();
+		RobotCommand::Initialize();
+		startDistance = robot->drive->GetDistance();
 		pid->SetSetpoint(angle);
 		pid->Reset();
 		pid->Enable();
 	}
 
 	void Execute() override {
-		currentDistance = fabs(drive->GetDistance() - startDistance);
-		log.Info("angle: %f, target: %f, distance: %f", PIDGet(), pid->GetSetpoint(), currentDistance);
+		currentDistance = fabs(robot->drive->GetDistance() - startDistance);
+		log.Info("angle: %f, target: %f, distance: %f", PIDGet(),
+				pid->GetSetpoint(), currentDistance);
 	}
 
 	bool IsFinished() override {
@@ -65,15 +66,15 @@ protected:
 	}
 
 	void End() override {
-		CommandBase::End();
+		RobotCommand::End();
 		pid->Disable();
-		drive->SetSpeeds(0, 0);
+		robot->drive->SetSpeeds(0, 0);
 	}
 
 	void Interrupted() override {
-		CommandBase::Interrupted();
+		RobotCommand::Interrupted();
 		pid->Disable();
-		drive->SetSpeeds(0, 0);
+		robot->drive->SetSpeeds(0, 0);
 	}
 
 private:

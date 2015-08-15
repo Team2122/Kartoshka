@@ -7,18 +7,18 @@
 #ifndef SHUTTLEHOLD_H_
 #define SHUTTLEHOLD_H_
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/Shuttle.h"
 
 namespace tator {
 
-class ShuttleHold: public CommandBase {
+class ShuttleHold: public RobotCommand {
 public:
 	ShuttleHold(std::string name, YAML::Node config) :
-			CommandBase(name) {
+			RobotCommand(name) {
 		speed = config["speed"].as<double>();
 		time = config["time"].as<double>();
-		Requires(shuttle);
+		Requires(robot->shuttle);
 	}
 
 	static std::string GetBaseName() {
@@ -27,13 +27,13 @@ public:
 
 protected:
 	void Initialize() override {
-		CommandBase::Initialize();
+		RobotCommand::Initialize();
 		timer.Reset();
 		timer.Start();
 	}
 
 	void Execute() override {
-		shuttle->SetShuttleSpeed(speed);
+		robot->shuttle->SetShuttleSpeed(speed);
 	}
 
 	bool IsFinished() override {
@@ -41,15 +41,15 @@ protected:
 	}
 
 	void End() override {
-		CommandBase::End();
+		RobotCommand::End();
 		timer.Stop();
-		shuttle->SetShuttleSpeed(0);
+		robot->shuttle->SetShuttleSpeed(0);
 	}
 
 	void Interrupted() override {
-		CommandBase::Interrupted();
+		RobotCommand::Interrupted();
 		timer.Stop();
-		shuttle->SetShuttleSpeed(0);
+		robot->shuttle->SetShuttleSpeed(0);
 	}
 
 private:

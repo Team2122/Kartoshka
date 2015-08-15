@@ -10,7 +10,14 @@
 #include "Common/Config/Kremlin.h"
 #include "Common/USBManager.h"
 #include "CommandBase.h"
+
+#include "Subsystems/Claw.h"
+#include "Subsystems/Drive.h"
+#include "Subsystems/Claw.h"
 #include "Subsystems/Otto.h"
+#include "Subsystems/Shuttle.h"
+#include "Subsystems/Thief.h"
+#include "Subsystems/ToteFeed.h"
 
 namespace tator {
 
@@ -19,16 +26,41 @@ Robot::Robot() :
 	scheduler = Scheduler::GetInstance();
 	tester = Tester::GetInstance();
 	hasRunAuto = false;
+	RobotCommand::robot = this;
+
+	claw = nullptr;
+	drive = nullptr;
+	shuttle = nullptr;
+	thief = nullptr;
+	toteFeed = nullptr;
+	otto = nullptr;
 }
 
 Robot::~Robot() {
+	delete claw;
+	delete drive;
+	delete shuttle;
+	delete thief;
+	delete toteFeed;
+	delete otto;
+
+	RobotCommand::robot = nullptr;
+}
+
+void Robot::InitSubsystems(YAML::Node subsystems) {
+	claw = new Claw(subsystems["Claw"]);
+	drive = new Drive(subsystems["Drive"]);
+	shuttle = new Shuttle(subsystems["Shuttle"]);
+	thief = new Thief(subsystems["Thief"]);
+	toteFeed = new ToteFeed(subsystems["ToteFeed"]);
+	otto = new Otto(subsystems["Otto"]);
 }
 
 void Robot::RobotInit() {
 	log.Info("Loading Configs...");
 	Config::Load();
 	log.Info("Initializing Subsystems...");
-	CommandBase::InitSubsystems(Config::subsystems);
+	InitSubsystems(Config::subsystems);
 	log.Info("Creating Commands...");
 	Kremlin::CreateCommands();
 	log.Info("Binding all things...");
@@ -39,8 +71,8 @@ void Robot::RobotInit() {
 	tester->CreateTests();
 	Kremlin::Get("ClawEstablishHome")->Start();
 	Kremlin::Get("$ShuttleInit")->Start();
-	CommandBase::otto->GetAutoModeNumber();
-	CommandBase::otto->StartGyroCalibration();
+	otto->GetAutoModeNumber();
+	otto->StartGyroCalibration();
 }
 
 void Robot::DisabledInit() {
@@ -53,8 +85,8 @@ void Robot::DisabledInit() {
 void Robot::AutonomousInit() {
 	log.Info("==== AutonomousInit ====");
 	if (!hasRunAuto) {
-		CommandBase::otto->FinishGyroCalibration();
-		CommandBase::otto->StartAutoCommand();
+		otto->FinishGyroCalibration();
+		otto->StartAutoCommand();
 		hasRunAuto = true;
 	} else {
 		log.Error("Auto does't work if you try to run it twice. Please reboot the robot.");

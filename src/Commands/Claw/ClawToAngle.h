@@ -7,18 +7,18 @@
 #ifndef CLAWTOANGLE_H_
 #define CLAWTOANGLE_H_
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/Claw.h"
 
 namespace tator {
 
-class ClawToAngle: public CommandBase {
+class ClawToAngle: public RobotCommand {
 public:
 	ClawToAngle(std::string name, YAML::Node config) :
-			CommandBase(name) {
-		Requires(claw);
+			RobotCommand(name) {
+		Requires(robot->claw);
 
-		angle = claw->AngleFromName(config["angle"].as<std::string>());
+		angle = robot->claw->AngleFromName(config["angle"].as<std::string>());
 		speed = config["speed"].as<double>();
 		holdSpeed = config["holdSpeed"].as<double>();
 
@@ -35,10 +35,11 @@ public:
 
 protected:
 	void Initialize() override {
-		CommandBase::Initialize();
+		RobotCommand::Initialize();
 		// If we're above the platform
 		// and not already at the angle
-		if (claw->GetLiftEncoder() < minimumHeight && !claw->IsAtAngle(angle)) {
+		if (robot->claw->GetLiftEncoder() < minimumHeight
+				&& !robot->claw->IsAtAngle(angle)) {
 			log.Error("We cannot rotate if the height of the claw is less "
 					"than %f", minimumHeight);
 			return this->Cancel();
@@ -46,26 +47,26 @@ protected:
 	}
 
 	void Execute() override {
-		double distance = claw->GetDegreesFromAngle(angle);
+		double distance = robot->claw->GetDegreesFromAngle(angle);
 		double multiplier = 1;
 		if (distance <= rampDistance) {
 			multiplier = rampFactor;
 		}
-		claw->SetRotationSpeed(speed * multiplier);
+		robot->claw->SetRotationSpeed(speed * multiplier);
 	}
 
 	bool IsFinished() override {
-		return claw->IsAtAngle(angle);
+		return robot->claw->IsAtAngle(angle);
 	}
 
 	void End() override {
-		CommandBase::End();
-		claw->SetRotationSpeed(holdSpeed);
+		RobotCommand::End();
+		robot->claw->SetRotationSpeed(holdSpeed);
 	}
 
 	void Interrupted() override {
-		CommandBase::Interrupted();
-		claw->SetRotationSpeed(0);
+		RobotCommand::Interrupted();
+		robot->claw->SetRotationSpeed(0);
 	}
 
 private:

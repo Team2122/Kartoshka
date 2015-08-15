@@ -7,16 +7,16 @@
 #ifndef BUMPBOTTOMTOTE_H_
 #define BUMPBOTTOMTOTE_H_
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/ToteFeed.h"
 
 namespace tator {
 
-class BumpBottomTote: public CommandBase {
+class BumpBottomTote: public RobotCommand {
 public:
 	BumpBottomTote(std::string name, YAML::Node config) :
-			CommandBase(name) {
-		Requires(toteFeed);
+			RobotCommand(name) {
+		Requires(robot->toteFeed);
 		time = config["time"].as<double>();
 		rollerSpeed = config["rollerSpeed"].as<double>();
 		reversed = false;
@@ -28,14 +28,14 @@ public:
 
 protected:
 	void Initialize() override {
-		CommandBase::Initialize();
+		RobotCommand::Initialize();
 		reversed = false;
 		timer.Reset();
 		timer.Start();
 	}
 
 	void Execute() override {
-		toteFeed->SetRollers(reversed ? -rollerSpeed : rollerSpeed);
+		robot->toteFeed->SetRollers(reversed ? -rollerSpeed : rollerSpeed);
 	}
 
 	bool IsFinished() override {
@@ -50,14 +50,14 @@ protected:
 	}
 
 	void End() override {
-		CommandBase::End();
-		toteFeed->SetRollers(0);
+		RobotCommand::End();
+		robot->toteFeed->SetRollers(0);
 		timer.Stop();
 	}
 
 	void Interrupted() override {
-		CommandBase::Interrupted();
-		toteFeed->SetRollers(0);
+		RobotCommand::Interrupted();
+		robot->toteFeed->SetRollers(0);
 		timer.Stop();
 	}
 

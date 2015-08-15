@@ -6,15 +6,15 @@
 #ifndef THIEFTOGGLE_H
 #define THIEFTOGGLE_H
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/Thief.h"
 
 namespace tator {
 
-class ThiefToggle: public CommandBase {
+class ThiefToggle: public RobotCommand {
 public:
 	ThiefToggle(std::string name, YAML::Node config) :
-			CommandBase(name) {
+			RobotCommand(name) {
 	}
 
 	static std::string GetBaseName() {
@@ -23,7 +23,7 @@ public:
 
 protected:
 	void Execute() override {
-		thief->Toggle();
+		robot->thief->Toggle();
 	}
 
 	bool IsFinished() override {

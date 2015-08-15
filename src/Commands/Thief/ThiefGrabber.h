@@ -6,24 +6,24 @@
 #ifndef THIEFGRABBER_H
 #define THIEFGRABBER_H
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/Thief.h"
 
 namespace tator {
 
-class ThiefGrabber: public CommandBase {
+class ThiefGrabber: public RobotCommand {
 public:
 	ThiefGrabber(std::string name, YAML::Node config) :
-			CommandBase(name) {
+			RobotCommand(name) {
 		thiefer = (Thief::State) config["status"].as<int>();
 	}
 
-	static std::string GetBaseName(){
+	static std::string GetBaseName() {
 		return "ThiefGrabber";
 	}
 protected:
 	void Execute() override {
-		thief->Set(thiefer);
+		robot->thief->Set(thiefer);
 	}
 
 	bool IsFinished() override {

@@ -6,10 +6,12 @@
 
 #include "Tester.h"
 #include "TestGroup.h"
-#include "CommandBase.h"
+#include "Robot.h"
+
 #include "Subsystems/Drive.h"
 #include "Subsystems/Shuttle.h"
 #include "Subsystems/ToteFeed.h"
+
 #include "Tests/SuccessfulTest.h"
 #include "Tests/FailureTest.h"
 #include "Tests/SpeedControllerEncoderTest.h"
@@ -33,26 +35,27 @@ Tester::~Tester() {
 }
 
 void Tester::CreateTests() {
+	Robot* robot = RobotCommand::robot;
 	Test* leftDrive = new SpeedControllerEncoderTest("left drive",
-			CommandBase::drive->driveL, CommandBase::drive->encoderL, .25, .25,
+			robot->drive->driveL, robot->drive->encoderL, .25, .25,
 			.6);
 	Test* rightDrive = new SpeedControllerEncoderTest("right drive",
-			CommandBase::drive->driveR, CommandBase::drive->encoderR, .25, .25,
+			robot->drive->driveR, robot->drive->encoderR, .25, .25,
 			.6);
 	TestGroup* driveTests = new TestGroup("Drive", { leftDrive, rightDrive });
 	this->AddTest(driveTests);
 
 	Test* shuttleLift = new SpeedControllerEncoderTest("shuttle lift",
-			CommandBase::shuttle->liftMotor, CommandBase::shuttle->liftEncoder,
+			robot->shuttle->liftMotor, robot->shuttle->liftEncoder,
 			.25, -.25, 150);
-	Test* shuttleHomeTest = new ShuttleHomeTest(CommandBase::shuttle->liftMotor,
-			CommandBase::shuttle->lowerLimit, CommandBase::shuttle->upperLimit,
-			CommandBase::shuttle->clampPiston,
-			CommandBase::shuttle->liftEncoder);
-	Test* toteFeedTest = new ToteFeedTest(CommandBase::toteFeed->rollers,
-			CommandBase::toteFeed->flappers, CommandBase::toteFeed->backSensor,
-			CommandBase::shuttle->toteSensor,
-			CommandBase::shuttle->clampPiston);
+	Test* shuttleHomeTest = new ShuttleHomeTest(robot->shuttle->liftMotor,
+			robot->shuttle->lowerLimit, robot->shuttle->upperLimit,
+			robot->shuttle->clampPiston,
+			robot->shuttle->liftEncoder);
+	Test* toteFeedTest = new ToteFeedTest(robot->toteFeed->rollers,
+			robot->toteFeed->flappers, robot->toteFeed->backSensor,
+			robot->shuttle->toteSensor,
+			robot->shuttle->clampPiston);
 	TestGroup* shuttleTests = new TestGroup("Shuttle", { shuttleHomeTest,
 			shuttleLift, toteFeedTest });
 	this->AddTest(shuttleTests);

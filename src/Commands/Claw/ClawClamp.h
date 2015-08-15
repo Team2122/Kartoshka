@@ -6,15 +6,15 @@
 #ifndef CLAWCLAMP_H
 #define CLAWCLAMP_H
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/Claw.h"
 
 namespace tator {
 
-class ClawClamp: public CommandBase {
+class ClawClamp: public RobotCommand {
 public:
 	ClawClamp(std::string name, YAML::Node config) :
-			CommandBase(name) {
+			RobotCommand(name) {
 		clampStatus = (Claw::ClampStatus) config["status"].as<int>();
 	}
 
@@ -24,7 +24,7 @@ public:
 
 protected:
 	void Execute() override {
-		claw->SetClampStatus(clampStatus);
+		robot->claw->SetClampStatus(clampStatus);
 	}
 
 	bool IsFinished() override {

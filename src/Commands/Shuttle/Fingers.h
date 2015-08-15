@@ -7,15 +7,15 @@
 #ifndef FINGERS_H_
 #define FINGERS_H_
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/Shuttle.h"
 
 namespace tator {
 
-class Fingers: public CommandBase {
+class Fingers: public RobotCommand {
 public:
 	Fingers(std::string name, YAML::Node config) :
-			CommandBase(name) {
+			RobotCommand(name) {
 		state = (Shuttle::FingersState) config["state"].as<int>();
 	}
 
@@ -25,7 +25,7 @@ public:
 
 protected:
 	void Execute() override {
-		shuttle->SetFingersPiston(state);
+		robot->shuttle->SetFingersPiston(state);
 	}
 
 	bool IsFinished() override {

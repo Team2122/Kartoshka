@@ -7,15 +7,15 @@
 #ifndef SHUTTLECLAMP_H_
 #define SHUTTLECLAMP_H_
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/Shuttle.h"
 
 namespace tator {
 
-class ShuttleClamp: public CommandBase {
+class ShuttleClamp: public RobotCommand {
 public:
 	ShuttleClamp(std::string name, YAML::Node config) :
-			CommandBase(name) {
+			RobotCommand(name) {
 		open = name == "ShuttleClampOpen";
 	}
 
@@ -26,9 +26,9 @@ public:
 private:
 	void Execute() override {
 		if (open) {
-			shuttle->OpenProngs();
+			robot->shuttle->OpenProngs();
 		} else {
-			shuttle->CloseProngs();
+			robot->shuttle->CloseProngs();
 		}
 	}
 

@@ -7,16 +7,16 @@
 #ifndef HOMESHUTTLE_H_
 #define HOMESHUTTLE_H_
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/Shuttle.h"
 
 namespace tator {
 
-class HomeShuttle: public CommandBase {
+class HomeShuttle: public RobotCommand {
 public:
 	HomeShuttle(std::string name, YAML::Node config) :
-			CommandBase(name) {
-		Requires(shuttle);
+			RobotCommand(name) {
+		Requires(robot->shuttle);
 		speed = config["speed"].as<double>();
 	}
 
@@ -26,12 +26,12 @@ public:
 
 protected:
 	void Initialize() override {
-		shuttle->SetShuttleSpeed(speed);
-		CommandBase::Initialize();
+		robot->shuttle->SetShuttleSpeed(speed);
+		RobotCommand::Initialize();
 	}
 
 	void Execute() override {
-		if (shuttle->GetLimit() == Shuttle::kUpper) {
+		if (robot->shuttle->GetLimit() == Shuttle::kUpper) {
 			log.Error("We have big problems. The shuttle went up when we "
 					"thought it should go down");
 			this->Cancel();
@@ -39,18 +39,18 @@ protected:
 	}
 
 	bool IsFinished() override {
-		return shuttle->GetLimit() == Shuttle::kLower;
+		return robot->shuttle->GetLimit() == Shuttle::kLower;
 	}
 
 	void End() override {
-		shuttle->ResetEncoder();
-		shuttle->SetShuttleSpeed(Shuttle::kHold);
-		CommandBase::End();
+		robot->shuttle->ResetEncoder();
+		robot->shuttle->SetShuttleSpeed(Shuttle::kHold);
+		RobotCommand::End();
 	}
 
 	void Interrupted() override {
-		shuttle->SetShuttleSpeed(Shuttle::kHold);
-		CommandBase::Interrupted();
+		robot->shuttle->SetShuttleSpeed(Shuttle::kHold);
+		RobotCommand::Interrupted();
 	}
 
 private:

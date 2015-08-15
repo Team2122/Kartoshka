@@ -7,15 +7,15 @@
 #ifndef CLAWCLAMPTOGGLE_H_
 #define CLAWCLAMPTOGGLE_H_
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/Claw.h"
 
 namespace tator {
 
-class ClawClampToggle: public CommandBase {
+class ClawClampToggle: public RobotCommand {
 public:
 	ClawClampToggle(std::string name, YAML::Node config) :
-			CommandBase(name) {
+			RobotCommand(name) {
 
 	}
 
@@ -25,12 +25,12 @@ public:
 
 protected:
 	void Execute() override {
-		if (claw->GetClampStatus() == Claw::ClampStatus::kDeathGrip) {
+		if (robot->claw->GetClampStatus() == Claw::ClampStatus::kDeathGrip) {
 			log.Info("Releasing claw clamp");
-			claw->SetClampStatus(Claw::ClampStatus::kReleased);
+			robot->claw->SetClampStatus(Claw::ClampStatus::kReleased);
 		} else {
 			log.Info("Death gripping the claw");
-			claw->SetClampStatus(Claw::ClampStatus::kDeathGrip);
+			robot->claw->SetClampStatus(Claw::ClampStatus::kDeathGrip);
 		}
 	}
 

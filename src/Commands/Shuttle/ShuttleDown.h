@@ -7,18 +7,18 @@
 #ifndef SHUTTLEDOWN_H_
 #define SHUTTLEDOWN_H_
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/Shuttle.h"
 
 namespace tator {
 
-class ShuttleDown: public CommandBase {
+class ShuttleDown: public RobotCommand {
 public:
 	ShuttleDown(std::string name, YAML::Node config) :
-			CommandBase(name) {
+			RobotCommand(name) {
 		ticks = config["ticks"].as<int>();
 		speed = config["speed"].as<double>();
-		Requires(shuttle);
+		Requires(robot->shuttle);
 	}
 
 	static std::string GetBaseName() {
@@ -27,26 +27,26 @@ public:
 
 protected:
 	void Initialize() override {
-		CommandBase::Initialize();
-		shuttle->SetShuttleSpeed(speed);
+		RobotCommand::Initialize();
+		robot->shuttle->SetShuttleSpeed(speed);
 	}
 
 	void Execute() override {
 	}
 
 	bool IsFinished() override {
-		return shuttle->GetEncoderTicks() <= ticks
-				|| shuttle->GetLimit() == Shuttle::kLower;
+		return robot->shuttle->GetEncoderTicks() <= ticks
+				|| robot->shuttle->GetLimit() == Shuttle::kLower;
 	}
 
 	void End() override {
-		shuttle->SetShuttleSpeed(Shuttle::Speed::kHold);
-		CommandBase::End();
+		robot->shuttle->SetShuttleSpeed(Shuttle::Speed::kHold);
+		RobotCommand::End();
 	}
 
 	void Interrupted() override {
-		shuttle->SetShuttleSpeed(Shuttle::Speed::kHold);
-		CommandBase::Interrupted();
+		robot->shuttle->SetShuttleSpeed(Shuttle::Speed::kHold);
+		RobotCommand::Interrupted();
 	}
 
 private:

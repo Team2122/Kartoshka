@@ -7,15 +7,15 @@
 #ifndef CANCEL_H_
 #define CANCEL_H_
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Common/Config/Kremlin.h"
 
 namespace tator {
 
-class Cancel: public CommandBase {
+class Cancel: public RobotCommand {
 public:
 	Cancel(std::string name, YAML::Node config) :
-			CommandBase(name) {
+			RobotCommand(name) {
 		std::string commandName = config["name"].as<std::string>();
 		command = Kremlin::Get(commandName);
 	}

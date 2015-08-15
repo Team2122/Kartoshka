@@ -9,9 +9,19 @@
 
 #include "Common/Logger.h"
 #include "Common/Tester/Tester.h"
+#include "CommandBase.h"
 #include <IterativeRobot.h>
 
 namespace tator {
+
+class Claw;
+class Drive;
+class Shuttle;
+class Thief;
+class ToteFeed;
+class Otto;
+
+typedef CommandBase<class Robot> RobotCommand;
 
 /**
  * The main robot class.
@@ -33,13 +43,23 @@ public:
 	virtual void TeleopPeriodic();
 	virtual void TestPeriodic();
 
-private:
 	Scheduler *scheduler;
 	Tester *tester;
-	bool hasRunAuto;
+
+	Claw* claw;
+	Drive* drive;
+	Shuttle* shuttle;
+	Thief* thief;
+	ToteFeed* toteFeed;
+	Otto* otto;
 
 protected:
 	Logger log;
+
+	void InitSubsystems(YAML::Node subsystems);
+
+private:
+	bool hasRunAuto;
 };
 
 } /* namespace tator */

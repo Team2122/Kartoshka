@@ -6,7 +6,7 @@
  */
 #include "Shuttle.h"
 #include "Common/Tester/ManualTester.h"
-#include "CommandBase.h" // For accessing the level 1 tote sensor from ToteFeed
+#include "Robot.h" // For accessing the level 1 tote sensor from ToteFeed
 #include "Subsystems/ToteFeed.h"
 
 namespace tator {
@@ -113,7 +113,7 @@ void Shuttle::ZeroTotesRatcheted() {
 
 void Shuttle::UpdateTotesRatcheted() {
 	totesRatcheted = totesHeld;
-	if (CommandBase::toteFeed->GetBackSensor()) {
+	if (RobotCommand::robot->toteFeed->GetBackSensor()) {
 		totesRatcheted--; // That tote isn't ratcheted
 	}
 	if (HasToteAtShuttleBase()) {

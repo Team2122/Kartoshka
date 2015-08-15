@@ -7,15 +7,15 @@
 #ifndef CLAWTOHEIGHT_H_
 #define CLAWTOHEIGHT_H_
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/Claw.h"
 
 namespace tator {
-class ClawToHeight: public CommandBase {
+class ClawToHeight: public RobotCommand {
 public:
 	ClawToHeight(std::string name, YAML::Node config) :
-			CommandBase(name) {
-		Requires(claw);
+			RobotCommand(name) {
+		Requires(robot->claw);
 
 		height = config["height"].as<double>();
 		YAML::Node ramp = config["ramp"];
@@ -23,7 +23,7 @@ public:
 		rampFactor = ramp["factor"].as<double>();
 		speed = config["speed"].as<double>();
 		requiredAngleName = config["requiredAngle"].as<std::string>();
-		requiredAngle = claw->AngleFromName(requiredAngleName);
+		requiredAngle = robot->claw->AngleFromName(requiredAngleName);
 
 		direction = 1;
 	}
@@ -38,10 +38,10 @@ protected:
 	 * @return True if it is
 	 */
 	bool IsAtAngle() {
-		if (claw->IsAtAngle(requiredAngle)) {
+		if (robot->claw->IsAtAngle(requiredAngle)) {
 			return true; // we are safe to move
 		} else {
-			double delta = claw->GetDegreesFromAngle(requiredAngle);
+			double delta = robot->claw->GetDegreesFromAngle(requiredAngle);
 			log.Error("We cannot move the claw lift to this position when we "
 					"are not at %s angle (we are %f degrees away)",
 					requiredAngleName.c_str(), delta);
@@ -50,12 +50,12 @@ protected:
 	}
 
 	void Initialize() override {
-		CommandBase::Initialize();
-		if (!IsAtAngle() || !claw->IsHomed()) {
+		RobotCommand::Initialize();
+		if (!IsAtAngle() || !robot->claw->IsHomed()) {
 			this->Cancel();
 			return; // If we are not at a safe angle, abort
 		}
-		double liftHeight = claw->GetLiftEncoder();
+		double liftHeight = robot->claw->GetLiftEncoder();
 		const char* name;
 		if (height >= liftHeight) { // positive is verticle
 			name = "up";
@@ -67,19 +67,19 @@ protected:
 
 	void Execute() override {
 		if (!IsAtAngle()) {
-			claw->SetLiftSpeed(0);
+			robot->claw->SetLiftSpeed(0);
 			return; // If we are not at a safe angle, set speed to 0
 		}
-		double liftHeight = claw->GetLiftEncoder();
+		double liftHeight = robot->claw->GetLiftEncoder();
 		if (height >= liftHeight) { // calculate the sign of the direction
 			direction = -1;
 		} else {
 			direction = 1;
 		}
-		if (direction < 0 && claw->IsAtTop()) { // if we're going up
+		if (direction < 0 && robot->claw->IsAtTop()) { // if we're going up
 			log.Warn("Upper limit was tripped"); // let them know and die
 			return this->Cancel();
-		} else if (direction > 0 && claw->IsAtHome()) { // down
+		} else if (direction > 0 && robot->claw->IsAtHome()) { // down
 			log.Warn("Lower limit was tripped");
 			return this->Cancel();
 		}
@@ -92,25 +92,25 @@ protected:
 			// this is derived from a basic lerp function
 			double rampedSpeed = (rampFactor + (1 - rampFactor) * ratio)
 					* speed;
-			claw->SetLiftSpeed(rampedSpeed * direction);
+			robot->claw->SetLiftSpeed(rampedSpeed * direction);
 		} else {
 			// if we're not within the ramp distance, just run normally
-			claw->SetLiftSpeed(speed * direction);
+			robot->claw->SetLiftSpeed(speed * direction);
 		}
 	}
 
 	bool IsFinished() override {
-		return claw->IsAtHeight(height);
+		return robot->claw->IsAtHeight(height);
 	}
 
 	void End() override {
-		CommandBase::End();
-		claw->SetLiftSpeed(0);
+		RobotCommand::End();
+		robot->claw->SetLiftSpeed(0);
 	}
 
 	void Interrupted() override {
-		CommandBase::Interrupted();
-		claw->SetLiftSpeed(0);
+		RobotCommand::Interrupted();
+		robot->claw->SetLiftSpeed(0);
 	}
 
 private:

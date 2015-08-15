@@ -6,18 +6,18 @@
 #ifndef DRIVEROTATE_H
 #define DRIVEROTATE_H
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/Drive.h"
 #include "Subsystems/Otto.h"
 #include <cmath>
 
 namespace tator {
 
-class DriveRotate: public CommandBase {
+class DriveRotate: public RobotCommand {
 public:
 	DriveRotate(std::string name, YAML::Node config) :
-			CommandBase(name) {
-		Requires(drive);
+			RobotCommand(name) {
+		Requires(robot->drive);
 		speed = config["speed"].as<double>();
 		targetAngle = config["angle"].as<double>();
 		tolerance = config["tolerance"].as<double>();
@@ -32,20 +32,20 @@ public:
 
 protected:
 	void Initialize() override {
-		CommandBase::Initialize();
+		RobotCommand::Initialize();
 		const char* name;
 		if (targetAngle >= 0) {
 			name = "clockwise";
 		} else {
 			name = "counterclockwise";
 		}
-		angle = otto->GetAngle();
+		angle = robot->otto->GetAngle();
 		log.Info("Moving %s for from %f to %f degrees", name, angle,
 				targetAngle);
 	}
 
 	void Execute() override {
-		angle = otto->GetAngle();
+		angle = robot->otto->GetAngle();
 		double difference = fabs(angle - targetAngle);
 		double rampedSpeed;
 		if (difference <= slowAngle) {
@@ -54,9 +54,9 @@ protected:
 			rampedSpeed = speed;
 		}
 		if (targetAngle >= angle) { // Positive is clockwise
-			drive->SetSpeeds(rampedSpeed, -rampedSpeed);
+			robot->drive->SetSpeeds(rampedSpeed, -rampedSpeed);
 		} else {
-			drive->SetSpeeds(-rampedSpeed, rampedSpeed);
+			robot->drive->SetSpeeds(-rampedSpeed, rampedSpeed);
 		}
 	}
 
@@ -66,14 +66,15 @@ protected:
 	}
 
 	void End() override {
-		CommandBase::End();
-		log.Info("Finished rotating. Angle: %f, target: %f", angle, targetAngle);
-		drive->SetSpeeds(0, 0);
+		RobotCommand::End();
+		log.Info("Finished rotating. Angle: %f, target: %f", angle,
+				targetAngle);
+		robot->drive->SetSpeeds(0, 0);
 	}
 
 	void Interrupted() override {
-		CommandBase::Interrupted();
-		drive->SetSpeeds(0, 0);
+		RobotCommand::Interrupted();
+		robot->drive->SetSpeeds(0, 0);
 	}
 
 private:

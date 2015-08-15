@@ -7,17 +7,17 @@
 #ifndef TOTEDICTATOR_H_
 #define TOTEDICTATOR_H_
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/Shuttle.h"
 #include "Subsystems/ToteFeed.h"
 #include <cstring>
 
 namespace tator {
 
-class ToteDictator: public CommandBase {
+class ToteDictator: public RobotCommand {
 public:
 	ToteDictator(std::string name, YAML::Node config) :
-			CommandBase(name) {
+			RobotCommand(name) {
 		recieveBottomTote = Kremlin::Get("RecieveBottomTote");
 		bumpBottomTote = Kremlin::Get("BumpBottomTote");
 		holdBottomTote = Kremlin::Get("HoldBottomTote");
@@ -47,9 +47,11 @@ protected:
 	};
 
 	LogData GetLogData() {
-		return LogData { shuttle->HasToteAtShuttleBase(),
-				toteFeed->GetBackSensor(), shuttle->GetDesiredTotes(),
-				shuttle->GetTotesHeld(), shuttle->GetTotesRatcheted() };
+		return LogData { robot->shuttle->HasToteAtShuttleBase(),
+				robot->toteFeed->GetBackSensor(),
+				robot->shuttle->GetDesiredTotes(),
+				robot->shuttle->GetTotesHeld(),
+				robot->shuttle->GetTotesRatcheted() };
 	}
 
 	void PrintLogData(LogData data) {
@@ -61,7 +63,7 @@ protected:
 	}
 
 	void Initialize() override {
-		CommandBase::Initialize();
+		RobotCommand::Initialize();
 		stackSequence = Kremlin::Get("$StackTote");
 		restackSequence = Kremlin::Get("$Restack");
 		unstackSequence = Kremlin::Get("$Unstack");
@@ -82,13 +84,15 @@ protected:
 			return; // Now is not the time for logic
 		}
 		// If there is tote at the bottom of the bot
-		if (toteFeed->GetBackSensor()) {
+		if (robot->toteFeed->GetBackSensor()) {
 			// And we have not counted it yet
-			if (shuttle->GetTotesHeld() - shuttle->GetTotesRatcheted() == 0) {
+			if (robot->shuttle->GetTotesHeld()
+					- robot->shuttle->GetTotesRatcheted() == 0) {
 				bottomSampleCount++; // Increment the sample count
 				// If we have waited long enough
 				if (bottomSampleCount >= bottomSamplesRequired) {
-					shuttle->SetTotesHeld(shuttle->GetTotesHeld() + 1); // Count it
+					robot->shuttle->SetTotesHeld(
+							robot->shuttle->GetTotesHeld() + 1); // Count it
 					bumpBottomTote->Start(); // Realign it
 				}
 			}
@@ -96,7 +100,8 @@ protected:
 		// If we don't have a tote at the bottom
 		else {
 			// And we have not counted any totes yet
-			if (shuttle->GetTotesHeld() - shuttle->GetTotesRatcheted() == 0) {
+			if (robot->shuttle->GetTotesHeld()
+					- robot->shuttle->GetTotesRatcheted() == 0) {
 				// Intake the bottom tote
 				recieveBottomTote->Start();
 				// Reset the sample count
@@ -114,13 +119,15 @@ protected:
 		}
 
 		// If we have a tote at the bottom of the lift
-		if (shuttle->HasToteAtShuttleBase()) {
+		if (robot->shuttle->HasToteAtShuttleBase()) {
 			// And we haven't counted it yet
-			if (shuttle->GetTotesHeld() == shuttle->GetTotesRatcheted() + 1) {
+			if (robot->shuttle->GetTotesHeld()
+					== robot->shuttle->GetTotesRatcheted() + 1) {
 				shuttleSampleCount++; // Increment sample count
 				// If we've waited long enough
 				if (shuttleSampleCount >= shuttleSamplesRequired) {
-					shuttle->SetTotesHeld(shuttle->GetTotesHeld() + 1); // Count it
+					robot->shuttle->SetTotesHeld(
+							robot->shuttle->GetTotesHeld() + 1); // Count it
 				}
 			}
 		}
@@ -132,15 +139,17 @@ protected:
 		}
 
 		// If we have fewer totes than we want
-		if (shuttle->GetTotesHeld() < shuttle->GetDesiredTotes()) {
+		if (robot->shuttle->GetTotesHeld()
+				< robot->shuttle->GetDesiredTotes()) {
 			// And we already have one at the bottom
-			if (shuttle->GetTotesHeld() - shuttle->GetTotesRatcheted() > 0) {
+			if (robot->shuttle->GetTotesHeld()
+					- robot->shuttle->GetTotesRatcheted() > 0) {
 				// Start intaking
 				intakeTotes->Start();
 
 				// And if we have unratcheted totes
-				if (shuttle->GetTotesHeld() - shuttle->GetTotesRatcheted()
-						> 1) {
+				if (robot->shuttle->GetTotesHeld()
+						- robot->shuttle->GetTotesRatcheted() > 1) {
 					// And we aren't already stacking
 					if (!stackSequence->IsRunning()) {
 						// Put it on the ratchets
@@ -153,11 +162,11 @@ protected:
 		// If we have at greater than or equal to the number of totes we want
 		else {
 			// And we have totes on the ratchets
-			if (shuttle->GetTotesRatcheted() > 0) {
+			if (robot->shuttle->GetTotesRatcheted() > 0) {
 				// Act like they aren't there anymore
-				shuttle->ZeroTotesRatcheted();
+				robot->shuttle->ZeroTotesRatcheted();
 				// And if we have a tote at the shuttle base
-				if (shuttle->HasToteAtShuttleBase()) {
+				if (robot->shuttle->HasToteAtShuttleBase()) {
 					// Restack everything
 					restackSequence->Start();
 				}
@@ -177,7 +186,7 @@ protected:
 	}
 
 	void Interrupted() override {
-		CommandBase::Interrupted();
+		RobotCommand::Interrupted();
 		recieveBottomTote->Cancel();
 		intakeTotes->Cancel();
 	}

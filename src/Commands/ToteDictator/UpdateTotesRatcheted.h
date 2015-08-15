@@ -7,15 +7,15 @@
 #ifndef UPDATETOTESRATCHETED_H_
 #define UPDATETOTESRATCHETED_H_
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/Shuttle.h"
 
 namespace tator {
 
-class UpdateTotesRatcheted: public CommandBase {
+class UpdateTotesRatcheted: public RobotCommand {
 public:
 	UpdateTotesRatcheted(std::string name, YAML::Node config) :
-			CommandBase(name) {
+			RobotCommand(name) {
 	}
 
 	static std::string GetBaseName() {
@@ -24,7 +24,7 @@ public:
 
 protected:
 	void Execute() override {
-		shuttle->UpdateTotesRatcheted();
+		robot->shuttle->UpdateTotesRatcheted();
 	}
 
 	bool IsFinished() override {

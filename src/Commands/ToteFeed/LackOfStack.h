@@ -7,15 +7,15 @@
 #ifndef LACKOFSTACK_H
 #define LACKOFSTACK_H
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/ToteFeed.h"
 
 namespace tator {
 
-class LackOfStack: public CommandBase {
+class LackOfStack: public RobotCommand {
 public:
 	LackOfStack(std::string name, YAML::Node config) :
-			CommandBase(name) {
+			RobotCommand(name) {
 	}
 
 	static std::string GetBaseName() {
@@ -27,7 +27,7 @@ protected:
 	}
 
 	bool IsFinished() override {
-		return !toteFeed->GetBackSensor();
+		return !robot->toteFeed->GetBackSensor();
 	}
 };
 

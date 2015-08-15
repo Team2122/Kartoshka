@@ -1,18 +1,18 @@
 #ifndef DRIVECONTINUOUS_H_
 #define DRIVECONTINUOUS_H_
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include <Joystick.h>
 #include "Subsystems/Drive.h"
 
 namespace tator {
 
-class DriveContinuous: public CommandBase {
+class DriveContinuous: public RobotCommand {
 public:
 	DriveContinuous(std::string name, YAML::Node config) :
-			CommandBase(name) {
+			RobotCommand(name) {
 		int joystickPort = config["joystick"].as<int>();
-		Requires(drive);
+		Requires(robot->drive);
 		YAML::Node axes = config["axes"];
 		axisLeft = axes["left"].as<int>();
 		axisRight = axes["right"].as<int>();
@@ -25,14 +25,14 @@ public:
 
 protected:
 	void Initialize() override {
-		CommandBase::Initialize();
-		drive->SetControlMode(Drive::Mode::direct);
+		RobotCommand::Initialize();
+		robot->drive->SetControlMode(Drive::Mode::direct);
 	}
 
 	void Execute() override {
 		float speedLeft = joystick->GetRawAxis(axisLeft);
 		float speedRight = joystick->GetRawAxis(axisRight);
-		drive->SetSpeeds(-speedLeft, -speedRight);
+		robot->drive->SetSpeeds(-speedLeft, -speedRight);
 	}
 
 	bool IsFinished() override {
@@ -40,15 +40,15 @@ protected:
 	}
 
 	void End() override {
-		drive->SetSpeeds(0, 0);
-		drive->SetControlMode(Drive::Mode::direct);
-		CommandBase::End();
+		robot->drive->SetSpeeds(0, 0);
+		robot->drive->SetControlMode(Drive::Mode::direct);
+		RobotCommand::End();
 	}
 
 	void Interrupted() override {
-		drive->SetSpeeds(0, 0);
-		drive->SetControlMode(Drive::Mode::direct);
-		CommandBase::Interrupted();
+		robot->drive->SetSpeeds(0, 0);
+		robot->drive->SetControlMode(Drive::Mode::direct);
+		RobotCommand::Interrupted();
 	}
 
 private:

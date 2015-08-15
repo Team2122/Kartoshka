@@ -6,14 +6,14 @@
 #ifndef RESETANGLE_H_
 #define RESETANGLE_H_
 
-#include "CommandBase.h"
+#include "Robot.h"
 
 namespace tator {
 
-class ResetAngle: public CommandBase {
+class ResetAngle: public RobotCommand {
 public:
 	ResetAngle(std::string name, YAML::Node config) :
-			CommandBase(name) {
+			RobotCommand(name) {
 	}
 
 	static std::string GetBaseName() {
@@ -22,7 +22,7 @@ public:
 
 protected:
 	void Execute() override {
-		otto->ResetAngle();
+		robot->otto->ResetAngle();
 	}
 
 	bool IsFinished() override {

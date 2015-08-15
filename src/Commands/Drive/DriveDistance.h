@@ -6,16 +6,16 @@
 #ifndef DRIVEDISTANCE_H_
 #define DRIVEDISTANCE_H_
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/Drive.h"
 
 namespace tator {
 
-class DriveDistance: public CommandBase {
+class DriveDistance: public RobotCommand {
 public:
 	DriveDistance(std::string name, YAML::Node config) :
-			CommandBase(name) {
-		Requires(drive);
+			RobotCommand(name) {
+		Requires(robot->drive);
 		currentDistance = 0;
 		startDistance = 0;
 		speed = config["speed"].as<double>();
@@ -28,13 +28,13 @@ public:
 
 protected:
 	void Initialize() override {
-		CommandBase::Initialize();
-		startDistance = drive->GetDistance();
+		RobotCommand::Initialize();
+		startDistance = robot->drive->GetDistance();
 	}
 
 	void Execute() override {
-		drive->SetSpeeds(speed, speed);
-		currentDistance = drive->GetDistance();
+		robot->drive->SetSpeeds(speed, speed);
+		currentDistance = robot->drive->GetDistance();
 	}
 
 	bool IsFinished() override {
@@ -42,13 +42,13 @@ protected:
 	}
 
 	void End() override {
-		CommandBase::End();
-		drive->SetSpeeds(0, 0);
+		RobotCommand::End();
+		robot->drive->SetSpeeds(0, 0);
 	}
 
 	void Interrupted() override {
-		CommandBase::Interrupted();
-		drive->SetSpeeds(0, 0);
+		RobotCommand::Interrupted();
+		robot->drive->SetSpeeds(0, 0);
 	}
 
 private:

@@ -6,16 +6,16 @@
 #ifndef MANUALCLAWLIFT_H
 #define MANUALCLAWLIFT_H
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/Claw.h"
 
 namespace tator {
-class ManualClawLift: public CommandBase {
+class ManualClawLift: public RobotCommand {
 public:
 	ManualClawLift(std::string name, YAML::Node config) :
-			CommandBase(name) {
+			RobotCommand(name) {
 		speed = config["speed"].as<double>();
-		Requires(claw);
+		Requires(robot->claw);
 	}
 
 	static std::string GetBaseName() {
@@ -24,15 +24,15 @@ public:
 
 protected:
 	void Initialize() override {
-		CommandBase::Initialize();
-		claw->SetLiftSpeed(speed);
+		RobotCommand::Initialize();
+		robot->claw->SetLiftSpeed(speed);
 	}
 
 	void Execute() override {
-		if (speed < 0 && claw->IsAtTop()) {
+		if (speed < 0 && robot->claw->IsAtTop()) {
 			log.Warn("Upper limit was tripped");
 			return this->Cancel();
-		} else if (speed > 0 && claw->IsAtHome()) {
+		} else if (speed > 0 && robot->claw->IsAtHome()) {
 			log.Warn("Lower limit was tripped");
 			return this->Cancel();
 		}
@@ -43,13 +43,13 @@ protected:
 	}
 
 	void End() override {
-		CommandBase::End();
-		claw->SetLiftSpeed(0);
+		RobotCommand::End();
+		robot->claw->SetLiftSpeed(0);
 	}
 
 	void Interrupted() override {
-		CommandBase::Interrupted();
-		claw->SetLiftSpeed(0);
+		RobotCommand::Interrupted();
+		robot->claw->SetLiftSpeed(0);
 	}
 
 private:

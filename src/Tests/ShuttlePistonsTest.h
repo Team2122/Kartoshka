@@ -160,10 +160,10 @@ private:
 };
 
 #define ShuttleTest(testName, shouldClamp, shouldRatchet) \
-	ShuttlePistonsTest(testName, CommandBase::shuttle->liftMotor, \
-			CommandBase::shuttle->lowerLimit, CommandBase::shuttle->upperLimit, \
-			CommandBase::shuttle->clampPiston, CommandBase::shuttle->fingersPiston, \
-			CommandBase::shuttle->toteSensor, CommandBase::shuttle->liftEncoder, \
+	ShuttlePistonsTest(testName, robot->shuttle->liftMotor, \
+			robot->shuttle->lowerLimit, robot->shuttle->upperLimit, \
+			robot->shuttle->clampPiston, robot->shuttle->fingersPiston, \
+			robot->shuttle->toteSensor, robot->shuttle->liftEncoder, \
 			shouldClamp, shouldRatchet) \
 
 }

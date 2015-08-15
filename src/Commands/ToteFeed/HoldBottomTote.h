@@ -8,15 +8,15 @@
 #define HOLDBOTTOMTOTE_H_
 
 #include "Subsystems/ToteFeed.h"
-#include "CommandBase.h"
+#include "Robot.h"
 
 namespace tator {
 
-class HoldBottomTote: public CommandBase {
+class HoldBottomTote: public RobotCommand {
 public:
 	HoldBottomTote(std::string name, YAML::Node config) :
-			CommandBase(name) {
-		Requires(toteFeed);
+			RobotCommand(name) {
+		Requires(robot->toteFeed);
 		rollerSpeedSlow = config["rollerSpeed"]["slow"].as<double>();
 		rollerSpeedFast = config["rollerSpeed"]["fast"].as<double>();
 	}
@@ -27,10 +27,10 @@ public:
 
 protected:
 	void Execute() override {
-		if (toteFeed->GetBackSensor()) {
-			toteFeed->SetRollers(rollerSpeedSlow);
+		if (robot->toteFeed->GetBackSensor()) {
+			robot->toteFeed->SetRollers(rollerSpeedSlow);
 		} else {
-			toteFeed->SetRollers(rollerSpeedFast);
+			robot->toteFeed->SetRollers(rollerSpeedFast);
 		}
 	}
 
@@ -39,13 +39,13 @@ protected:
 	}
 
 	void End() override {
-		CommandBase::End();
-		toteFeed->SetRollers(0);
+		RobotCommand::End();
+		robot->toteFeed->SetRollers(0);
 	}
 
 	void Interrupted() override {
-		CommandBase::Interrupted();
-		toteFeed->SetRollers(0);
+		RobotCommand::Interrupted();
+		robot->toteFeed->SetRollers(0);
 	}
 
 private:

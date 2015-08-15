@@ -7,15 +7,15 @@
 #ifndef SETDESIREDTOTES_H_
 #define SETDESIREDTOTES_H_
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/Shuttle.h"
 
 namespace tator {
 
-class SetDesiredTotes: public CommandBase {
+class SetDesiredTotes: public RobotCommand {
 public:
 	SetDesiredTotes(std::string name, YAML::Node config) :
-			CommandBase(name) {
+			RobotCommand(name) {
 		number = config["number"].as<int>();
 	}
 
@@ -25,7 +25,7 @@ public:
 
 protected:
 	void Execute() override {
-		shuttle->SetDesiredTotes(number);
+		robot->shuttle->SetDesiredTotes(number);
 	}
 
 	bool IsFinished() override {

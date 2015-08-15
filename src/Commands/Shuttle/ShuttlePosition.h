@@ -7,18 +7,18 @@
 #ifndef SHUTTLEPOSITION_H_
 #define SHUTTLEPOSITION_H_
 
-#include "CommandBase.h"
+#include "Robot.h"
 #include "Subsystems/Shuttle.h"
 
 namespace tator {
 
-class ShuttlePosition: public CommandBase {
+class ShuttlePosition: public RobotCommand {
 public:
 	ShuttlePosition(std::string name, YAML::Node config) :
-			CommandBase(name) {
+			RobotCommand(name) {
 		targetTicks = config["ticks"].as<int>();
 		speed = Shuttle::kStop;
-		Requires(shuttle);
+		Requires(robot->shuttle);
 	}
 
 	static std::string GetBaseName() {
@@ -27,8 +27,8 @@ public:
 
 protected:
 	void Initialize() override {
-		CommandBase::Initialize();
-		int shuttleTicks = shuttle->GetEncoderTicks();
+		RobotCommand::Initialize();
+		int shuttleTicks = robot->shuttle->GetEncoderTicks();
 		const char* name;
 		if (targetTicks > shuttleTicks) {
 			speed = Shuttle::kUp;
@@ -37,16 +37,17 @@ protected:
 			speed = Shuttle::kDown;
 			name = "down";
 		}
-		shuttle->SetShuttleSpeed(speed);
-		log.Info("We are moving %s from %d to %d ticks", name, shuttleTicks, targetTicks);
+		robot->shuttle->SetShuttleSpeed(speed);
+		log.Info("We are moving %s from %d to %d ticks", name, shuttleTicks,
+				targetTicks);
 	}
 
 	void Execute() override {
 	}
 
 	bool IsFinished() override {
-		int shuttleTicks = shuttle->GetEncoderTicks();
-		int limit = shuttle->GetLimit();
+		int shuttleTicks = robot->shuttle->GetEncoderTicks();
+		int limit = robot->shuttle->GetLimit();
 		switch (speed) {
 		case Shuttle::kUp:
 			if (limit == Shuttle::kUpper) {
@@ -66,14 +67,15 @@ protected:
 	}
 
 	void End() override {
-		log.Info("Finished while at %d, target of %d", shuttle->GetEncoderTicks(), targetTicks);
-		shuttle->SetShuttleSpeed(Shuttle::kHold);
-		CommandBase::End();
+		log.Info("Finished while at %d, target of %d",
+				robot->shuttle->GetEncoderTicks(), targetTicks);
+		robot->shuttle->SetShuttleSpeed(Shuttle::kHold);
+		RobotCommand::End();
 	}
 
 	void Interrupted() override {
-		shuttle->SetShuttleSpeed(Shuttle::kHold);
-		CommandBase::Interrupted();
+		robot->shuttle->SetShuttleSpeed(Shuttle::kHold);
+		RobotCommand::Interrupted();
 	}
 
 private:

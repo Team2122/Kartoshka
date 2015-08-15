@@ -8,14 +8,14 @@
 #define INTAKETOTES_H_
 
 #include "Subsystems/ToteFeed.h"
-#include "CommandBase.h"
+#include "Robot.h"
 
 namespace tator {
 
-class IntakeTotes: public CommandBase {
+class IntakeTotes: public RobotCommand {
 public:
 	IntakeTotes(std::string name, YAML::Node config) :
-			CommandBase(name) {
+			RobotCommand(name) {
 		flapperSpeed = config["flapperSpeed"].as<double>();
 	}
 
@@ -25,7 +25,7 @@ public:
 
 protected:
 	void Execute() override {
-		toteFeed->SetFlapperSpeed(flapperSpeed);
+		robot->toteFeed->SetFlapperSpeed(flapperSpeed);
 	}
 
 	bool IsFinished() override {
@@ -33,13 +33,13 @@ protected:
 	}
 
 	void End() override {
-		CommandBase::End();
-		toteFeed->SetFlapperSpeed(0);
+		RobotCommand::End();
+		robot->toteFeed->SetFlapperSpeed(0);
 	}
 
 	void Interrupted() override {
-		CommandBase::Interrupted();
-		toteFeed->SetFlapperSpeed(0);
+		RobotCommand::Interrupted();
+		robot->toteFeed->SetFlapperSpeed(0);
 	}
 
 private:
